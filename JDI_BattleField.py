@@ -1,12 +1,10 @@
 
 from JDI_Log import Log
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroName, Faction, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulResponseTime, SoulEffectType, SimulatorMode
-from JDI_Skill import SkillInfo, Skill
-from JDI_Hero import HeroInfo, Hero
+from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulEffectType
+from JDI_Hero import Hero
 from JDI_Team import TeamInfo, Team
 from JDI_Soul import Soul
 from JDI_Calculate import sort_action_order
-import random
 
 class BattleField():
 
@@ -481,4 +479,4 @@ class BattleField():
 
             self.respond(ResponseStatus.战法布阵开始)
 
-        return False
+        return True

@@ -1,5 +1,5 @@
 
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroName, Faction, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulResponseTime, SoulEffectType, SimulatorMode
+from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroInfoKey
 
 class SkillInfo():
 

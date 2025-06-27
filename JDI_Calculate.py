@@ -1,10 +1,5 @@
 
-from JDI_Log import Log
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroName, Faction, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulResponseTime, SoulEffectType, SimulatorMode
-from JDI_Skill import SkillInfo, Skill
-from JDI_Hero import HeroInfo, Hero
-from JDI_Team import TeamInfo, Team
-from JDI_Soul import Soul
+from JDI_Enum import HeroInfoKey
 import random
 
 def sort_action_order(team1, team2):

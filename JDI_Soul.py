@@ -1,11 +1,8 @@
 
 from JDI_Log import Log
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroName, Faction, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulResponseTime, SoulEffectType, SimulatorMode
-from JDI_Skill import SkillInfo, Skill
-from JDI_Hero import HeroInfo, Hero
-from JDI_Team import TeamInfo, Team
-import random
-
+from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType
+from JDI_Skill import Skill
+from JDI_Hero import Hero
 
 class Soul():
     # 目标 发起者 来源类型 技能 响应时机 持续回合 效果类型 效果值

@@ -1,6 +1,6 @@
 
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroName, Faction, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulResponseTime, SoulEffectType, SimulatorMode
-from JDI_Skill import SkillInfo, Skill
+from JDI_Enum import SkillName, HeroName, Faction, WeaponType, HeroInfoKey
+from JDI_Skill import Skill
 
 class HeroInfo():
     def __init__(self, heroName):

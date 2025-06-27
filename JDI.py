@@ -27,9 +27,9 @@ class Simulator():
             battle.simulate(team1, team2)
             if battle.fight():
                 num_of_wins_for_team1 += 1
-                Log().show_battle_info(' -------- 当前对 {} 的第 {} 次对抗测试结束 -------- '.format(teamName, i + 1))
             else:
                 num_of_wins_for_team2 += 1
+            Log().show_battle_info(' -------- 当前对 {} 的第 {} 次对抗测试结束 -------- '.format(team2.teamName, i + 1))
 
         Log().show_system_info("[{}] 获胜 {} 场，[{}] 获胜 {} 场".format(team1.teamName, num_of_wins_for_team1, team2.teamName, num_of_wins_for_team2))
         

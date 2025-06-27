@@ -1,13 +1,9 @@
 
 from JDI_Log import Log
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroName, Faction, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulResponseTime, SoulEffectType, SimulatorMode
-from JDI_Skill import SkillInfo, Skill
-from JDI_Hero import HeroInfo, Hero
-from JDI_Team import TeamInfo, Team
-from JDI_Soul import Soul
-from JDI_Calculate import sort_action_order
+from JDI_Enum import HeroName, Formation, SimulatorMode
+from JDI_Hero import HeroInfo
+from JDI_Team import TeamInfo
 from JDI_BattleField import BattleField
-import random
 
 class Simulator():
     def __init__(self, mode=SimulatorMode.VS_1):
@@ -18,7 +14,6 @@ class Simulator():
         # 模拟对战的次数为 101
         num_of_battles = 1
         Log().show_system_info(' -------- 对抗的次数为 {} -------- '.format(num_of_battles))
-
         # team1 获胜的次数
         num_of_wins_for_team1 = 0
         # team2 获胜的次数

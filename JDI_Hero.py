@@ -116,6 +116,22 @@ class Hero():
         self.init_base_values()
         self.init_battle_values()
 
+    # 载入初始技能 
+    def load_skill(self):
+
+        D_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.自带战法.value))
+        D_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.武将升阶.value))
+        setattr(self, HeroInfoKey.D_SkillClass.value, D_skill)
+
+        F_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.第一战法.value))
+        F_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.第一战法升阶.value))
+        setattr(self, HeroInfoKey.F_SkillClass.value, F_skill)
+
+        S_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.第二战法.value))
+        S_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.第二战法升阶.value))
+        setattr(self, HeroInfoKey.S_SkillClass.value, S_skill)
+
+
     def 武将信息(self):
         return getattr(self, HeroInfoKey.武将信息.value)
     
@@ -153,18 +169,4 @@ class Hero():
         setattr(self, HeroInfoKey.受到伤害降低.value, 0)
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
 
-    # 载入初始技能 
-    def load_skill(self):
-
-        D_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.自带战法.value))
-        D_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.武将升阶.value))
-        setattr(self, HeroInfoKey.D_SkillClass.value, D_skill)
-
-        F_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.第一战法.value))
-        F_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.第一战法升阶.value))
-        setattr(self, HeroInfoKey.F_SkillClass.value, F_skill)
-
-        S_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.第二战法.value))
-        S_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.第二战法升阶.value))
-        setattr(self, HeroInfoKey.S_SkillClass.value, S_skill)
-
+    

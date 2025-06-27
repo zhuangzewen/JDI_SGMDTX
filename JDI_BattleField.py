@@ -4,7 +4,7 @@ from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, WeaponT
 from JDI_Hero import Hero
 from JDI_Team import TeamInfo, Team
 from JDI_Soul import Soul
-from JDI_Calculate import sort_action_order
+from JDI_Calculate import 重置武将状态, sort_action_order
 
 class BattleField():
 
@@ -459,14 +459,10 @@ class BattleField():
 
         for _ in range(8):
             Log().show_battle_info('\n[第 {} 局]'.format(_ + 1))
-
-            for hero in [self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero, 
-                         self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero]:
-                hero.init_base_values()
-                hero.init_battle_values()
-
             self.command_handle_respon = []
             self.soul_list = []
+
+            重置武将状态(self)
 
             order_list_hero = sort_action_order(self.team1, self.team2)
             for hero in order_list_hero:

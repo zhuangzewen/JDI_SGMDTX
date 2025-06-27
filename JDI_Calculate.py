@@ -1,8 +1,40 @@
 
-from JDI_Enum import HeroInfoKey
-import random
+def 重置武将状态(battleField):
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+    from JDI_Hero import Hero
+
+    battleField: BattleField
+    team1: Team = battleField.team1
+    team2: Team = battleField.team2
+    for hero in team1.firstHero, team1.secondHero, team1.thirdHero, \
+               team2.firstHero, team2.secondHero, team2.thirdHero:
+        hero: Hero
+        hero.init_base_values()
+        hero.init_battle_values()
+
+def msg_武将行动队列(battleField):
+
+def 填充指挥战法(battleField, command_handle_respon):
+    from JDI_BattleField import BattleField
+    from JDI_Enum import HeroInfoKey
+
+    battleField: BattleField
+    team1 = battleField.team1
+    team2 = battleField.team2
+
+    for hero in team1.firstHero, team1.secondHero, team1.thirdHero, \
+               team2.firstHero, team2.secondHero, team2.thirdHero:
+        hero: Hero
+        D_SkillClass = getattr(hero, HeroInfoKey.D_SkillClass.value)
+        if D_SkillClass.is_command_skill():
+            command_handle_respon.append(D_SkillClass)
+
 
 def sort_action_order(team1, team2):
+
+    from JDI_Enum import HeroInfoKey
+    import random
 
     def reset_all_heroes_action():
         for hero in team1.firstHero, team1.secondHero, team1.thirdHero:

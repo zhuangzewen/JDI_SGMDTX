@@ -4,7 +4,7 @@ from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, WeaponT
 from JDI_Hero import Hero
 from JDI_Team import TeamInfo, Team
 from JDI_Soul import Soul
-from JDI_Calculate import 重置武将状态, sort_action_order
+from JDI_Calculate import 重置武将状态, 填充指挥战法
 
 class BattleField():
 
@@ -430,6 +430,7 @@ class BattleField():
 
         self.arrange_formation_army()
 
+    # 优化完成 1.0       
     def simulate(self, team1: TeamInfo, team2: TeamInfo):
 
         self.team1_hero1 = Hero(team1.firstHeroInfo)
@@ -464,12 +465,7 @@ class BattleField():
 
             重置武将状态(self)
 
-            order_list_hero = sort_action_order(self.team1, self.team2)
-            for hero in order_list_hero:
-                D_SkillClass = getattr(hero, HeroInfoKey.D_SkillClass.value)
-                if D_SkillClass.加载状态 == True:
-                    if D_SkillClass.战法类型 == SkillType.指挥:
-                        self.command_handle_respon.append(D_SkillClass)
+            填充指挥战法(self)
 
             self.arrange_fight()
 

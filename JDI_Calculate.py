@@ -1,5 +1,6 @@
 
 def 重置武将状态(battleField):
+    
     from JDI_BattleField import BattleField
     from JDI_Team import Team
     from JDI_Hero import Hero
@@ -14,35 +15,26 @@ def 重置武将状态(battleField):
         hero.init_battle_values()
 
 def msg_武将行动队列(battleField):
-
-def 填充指挥战法(battleField, command_handle_respon):
     from JDI_BattleField import BattleField
-    from JDI_Enum import HeroInfoKey
-
-    battleField: BattleField
-    team1 = battleField.team1
-    team2 = battleField.team2
-
-    for hero in team1.firstHero, team1.secondHero, team1.thirdHero, \
-               team2.firstHero, team2.secondHero, team2.thirdHero:
-        hero: Hero
-        D_SkillClass = getattr(hero, HeroInfoKey.D_SkillClass.value)
-        if D_SkillClass.is_command_skill():
-            command_handle_respon.append(D_SkillClass)
-
-
-def sort_action_order(team1, team2):
-
+    from JDI_Team import Team
+    from JDI_Hero import Hero
     from JDI_Enum import HeroInfoKey
     import random
 
+    battleField: BattleField
+    
+    team1: Team = battleField.team1
+    team2: Team = battleField.team2
+
     def reset_all_heroes_action():
         for hero in team1.firstHero, team1.secondHero, team1.thirdHero:
+            hero: Hero
             setattr(hero, HeroInfoKey.已行动状态.value, False)
         for hero in team2.firstHero, team2.secondHero, team2.thirdHero:
+            hero: Hero
             setattr(hero, HeroInfoKey.已行动状态.value, False)
 
-    def get_fastest_unbroken_hero(team):
+    def get_fastest_unbroken_hero(team: Team):
         fastest_hero = None
         for hero in team.firstHero, team.secondHero, team.thirdHero:
 
@@ -90,3 +82,17 @@ def sort_action_order(team1, team2):
         order_list.append(check_fast)
     reset_all_heroes_action()
     return order_list
+
+
+def 填充指挥战法(battleField):
+    from JDI_BattleField import BattleField
+    from JDI_Enum import HeroInfoKey, SkillType
+
+    battleField: BattleField
+
+    order_list_hero = msg_武将行动队列(battleField)
+    for hero in order_list_hero:
+        D_SkillClass = getattr(hero, HeroInfoKey.D_SkillClass.value)
+        if D_SkillClass.加载状态 == True:
+            if D_SkillClass.战法类型 == SkillType.指挥:
+                battleField.command_handle_respon.append(D_SkillClass)

@@ -5,6 +5,7 @@ from JDI_Hero import HeroInfo
 from JDI_Team import TeamInfo
 from JDI_BattleField import BattleField
 
+# 优化完成 1.0       
 class Simulator():
     def __init__(self, mode=SimulatorMode.VS_1):
         self.mode = mode
@@ -32,7 +33,8 @@ class Simulator():
             Log().show_battle_info(' -------- 当前对 {} 的第 {} 次对抗测试结束 -------- '.format(team2.teamName, i + 1))
 
         Log().show_system_info("[{}] 获胜 {} 场，[{}] 获胜 {} 场".format(team1.teamName, num_of_wins_for_team1, team2.teamName, num_of_wins_for_team2))
-        
+
+# 优化完成 1.0       
 def battle():
 
     Log().show_system_info('------- 当前选择的模式是：{} -------'.format('1_VS_1'))
@@ -65,12 +67,15 @@ def battle():
     simulator = Simulator(SimulatorMode.VS_1)
     simulator.vs1(team1, team2)
 
+# 优化完成 1.0       
 def compare_teams():
     pass
 
+# 优化完成 1.0       
 def evolve_teams():
     pass
 
+# 优化完成 1.0       
 def main():
     battle()
     compare_teams()

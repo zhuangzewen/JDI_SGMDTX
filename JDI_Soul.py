@@ -41,6 +41,12 @@ class Soul():
             setattr(self.target, HeroInfoKey.造成伤害提升.value, cur_value)
             Log().show_battle_info('        [{}]的【造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
+        elif self.effect_type == SoulEffectType.DamageIncrease_FrontLine:
+            cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害提升.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.对前排造成伤害提升.value, cur_value)
+            Log().show_battle_info('        [{}]的【对前排造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.DamageReduce:
             cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
             real_value = (1 + cur_value) * self.effect_value
@@ -97,3 +103,9 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.奇谋几率.value, cur_value)
             Log().show_battle_info('        [{}]的【奇谋几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+        elif self.effect_type == SoulEffectType.LockHitRate:
+            setattr(self.target, HeroInfoKey.锁定受击率.value, True)
+            Log().show_battle_info('        [{}]的【固定受击率】锁定为{:.2f}%'.format(heroName, self.effect_value * 100))
+
+        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
+            Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已施加'.format(heroName))

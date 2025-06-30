@@ -39,13 +39,13 @@ def battle():
 
     Log().show_system_info('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
-    team1_hero1 = HeroInfo(HeroName.Sp_诸葛亮)
+    team1_hero1 = HeroInfo(HeroName.吕布)
     team1_hero1.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
     team1_hero1.set_skills(None, 0, None, 0)
     team1_hero2 = HeroInfo(HeroName.赵云)
     team1_hero2.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
     team1_hero2.set_skills(None, 0, None, 0)
-    team1_hero3 = HeroInfo(HeroName.吕布)
+    team1_hero3 = HeroInfo(HeroName.Sp_诸葛亮)
     team1_hero3.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
     team1_hero3.set_skills(None, 0, None, 0)
 
@@ -59,7 +59,7 @@ def battle():
     team2_hero3.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
     team2_hero3.set_skills('一夫当关', 0, '万夫莫敌', 0)
 
-    team1 = TeamInfo(Formation.萁型阵, team1_hero1, team1_hero2, team1_hero3, '诸葛队')
+    team1 = TeamInfo(Formation.雁型阵, team1_hero1, team1_hero2, team1_hero3, '诸葛队')
     team2 = TeamInfo(Formation.偃月阵, team2_hero1, team2_hero2, team2_hero3, '夫人队', 95)
 
     Log().show_system_info('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))

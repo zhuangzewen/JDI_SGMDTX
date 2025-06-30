@@ -161,6 +161,10 @@ class SoulEffectType(Enum):
 
     LockHitRate = 'lockhitrate'
 
+
+
+    星罗棋布_双前排阵型 = '星罗棋布_双前排阵型'
+
 class SimulatorMode(Enum):
     VS_1 = 'VS_1'
     VS_Team = 'VS_Team'

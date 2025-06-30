@@ -31,11 +31,12 @@ class BattleField():
     # 获取队伍中统帅最低的武将
     def get_lowest_ts_hero(self, team):
         lowest_ts_hero = None
-        for hero in team.firstHero, team.secondHero, team.thirdHero:
-            if getattr(hero, HeroInfoKey.被击溃状态.value) != True:
+        for hero in team:
+            hero: Hero
+            if hero.get_被击溃状态() != True:
                 if lowest_ts_hero == None:
                     lowest_ts_hero = hero
-                elif getattr(hero, HeroInfoKey.初始统帅.value) < getattr(lowest_ts_hero, HeroInfoKey.初始统帅.value):
+                elif hero.get_统帅() < lowest_ts_hero.get_统帅():
                     lowest_ts_hero = hero
         return lowest_ts_hero
 
@@ -109,7 +110,7 @@ class BattleField():
                                         targetHero = soul.target
                                         target_name = targetHero.get_武将名称().value
                                         Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, skillName.value))
-                                        strengRatio = skill.星罗棋布_阵型增强系数() * soul.effect_value
+                                        strengRatio = skill.星罗棋布_阵型强化系数() * soul.effect_value
                                         newSoul = Soul(target=soul.target, sourceType=SoulSourceType.星罗棋布_阵型加成, skill=skill, effect_type=soul.effect_type, effect_value=strengRatio)
                                         newSoul.deploy_initial()
                                         self.getSoulList().append(newSoul)
@@ -119,7 +120,7 @@ class BattleField():
                         def 星罗棋布_谋略减伤效果():
                             valueList = self.remove_breakdown_heroes(self.get_team_by_skill(skill))
                             for hero in valueList:
-                                reduce_value = skill.get_Damage_reduction_strategy()
+                                reduce_value = skill.星罗棋布_受到谋略伤害降低系数()
                                 if hero == skill.get_持有者():
                                     reduce_value = reduce_value * 1.3
                                 soul = Soul(target=hero, 
@@ -131,35 +132,52 @@ class BattleField():
                                 soul.deploy_initial()
                                 self.getSoulList().append(soul)
                         星罗棋布_谋略减伤效果()
+
                         Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-额外效果]效果'.format(heroName.value, skillName.value))
                         def 星罗棋布_额外效果():
                             if self.count_frontline_heroes(self.get_team_by_skill(skill)) == 1:
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(heroName.value, skillName.value))
                                 frontLineHero = self.get_one_frontline_hero(self.get_team_by_skill(skill))
-                                setattr(frontLineHero, HeroInfoKey.锁定受击率.value, True)
-                                Log().show_battle_info('        [{}]的固定受击率锁定为85%'.format(heroName.value))
-                                reduce_value = skill.get_Damage_reduction()
+
+                                lock_soul = Soul(target=frontLineHero,
+                                                initiator=skill.get_持有者(), 
+                                                sourceType=SoulSourceType.heroSkill, 
+                                                skill=skill, 
+                                                effect_type=SoulEffectType.LockHitRate, 
+                                                effect_value=0.85)
+                                lock_soul.deploy_initial()
+                                self.getSoulList().append(lock_soul)
+
                                 soul = Soul(target=frontLineHero, 
                                             initiator=skill.get_持有者(), 
                                             sourceType=SoulSourceType.heroSkill, 
                                             skill=skill, 
                                             effect_type=SoulEffectType.DamageReduce, 
-                                            effect_value= - reduce_value)
+                                            effect_value= - skill.星罗棋布_单前排_受到伤害降低系数())
                                 soul.deploy_initial()
-                                self.getSoulList().append(soul)
+                                self.getSoulList().append(soul)                    
                             elif self.count_frontline_heroes(self.get_team_by_skill(skill)) == 2:
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(heroName.value, skillName.value))
-                                # 取出统帅最低的未被击溃的武将
                                 lowest_ts_hero = self.get_lowest_ts_hero(self.remove_breakdown_heroes(self.get_team_by_skill(skill)))
 
                                 soul = Soul(target=lowest_ts_hero, 
                                                 initiator=skill.get_持有者(), 
                                                 sourceType=SoulSourceType.heroSkill, 
                                                 skill=skill, 
-                                                effect_type=SoulEffectType.DamageReduce, 
-                                                effect_value= - skill.get_Damage_reduction())
+                                                effect_type=SoulEffectType.DamageIncrease_FrontLine, 
+                                                effect_value= skill.星罗棋布_双前排_对前排造成伤害提升系数())
                                 soul.deploy_initial()
                                 self.getSoulList().append(soul)
+
+                                murder_soul = Soul(target=lowest_ts_hero,
+                                                   initiator=skill.get_持有者(),
+                                                   sourceType=SoulSourceType.heroSkill,
+                                                   skill=skill,
+                                                   effect_type=SoulEffectType.星罗棋布_双前排阵型,
+                                                   effect_value=skill.星罗棋布_双前排_对前排造成伤害提升系数())
+                                murder_soul.deploy_initial()
+                                self.getSoulList().append(murder_soul)
+
                             elif self.count_frontline_heroes(self.get_team_by_skill(skill)) == 3:
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(heroName.value, skillName.value))
                         星罗棋布_额外效果()

@@ -74,8 +74,7 @@ class Skill():
             return getattr(skill_info, SkillInfoKey.战法类型.value)
         return None
     
-    # 阵型增强系数
-    def 星罗棋布_阵型增强系数(self):
+    def 星罗棋布_阵型强化系数(self):
         skill_info = getattr(self, SkillInfoKey.战法信息.value)
         skill_name = getattr(skill_info, SkillInfoKey.战法名称.value)
         rankUp = 0
@@ -91,8 +90,7 @@ class Skill():
             return y
         return 0
     
-    # 承受谋略伤害减少系数
-    def get_Damage_reduction_strategy(self):
+    def 星罗棋布_受到谋略伤害降低系数(self):
         skill_name = self.get_战法名称()
         rankUp = self.get_战法升阶()
 
@@ -105,14 +103,20 @@ class Skill():
             return y
         return 0
     
-    # 承受伤害减少系数
-    def get_Damage_reduction(self):
+    def 星罗棋布_单前排_受到伤害降低系数(self):
         skill_name = self.get_战法名称()
-
         if skill_name == SkillName.星罗棋布:
-            x = getattr(self.get_持有者(), HeroInfoKey.智力.value)
-            y = 0.000182 * x - 0.012145 + 0.12
+            from JDI_Hero import Hero
+            original_value = 0.12
+            owner: Hero = self.get_持有者()
+            x = owner.get_智力()
+            y = 0.000182 * x - 0.012145 + original_value
             return y
         return 0
     
-
+    def 星罗棋布_双前排_对前排造成伤害提升系数(self):
+        skill_name = self.get_战法名称()
+        if skill_name == SkillName.星罗棋布:
+            original_value = 0.2
+            return original_value
+        return 0

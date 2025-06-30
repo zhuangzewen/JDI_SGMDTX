@@ -41,13 +41,13 @@ def battle():
     
     team1_hero1 = HeroInfo(HeroName.Sp_诸葛亮)
     team1_hero1.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
-    team1_hero1.set_skills('一夫当关', 0, '万夫莫敌', 0)
+    team1_hero1.set_skills(None, 0, None, 0)
     team1_hero2 = HeroInfo(HeroName.赵云)
     team1_hero2.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
-    team1_hero2.set_skills('一夫当关', 0, '万夫莫敌', 0)
+    team1_hero2.set_skills(None, 0, None, 0)
     team1_hero3 = HeroInfo(HeroName.吕布)
     team1_hero3.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)
-    team1_hero3.set_skills('一夫当关', 0, '万夫莫敌', 0)
+    team1_hero3.set_skills(None, 0, None, 0)
 
     team2_hero1 = HeroInfo(HeroName.甘夫人)
     team2_hero1.set_extra(wl_extra=10, zl_extra=10, ts_extra=10, xg_extra=10, rank_info=1, premium_info=1)

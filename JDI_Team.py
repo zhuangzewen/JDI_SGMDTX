@@ -1,13 +1,16 @@
 
-from JDI_Hero import Hero
+from JDI_Hero import Hero, HeroInfo
 from JDI_Log import Log
 
 class TeamInfo():
     def __init__(self, formation, firstHeroInfo, secondHeroInfo, thirdHeroInfo, teamName='', supply=100):
         self.formation = formation
-        self.firstHeroInfo = firstHeroInfo
-        self.secondHeroInfo = secondHeroInfo
-        self.thirdHeroInfo = thirdHeroInfo
+        self.firstHeroInfo: HeroInfo = firstHeroInfo
+        self.firstHeroInfo.set_team_name(teamName)
+        self.secondHeroInfo: HeroInfo = secondHeroInfo
+        self.secondHeroInfo.set_team_name(teamName)
+        self.thirdHeroInfo: HeroInfo = thirdHeroInfo
+        self.thirdHeroInfo.set_team_name(teamName)
         self.teamName = teamName
         self.supply = supply
 

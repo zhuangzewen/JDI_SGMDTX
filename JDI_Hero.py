@@ -113,6 +113,10 @@ class HeroInfo():
         Log().show_debug_info('DEBUG------- 武将EXTRA配置成功')
         Log().show_debug_info('DEBUG----------- 武将EXTRA -- 武力加点: {}, 智力加点: {}, 统帅加点: {}, 先攻加点: {}, 武将升阶: {}, 武将升品: {}'.format(wl_extra, zl_extra, ts_extra, xg_extra, rank_info, premium_info))
         
+    def set_team_name(self, teamName):
+        setattr(self, HeroInfoKey.队伍名称.value, teamName)
+        Log().show_debug_info('DEBUG----------- 武将INFO -- 队伍名称: {}'.format(teamName))
+
 
     def set_skills(self, firstSkill, firstSkill_RankUp, secondSkill, secondSkill_RankUp):
         setattr(self, HeroInfoKey.第一战法.value, firstSkill)
@@ -161,6 +165,8 @@ class Hero():
     def get_等级(self):
         return getattr(self, HeroInfoKey.等级.value)
     
+    def get_队伍名称(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.队伍名称.value)
     def get_武将名称(self):
         return getattr(self.get_武将信息(), HeroInfoKey.武将名称.value)
     def get_武将阵营(self):

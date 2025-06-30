@@ -213,7 +213,10 @@ class BattleField():
     def 填充指挥战法(self):
         
         order_list_hero = 武将行动队列(self)
-        Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前行动队列 --【{}】'.format(order_list_hero))
+        for hero in order_list_hero:
+            hero: Hero
+            hero_name = hero.get_武将名称().value
+            Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前武将队列【{}】'.format(hero_name))
 
         for hero in order_list_hero:
 
@@ -579,6 +582,19 @@ class BattleField():
             self.列队布阵()
 
             self.respond(ResponseStatus.战法布阵开始)
+
+            # 八个回合
+            for i in range(8):
+
+                # 行动顺序判断
+                order_list_hero = 武将行动队列(self)
+                for hero in order_list_hero:
+                    hero: Hero
+                    hero_name = hero.get_武将名称().value
+                    team_name = hero.get_队伍名称()
+                    Log().show_debug_info('DEBUG------- 当前武将队列[{}]【{}】'.format(team_name, hero_name))
+
+
 
         return True
     

@@ -52,6 +52,7 @@ class WeaponType(Enum):
 class HeroInfoKey(Enum):
     
     武将信息 = '武将信息'
+    队伍名称 = '队伍名称'
 
     武将名称 = '武将名称'
     武将阵营 = '武将阵营'

@@ -140,12 +140,13 @@ class Hero():
         for key in HeroInfoKey:
 
             if key == HeroInfoKey.武将信息:
-                hero_info = getattr(self, key.value)
-                Log().show_debug_info('DEBUG------- info -- {}'.format(hero_info))
+                Log().show_debug_info('DEBUG------- info -- {}'.format(self.武将信息()))
             else :
                 if hasattr(self, key.value):
                     Log().show_debug_info('DEBUG------- hero -- {}: {}'.format(key.value, getattr(self, key.value)))
 
+    def 武将信息(self):
+        return getattr(self, HeroInfoKey.武将信息.value)
 
     # 载入初始技能 
     def load_skill(self):
@@ -198,6 +199,3 @@ class Hero():
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
 
         Log().show_debug_info('DEBUG------- 武将战斗数值初始化完成')
-
-
-    # 被击溃状态

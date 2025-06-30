@@ -94,7 +94,7 @@ class HeroInfoKey(Enum):
     前排 = '前排'
     已行动状态 = '已行动状态'
     受击率 = '受击率'
-    锁定受击率 = '锁定受击率'
+    固定受击率 = '固定受击率'
 
     连击几率 = '连击几率'                   # 连击
     闪避几率 = '闪避几率'                 # 闪避
@@ -112,8 +112,6 @@ class HeroInfoKey(Enum):
     F_SkillClass = 'F_SkillClass'
     S_SkillClass = 'S_SkillClass'
 
-    
-
 class Formation(Enum):
     一字阵 = '一字阵'
     萁型阵 = '萁型阵'
@@ -125,13 +123,13 @@ class Formation(Enum):
     偃月阵 = '偃月阵'
 
 class SoulSourceType(Enum):
-    None_Source                   = 'None_Source'
-    阵型加成                       = '阵型加成'
+    不溯源 = '不溯源'
 
-    heroSkill                     = 'hero_skill'
+    阵型加成 = '阵型加成'
 
-    星罗棋布_阵型加成              = '星罗棋布_阵型加成'
-    星罗棋布_双前排阵型加成         = '星罗棋布_双前排阵型加成'
+    星罗棋布_阵型强化 = '星罗棋布_阵型强化'
+
+    武将战法 = '武将战法'
 
 class SoulResponseTime(Enum):
     None_Response = 'None_Response'
@@ -140,32 +138,32 @@ class SoulResponseTime(Enum):
 
 class SoulEffectType(Enum):
 
-    None_Effect = 'None_Effect'
+    无影响 = '无影响'
 
-    DamageIncrease = 'damage_increase'
-    DamageIncrease_FrontLine = 'damage_increase_frontline'
-    DamageIncrease_BackLine = 'damage_increase_backline'
+    造成伤害 = '造成伤害'
+    对前排造成伤害 = '对前排造成伤害'
+    对后排造成伤害 = '对后排造成伤害'
 
-    DamageReduce = 'damage_reduce'
-    DamageReduce_MagniRate = 'DamageReduce_MagniRate'  # 受到谋略伤害降低
+    受到伤害 = '受到伤害'
+    受到谋略伤害 = '受到谋略伤害'
 
     武力 = '武力'
     智力 = '智力'
     统帅 = '统帅'
     先攻 = '先攻'
 
-    ChainHit = 'chainhit'                   # 连击
-    DodgeRate = 'dodgerate'                 # 闪避
-    CriticalRate = 'criticalrate'           # 会心
-    MagnificentRate = 'magnificentrate'     # 奇谋
+    连击 = '连击'            
+    闪避 = '闪避'        
+    会心 = '会心'       
+    奇谋 = '奇谋'     
 
-    LockHitRate = 'lockhitrate'
-
-
+    固定受击率 = '固定受击率'
 
     星罗棋布_双前排阵型 = '星罗棋布_双前排阵型'
 
 class SimulatorMode(Enum):
+
     VS_1 = 'VS_1'
     VS_Team = 'VS_Team'
     VS_Random = 'VS_Random'
+

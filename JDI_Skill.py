@@ -24,43 +24,55 @@ class Skill():
 
     def __init__(self, hero, skillName):
 
-        if hasattr(SkillName, skillName):
+        if isinstance(skillName, SkillName):
             skillInfo = SkillInfo(SkillName(skillName))
             setattr(self, SkillInfoKey.战法信息.value, skillInfo)
             setattr(self, SkillInfoKey.加载状态.value, True)
-            Log().show_debug_info('------------ 武将技能初始化完成'.format(skillName))
+            Log().show_debug_info('DEBUG------- 武将技能初始化完成'.format(skillName))
+            Log().show_debug_info('DEBUG------- 武将技能信息: {}'.format(skillInfo.__dict__))
+
         else:
             setattr(self, SkillInfoKey.加载状态.value, False)
-            Log().show_debug_info('------------ 武将技能初始化失败'.format(skillName))
+            Log().show_debug_info('DEBUG------- 武将技能初始化失败'.format(skillName))
 
         setattr(self, SkillInfoKey.持有者.value, hero)
 
-    def 战法信息(self):
-        return getattr(self, SkillInfoKey.战法信息.value)
-
-    def 加载状态(self):
-        return getattr(self, SkillInfoKey.加载状态.value)
-    
-    def 战法类型(self):
-        return getattr(self.战法信息, SkillInfoKey.战法类型.value)
-
     def 设置战法升阶(self, value):
         setattr(self, SkillInfoKey.战法升阶.value, value)
+        Log().show_debug_info('DEBUG------- 设置战法升阶: {}'.format(value))
 
     def 持有者(self):
         return getattr(self, SkillInfoKey.持有者.value)
     
+    def 加载状态(self):
+        return getattr(self, SkillInfoKey.加载状态.value)
 
+    def 战法信息(self):
+        return getattr(self, SkillInfoKey.战法信息.value)
+    
+    def 战法名称(self):
+        skill_info = getattr(self, SkillInfoKey.战法信息.value)
+        if hasattr(skill_info, SkillInfoKey.战法名称.value):
+            return getattr(skill_info, SkillInfoKey.战法名称.value)
+        return None
+    
+    def 战法类型(self):
+        skill_info = getattr(self, SkillInfoKey.战法信息.value)
+        if hasattr(skill_info, SkillInfoKey.战法类型.value):
+            return getattr(skill_info, SkillInfoKey.战法类型.value)
+        return None
+    
     # 阵型增强系数
     def get_Strength_enhancement(self):
-        skill_name = getattr(self.skillInfo, SkillInfoKey.战法名称.value)
+        skill_info = getattr(self, SkillInfoKey.战法信息.value)
+        skill_name = getattr(skill_info, SkillInfoKey.战法名称.value)
         rankUp = 0
-        if hasattr(self.skillInfo, SkillInfoKey.战法升阶.value):
-            rankUp = getattr(self.skillInfo, SkillInfoKey.战法升阶.value)
+        if hasattr(self.战法信息, SkillInfoKey.战法升阶.value):
+            rankUp = getattr(self.战法信息, SkillInfoKey.战法升阶.value)
 
         if skill_name == SkillName.星罗棋布:
             original_value = 0.7 + rankUp * 0.021
-            x = getattr(self.owner, HeroInfoKey.智力.value)
+            x = getattr(self.持有者, HeroInfoKey.智力.value)
             y = 0.0019 * x - 0.1332 + original_value
             return y
         return 0

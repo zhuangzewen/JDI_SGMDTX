@@ -14,6 +14,7 @@ class BattleField():
         self.team2 = None
         self.command_handle_respon = []
         self.soul_list = []
+        Log().show_debug_info('DEBUG------- 战场初始化完成')
 
     def getTeam1(self):
         return self.team1
@@ -92,7 +93,8 @@ class BattleField():
                 Log().show_debug_info('----debug----当前检索成功----【{}】'.format(skill))
 
                 hero = skill.持有者
-                heroName = getattr(hero, HeroInfoKey.武将信息.武将名称.value)
+                hero_info = getattr(hero, HeroInfoKey.武将信息.value)
+                heroName = getattr(hero_info, HeroInfoKey.武将名称.value)
                 # heroname
                 Log().show_debug_info('----debug----当前检索成功----【{}】'.format(heroName))
                 skillName = getattr(skillInfo, SkillInfoKey.战法名称.value)
@@ -108,7 +110,8 @@ class BattleField():
                                     isCheckSoul = False
                                     for checkSoul in self.getSoulList():
                                         checkSoul: Soul
-                                        if self.is_same_team(skill.owner, checkSoul.target) and checkSoul.target == soul.target and checkSoul.sourceType == SoulSourceType.星罗棋布_阵型加成 and checkSoul.effect_type == soul.effect_type:
+                                        owner = getattr(skill, SkillInfoKey.持有者.value)
+                                        if self.is_same_team(owner, checkSoul.target) and checkSoul.target == soul.target and checkSoul.sourceType == SoulSourceType.星罗棋布_阵型加成 and checkSoul.effect_type == soul.effect_type:
                                             isCheckSoul = True
                                             break
                                     if isCheckSoul == False:
@@ -177,42 +180,49 @@ class BattleField():
         for hero in self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero, \
                     self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero:
             hero: Hero
+            Log().show_debug_info('DEBUG------- 武将初始化成功')
             hero.init_base_values()
             hero.init_battle_values()
  
     def 填充指挥战法(self):
         
         order_list_hero = 武将行动队列(self)
-        Log().show_debug_info('----debug----当前检索成功----【{}】'.format(order_list_hero))
+        Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前行动队列 --【{}】'.format(order_list_hero))
 
         for hero in order_list_hero:
 
             hero: Hero
+            hero_info = getattr(hero, HeroInfoKey.武将信息.value)
+            hero_name = getattr(hero_info, HeroInfoKey.武将名称.value).value
 
             # 输出名
-            Log().show_debug_info('----debug----当前检索成功----【{}】'.format(hero.武将信息.武将名称.value))
-
-            Log().show_debug_info('----debug----当前检索成功----【{}】'.format(hero))
+            Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前检索武将【{}】'.format(hero_name))
 
             D_SkillClass: Skill = getattr(hero, HeroInfoKey.D_SkillClass.value)
-            Log().show_debug_info('----debug----当前检索成功----【{}】'.format(D_SkillClass.加载状态))
-
             if D_SkillClass.加载状态 == True:
-                if D_SkillClass.战法类型 == SkillType.指挥.value:
+                Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前检索战法类型【{}】'.format(D_SkillClass.战法类型()))
+                if D_SkillClass.战法类型() == SkillType.指挥:
                     self.getCommandHandleRespon().append(D_SkillClass)
+                    D_skill_name = getattr(D_SkillClass.战法信息, SkillInfoKey.战法名称.value)
+                    Log().show_debug_info('DEBUG------- 填充指挥战法 -- 成功填充指挥战法【{}】'.format(D_skill_name))
 
             F_SkillClass: Skill = getattr(hero, HeroInfoKey.F_SkillClass.value)
             if F_SkillClass.加载状态 == True:
-                if F_SkillClass.战法类型 == SkillType.指挥.value:
+                Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前检索战法类型【{}】'.format(F_SkillClass.战法类型()))
+                if F_SkillClass.战法类型() == SkillType.指挥:
                     self.getCommandHandleRespon().append(F_SkillClass)
+                    F_Skill_name = getattr(F_SkillClass.战法信息, SkillInfoKey.战法名称.value)
+                    Log().show_debug_info('DEBUG------- 填充指挥战法 -- 成功填充指挥战法【{}】'.format(F_Skill_name))
 
             S_SkillClass: Skill = getattr(hero, HeroInfoKey.S_SkillClass.value)
             if S_SkillClass.加载状态 == True:
-                if S_SkillClass.战法类型 == SkillType.指挥.value:
+                Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前检索战法类型【{}】'.format(S_SkillClass.战法类型()))
+                if S_SkillClass.战法类型() == SkillType.指挥:
                     self.getCommandHandleRespon().append(S_SkillClass)
-        # self.getCommandHandleRespon()
-        Log().show_debug_info('----debug----当前检索成功----【{}】'.format(self.getCommandHandleRespon()))
-    
+                    S_Skill_name = getattr(S_SkillClass.战法信息, SkillInfoKey.战法名称.value)
+                    Log().show_debug_info('DEBUG------- 填充指挥战法 -- 成功填充指挥战法【{}】'.format(S_Skill_name))
+
+
 
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')
@@ -533,7 +543,7 @@ class BattleField():
 
     def fight(self):
 
-        for _ in range(8):
+        for _ in range(1):
             Log().show_battle_info('\n[第 {} 局]'.format(_ + 1))
             self.command_handle_respon = []
             self.soul_list = []
@@ -544,6 +554,6 @@ class BattleField():
 
             self.列队布阵()
 
-            self.respond(ResponseStatus.战法布阵开始)
+            # self.respond(ResponseStatus.战法布阵开始)
 
         return True

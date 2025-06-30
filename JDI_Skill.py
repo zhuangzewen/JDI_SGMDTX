@@ -22,6 +22,27 @@ class SkillInfo():
 
 class Skill():
 
+    def get_战法信息(self):
+        return getattr(self, SkillInfoKey.战法信息.value)
+
+    def get_战法名称(self):
+        if hasattr(self.get_战法信息(), SkillInfoKey.战法名称.value):
+            return getattr(self.get_战法信息(), SkillInfoKey.战法名称.value)
+        return None
+    
+    def get_战法响应时机列表(self):
+        if hasattr(self.get_战法信息(), SkillInfoKey.战法响应时机列表.value):
+            return getattr(self.get_战法信息(), SkillInfoKey.战法响应时机列表.value)
+        return []
+    
+    def get_持有者(self):
+        return getattr(self, SkillInfoKey.持有者.value)
+    
+    def get_战法升阶(self):
+        if hasattr(self.get_战法信息(), SkillInfoKey.战法升阶.value):
+            return getattr(self.get_战法信息(), SkillInfoKey.战法升阶.value)
+        return 0
+    
     def __init__(self, hero, skillName):
 
         if isinstance(skillName, SkillName):
@@ -40,21 +61,12 @@ class Skill():
     def 设置战法升阶(self, value):
         setattr(self, SkillInfoKey.战法升阶.value, value)
         Log().show_debug_info('DEBUG------- 设置战法升阶: {}'.format(value))
-
-    def 持有者(self):
-        return getattr(self, SkillInfoKey.持有者.value)
     
     def 加载状态(self):
         return getattr(self, SkillInfoKey.加载状态.value)
 
     def 战法信息(self):
         return getattr(self, SkillInfoKey.战法信息.value)
-    
-    def 战法名称(self):
-        skill_info = getattr(self, SkillInfoKey.战法信息.value)
-        if hasattr(skill_info, SkillInfoKey.战法名称.value):
-            return getattr(skill_info, SkillInfoKey.战法名称.value)
-        return None
     
     def 战法类型(self):
         skill_info = getattr(self, SkillInfoKey.战法信息.value)
@@ -63,7 +75,7 @@ class Skill():
         return None
     
     # 阵型增强系数
-    def get_Strength_enhancement(self):
+    def 星罗棋布_阵型增强系数(self):
         skill_info = getattr(self, SkillInfoKey.战法信息.value)
         skill_name = getattr(skill_info, SkillInfoKey.战法名称.value)
         rankUp = 0
@@ -79,27 +91,26 @@ class Skill():
     
     # 承受谋略伤害减少系数
     def get_Damage_reduction_strategy(self):
-        skill_name = getattr(self.skillInfo, SkillInfoKey.战法名称.value)
-        rankUp = 0
-        if hasattr(self.skillInfo, SkillInfoKey.战法升阶.value):
-            rankUp = getattr(self.skillInfo, SkillInfoKey.战法升阶.value)
+        skill_name = self.get_战法名称()
+        rankUp = self.get_战法升阶()
 
         if skill_name == SkillName.星罗棋布:
+            from JDI_Hero import Hero
             original_value = 0.1 + rankUp * 0.003
-            x = getattr(self.owner, HeroInfoKey.智力.value)
+            owner: Hero = self.get_持有者()
+            x = owner.get_智力()
             y = 0.000182 * x - 0.012145 + original_value
             return y
         return 0
     
     # 承受伤害减少系数
     def get_Damage_reduction(self):
-        skill_name = getattr(self.skillInfo, SkillInfoKey.战法名称.value)
-        rankUp = 0
-        if hasattr(self.skillInfo, SkillInfoKey.战法升阶.value):
-            rankUp = getattr(self.skillInfo, SkillInfoKey.战法升阶.value)
+        skill_name = self.get_战法名称()
 
         if skill_name == SkillName.星罗棋布:
-            x = getattr(self.owner, HeroInfoKey.智力.value)
+            x = getattr(self.get_持有者(), HeroInfoKey.智力.value)
             y = 0.000182 * x - 0.012145 + 0.12
             return y
         return 0
+    
+

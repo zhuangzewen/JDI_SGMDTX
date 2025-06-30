@@ -124,6 +124,92 @@ class HeroInfo():
         Log().show_debug_info('DEBUG----------- 武将INFO -- 第二战法: {}, 第二战法升阶: {}'.format(secondSkill, secondSkill_RankUp))
 
 class Hero():
+
+    def get_武将信息(self):
+        return getattr(self, HeroInfoKey.武将信息.value)
+    def get_前排状态(self):
+        return getattr(self, HeroInfoKey.前排.value)
+    def get_已行动状态(self):
+        return getattr(self, HeroInfoKey.已行动状态.value)
+    def get_受击率(self):
+        return getattr(self, HeroInfoKey.受击率.value)
+    def get_锁定受击率(self):
+        return getattr(self, HeroInfoKey.锁定受击率.value)
+    def get_连击几率(self):
+        return getattr(self, HeroInfoKey.连击几率.value)
+    def get_闪避几率(self):
+        return getattr(self, HeroInfoKey.闪避几率.value)
+    def get_会心几率(self):
+        return getattr(self, HeroInfoKey.会心几率.value)
+    def get_奇谋几率(self):
+        return getattr(self, HeroInfoKey.奇谋几率.value)
+    def get_造成伤害提升(self):
+        return getattr(self, HeroInfoKey.造成伤害提升.value)
+    def get_对前排造成伤害提升(self):
+        return getattr(self, HeroInfoKey.对前排造成伤害提升.value)
+    def get_对后排造成伤害提升(self):
+        return getattr(self, HeroInfoKey.对后排造成伤害提升.value)
+    def get_受到伤害降低(self):
+        return getattr(self, HeroInfoKey.受到伤害降低.value)
+    def get_受到谋略伤害降低(self):
+        return getattr(self, HeroInfoKey.受到谋略伤害降低.value)
+
+    def get_被击溃状态(self):
+        return getattr(self, HeroInfoKey.被击溃状态.value)
+    def get_兵力(self):
+        return getattr(self, HeroInfoKey.兵力.value)
+    def get_等级(self):
+        return getattr(self, HeroInfoKey.等级.value)
+    
+    def get_武将名称(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武将名称.value)
+    def get_武将阵营(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武将阵营.value)
+    def get_武将兵种(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武将兵种.value)
+    def get_武将性别(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武将性别.value)
+    def get_武将升阶(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武将升阶.value)
+    def get_武将升品(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武将升品.value)
+    
+    def get_初始武力(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.初始武力.value)
+    def get_初始智力(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.初始智力.value)
+    def get_初始统帅(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.初始统帅.value)
+    def get_初始先攻(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.初始先攻.value)
+    
+    def get_武力成长(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武力成长.value)
+    def get_智力成长(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.智力成长.value)
+    def get_统帅成长(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.统帅成长.value)
+    def get_先攻成长(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.先攻成长.value)
+    
+    def get_武力加点(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.武力加点.value)
+    def get_智力加点(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.智力加点.value)
+    def get_统帅加点(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.统帅加点.value)
+    def get_先攻加点(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.先攻加点.value)
+    
+    def get_武力(self):
+        return getattr(self, HeroInfoKey.武力.value)
+    def get_智力(self):
+        return getattr(self, HeroInfoKey.智力.value)
+    def get_统帅(self):
+        return getattr(self, HeroInfoKey.统帅.value)
+    def get_先攻(self):
+        return getattr(self, HeroInfoKey.先攻.value)
+
     def __init__(self, heroInfo):
         
         Log().show_debug_info('DEBUG------- 武将初始化成功')
@@ -140,7 +226,7 @@ class Hero():
         for key in HeroInfoKey:
 
             if key == HeroInfoKey.武将信息:
-                Log().show_debug_info('DEBUG------- info -- {}'.format(self.武将信息))
+                Log().show_debug_info('DEBUG------- info -- {}'.format(self.get_武将信息()))
             else :
                 if hasattr(self, key.value):
                     Log().show_debug_info('DEBUG------- hero -- {}: {}'.format(key.value, getattr(self, key.value)))
@@ -166,17 +252,19 @@ class Hero():
 
         Log().show_debug_info('DEBUG------- 武将基础数值初始化完成')
 
-        real_wl = getattr(self.武将信息, HeroInfoKey.初始武力.value) + getattr(self.武将信息, HeroInfoKey.武力成长.value) * (self.等级 - 5) + getattr(self.武将信息, HeroInfoKey.武力加点.value)
-        Log().show_debug_info('DEBUG------- real_wl: {} = {} + {} * ({} - 5) + {}'.format(real_wl, getattr(self.武将信息, HeroInfoKey.初始武力.value), getattr(self.武将信息, HeroInfoKey.武力成长.value), self.等级, getattr(self.武将信息, HeroInfoKey.武力加点.value)))
+        level = self.get_等级()
+
+        real_wl = self.get_初始武力() + self.get_武力成长() * (level - 5) + self.get_武力加点()
+        Log().show_debug_info('DEBUG------- real_wl: {} = {} + {} * ({} - 5) + {}'.format(real_wl, self.get_初始武力(), self.get_武力成长(), level, self.get_武力加点()))
         setattr(self, HeroInfoKey.武力.value, real_wl)
-        real_zl = getattr(self.武将信息, HeroInfoKey.初始智力.value) + getattr(self.武将信息, HeroInfoKey.智力成长.value) * (self.等级 - 5) + getattr(self.武将信息, HeroInfoKey.智力加点.value)
-        Log().show_debug_info('DEBUG------- real_zl: {} = {} + {} * ({} - 5) + {}'.format(real_zl, getattr(self.武将信息, HeroInfoKey.初始智力.value), getattr(self.武将信息, HeroInfoKey.智力成长.value), self.等级, getattr(self.武将信息, HeroInfoKey.智力加点.value)))
+        real_zl = self.get_初始智力() + self.get_智力成长() * (level - 5) + self.get_智力加点()
+        Log().show_debug_info('DEBUG------- real_zl: {} = {} + {} * ({} - 5) + {}'.format(real_zl, self.get_初始智力(), self.get_智力成长(), level, self.get_智力加点()))
         setattr(self, HeroInfoKey.智力.value, real_zl)
-        real_ts = getattr(self.武将信息, HeroInfoKey.初始统帅.value) + getattr(self.武将信息, HeroInfoKey.统帅成长.value) * (self.等级 - 5) + getattr(self.武将信息, HeroInfoKey.统帅加点.value)
-        Log().show_debug_info('DEBUG------- real_ts: {} = {} + {} * ({} - 5) + {}'.format(real_ts, getattr(self.武将信息, HeroInfoKey.初始统帅.value), getattr(self.武将信息, HeroInfoKey.统帅成长.value), self.等级, getattr(self.武将信息, HeroInfoKey.统帅加点.value)))
+        real_ts = self.get_初始统帅() + self.get_统帅成长() * (level - 5) + self.get_统帅加点()
+        Log().show_debug_info('DEBUG------- real_ts: {} = {} + {} * ({} - 5) + {}'.format(real_ts, self.get_初始统帅(), self.get_统帅成长(), level, self.get_统帅加点()))
         setattr(self, HeroInfoKey.统帅.value, real_ts)
-        real_xg = getattr(self.武将信息, HeroInfoKey.初始先攻.value) + getattr(self.武将信息, HeroInfoKey.先攻成长.value) * (self.等级 - 5) + getattr(self.武将信息, HeroInfoKey.先攻加点.value)
-        Log().show_debug_info('DEBUG------- real_xg: {} = {} + {} * ({} - 5) + {}'.format(real_xg, getattr(self.武将信息, HeroInfoKey.初始先攻.value), getattr(self.武将信息, HeroInfoKey.先攻成长.value), self.等级, getattr(self.武将信息, HeroInfoKey.先攻加点.value)))
+        real_xg = self.get_初始先攻() + self.get_先攻成长() * (level - 5) + self.get_先攻加点()
+        Log().show_debug_info('DEBUG------- real_xg: {} = {} + {} * ({} - 5) + {}'.format(real_xg, self.get_初始先攻(), self.get_先攻成长(), level, self.get_先攻加点()))
         setattr(self, HeroInfoKey.先攻.value, real_xg)
 
     # 初始化战斗数值

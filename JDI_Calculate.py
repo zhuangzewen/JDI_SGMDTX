@@ -1,4 +1,156 @@
 
+def msg_过滤掉被击溃的武将(heroes):
+    from JDI_Hero import Hero
+    from JDI_Enum import HeroInfoKey
+
+    heroes: list[Hero]
+
+    result = []
+    for hero in heroes:
+        if getattr(hero, HeroInfoKey.被击溃状态.value) == False:
+            result.append(hero)
+    return result
+
+def msg_判断己方前排武将数量(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+
+    skill: Skill
+    battleField: BattleField
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+    owner = skill.get_持有者()
+
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
+
+    length = 0
+    for hero in heroes:
+        if not hero.get_被击溃状态() and hero.get_前排状态():
+            length += 1
+    return length
+
+def msg_对我方的单前排生效(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+
+    skill: Skill
+    battleField: BattleField
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+    owner = skill.get_持有者()
+
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
+
+    for hero in heroes:
+        if not hero.get_被击溃状态() and hero.get_前排状态():
+            return hero
+
+    return None
+
+def msg_对我方统帅最低的武将(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+
+    skill: Skill
+    battleField: BattleField
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+    owner = skill.get_持有者()
+
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
+
+    lowest_ts_hero = None
+    for hero in heroes:
+        if not hero.get_被击溃状态() and lowest_ts_hero == None:
+            lowest_ts_hero = hero
+
+        elif not hero.get_被击溃状态() and hero.get_统帅() < lowest_ts_hero.get_统帅():
+            lowest_ts_hero = hero
+
+    return lowest_ts_hero
+
+def msg_对我方智力最高的武将(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+
+    skill: Skill
+    battleField: BattleField
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+    owner = skill.get_持有者()
+
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
+
+    highest_zl_hero = None
+    for hero in heroes:
+        if not hero.get_被击溃状态() and highest_zl_hero == None:
+            highest_zl_hero = hero
+
+        elif not hero.get_被击溃状态() and hero.get_智力() > highest_zl_hero.get_智力():
+            highest_zl_hero = hero
+
+    return highest_zl_hero
+
+def 对己方所有目标生效(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+
+    skill: Skill
+    battleField: BattleField
+
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+
+    owner = skill.get_持有者()
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
+
+def 对己方阵型强化SOUL生效(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+    from JDI_Soul import Soul, SoulSourceType
+
+    skill: Skill
+    battleField: BattleField
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+    owner = skill.get_持有者()
+
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
+
+    # 返回新数组
+    check_list = []
+    for soul in battleField.getSoulList():
+        soul: Soul
+        if soul.sourceType == SoulSourceType.阵型加成 and soul.target in heroes and soul.target.get_被击溃状态() == False:
+            check_list.append(soul)
+    return check_list
+
+
+
 # 优化完成 1.0    
 def 武将行动队列(battleField):
     from JDI_BattleField import BattleField
@@ -63,4 +215,3 @@ def 武将行动队列(battleField):
         order_list.append(check_fast)
     msg_重置武将行动状态()
     return order_list
-

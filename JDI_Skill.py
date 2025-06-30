@@ -1,5 +1,6 @@
 
 from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroInfoKey
+from JDI_Log import Log
 
 class SkillInfo():
 
@@ -27,8 +28,10 @@ class Skill():
             skillInfo = SkillInfo(SkillName(skillName))
             setattr(self, SkillInfoKey.战法信息.value, skillInfo)
             setattr(self, SkillInfoKey.加载状态.value, True)
+            Log().show_debug_info('------------ 武将技能初始化完成'.format(skillName))
         else:
             setattr(self, SkillInfoKey.加载状态.value, False)
+            Log().show_debug_info('------------ 武将技能初始化失败'.format(skillName))
 
         setattr(self, SkillInfoKey.持有者.value, hero)
 
@@ -41,9 +44,12 @@ class Skill():
     def 战法类型(self):
         return getattr(self.战法信息, SkillInfoKey.战法类型.value)
 
-    # 设置战法升阶
-    def set_RankUp(self, value):
+    def 设置战法升阶(self, value):
         setattr(self, SkillInfoKey.战法升阶.value, value)
+
+    def 持有者(self):
+        return getattr(self, SkillInfoKey.持有者.value)
+    
 
     # 阵型增强系数
     def get_Strength_enhancement(self):

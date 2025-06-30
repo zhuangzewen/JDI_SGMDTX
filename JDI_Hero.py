@@ -1,6 +1,7 @@
 
 from JDI_Enum import SkillName, HeroName, Faction, WeaponType, HeroInfoKey
 from JDI_Skill import Skill
+from JDI_Log import Log
 
 class HeroInfo():
     def __init__(self, heroName):
@@ -116,19 +117,22 @@ class Hero():
         self.init_base_values()
         self.init_battle_values()
 
+        Log().show_debug_info('------------ 武将初始化成功, name为{}'.format(self.武将名称))
+
+
     # 载入初始技能 
     def load_skill(self):
 
         D_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.自带战法.value))
-        D_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.武将升阶.value))
+        D_skill.设置战法升阶(getattr(self.武将信息, HeroInfoKey.武将升阶.value))
         setattr(self, HeroInfoKey.D_SkillClass.value, D_skill)
 
         F_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.第一战法.value))
-        F_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.第一战法升阶.value))
+        F_skill.设置战法升阶(getattr(self.武将信息, HeroInfoKey.第一战法升阶.value))
         setattr(self, HeroInfoKey.F_SkillClass.value, F_skill)
 
         S_skill = Skill(self, getattr(self.武将信息, HeroInfoKey.第二战法.value))
-        S_skill.set_RankUp(getattr(self.武将信息, HeroInfoKey.第二战法升阶.value))
+        S_skill.设置战法升阶(getattr(self.武将信息, HeroInfoKey.第二战法升阶.value))
         setattr(self, HeroInfoKey.S_SkillClass.value, S_skill)
 
 

@@ -1,98 +1,66 @@
 
-def 重置武将状态(battleField):
-    
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
-    from JDI_Hero import Hero
-
-    battleField: BattleField
-    team1: Team = battleField.team1
-    team2: Team = battleField.team2
-    for hero in team1.firstHero, team1.secondHero, team1.thirdHero, \
-               team2.firstHero, team2.secondHero, team2.thirdHero:
-        hero: Hero
-        hero.init_base_values()
-        hero.init_battle_values()
-
-def msg_武将行动队列(battleField):
+# 优化完成 1.0    
+def 武将行动队列(battleField):
     from JDI_BattleField import BattleField
     from JDI_Team import Team
     from JDI_Hero import Hero
     from JDI_Enum import HeroInfoKey
-    import random
 
     battleField: BattleField
     
-    team1: Team = battleField.team1
-    team2: Team = battleField.team2
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
 
-    def reset_all_heroes_action():
-        for hero in team1.firstHero, team1.secondHero, team1.thirdHero:
-            hero: Hero
-            setattr(hero, HeroInfoKey.已行动状态.value, False)
-        for hero in team2.firstHero, team2.secondHero, team2.thirdHero:
-            hero: Hero
-            setattr(hero, HeroInfoKey.已行动状态.value, False)
-
-    def get_fastest_unbroken_hero(team: Team):
+    def msg_获取队伍中先攻最高的武将(team: Team):
         fastest_hero = None
         for hero in team.firstHero, team.secondHero, team.thirdHero:
-
             if getattr(hero, HeroInfoKey.被击溃状态.value) == True or getattr(hero, HeroInfoKey.已行动状态.value) == True:
                 continue
-
             if fastest_hero == None:
                 fastest_hero = hero
             elif getattr(hero, HeroInfoKey.被击溃状态.value) != True and getattr(hero, HeroInfoKey.先攻.value) > getattr(fastest_hero, HeroInfoKey.先攻.value):
                 fastest_hero = hero
         return fastest_hero
 
-    def check_if_any_heroes_not_actioned_and_not_breakdown():
+    def msg_检索未行动武将():
         for hero in team1.firstHero, team1.secondHero, team1.thirdHero, team2.firstHero, team2.secondHero, team2.thirdHero :
             if getattr(hero, HeroInfoKey.被击溃状态.value) != True and getattr(hero, HeroInfoKey.已行动状态.value) == False:
                 return True
         return False
 
-    # y = 0.004x² +0.4343x + 50
-    def check_if_both_teams_exist(hero1, hero2):
+    def msg_两队先攻对比(hero1, hero2):
+
+        from JDI_RanVal import 获取对比行动优先级
+
         hero1_xg = getattr(hero1, HeroInfoKey.先攻.value)
         hero2_xg = getattr(hero2, HeroInfoKey.先攻.value)
-        diff = abs(hero1_xg - hero2_xg)
-        p1 = 0.004 * diff ** 2 + 0.4343 * diff + 50
-        # 满足概率则返回先攻大的武将 否则返回先攻小的武将
-        if random.random() < p1:
-            # 返回先攻大的武将
-            return hero1 if hero1_xg >= hero2_xg else hero2
+        
+        if 获取对比行动优先级(hero1_xg, hero2_xg):
+            return hero1
         else:
-            return hero2 if hero2_xg >= hero1_xg else hero1
+            return hero2
 
-    reset_all_heroes_action()
+    def msg_重置武将行动状态():
+        for hero in team1.firstHero, team1.secondHero, team1.thirdHero, \
+                    team2.firstHero, team2.secondHero, team2.thirdHero:
+            hero: Hero
+            setattr(hero, HeroInfoKey.已行动状态.value, False)
+
+
+    msg_重置武将行动状态()
     order_list = []
-    while check_if_any_heroes_not_actioned_and_not_breakdown() == True:
-        get_fast_team1 = get_fastest_unbroken_hero(team1)
-        get_fast_team2 = get_fastest_unbroken_hero(team2)
+    while msg_检索未行动武将() == True:
+        get_fast_team1 = msg_获取队伍中先攻最高的武将(team1)
+        get_fast_team2 = msg_获取队伍中先攻最高的武将(team2)
 
         if get_fast_team1 != None and get_fast_team2 != None:
-            check_fast = check_if_both_teams_exist(get_fast_team1, get_fast_team2)
+            check_fast = msg_两队先攻对比(get_fast_team1, get_fast_team2)
         elif get_fast_team1 != None:
             check_fast = get_fast_team1
         elif get_fast_team2 != None:
             check_fast = get_fast_team2
         setattr(check_fast, HeroInfoKey.已行动状态.value, True)
         order_list.append(check_fast)
-    reset_all_heroes_action()
+    msg_重置武将行动状态()
     return order_list
 
-
-def 填充指挥战法(battleField):
-    from JDI_BattleField import BattleField
-    from JDI_Enum import HeroInfoKey, SkillType
-
-    battleField: BattleField
-
-    order_list_hero = msg_武将行动队列(battleField)
-    for hero in order_list_hero:
-        D_SkillClass = getattr(hero, HeroInfoKey.D_SkillClass.value)
-        if D_SkillClass.加载状态 == True:
-            if D_SkillClass.战法类型 == SkillType.指挥:
-                battleField.command_handle_respon.append(D_SkillClass)

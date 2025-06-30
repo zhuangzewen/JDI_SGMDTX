@@ -140,13 +140,10 @@ class Hero():
         for key in HeroInfoKey:
 
             if key == HeroInfoKey.武将信息:
-                Log().show_debug_info('DEBUG------- info -- {}'.format(self.武将信息()))
+                Log().show_debug_info('DEBUG------- info -- {}'.format(self.武将信息))
             else :
                 if hasattr(self, key.value):
                     Log().show_debug_info('DEBUG------- hero -- {}: {}'.format(key.value, getattr(self, key.value)))
-
-    def 武将信息(self):
-        return getattr(self, HeroInfoKey.武将信息.value)
 
     # 载入初始技能 
     def load_skill(self):

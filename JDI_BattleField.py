@@ -76,30 +76,30 @@ class BattleField():
     def respond(self, status):
 
         # print  当前响应时机为:
-        Log().show_debug_info('----debug----当前响应时机----【{}】'.format(status))
+        # DEBUG----------- 当前响应时机为
+        Log().show_debug_info('DEBUG------- 当前响应时机为: {}'.format(status))
 
         # 输出 self.getCommandHandleRespon() 中的内容
-        Log().show_debug_info('----debug----当前检索战法----【{}】'.format(self.getCommandHandleRespon()))
+        Log().show_debug_info('DEBUG------- 当前检索战法为: {}'.format(self.getCommandHandleRespon()))
 
         # 检索所有战法，并根据战法响应
         for skill in self.getCommandHandleRespon():
             skill: Skill
             skillInfo = skill.战法信息
-            Log().show_debug_info('----debug----当前检索战法----【{}】'.format(skill))
+            Log().show_debug_info('DEBUG------- 当前检索战法为: {}'.format(skill))
             respon_list = getattr(skillInfo, SkillInfoKey.战法响应时机列表.value)
-            Log().show_debug_info('----debug----当前检索战法响应时机----【{}】'.format(respon_list))
+            Log().show_debug_info('DEBUG------- 当前检索战法响应时机为: {}'.format(respon_list))
 
             if status in respon_list:
-                Log().show_debug_info('----debug----当前检索成功----【{}】'.format(skill))
+                Log().show_debug_info('DEBUG------- 当前检索成功: {}'.format(skill))
 
                 hero = skill.持有者
                 hero_info = getattr(hero, HeroInfoKey.武将信息.value)
                 heroName = getattr(hero_info, HeroInfoKey.武将名称.value)
                 # heroname
-                Log().show_debug_info('----debug----当前检索成功----【{}】'.format(heroName))
+                Log().show_debug_info('DEBUG------- 当前检索成功: {}'.format(heroName))
                 skillName = getattr(skillInfo, SkillInfoKey.战法名称.value)
-                Log().show_debug_info('----debug----当前检索成功----【{}】'.format(skillName))
-
+                Log().show_debug_info('DEBUG------- 当前检索成功: {}'.format(skillName))
 
                 if skillName == SkillName.星罗棋布:
                     if status == ResponseStatus.阵型结束:

@@ -115,5 +115,8 @@ class Soul():
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
             Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
 
-        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
+        elif self.effect_type == SoulEffectType.借刀_星罗棋布_双前排阵型:
             Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.借刀_星罗棋布_三前排阵型:
+            Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已施加'.format(heroName))

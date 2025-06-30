@@ -28,6 +28,18 @@ class BattleField():
     def getSoulList(self):
         return self.soul_list
 
+    # 获取队伍中智力最高的武将
+    def get_highest_zl_hero(self, team):
+        highest_int_hero = None
+        for hero in team:
+            hero: Hero
+            if hero.get_被击溃状态() != True:
+                if highest_int_hero == None:
+                    highest_int_hero = hero
+                elif hero.get_智力() > highest_int_hero.get_智力():
+                    highest_int_hero = hero
+        return highest_int_hero
+
     # 获取队伍中统帅最低的武将
     def get_lowest_ts_hero(self, team):
         lowest_ts_hero = None
@@ -173,15 +185,22 @@ class BattleField():
                                                    initiator=skill.get_持有者(),
                                                    sourceType=SoulSourceType.武将战法,
                                                    skill=skill,
-                                                   effect_type=SoulEffectType.星罗棋布_双前排阵型,
-                                                   effect_value=skill.星罗棋布_双前排_对前排造成伤害提升系数())
+                                                   effect_type=SoulEffectType.借刀_星罗棋布_双前排阵型)
                                 murder_soul.deploy_initial()
                                 self.getSoulList().append(murder_soul)
-
                             elif self.count_frontline_heroes(self.get_team_by_skill(skill)) == 3:
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(heroName.value, skillName.value))
+                                lowest_ts_hero = self.get_lowest_ts_hero(self.remove_breakdown_heroes(self.get_team_by_skill(skill)))
+
+                                soul = Soul(target=lowest_ts_hero, 
+                                                initiator=skill.get_持有者(), 
+                                                sourceType=SoulSourceType.武将战法, 
+                                                skill=skill, 
+                                                effect_type=SoulEffectType.借刀_星罗棋布_三前排阵型)
+                                soul.deploy_initial()
+                                self.getSoulList().append(soul)
                         星罗棋布_额外效果()
- 
+
     def 重置武将状态(self):
 
         for hero in self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero, \

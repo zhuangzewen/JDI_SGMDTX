@@ -83,8 +83,10 @@ class Skill():
             rankUp = getattr(self.战法信息, SkillInfoKey.战法升阶.value)
 
         if skill_name == SkillName.星罗棋布:
+            from JDI_Hero import Hero
             original_value = 0.7 + rankUp * 0.021
-            x = getattr(self.持有者, HeroInfoKey.智力.value)
+            owner: Hero = self.get_持有者()
+            x = owner.get_智力()
             y = 0.0019 * x - 0.1332 + original_value
             return y
         return 0

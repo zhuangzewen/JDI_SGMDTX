@@ -2,8 +2,16 @@
 import random
 
 def 获取对比行动优先级(hero1_xg, hero2_xg):
+    # PDS同学的公式
+
     diff = abs(hero1_xg - hero2_xg)
-    p1 = 0.004 * diff ** 2 + 0.4343 * diff + 50
+    if diff < 30:
+        p1 = 1.2 * diff + 50
+    elif diff < 70:
+        p1 = 0.35 * diff + 75.5
+    else:
+        p1 = 100
+
     randomValue = random.random()
     if randomValue * 100 < p1:
         return True if hero1_xg >= hero2_xg else False

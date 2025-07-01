@@ -149,12 +149,16 @@ class Hero():
         return getattr(self, HeroInfoKey.奇谋几率.value)
     def get_造成伤害提升(self):
         return getattr(self, HeroInfoKey.造成伤害提升.value)
+    def get_造成伤害降低(self):
+        return getattr(self, HeroInfoKey.造成伤害降低.value)
     def get_对前排造成伤害提升(self):
         return getattr(self, HeroInfoKey.对前排造成伤害提升.value)
     def get_对后排造成伤害提升(self):
         return getattr(self, HeroInfoKey.对后排造成伤害提升.value)
     def get_受到伤害降低(self):
         return getattr(self, HeroInfoKey.受到伤害降低.value)
+    def get_受到伤害提升(self):
+        return getattr(self, HeroInfoKey.受到伤害提升.value)
     def get_受到谋略伤害降低(self):
         return getattr(self, HeroInfoKey.受到谋略伤害降低.value)
 
@@ -284,9 +288,11 @@ class Hero():
         setattr(self, HeroInfoKey.会心几率.value, 0)
         setattr(self, HeroInfoKey.奇谋几率.value, 0)
         setattr(self, HeroInfoKey.造成伤害提升.value, 1)
+        setattr(self, HeroInfoKey.造成伤害降低.value, 0)
         setattr(self, HeroInfoKey.对前排造成伤害提升.value, 1)
         setattr(self, HeroInfoKey.对后排造成伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
 
         Log().show_debug_info('DEBUG------- 武将战斗数值初始化完成')

@@ -155,6 +155,8 @@ class BattleField():
                                     attacked: Hero = 从队列确定受击武将(attacked_heroes)
                                     attacked_heroes.remove(attacked)
                                     Log().show_battle_info('        [{}]对 [{}] 发起攻击'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value))
+                                    value = 计算伤害(atta_hero, attacked, skill, self)
+                                    Log().show_battle_info('        [{}]对 [{}] 造成伤害 {:.2f}'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value, value))
                     elif status == ResponseStatus.回合结束后:
                         # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
                         pass

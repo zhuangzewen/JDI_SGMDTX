@@ -141,7 +141,7 @@ class BattleField():
                         soul_list = skill.get_Soul_list()
                         for soul in soul_list:
                             soul: Soul
-                            if soul.effect_type == SoulEffectType.借刀_星罗棋布_双前排阵型:
+                            if soul.effect_type == SoulEffectType.借刀_星罗棋布_双前排阵型 and soul.target == actor:
                                 # 对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(heroName.value, skillName.value))
 
@@ -565,16 +565,17 @@ class BattleField():
                     team_name = hero.get_队伍名称()
                     Log().show_debug_info('DEBUG------- 当前武将队列[{}]【{}】'.format(team_name, hero_name))
 
+                self.respond(ResponseStatus.回合开始时)
+
                 for hero in order_list_hero:
                     hero: Hero
                     hero_name = hero.get_武将名称().value
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
+                    self.respond(ResponseStatus.回合行动时, actor=hero)
 
-                    self.respond(ResponseStatus.回合行动时)
+                self.respond(ResponseStatus.回合结束时)
 
-                    self.respond(ResponseStatus.回合结束时)
-
-                    self.respond(ResponseStatus.回合结束后)
+                self.respond(ResponseStatus.回合结束后)
 
 
 

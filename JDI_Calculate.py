@@ -1,4 +1,6 @@
 
+from JDI_RanVal import *
+
 def msg_过滤掉被击溃的武将(heroes):
     from JDI_Hero import Hero
     from JDI_Enum import HeroInfoKey
@@ -149,9 +151,57 @@ def 对己方阵型强化SOUL生效(skill, battleField):
             check_list.append(soul)
     return check_list
 
+def 实际受击率(hero):
 
+    # 兵力影响受击率 
+    from JDI_Hero import Hero
+    hero: Hero
+    
+    # 先判断固定受击率
+    if hero.get_固定受击率() != 0:
+        return hero.get_固定受击率()
+    
+    # 获取受击率 是否为 0.6
+    if hero.get_受击率() != 0.6:
+        return hero.get_受击率()
+    
+    # 受击率 = -7.5e-9 * 兵力^2 + 0.0001625 * 兵力 - 0.275
+    if hero.get_受击率() == 0.6:
+        return -7.5e-9 * hero.get_兵力() ** 2 + 0.0001625 * hero.get_兵力() - 0.275
+    
+    return 0
 
-# 优化完成 1.0    
+def 从队列确定受击武将(heroList):
+    from JDI_Hero import Hero
+    heroList: list[Hero]
+
+    # 创建受击率数组
+    hit_rate_list = []
+    for hero in heroList:
+        hero: Hero
+        hit_rate = 实际受击率(hero)
+        hit_rate_list.append(hit_rate)
+
+    randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
+    return heroList[randomInt]
+
+def 对敌方所有目标生效(skill, battleField):
+    from JDI_Skill import Skill
+    from JDI_BattleField import BattleField
+    from JDI_Team import Team
+
+    skill: Skill
+    battleField: BattleField
+
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+
+    owner = skill.get_持有者()
+    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
+    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
+
 def 武将行动队列(battleField):
     from JDI_BattleField import BattleField
     from JDI_Team import Team
@@ -215,3 +265,13 @@ def 武将行动队列(battleField):
         order_list.append(check_fast)
     msg_重置武将行动状态()
     return order_list
+
+
+
+
+
+
+# 伤害计算 这个方法可能会传入大量的参数
+def 计算伤害(攻击者, 防御者, 伤害类型, 伤害值):
+    # 这里进行伤害计算的逻辑
+    pass

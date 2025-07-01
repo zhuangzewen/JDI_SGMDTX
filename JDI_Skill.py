@@ -1,5 +1,5 @@
 
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey, HeroInfoKey
+from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey
 from JDI_Log import Log
 
 class SkillInfo():
@@ -10,7 +10,7 @@ class SkillInfo():
             SkillName.星罗棋布 : {
                 SkillInfoKey.战法名称 : SkillName.星罗棋布,
                 SkillInfoKey.战法类型 : SkillType.指挥,
-                SkillInfoKey.战法响应时机列表 : [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始],
+                SkillInfoKey.战法响应时机列表 : [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始, ResponseStatus.回合行动时, ResponseStatus.回合结束后],
             },
         }
 
@@ -43,6 +43,11 @@ class Skill():
             return getattr(self.get_战法信息(), SkillInfoKey.战法升阶.value)
         return 0
     
+    def get_Soul_list(self):
+        if hasattr(self, SkillInfoKey.Soul_list.value):
+            return getattr(self, SkillInfoKey.Soul_list.value)
+        return []
+
     def __init__(self, hero, skillName):
 
         if isinstance(skillName, SkillName):
@@ -57,6 +62,7 @@ class Skill():
             Log().show_debug_info('DEBUG------- 武将技能初始化失败'.format(skillName))
 
         setattr(self, SkillInfoKey.持有者.value, hero)
+        setattr(self, SkillInfoKey.Soul_list.value, [])
 
     def 设置战法升阶(self, value):
         setattr(self, SkillInfoKey.战法升阶.value, value)

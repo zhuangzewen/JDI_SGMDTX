@@ -4,6 +4,9 @@ from enum import Enum
 class ResponseStatus(Enum):
     阵型结束 = '阵型结束'
     战法布阵开始 = '战法布阵开始'
+    回合行动时 = '回合行动时'
+    回合结束时 = '回合结束时'
+    回合结束后 = '回合结束后'
 
 class SkillType(Enum):
     指挥 = '指挥'
@@ -28,6 +31,7 @@ class SkillInfoKey(Enum):
     持有者 = '持有者'
     加载状态 = '加载状态'
     战法升阶 = '战法升阶'
+    Soul_list = 'Soul_list'
 
 class HeroName(Enum):
     Sp_诸葛亮 = "Sp_诸葛亮"

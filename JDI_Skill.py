@@ -81,6 +81,8 @@ class Skill():
         return None
     
     def 星罗棋布_阵型强化系数(self):
+        # 受 智力&升阶 影响, 原始值 0.7, 升阶 0.021
+        # 言寺的函数拟合公式
         skill_info = getattr(self, SkillInfoKey.战法信息.value)
         skill_name = getattr(skill_info, SkillInfoKey.战法名称.value)
         rankUp = 0
@@ -97,6 +99,8 @@ class Skill():
         return 0
     
     def 星罗棋布_受到谋略伤害降低系数(self):
+        # 受 智力&升阶 影响, 原始值 0.1, 升阶 0.003
+        # 言寺的函数拟合公式
         skill_name = self.get_战法名称()
         rankUp = self.get_战法升阶()
 
@@ -109,7 +113,9 @@ class Skill():
             return y
         return 0
     
+    # 未拟合公式
     def 星罗棋布_单前排_受到伤害降低系数(self):
+        # 受 智力 影响, 原始值 0.12
         skill_name = self.get_战法名称()
         if skill_name == SkillName.星罗棋布:
             from JDI_Hero import Hero
@@ -121,6 +127,7 @@ class Skill():
         return 0
     
     def 星罗棋布_双前排_对前排造成伤害提升系数(self):
+        # 固定值 0.2
         skill_name = self.get_战法名称()
         if skill_name == SkillName.星罗棋布:
             original_value = 0.2

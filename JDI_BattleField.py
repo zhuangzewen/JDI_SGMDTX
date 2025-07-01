@@ -555,7 +555,7 @@ class BattleField():
             self.respond(ResponseStatus.战法布阵开始)
 
             # 八个回合
-            for i in range(8):
+            for i in range(1):
 
                 # 行动顺序判断
                 order_list_hero = 武将行动队列(self)

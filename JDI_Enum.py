@@ -1,6 +1,12 @@
 
 from enum import Enum
 
+class DamageType(Enum):
+    谋略 = 1
+    兵刃 = 2
+    逃兵 = 3
+    择优 = 4
+
 class ResponseStatus(Enum):
     阵型结束 = '阵型结束'
     战法布阵开始 = '战法布阵开始'

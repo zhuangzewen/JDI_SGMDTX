@@ -1,6 +1,6 @@
 
 from JDI_Log import Log
-from JDI_Enum import ResponseStatus, SkillName, SkillInfoKey, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulEffectType, SkillType
+from JDI_Enum import ResponseStatus, SkillName, SkillInfoKey, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulEffectType, SkillType, DamageType
 from JDI_Team import TeamInfo, Team
 from JDI_Hero import Hero
 from JDI_Skill import Skill
@@ -56,6 +56,16 @@ class BattleField():
                                 soul: Soul
                                 targetHero = soul.target
                                 target_name = targetHero.get_武将名称().value
+
+                                # 判断已经存在 星罗棋布_阵型强化效果的soul continue
+                                is_exist = False
+                                for exist_soul in self.getSoulList():
+                                    if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == soul.effect_type and exist_soul.skill == skill:
+                                        is_exist = True
+                                        break
+                                if is_exist:
+                                    continue
+
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, skillName.value))
                                 strengRatio = skill.星罗棋布_阵型强化系数() * soul.effect_value
                                 newSoul = Soul(target=soul.target, sourceType=SoulSourceType.星罗棋布_阵型强化, skill=skill, effect_type=soul.effect_type, effect_value=strengRatio)
@@ -155,7 +165,7 @@ class BattleField():
                                     attacked: Hero = 从队列确定受击武将(attacked_heroes)
                                     attacked_heroes.remove(attacked)
                                     Log().show_battle_info('        [{}]对 [{}] 发起攻击'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value))
-                                    value = 计算伤害(atta_hero, attacked, skill, self)
+                                    value = 计算伤害(atta_hero, attacked, DamageType.择优, 伤害值= 1.6)
                                     Log().show_battle_info('        [{}]对 [{}] 造成伤害 {:.2f}'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value, value))
                     elif status == ResponseStatus.回合结束后:
                         # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)

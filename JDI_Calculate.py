@@ -1,5 +1,8 @@
 
+from JDI_Log import Log
 from JDI_RanVal import *
+import math
+from JDI_Enum import DamageType
 
 def msg_过滤掉被击溃的武将(heroes):
     from JDI_Hero import Hero
@@ -267,35 +270,47 @@ def 武将行动队列(battleField):
     return order_list
 
 
+def MSG_兵力伤害公式(兵力: int):
+    value_health = 1 + 0.2 * math.log10(兵力 / 10000)
+    Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}'.format(value_health))
+    return value_health
 
+def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤害值):
 
-def MSG_兵力伤害公式(兵力):
-# 9000-10000：基本不变
-# 5000-9000：每少200兵，伤害平均减1.18%
-# 2600-5000：每少200兵，伤害平均减1.55%
-# 1400-2600：每少200兵，伤害平均减2.08%
-# 1400往下：每少200兵，伤害减3%以上
-# 几个关键节点：
-# 7200：90%
-# 5600：80%
-# 4200：70%
-# 2900：60%
-# 1900：50%
-# 1100：40%
-# 550：30%
-# 150：20%
-# 1：10%
+    if 伤害类型 == DamageType.谋略:
+        攻方数值 = 攻击者.get_智力()
+        防方数值 = (防御者.get_统帅() + 防御者.get_智力()) * 0.5
+    elif 伤害类型 == DamageType.兵刃:
+        攻方数值 = 攻击者.get_武力()
+        防方数值 = 防御者.get_统帅()
+    elif 伤害类型 == DamageType.逃兵:
+        攻方数值 = 1
+        防方数值 = 1
+    elif 伤害类型 == DamageType.择优:
+        wuli = 攻击者.get_武力()
+        zhiLi = 攻击者.get_智力()
+        if wuli > zhiLi:
+            攻方数值 = wuli
+            防方数值 = 防御者.get_统帅()
+        else:
+            攻方数值 = zhiLi
+            防方数值 = (防御者.get_统帅() + 防御者.get_智力()) * 0.5
 
-    # 兵力伤害公式
-    return 1
+    p0=2.5279e+02
+    p1=1.4024e+00
+    p2=-1.3346e+00
+    p3=7.4124e-04
+    p4= -2.9490e-03
+    p5=2.3750e-03
 
-def MSG_武将伤害公式():
-    return 1000
+    attaValue = p0 + p1 * 攻方数值 + p2 * 防方数值 + p3 * 攻方数值 ** 2 + p4 * 攻方数值 * 防方数值 + p5 * 防方数值 ** 2
+    Log().show_debug_info('DEBUG------- 攻方数值: {:.4f}, 防方数值: {:.4f}, 计算结果: {:.4f}'.format(攻方数值, 防方数值, attaValue))
 
+    return attaValue
 
 
 # 伤害计算 这个方法可能会传入大量的参数
-def 计算伤害(攻击者, 防御者, 伤害类型, 伤害值):
+def 计算伤害(攻击者, 防御者, 伤害类型: DamageType, 伤害值 = 1.0):
 
     from JDI_Hero import Hero
     from JDI_Enum import HeroInfoKey
@@ -303,15 +318,24 @@ def 计算伤害(攻击者, 防御者, 伤害类型, 伤害值):
     攻击者: Hero
     防御者: Hero
 
+    兵力伤害公式 = MSG_兵力伤害公式(攻击者.get_兵力())
+    武将伤害公式 = MSG_武将伤害公式(攻击者, 防御者, 伤害类型, 伤害值)
     造成伤害提升 = 攻击者.get_造成伤害提升()
     造成伤害降低 = 攻击者.get_造成伤害降低()
     受到伤害降低 = 防御者.get_受到伤害降低()
     受到伤害提升 = 防御者.get_受到伤害提升()
 
-    R = 1  # 技能系数
-    Crt = 1  # 会心伤害
+    伤害系数 = 伤害值
+    会心伤害 = 随机会心伤害(攻击者.get_会心几率())
 
-    return MSG_兵力伤害公式(攻击者.get_兵力()) * MSG_武将伤害公式() * (造成伤害提升 + 造成伤害降低) * (受到伤害提升 + 受到伤害降低) * R * (1 + Crt)
+
+    Log().show_debug_info('DEBUG------- 计算伤害: {} 对 {} 造成伤害'.format(攻击者.get_武将名称(), 防御者.get_武将名称()))
+    Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}, 武将伤害公式: {:.4f}, 造成伤害提升: {:.4f}, 造成伤害降低: {:.4f}, 受到伤害提升: {:.4f}, 受到伤害降低: {:.4f}'
+                          .format(兵力伤害公式, 武将伤害公式, 造成伤害提升, 造成伤害降低, 受到伤害提升, 受到伤害降低))
+    Log().show_debug_info('DEBUG------- 技能系数: {:.4f}, 会心伤害: {:.4f}'.format(伤害系数, 会心伤害))
+
+    attack_damage = (武将伤害公式 * 伤害系数 * 兵力伤害公式 * (造成伤害提升 + 造成伤害降低) * (受到伤害提升 + 受到伤害降低) * (1 + 会心伤害))
+    return attack_damage
 
 
 

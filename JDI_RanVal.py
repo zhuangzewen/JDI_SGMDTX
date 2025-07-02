@@ -32,4 +32,8 @@ def 根据受击率列表随机一个敌方(hit_rate_list):
         if cumulative_sum >= random_value:
             return i
     return None
-    
+
+def 随机会心伤害(会心率: float, Crt=0.5) -> float:
+    if random.random() <= 会心率:
+        return Crt
+    return 0

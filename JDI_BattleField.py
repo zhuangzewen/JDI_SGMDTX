@@ -130,7 +130,7 @@ class BattleField():
                                                    initiator=skill.get_持有者(),
                                                    sourceType=SoulSourceType.武将战法,
                                                    skill=skill,
-                                                   effect_type=SoulEffectType.借刀_星罗棋布_双前排阵型)
+                                                   effect_type=SoulEffectType.星罗棋布_双前排阵型)
                                 murder_soul.deploy_initial()
                                 self.getSoulList().append(murder_soul)
                                 skill.get_Soul_list().append(murder_soul)
@@ -142,7 +142,7 @@ class BattleField():
                                                 initiator=skill.get_持有者(), 
                                                 sourceType=SoulSourceType.武将战法, 
                                                 skill=skill, 
-                                                effect_type=SoulEffectType.借刀_星罗棋布_三前排阵型)
+                                                effect_type=SoulEffectType.星罗棋布_三前排阵型)
                                 soul.deploy_initial()
                                 self.getSoulList().append(soul)
                                 skill.get_Soul_list().append(soul)
@@ -151,22 +151,33 @@ class BattleField():
                         soul_list = skill.get_Soul_list()
                         for soul in soul_list:
                             soul: Soul
-                            if soul.effect_type == SoulEffectType.借刀_星罗棋布_双前排阵型 and soul.target == actor:
+                            if soul.effect_type == SoulEffectType.星罗棋布_双前排阵型 and soul.target == actor:
                                 # 对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(heroName.value, skillName.value))
 
                                 # 发起攻击的武将
                                 atta_hero = soul.target
+                                attaHero_name = atta_hero.get_武将名称()
                                 attacked_heroes = 对敌方所有目标生效(skill, self)
+
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(attaHero_name.value, skillName.value))
 
                                 # 发起攻击次数
                                 attack_times = int_随机一到两个敌方()
                                 for i in range(attack_times):
                                     attacked: Hero = 从队列确定受击武将(attacked_heroes)
                                     attacked_heroes.remove(attacked)
-                                    Log().show_battle_info('        [{}]对 [{}] 发起攻击'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value))
                                     value = 计算伤害(self, atta_hero, attacked, DamageType.择优, SkillType.指挥, 伤害值= 1.6)
-                                    Log().show_battle_info('        [{}]对 [{}] 造成伤害 {:.2f}'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value, value))
+
+                                    # 创建一个伤害 SOUL
+                                    damage_soul = Soul(target=attacked,
+                                                       initiator=atta_hero,
+                                                       sourceType=SoulSourceType.武将战法,
+                                                       skill=skill,
+                                                       effect_type=SoulEffectType.损失兵力,
+                                                       effect_value=value,
+                                                       source_soul=soul)
+                                    damage_soul.deploy_initial()
+
                     elif status == ResponseStatus.回合结束后:
                         # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
                         pass

@@ -16,7 +16,8 @@ class Soul():
                  response_time: SoulResponseTime = SoulResponseTime.None_Response, 
                  duration: int = -1, 
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0):
+                 effect_value: float = 0,
+                 source_soul = None):
         self.target = target                # 目标
         self.initiator = initiator          # 发起者
         self.sourceType = sourceType        # 来源类型
@@ -25,6 +26,7 @@ class Soul():
         self.duration = duration            # 持续回合
         self.effect_type = effect_type      # 效果类型
         self.effect_value = effect_value    # 效果值
+        self.source_soul = source_soul      # 来源魂灵
 
     def deploy_initial(self):
 
@@ -115,8 +117,26 @@ class Soul():
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
             Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
 
-        elif self.effect_type == SoulEffectType.借刀_星罗棋布_双前排阵型:
+        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
             Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已施加'.format(heroName))
 
-        elif self.effect_type == SoulEffectType.借刀_星罗棋布_三前排阵型:
+        elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
             Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.损失兵力:
+
+            伤害来源武将: Hero = self.initiator
+            伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
+            伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
+            伤害来源Soul效果 = self.source_soul.effect_type.value if self.source_soul else '未知效果来源'
+            伤害数值 = int(self.effect_value)
+            剩余兵力 = int(self.target.get_兵力() - 伤害数值)
+
+            伤兵数值 = int(伤害数值 * 0.8)
+            亖兵数值 = int(伤害数值 - 伤兵数值)
+
+            setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
+            setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
+            setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
+
+            Log().show_battle_info('        [{}]由于的[{}]【{}】的[{}]效果,损失了{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))

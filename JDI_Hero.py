@@ -149,16 +149,12 @@ class Hero():
         return getattr(self, HeroInfoKey.奇谋几率.value)
     def get_造成伤害提升(self):
         return getattr(self, HeroInfoKey.造成伤害提升.value)
-    def get_造成伤害降低(self):
-        return getattr(self, HeroInfoKey.造成伤害降低.value)
     def get_对前排造成伤害提升(self):
         return getattr(self, HeroInfoKey.对前排造成伤害提升.value)
     def get_对后排造成伤害提升(self):
         return getattr(self, HeroInfoKey.对后排造成伤害提升.value)
     def get_受到伤害降低(self):
         return getattr(self, HeroInfoKey.受到伤害降低.value)
-    def get_受到伤害提升(self):
-        return getattr(self, HeroInfoKey.受到伤害提升.value)
     def get_受到谋略伤害降低(self):
         return getattr(self, HeroInfoKey.受到谋略伤害降低.value)
 
@@ -168,6 +164,11 @@ class Hero():
         return getattr(self, HeroInfoKey.兵力.value)
     def get_等级(self):
         return getattr(self, HeroInfoKey.等级.value)
+    
+    def get_伤兵(self):
+        return getattr(self, HeroInfoKey.伤兵.value)
+    def get_亖兵(self):
+        return getattr(self, HeroInfoKey.亖兵.value)
     
     def get_队伍名称(self):
         return getattr(self.get_武将信息(), HeroInfoKey.队伍名称.value)
@@ -277,6 +278,8 @@ class Hero():
         Log().show_debug_info('DEBUG------- real_xg: {} = {} + {} * ({} - 5) + {}'.format(real_xg, self.get_初始先攻(), self.get_先攻成长(), level, self.get_先攻加点()))
         setattr(self, HeroInfoKey.先攻.value, real_xg)
 
+
+
     # 初始化战斗数值
     def init_battle_values(self):
         setattr(self, HeroInfoKey.前排.value, True)
@@ -294,5 +297,7 @@ class Hero():
         setattr(self, HeroInfoKey.受到伤害降低.value, 0)
         setattr(self, HeroInfoKey.受到伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
+        setattr(self, HeroInfoKey.伤兵.value, 0)
+        setattr(self, HeroInfoKey.亖兵.value, 0)
 
         Log().show_debug_info('DEBUG------- 武将战斗数值初始化完成')

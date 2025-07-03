@@ -2,7 +2,7 @@
 from JDI_Log import Log
 from JDI_RanVal import *
 import math
-from JDI_Enum import DamageType, SkillType
+from JDI_Enum import DamageType, SkillType, WeaponType
 
 def msg_过滤掉被击溃的武将(heroes):
     from JDI_Hero import Hero
@@ -339,6 +339,44 @@ def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤�
 
     return attaValue
 
+def MSG_兵种增伤公式(攻击者, 防御者):
+    from JDI_Hero import Hero
+    攻击者: Hero
+    防御者: Hero
+
+    攻击方兵种: WeaponType = 攻击者.get_武将兵种()
+    防御方兵种: WeaponType = 防御者.get_武将兵种()
+
+    增伤系数 = 0
+
+    # 兵种克制关系为 盾克制弓，弓克制枪，枪克制骑，骑克制盾
+    if (攻击方兵种 == WeaponType.盾 and 防御方兵种 == WeaponType.弓) or \
+       (攻击方兵种 == WeaponType.弓 and 防御方兵种 == WeaponType.枪) or \
+       (攻击方兵种 == WeaponType.枪 and 防御方兵种 == WeaponType.骑) or \
+       (攻击方兵种 == WeaponType.骑 and 防御方兵种 == WeaponType.盾):
+        增伤系数 = 0.15
+
+    return 增伤系数
+
+def MSG_兵种减伤公式(攻击者, 防御者):
+    from JDI_Hero import Hero
+    攻击者: Hero
+    防御者: Hero
+
+    攻击方兵种: WeaponType = 攻击者.get_武将兵种()
+    防御方兵种: WeaponType = 防御者.get_武将兵种()
+
+    减伤系数 = 0
+
+    # 兵种克制关系为 盾克制弓，弓克制枪，枪克制骑，骑克制盾
+    if (防御方兵种 == WeaponType.盾 and 攻击方兵种 == WeaponType.弓) or \
+       (防御方兵种 == WeaponType.弓 and 攻击方兵种 == WeaponType.枪) or \
+       (防御方兵种 == WeaponType.枪 and 攻击方兵种 == WeaponType.骑) or \
+       (防御方兵种 == WeaponType.骑 and 攻击方兵种 == WeaponType.盾):
+        减伤系数 = -0.15
+
+    return 减伤系数
+
 def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType):
     from JDI_Hero import Hero
     攻击者: Hero
@@ -347,14 +385,25 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, �
     武将增减伤系数 = 1
 
     造成伤害提升 = 攻击者.get_造成伤害提升()
-    造成伤害降低 = 攻击者.get_造成伤害降低()
-    武将增减伤系数 *= (造成伤害提升 + 造成伤害降低)
-    Log().show_debug_info('DEBUG------- 造成伤害提升: {:.4f}, 造成伤害降低: {:.4f}, 武将增减伤系数: {:.4f}'.format(造成伤害提升, 造成伤害降低, 武将增减伤系数))
+    Log().show_debug_info('DEBUG------- 攻击者 {} 造成伤害提升: {:.4f}'.format(攻击者.get_武将名称(), 造成伤害提升))
+    兵种增伤系数 = MSG_兵种增伤公式(攻击者, 防御者)
+    if 兵种增伤系数 != 0:
+        造成伤害提升 += 兵种增伤系数
+        Log().show_debug_info('DEBUG-------- 兵种增伤系数: {:.4f}, 造成伤害提升: {:.4f}'.format(兵种增伤系数, 造成伤害提升))
+
+    武将增减伤系数 *= 造成伤害提升
+    Log().show_debug_info('DEBUG------- 造成伤害提升: {:.4f}, 武将增减伤系数: {:.4f}'.format(造成伤害提升, 武将增减伤系数))
 
     受到伤害降低 = 防御者.get_受到伤害降低()
-    受到伤害提升 = 防御者.get_受到伤害提升()
-    武将增减伤系数 *= (受到伤害提升 + 受到伤害降低)
-    Log().show_debug_info('DEBUG------- 受到伤害降低: {:.4f}, 受到伤害提升: {:.4f}, 武将增减伤系数: {:.4f}'.format(受到伤害降低, 受到伤害提升, 武将增减伤系数))
+    Log().show_debug_info('DEBUG------- 防御者 {} 受到伤害降低: {:.4f}'.format(防御者.get_武将名称(), 受到伤害降低))
+    兵种减伤系数 = MSG_兵种减伤公式(攻击者, 防御者)
+    if 兵种减伤系数 != 0:
+        实际兵种减伤 = (1 + 受到伤害降低) * 兵种减伤系数
+        受到伤害降低 += 实际兵种减伤
+        Log().show_debug_info('DEBUG-------- 兵种减伤系数: {:.4f}, 受到伤害降低: {:.4f}'.format(兵种减伤系数, 受到伤害降低))
+
+    武将增减伤系数 *= (1 + 受到伤害降低)
+    Log().show_debug_info('DEBUG------- 受到伤害降低: {:.4f}, 武将增减伤系数: {:.4f}'.format(受到伤害降低, 武将增减伤系数))
 
     if 防御者.get_前排状态() == True:
         对前排造成伤害提升 = 攻击者.get_对前排造成伤害提升()
@@ -401,7 +450,7 @@ def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, �
     Log().show_debug_info('DEBUG------- 计算伤害: {} 对 {} 造成伤害'.format(攻击者.get_武将名称(), 防御者.get_武将名称()))
     attack_damage = (武将伤害公式 * 伤害系数 * 兵力伤害公式 * 武将增减伤公式 * (1 + 暴击伤害) * (1 + 队伍造成伤害降低))
     Log().show_debug_info('DEBUG------- 武将伤害公式: {:.4f}, 伤害系数: {:.4f}, 兵力伤害公式: {:.4f}, 武将增减伤公式: {:.4f}, 暴击伤害: {:.4f}, 队伍造成伤害降低: {:.4f}'
-                          .format(武将伤害公式, 伤害系数, 兵力伤害公式, 武将增减伤公式, 暴击伤害, 队伍造成伤害降低))
+                          .format(武将伤害公式, 伤害系数, 兵力伤害公式, 武将增减伤公式, (1 + 暴击伤害), (1 + 队伍造成伤害降低)))
     Log().show_debug_info('DEBUG------- 最后结果: {:.4f}'.format(attack_damage))
     return attack_damage
 

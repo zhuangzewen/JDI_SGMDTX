@@ -269,6 +269,37 @@ def 武将行动队列(battleField):
     msg_重置武将行动状态()
     return order_list
 
+def 获取武将所在的队伍(battleField, hero):
+    from JDI_Team import Team
+    from JDI_Hero import Hero
+    from JDI_BattleField import BattleField
+
+    battleField: BattleField
+    hero: Hero
+
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        return team1
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        return team2
+
+def MSG_确定伤害类型(攻击者, 伤害类型):
+    from JDI_Enum import DamageType
+    from JDI_Hero import Hero
+
+    攻击者: Hero
+    确定伤害类型:DamageType = 伤害类型
+    if 确定伤害类型 == DamageType.择优:
+        wuli = 攻击者.get_武力()
+        zhiLi = 攻击者.get_智力()
+        if wuli >= zhiLi:
+            确定伤害类型 = DamageType.兵刃
+        else:
+            确定伤害类型 = DamageType.谋略
+
+    return 确定伤害类型
 
 def MSG_兵力伤害公式(兵力: int):
     value_health = 1 + 0.2 * math.log10(兵力 / 10000)
@@ -308,33 +339,76 @@ def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤�
 
     return attaValue
 
+def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType):
+    from JDI_Hero import Hero
+    攻击者: Hero
+    防御者: Hero
+
+    武将增减伤系数 = 1
+
+    造成伤害提升 = 攻击者.get_造成伤害提升()
+    if 防御者.get_前排状态() == True:
+        对前排造成伤害提升 = 攻击者.get_对前排造成伤害提升()
+        造成伤害提升 += (对前排造成伤害提升 - 1)
+    else:
+        对后排造成伤害提升 = 攻击者.get_对后排造成伤害提升()
+        造成伤害提升 += (对后排造成伤害提升 - 1)
+
+    造成伤害降低 = 攻击者.get_造成伤害降低()
+    受到伤害降低 = 防御者.get_受到伤害降低()
+    受到伤害提升 = 防御者.get_受到伤害提升()
+    武将增减伤系数 = (造成伤害提升 + 造成伤害降低) * (受到伤害提升 + 受到伤害降低)
+
+    if 伤害类型 == DamageType.谋略:
+        受到谋略伤害降低 = 防御者.get_受到谋略伤害降低()
+        武将增减伤系数 *= (1 + 受到谋略伤害降低)
+
+
+    对前排造成伤害提升 = 攻击者.get_对前排造成伤害提升()
+    对后排造成伤害提升 = 攻击者.get_对后排造成伤害提升()
+    
+    
+
+    
+
+    return 1
 
 # 伤害计算 这个方法可能会传入大量的参数
-def 计算伤害(攻击者, 防御者, 伤害类型: DamageType, 伤害值 = 1.0):
+def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, 伤害值 = 1.0):
 
+    from JDI_BattleField import BattleField
     from JDI_Hero import Hero
-    from JDI_Enum import HeroInfoKey
+
+    battleField: BattleField
 
     攻击者: Hero
     防御者: Hero
 
+    确定伤害类型 = MSG_确定伤害类型(攻击者, 伤害类型)
+
+    武将伤害公式 = MSG_武将伤害公式(攻击者, 防御者, 确定伤害类型, 伤害值)
+
     兵力伤害公式 = MSG_兵力伤害公式(攻击者.get_兵力())
-    武将伤害公式 = MSG_武将伤害公式(攻击者, 防御者, 伤害类型, 伤害值)
+
+    武将增减伤公式 = MSG_武将增减伤公式(攻击者, 防御者, 确定伤害类型)
+
     造成伤害提升 = 攻击者.get_造成伤害提升()
     造成伤害降低 = 攻击者.get_造成伤害降低()
     受到伤害降低 = 防御者.get_受到伤害降低()
     受到伤害提升 = 防御者.get_受到伤害提升()
+
+    队伍造成伤害降低 = 获取武将所在的队伍(battleField, 攻击者).造成伤害降低
+
 
     伤害系数 = 伤害值
     会心伤害 = 随机会心伤害(攻击者.get_会心几率())
 
 
     Log().show_debug_info('DEBUG------- 计算伤害: {} 对 {} 造成伤害'.format(攻击者.get_武将名称(), 防御者.get_武将名称()))
-    Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}, 武将伤害公式: {:.4f}, 造成伤害提升: {:.4f}, 造成伤害降低: {:.4f}, 受到伤害提升: {:.4f}, 受到伤害降低: {:.4f}'
-                          .format(兵力伤害公式, 武将伤害公式, 造成伤害提升, 造成伤害降低, 受到伤害提升, 受到伤害降低))
-    Log().show_debug_info('DEBUG------- 技能系数: {:.4f}, 会心伤害: {:.4f}'.format(伤害系数, 会心伤害))
-
-    attack_damage = (武将伤害公式 * 伤害系数 * 兵力伤害公式 * (造成伤害提升 + 造成伤害降低) * (受到伤害提升 + 受到伤害降低) * (1 + 会心伤害))
+    attack_damage = (武将伤害公式 * 伤害系数 * 兵力伤害公式 * (造成伤害提升 + 造成伤害降低) * (受到伤害提升 + 受到伤害降低) * (1 + 会心伤害) * (1 + 队伍造成伤害降低))
+    Log().show_debug_info('DEBUG------- 武将伤害公式: {:.4f}, 伤害系数: {:.4f}, 兵力伤害公式: {:.4f}, 造成伤害提升: {:.4f}, 造成伤害降低: {:.4f}, 受到伤害降低: {:.4f}, 受到伤害提升: {:.4f}, 会心伤害: {:.4f}, 队伍造成伤害降低: {:.4f}'
+                          .format(武将伤害公式, 伤害系数, 兵力伤害公式, 造成伤害提升, 造成伤害降低, 受到伤害提升, 受到伤害降低, 会心伤害, 队伍造成伤害降低))
+    Log().show_debug_info('DEBUG------- 最后结果: {:.4f}'.format(attack_damage))
     return attack_damage
 
 

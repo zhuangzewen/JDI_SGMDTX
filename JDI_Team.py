@@ -23,3 +23,4 @@ class Team():
         self.firstHero = firstHero
         self.secondHero = secondHero
         self.thirdHero = thirdHero
+        self.造成伤害降低 = 0

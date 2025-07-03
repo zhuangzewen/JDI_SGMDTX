@@ -165,7 +165,7 @@ class BattleField():
                                     attacked: Hero = 从队列确定受击武将(attacked_heroes)
                                     attacked_heroes.remove(attacked)
                                     Log().show_battle_info('        [{}]对 [{}] 发起攻击'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value))
-                                    value = 计算伤害(atta_hero, attacked, DamageType.择优, 伤害值= 1.6)
+                                    value = 计算伤害(self, atta_hero, attacked, DamageType.择优, 伤害值= 1.6)
                                     Log().show_battle_info('        [{}]对 [{}] 造成伤害 {:.2f}'.format(atta_hero.get_武将名称().value, attacked.get_武将名称().value, value))
                     elif status == ResponseStatus.回合结束后:
                         # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
@@ -241,16 +241,12 @@ class BattleField():
             # 当队伍的补给小于100时 队伍中存活的武将 造成的伤害降低10%
             if self.team1.teamInfo.supply < 100:
                 Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team1.teamInfo.teamName, self.team1.teamInfo.supply, 10))
-                for hero in self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero:
-                    soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=-0.1)
-                    soul.deploy_initial()
+                self.team1.造成伤害降低 -= 0.1
             else:
                 Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team1.teamInfo.teamName, self.team1.teamInfo.supply, 0))
             if self.team2.teamInfo.supply < 100:
                 Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team2.teamInfo.teamName, self.team2.teamInfo.supply, 10))
-                for hero in self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero:
-                    soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=-0.1)
-                    soul.deploy_initial()
+                self.team2.造成伤害降低 -= 0.1
             else:
                 Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team2.teamInfo.teamName, self.team2.teamInfo.supply, 0))
 

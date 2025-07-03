@@ -16,6 +16,7 @@ class TeamInfo():
 
         Log().show_debug_info('DEBUG------- 队伍信息初始化完成: {}'.format(self.teamName))
         Log().show_debug_info('DEBUG------- 队伍信息: {}'.format(self.__dict__))
+        Log().show_debug_info('DEBUG------- 队伍名称: {}'.format(teamName))
 
 class Team():
     def __init__(self, teamInfo: TeamInfo, firstHero: Hero, secondHero: Hero, thirdHero: Hero):

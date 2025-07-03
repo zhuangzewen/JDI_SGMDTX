@@ -14,7 +14,6 @@ class BattleField():
         self.team2 = None
         self.command_handle_respon = []
         self.soul_list = []
-        Log().show_debug_info('DEBUG------- 战场初始化完成')
 
     def getTeam1(self):
         return self.team1
@@ -254,7 +253,6 @@ class BattleField():
         for hero in self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero, \
                     self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero:
             hero: Hero
-            Log().show_debug_info('DEBUG------- 武将初始化成功')
             hero.init_base_values()
             hero.init_battle_values()
  

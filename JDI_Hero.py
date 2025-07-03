@@ -115,7 +115,6 @@ class HeroInfo():
         
     def set_team_name(self, teamName):
         setattr(self, HeroInfoKey.队伍名称.value, teamName)
-        Log().show_debug_info('DEBUG----------- 武将INFO -- 队伍名称: {}'.format(teamName))
 
 
     def set_skills(self, firstSkill, firstSkill_RankUp, secondSkill, secondSkill_RankUp):

@@ -14,6 +14,8 @@ class ResponseStatus(Enum):
     回合行动时 = '回合行动时'
     回合结束时 = '回合结束时'
     回合结束后 = '回合结束后'
+    
+    武将溃败 = '武将溃败'
 
 class SkillType(Enum):
     指挥 = '指挥'
@@ -102,7 +104,7 @@ class HeroInfoKey(Enum):
     被击溃状态 = '被击溃状态'
     兵力 = '兵力'
     等级 = '等级'
-    
+
     伤兵 = '伤兵'
     亖兵 = '亖兵'
 

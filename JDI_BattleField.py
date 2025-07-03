@@ -28,6 +28,51 @@ class BattleField():
     def getSoulList(self):
         return self.soul_list
 
+    # 判断是否决出胜负
+    def isOver(self):
+
+        team1_heroes = [self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero]
+        team2_heroes = [self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero]
+
+        team1_all_defeated = all(hero.get_被击溃状态() for hero in team1_heroes)
+
+        team2_all_defeated = all(hero.get_被击溃状态() for hero in team2_heroes)
+
+        
+        # 0 未结束 1 Team1 胜 2 Team2 胜
+        if team1_all_defeated:
+            return 2
+        elif team2_all_defeated:
+            return 1
+        return 0
+
+    # 判别未全部阵亡状态下的胜负
+    def isOverWithoutDefeated(self):
+        team1_heroes = [self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero]
+        team2_heroes = [self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero]
+
+        # 首先对比未溃败的数量
+        team1_alive_count = sum(1 for hero in team1_heroes if not hero.get_被击溃状态())
+        Log().show_debug_info('DEBUG------- 当前队伍1存活武将数量: {}'.format(team1_alive_count))
+        team2_alive_count = sum(1 for hero in team2_heroes if not hero.get_被击溃状态())
+        Log().show_debug_info('DEBUG------- 当前队伍2存活武将数量: {}'.format(team2_alive_count))
+        if team1_alive_count > team2_alive_count:
+            return True
+        elif team1_alive_count < team2_alive_count:
+            return False
+
+        # 如果数量相同，则对比兵力综合
+        team1_total_hp = sum(hero.get_兵力() for hero in team1_heroes if not hero.get_被击溃状态())
+        Log().show_debug_info('DEBUG------- 当前队伍1兵力总和: {}'.format(team1_total_hp))
+        team2_total_hp = sum(hero.get_兵力() for hero in team2_heroes if not hero.get_被击溃状态())
+        Log().show_debug_info('DEBUG------- 当前队伍2兵力总和: {}'.format(team2_total_hp))
+        if team1_total_hp > team2_total_hp:
+            return True
+        elif team1_total_hp < team2_total_hp:
+            return False
+        else:
+            return random.choice([True, False])  # 如果兵力也相同，则随机返回一个胜利方
+
     # 请善待这个方法
     def respond(self, status: ResponseStatus, actor: Hero = None):
 
@@ -37,11 +82,19 @@ class BattleField():
 
         # 检索所有战法，并根据战法响应
         for skill in self.getCommandHandleRespon():
+            if self.isOver() != 0:
+                Log().show_debug_info('DEBUG------- 当前战斗已经结束 无法响应战法')
+                return
+
             skill: Skill
             respon_list = skill.get_战法响应时机列表()
             Log().show_debug_info('DEBUG------- 当前检索战法响应时机为: {}'.format(respon_list))
 
             if status in respon_list:
+                if self.isOver() != 0:
+                    Log().show_debug_info('DEBUG------- 当前战斗已经结束 无法响应战法')
+                    return
+
                 hero: Hero = skill.get_持有者()
                 heroName = hero.get_武将名称()
                 Log().show_debug_info('DEBUG------- 当前检索成功 武将: {}'.format(heroName))
@@ -164,6 +217,11 @@ class BattleField():
                                 # 发起攻击次数
                                 attack_times = int_随机一到两个敌方()
                                 for i in range(attack_times):
+
+                                    if len(attacked_heroes) == 0:
+                                        Log().show_battle_info('        [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
+                                        break
+
                                     attacked: Hero = 从队列确定受击武将(attacked_heroes)
                                     attacked_heroes.remove(attacked)
                                     value = 计算伤害(self, atta_hero, attacked, DamageType.择优, SkillType.指挥, 伤害值= 1.6)
@@ -175,11 +233,13 @@ class BattleField():
                                                        skill=skill,
                                                        effect_type=SoulEffectType.损失兵力,
                                                        effect_value=value,
-                                                       source_soul=soul)
+                                                       source_soul=soul,
+                                                       battleField=self)
                                     damage_soul.deploy_initial()
-
                     elif status == ResponseStatus.回合结束后:
                         # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
+                        pass
+                    elif status == ResponseStatus.武将溃败:                            
                         pass
 
     def 重置武将状态(self):
@@ -197,7 +257,9 @@ class BattleField():
         for hero in order_list_hero:
             hero: Hero
             hero_name = hero.get_武将名称().value
-            Log().show_debug_info('DEBUG------- 填充布阵阶段战法 -- 当前武将队列【{}】'.format(hero_name))
+            # 输出 队伍名 + 武将名 的排列
+            teamName = hero.get_队伍名称()
+            Log().show_debug_info('DEBUG------- 填充战法 -- 顺序排列【{}】所在队伍【{}】'.format(hero_name, teamName))
 
         for hero in order_list_hero:
 
@@ -560,7 +622,7 @@ class BattleField():
 
     def fight(self):
 
-        for _ in range(1):
+        for _ in range(8):
             Log().show_battle_info('\n[第 {} 局]'.format(_ + 1))
             self.command_handle_respon = []
             self.soul_list = []
@@ -574,7 +636,9 @@ class BattleField():
             self.respond(ResponseStatus.战法布阵开始)
 
             # 八个回合
-            for i in range(1):
+            for i in range(8):
+                
+                Log().show_battle_info('\n[第 {} 回合]'.format(i + 1))
 
                 # 行动顺序判断
                 order_list_hero = 武将行动队列(self)
@@ -591,12 +655,18 @@ class BattleField():
                     hero_name = hero.get_武将名称().value
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
                     self.respond(ResponseStatus.回合行动时, actor=hero)
+                    if self.isOver() != 0:
+                        if self.isOver() == 1:
+                            Log().show_battle_info('  [{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            return True
+                        elif self.isOver() == 2:
+                            Log().show_battle_info('  [{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            return False
 
                 self.respond(ResponseStatus.回合结束时)
 
                 self.respond(ResponseStatus.回合结束后)
 
+        return self.isOverWithoutDefeated()
 
-
-        return True
     

@@ -186,6 +186,8 @@ def 从队列确定受击武将(heroList):
         hit_rate_list.append(hit_rate)
 
     randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
+
+    Log().show_debug_info('DEBUG------- 受击队列武将: {}'.format([hero.get_武将名称().value for hero in heroList]))
     return heroList[randomInt]
 
 def 对敌方所有目标生效(skill, battleField):
@@ -302,6 +304,7 @@ def MSG_确定伤害类型(攻击者, 伤害类型):
     return 确定伤害类型
 
 def MSG_兵力伤害公式(兵力: int):
+    Log().show_debug_info('DEBUG------- 兵力伤害公式: 兵力 = {}'.format(兵力))
     value_health = 1 + 0.2 * math.log10(兵力 / 10000)
     Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}'.format(value_health))
     return value_health

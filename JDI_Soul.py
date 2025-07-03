@@ -17,7 +17,8 @@ class Soul():
                  duration: int = -1, 
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
                  effect_value: float = 0,
-                 source_soul = None):
+                 source_soul = None,
+                 battleField = None):
         self.target = target                # 目标
         self.initiator = initiator          # 发起者
         self.sourceType = sourceType        # 来源类型
@@ -27,6 +28,10 @@ class Soul():
         self.effect_type = effect_type      # 效果类型
         self.effect_value = effect_value    # 效果值
         self.source_soul = source_soul      # 来源魂灵
+
+        if battleField is not None:
+            from JDI_BattleField import BattleField
+            self.battleField = battleField
 
     def deploy_initial(self):
 
@@ -138,5 +143,11 @@ class Soul():
             setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
             setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
             setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
-
             Log().show_battle_info('        [{}]由于的[{}]【{}】的[{}]效果,损失了{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
+
+            if 剩余兵力 <= 0:
+
+                setattr(self.target, HeroInfoKey.被击溃状态.value, True)
+                Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
+                from JDI_Enum import ResponseStatus
+                self.battleField.respond(ResponseStatus.武将溃败, self.target)

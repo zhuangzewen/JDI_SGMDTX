@@ -2,7 +2,6 @@
 import random
 
 def 获取对比行动优先级(hero1_xg, hero2_xg):
-    # PDS同学的公式
 
     diff = abs(hero1_xg - hero2_xg)
     if diff < 30:
@@ -33,7 +32,18 @@ def 根据受击率列表随机一个敌方(hit_rate_list):
             return i
     return None
 
-def 随机会心伤害(会心率: float, Crt=0.5) -> float:
-    if random.random() <= 会心率:
-        return Crt
+def 随机暴击伤害(攻击者, 伤害类型) -> float:
+    from JDI_Log import Log
+    from JDI_Hero import Hero
+    from JDI_Enum import DamageType
+
+    攻击者: Hero = 攻击者
+    random_value = random.random()
+    Log().show_debug_info('DEBUG------- 随机暴击率: {}'.format(random_value))
+    if 伤害类型 == DamageType.谋略:
+        if random_value <= 攻击者.get_奇谋几率():
+            return 0.5
+    elif 伤害类型 == DamageType.兵刃:
+        if random_value <= 攻击者.get_会心几率():
+            return 0.5
     return 0

@@ -28,7 +28,6 @@ class BattleField():
     def getSoulList(self):
         return self.soul_list
 
-    # 判断是否决出胜负
     def isOver(self):
 
         team1_heroes = [self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero]
@@ -46,7 +45,6 @@ class BattleField():
             return 1
         return 0
 
-    # 判别未全部阵亡状态下的胜负
     def isOverWithoutDefeated(self):
         team1_heroes = [self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero]
         team2_heroes = [self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero]
@@ -76,9 +74,19 @@ class BattleField():
     # 请善待这个方法
     def respond(self, status: ResponseStatus, actor: Hero = None):
 
-        # print  当前响应时机为:
-        # DEBUG----------- 当前响应时机为
         Log().show_debug_info('DEBUG------- 当前响应时机为: {}'.format(status))
+
+        if status == ResponseStatus.武将溃败:         
+            for soul in self.getSoulList():
+                soul: Soul
+                if soul.initiator != actor:
+                    continue
+                soul.restore_initial()
+            for skill in self.getCommandHandleRespon():
+                skill: Skill
+                if skill.get_持有者() == actor:
+                    self.getCommandHandleRespon().remove(skill)
+            return
 
         # 检索所有战法，并根据战法响应
         for skill in self.getCommandHandleRespon():
@@ -121,7 +129,7 @@ class BattleField():
 
                                 Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, skillName.value))
                                 strengRatio = skill.星罗棋布_阵型强化系数() * soul.effect_value
-                                newSoul = Soul(target=soul.target, sourceType=SoulSourceType.星罗棋布_阵型强化, skill=skill, effect_type=soul.effect_type, effect_value=strengRatio)
+                                newSoul = Soul(target=soul.target, initiator=skill.get_持有者(), sourceType=SoulSourceType.星罗棋布_阵型强化, skill=skill, effect_type=soul.effect_type, effect_value=strengRatio)
                                 newSoul.deploy_initial()
                                 self.getSoulList().append(newSoul)
                         星罗棋布_阵型强化效果(self)
@@ -239,8 +247,7 @@ class BattleField():
                     elif status == ResponseStatus.回合结束后:
                         # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
                         pass
-                    elif status == ResponseStatus.武将溃败:                            
-                        pass
+                    
 
     def 重置武将状态(self):
 
@@ -305,7 +312,6 @@ class BattleField():
                         self.getCommandHandleRespon().append(skill)
                         skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
                         Log().show_debug_info('DEBUG------- 填充主动战法 -- 成功填充主动战法【{}】'.format(skill_name))
-
 
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')

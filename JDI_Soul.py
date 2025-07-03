@@ -35,9 +35,10 @@ class Soul():
 
     def deploy_initial(self):
 
-        heroInfo = getattr(self.target, HeroInfoKey.武将信息.value)
-        heroName = getattr(heroInfo, HeroInfoKey.武将名称.value).value
-        
+        self.target: Hero
+        heroInfo = self.target.get_武将信息()
+        heroName = self.target.get_武将名称().value
+
         if self.effect_value > 0:
             show_upEffect_name = '提升'
         else:
@@ -101,7 +102,7 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.闪避:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
-            real_value = (1 - cur_value) + self.effect_value
+            real_value = (1 - cur_value) * self.effect_value
             cur_value += real_value
             setattr(self.target, HeroInfoKey.闪避几率.value, cur_value)
             Log().show_battle_info('        [{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100, cur_value * 100))
@@ -143,7 +144,7 @@ class Soul():
             setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
             setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
             setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
-            Log().show_battle_info('        [{}]由于的[{}]【{}】的[{}]效果,损失了{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
+            Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
 
             if 剩余兵力 <= 0:
 
@@ -151,3 +152,110 @@ class Soul():
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
                 from JDI_Enum import ResponseStatus
                 self.battleField.respond(ResponseStatus.武将溃败, self.target)
+
+
+    # 还原效果并销毁
+    # 方法与上面的部署正相反
+    def restore_initial(self):
+
+        self.target: Hero
+        if self.target.get_被击溃状态():
+            return
+
+        heroInfo = getattr(self.target, HeroInfoKey.武将信息.value)
+        heroName = getattr(heroInfo, HeroInfoKey.武将名称.value).value
+        
+        if self.effect_value > 0:
+            show_upEffect_name = '降低'
+        else:
+            show_upEffect_name = '提升'
+
+        if self.effect_type == SoulEffectType.造成伤害:
+            cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.造成伤害提升.value, cur_value)
+            Log().show_battle_info('        [{}]的【造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.对前排造成伤害:
+            cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.对前排造成伤害提升.value, cur_value)
+            Log().show_battle_info('        [{}]的【对前排造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到伤害:
+            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
+            ori_value = (cur_value - self.effect_value) / (self.effect_value + 1)
+            real_value = cur_value - ori_value
+            setattr(self.target, HeroInfoKey.受到伤害降低.value, ori_value)
+            Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  ori_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到谋略伤害:
+            cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害降低.value)
+            ori_value = (cur_value - self.effect_value) / (self.effect_value + 1)
+            real_value = cur_value - ori_value
+            setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, ori_value)
+            Log().show_battle_info('        [{}]的【受到谋略伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  ori_value * 100))
+
+        elif self.effect_type == SoulEffectType.武力:
+            cur_value = getattr(self.target, HeroInfoKey.武力.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.武力.value, cur_value)
+            Log().show_battle_info('        [{}]的【武力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+
+        elif self.effect_type == SoulEffectType.智力:
+            cur_value = getattr(self.target, HeroInfoKey.智力.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.智力.value, cur_value)
+            Log().show_battle_info('        [{}]的【智力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+
+        elif self.effect_type == SoulEffectType.统帅:
+            cur_value = getattr(self.target, HeroInfoKey.统帅.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.统帅.value, cur_value)
+            Log().show_battle_info('        [{}]的【统帅】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+
+        elif self.effect_type == SoulEffectType.先攻:
+            cur_value = getattr(self.target, HeroInfoKey.先攻.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.先攻.value, cur_value)
+            Log().show_battle_info('        [{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+
+        elif self.effect_type == SoulEffectType.连击:
+            cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
+            Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.闪避:
+            cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
+            ori_value = (cur_value - self.effect_value) / (1 - self.effect_value)
+            real_value = cur_value - ori_value
+            setattr(self.target, HeroInfoKey.闪避几率.value, ori_value)
+            Log().show_battle_info('        [{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100, ori_value * 100))
+
+        elif self.effect_type == SoulEffectType.会心:
+            cur_value = getattr(self.target, HeroInfoKey.会心几率.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.会心几率.value, cur_value)
+            Log().show_battle_info('        [{}]的【会心几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.奇谋:
+            cur_value = getattr(self.target, HeroInfoKey.奇谋几率.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.奇谋几率.value, cur_value)
+            Log().show_battle_info('        [{}]的【奇谋几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.固定受击率:
+            setattr(self.target, HeroInfoKey.固定受击率.value, True)
+            Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
+
+        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
+            Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已失效'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
+            Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已失效'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.损失兵力:
+            # 兵噶不恢复
+            pass
+            

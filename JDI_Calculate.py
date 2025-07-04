@@ -308,9 +308,56 @@ def MSG_确定伤害类型(攻击者, 伤害类型):
 
     return 确定伤害类型
 
+def MSG_智力影响治疗公式(智力: float):
+    # 套用伦同学的 智力影响治疗公式
+    Log().show_debug_info('DEBUG------- 智力影响治疗公式: 智力 = {}'.format(智力))
+    value_health = 0.00257413709518457 * (智力 ** 2) + 0.0558280362334805 * 智力 + 1177.637581883191
+    Log().show_debug_info('DEBUG------- 智力影响治疗公式: {:.4f}'.format(value_health))
+    return value_health
+
+def MSG_兵力治疗公式(兵力: int):
+    # 套用伦同学的 兵力影响治疗公式
+    Log().show_debug_info('DEBUG------- 兵力治疗公式: 兵力 = {}'.format(兵力))
+    value_health =  0.9300942060815 + 0.0055332101979583 * (兵力 ** 0.274780014559044)
+    Log().show_debug_info('DEBUG------- 兵力治疗公式: {:.4f}'.format(value_health))
+    return value_health
+
 def MSG_兵力伤害公式(兵力: int):
     Log().show_debug_info('DEBUG------- 兵力伤害公式: 兵力 = {}'.format(兵力))
-    value_health = 1 + 0.2 * math.log10(兵力 / 10000)
+
+    troop_count = 兵力
+    if troop_count >= 9000:
+        reduction = 0.0
+    elif 5000 <= troop_count < 9000:
+        reduction = (9000 - troop_count) / 20000
+    elif 3700 <= troop_count < 5000:
+        base_reduction = 0.2  # 5000 兵力时的削减比例
+        slope = (0.3 - 0.2) / (3700 - 5000)
+        reduction = base_reduction + slope * (troop_count - 5000)
+    elif 2500 <= troop_count < 3700:
+        base_reduction = 0.3  # 3700 兵力时的削减比例
+        slope = (0.4 - 0.3) / (2500 - 3700)
+        reduction = base_reduction + slope * (troop_count - 3700)
+    elif 1600 <= troop_count < 2500:
+        base_reduction = 0.4  # 2500 兵力时的削减比例
+        slope = (0.5 - 0.4) / (1600 - 2500)
+        reduction = base_reduction + slope * (troop_count - 2500)
+    elif 700 <= troop_count < 1600:
+        base_reduction = 0.5  # 1600 兵力时的削减比例
+        slope = (0.6 - 0.5) / (700 - 1600)
+        reduction = base_reduction + slope * (troop_count - 1600)
+    elif 300 <= troop_count < 700:
+        base_reduction = 0.6  # 700 兵力时的削减比例
+        slope = (0.7 - 0.6) / (300 - 700)
+        reduction = base_reduction + slope * (troop_count - 700)
+    else:  # 1 <= troop_count < 300
+        base_reduction = 0.7  # 300 兵力时的削减比例
+        slope = (0.8 - 0.7) / (1 - 300)
+        reduction = base_reduction + slope * (troop_count - 300)
+    
+    # 返回实际伤害比值（1 - 削减比例）
+    value_health = 1.0 - reduction
+    
     Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}'.format(value_health))
     return value_health
 
@@ -428,6 +475,25 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, �
         Log().show_debug_info('DEBUG------- 受到谋略伤害降低: {:.4f}, 武将增减伤系数: {:.4f}'.format(受到谋略伤害降低, 武将增减伤系数))
 
     return 武将增减伤系数
+
+def 治疗计算(battleField, 施救者, 受助者, 治疗率 = 1.0):
+    from JDI_BattleField import BattleField
+    from JDI_Hero import Hero
+
+    battleField: BattleField
+    施救者: Hero
+    受助者: Hero
+
+    施救者兵力 = 施救者.get_兵力()
+    施救者智力 = 施救者.get_智力()
+
+    其他因素 = 1
+
+    Y = MSG_兵力治疗公式(施救者兵力) * 治疗率 * MSG_智力影响治疗公式(施救者智力) * 其他因素
+
+    return Y
+
+
 
 # 伤害计算 这个方法可能会传入大量的参数
 def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType, 伤害值 = 1.0):

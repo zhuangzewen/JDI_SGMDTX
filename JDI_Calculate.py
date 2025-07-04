@@ -170,8 +170,12 @@ def 实际受击率(hero):
     
     # 受击率 = -7.5e-9 * 兵力^2 + 0.0001625 * 兵力 - 0.275
     if hero.get_受击率() == 0.6:
-        return -7.5e-9 * hero.get_兵力() ** 2 + 0.0001625 * hero.get_兵力() - 0.275
-    
+        rate = -7.5e-9 * hero.get_兵力() ** 2 + 0.0001625 * hero.get_兵力() - 0.275
+        if rate < 0.34:
+            rate = 0.34
+        Log().show_debug_info('DEBUG------- 单前排受击率计算: 兵力 = {}, 受击率 = {}'.format(hero.get_兵力(), rate))
+        return rate
+
     return 0
 
 def 从队列确定受击武将(heroList):
@@ -188,6 +192,7 @@ def 从队列确定受击武将(heroList):
     randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
 
     Log().show_debug_info('DEBUG------- 受击队列武将: {}'.format([hero.get_武将名称().value for hero in heroList]))
+    Log().show_debug_info('DEBUG------- 随机受击武将索引: {}'.format(randomInt))
     return heroList[randomInt]
 
 def 对敌方所有目标生效(skill, battleField):

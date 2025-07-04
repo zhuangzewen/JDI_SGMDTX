@@ -1,6 +1,6 @@
 
 from JDI_Enum import SkillName, HeroName, Faction, WeaponType, HeroInfoKey
-from JDI_Skill import Skill
+from JDI_Skill import Skill, get_skill
 from JDI_Log import Log
 
 class HeroInfo():
@@ -245,15 +245,15 @@ class Hero():
     def load_skill(self):
         hero_info: HeroInfo = getattr(self, HeroInfoKey.武将信息.value)
 
-        D_skill = Skill(self, getattr(hero_info, HeroInfoKey.自带战法.value))
+        D_skill = get_skill(getattr(hero_info, HeroInfoKey.自带战法.value), self)
         D_skill.设置战法升阶(getattr(hero_info, HeroInfoKey.武将升阶.value))
         setattr(self, HeroInfoKey.D_SkillClass.value, D_skill)
 
-        F_skill = Skill(self, getattr(hero_info, HeroInfoKey.第一战法.value))
+        F_skill = get_skill(getattr(hero_info, HeroInfoKey.第一战法.value), self)
         F_skill.设置战法升阶(getattr(hero_info, HeroInfoKey.第一战法升阶.value))
         setattr(self, HeroInfoKey.F_SkillClass.value, F_skill)
 
-        S_skill = Skill(self, getattr(hero_info, HeroInfoKey.第二战法.value))
+        S_skill = get_skill(getattr(hero_info, HeroInfoKey.第二战法.value), self)
         S_skill.设置战法升阶(getattr(hero_info, HeroInfoKey.第二战法升阶.value))
         setattr(self, HeroInfoKey.S_SkillClass.value, S_skill)
 

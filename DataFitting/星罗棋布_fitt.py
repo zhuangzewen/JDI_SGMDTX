@@ -16,13 +16,12 @@
 # 棋局增益:
 # 不同类型获得的棋局增益:
 # 单前排阵型: 我军前排受到伤害降低12%(受智力影响),受击率固定为85%
-# 双前排阵型: 我军统帅最低单体对前排造成伤害提升20%,每回合结束时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
+# 双前排阵型: 我军统帅最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
 from JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
 from JDI_Enum import ResponseStatus
-from JDI_Enum import SkillInfoKey
 
 class 星罗棋布_info(SkillInfo):
     def __init__(self):
@@ -31,7 +30,7 @@ class 星罗棋布_info(SkillInfo):
         self.战法特性 = SkillFeature.辅助
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始, ResponseStatus.回合行动时, ResponseStatus.回合结束后]
+        self.战法响应时机列表 = [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始, ResponseStatus.每回合行动时, ResponseStatus.每回合结束后]
 
 class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):
@@ -181,19 +180,35 @@ class 星罗棋布_skill(Skill):
 
         return 0.2
     
-    def 星罗棋布_三前排_治疗量造成的伤害提升系数(self):
-        # 初始值为 0%
-        # + 364 + 150 + 110 = 624
-        # 625
-        # + 230 + 69 + 110 + 364 + 364
-        # 753
-        # + 69 + 229 + 230 + 363 + 109 + 363
-        # 828
-        # + 229 + 69 + 229 + 363 + 363 + 109 
-        # 927
-        # + 229 + 229 + 69 + 109 + 109 + 362
-        # GA
+    def 星罗棋布_三前排_治疗量造成的伤害提升系数(self, 治疗总量):
+        def 拟合过程数据统计():
 
+            # 累计 981
+            # 伤害 487
 
+            # 累计 3829
+            # 伤害 680
 
-        return 0.2
+            # 累计 5915
+            # 伤害 741
+            
+            # 累计 10571
+            # 伤害 857
+
+            # 累计 13006
+            # 伤害 893
+
+            # 累计 14813
+            # 伤害 931
+
+            # 累计 15996
+            # 伤害 926
+
+            # 累计 17770
+            # 伤害 952
+
+            # 第八回合个兵力依然有 9660 ，默认不受兵力影响
+            pass
+
+        y = 治疗总量 / 10000 * 0.6 + 0.6
+        return y

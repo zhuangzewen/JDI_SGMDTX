@@ -207,7 +207,7 @@ class BattleField():
                                 self.getSoulList().append(soul)
                                 skill.get_Soul_list().append(soul)
                         星罗棋布_额外效果()
-                    elif status == ResponseStatus.回合行动时:
+                    elif status == ResponseStatus.每回合行动时:
                         soul_list = skill.get_Soul_list()
                         for soul in soul_list:
                             soul: Soul
@@ -243,10 +243,48 @@ class BattleField():
                                                        source_soul=soul,
                                                        battleField=self)
                                     damage_soul.deploy_initial()
-                    elif status == ResponseStatus.回合结束后:
-                        # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
-                        pass
-                    
+                    elif status == ResponseStatus.每回合结束后:
+                        soul_list = skill.get_Soul_list()
+                        for soul in soul_list:
+                            soul: Soul
+                            if soul.effect_type == SoulEffectType.星罗棋布_三前排阵型:
+                                # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
+
+                                # 发起攻击的武将
+                                atta_hero = soul.target
+                                attaHero_name = atta_hero.get_武将名称()
+                                attacked_heroes = 对敌方所有目标生效(skill, self)
+
+                                # 发起攻击次数
+                                attack_times = len(attacked_heroes)
+                                for i in range(attack_times):
+
+                                    if len(attacked_heroes) == 0:
+                                        Log().show_battle_info('        [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
+                                        break
+
+                                    attacked: Hero = 从队列确定受击武将(attacked_heroes)
+                                    attacked_heroes.remove(attacked)
+
+                                    ourTeam = 获取武将所在的队伍(self, skill.get_持有者())
+                                    ourTeam_治疗总量 = ourTeam.全队累计治疗量
+
+                                    from DataFitting.星罗棋布_fitt import 星罗棋布_skill
+                                    skill: 星罗棋布_skill
+
+                                    受治疗影响伤害系数 = skill.星罗棋布_三前排_治疗量造成的伤害提升系数(ourTeam_治疗总量)
+                                    value = 计算伤害(self, atta_hero, attacked, DamageType.谋略, SkillType.指挥, 伤害值= 受治疗影响伤害系数)
+
+                                    # 创建一个伤害 SOUL
+                                    damage_soul = Soul(target=attacked,
+                                                       initiator=atta_hero,
+                                                       sourceType=SoulSourceType.武将战法,
+                                                       skill=skill,
+                                                       effect_type=SoulEffectType.损失兵力,
+                                                       effect_value=value,
+                                                       source_soul=soul,
+                                                       battleField=self)
+                                    damage_soul.deploy_initial()
 
     def 重置武将状态(self):
 
@@ -658,7 +696,7 @@ class BattleField():
                     hero: Hero
                     hero_name = hero.get_武将名称().value
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
-                    self.respond(ResponseStatus.回合行动时, actor=hero)
+                    self.respond(ResponseStatus.每回合行动时, actor=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
                             Log().show_battle_info('  [{}]战斗结束'.format(self.team1.teamInfo.teamName))
@@ -666,10 +704,10 @@ class BattleField():
                         elif self.isOver() == 2:
                             Log().show_battle_info('  [{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
-
+                    Log().show_battle_info('  [{}]行动结束'.format(hero.get_武将名称().value))
+                    
                 self.respond(ResponseStatus.回合结束时)
-
-                self.respond(ResponseStatus.回合结束后)
+                self.respond(ResponseStatus.每回合结束后)
 
         return self.isOverWithoutDefeated()
 

@@ -25,3 +25,4 @@ class Team():
         self.secondHero = secondHero
         self.thirdHero = thirdHero
         self.造成伤害降低 = 0
+        self.全队累计治疗量 = 0

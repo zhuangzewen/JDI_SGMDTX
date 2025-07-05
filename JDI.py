@@ -60,7 +60,7 @@ def battle():
     team2_hero3.set_skills(None, 0, None, 0)
 
     team1 = TeamInfo(Formation.雁型阵, team1_hero1, team1_hero2, team1_hero3, '诸葛队')
-    team2 = TeamInfo(Formation.偃月阵, team2_hero1, team2_hero2, team2_hero3, '夫人队')
+    team2 = TeamInfo(Formation.一字阵, team2_hero1, team2_hero2, team2_hero3, '夫人队')
 
     Log().show_system_info('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))
 

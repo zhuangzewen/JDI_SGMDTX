@@ -323,43 +323,45 @@ def MSG_兵力治疗公式(兵力: int):
     return value_health
 
 def MSG_兵力伤害公式(兵力: int):
-    Log().show_debug_info('DEBUG------- 兵力伤害公式: 兵力 = {}'.format(兵力))
-
     troop_count = 兵力
-    if troop_count >= 9000:
-        reduction = 0.0
-    elif 5000 <= troop_count < 9000:
-        reduction = (9000 - troop_count) / 20000
-    elif 3700 <= troop_count < 5000:
-        base_reduction = 0.2  # 5000 兵力时的削减比例
-        slope = (0.3 - 0.2) / (3700 - 5000)
-        reduction = base_reduction + slope * (troop_count - 5000)
-    elif 2500 <= troop_count < 3700:
-        base_reduction = 0.3  # 3700 兵力时的削减比例
-        slope = (0.4 - 0.3) / (2500 - 3700)
-        reduction = base_reduction + slope * (troop_count - 3700)
-    elif 1600 <= troop_count < 2500:
-        base_reduction = 0.4  # 2500 兵力时的削减比例
-        slope = (0.5 - 0.4) / (1600 - 2500)
-        reduction = base_reduction + slope * (troop_count - 2500)
-    elif 700 <= troop_count < 1600:
-        base_reduction = 0.5  # 1600 兵力时的削减比例
-        slope = (0.6 - 0.5) / (700 - 1600)
-        reduction = base_reduction + slope * (troop_count - 1600)
-    elif 300 <= troop_count < 700:
-        base_reduction = 0.6  # 700 兵力时的削减比例
-        slope = (0.7 - 0.6) / (300 - 700)
-        reduction = base_reduction + slope * (troop_count - 700)
-    else:  # 1 <= troop_count < 300
-        base_reduction = 0.7  # 300 兵力时的削减比例
-        slope = (0.8 - 0.7) / (1 - 300)
-        reduction = base_reduction + slope * (troop_count - 300)
+
+    # 处理兵力为0的特殊情况
+    if troop_count <= 0:
+        return 0.0
     
-    # 返回实际伤害比值（1 - 削减比例）
-    value_health = 1.0 - reduction
+    # 定义关键点列表 [(兵力阈值, 衰减比例), ...]
+    key_points = [
+        (9000, 0.0),
+        (5000, 0.2),
+        (3700, 0.3),
+        (2500, 0.4),
+        (1600, 0.5),
+        (700, 0.6),
+        (300, 0.7),
+        (1, 0.8)
+    ]
     
-    Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}'.format(value_health))
-    return value_health
+    # 找到对应的区间
+    for i, (threshold, reduction) in enumerate(key_points):
+        if troop_count >= threshold:
+            # 如果是最高区间，直接返回对应的衰减比例
+            if i == 0:
+                return 1.0 - reduction
+            
+            # 计算当前区间的斜率和基础衰减
+            next_threshold, next_reduction = key_points[i-1]
+            slope = (next_reduction - reduction) / (next_threshold - threshold)
+            current_reduction = reduction + slope * (troop_count - threshold)
+            
+            # 返回实际伤害比值（1 - 削减比例）
+            value_health = 1.0 - current_reduction
+            
+            # 记录调试信息
+            Log().show_debug_info(f'DEBUG------- 兵力伤害公式: {value_health:.4f}')
+            return value_health
+    
+    # 默认返回值（理论上不会执行到这里）
+    return 1.0
 
 def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤害值):
 
@@ -492,8 +494,6 @@ def 治疗计算(battleField, 施救者, 受助者, 治疗率 = 1.0):
     Y = MSG_兵力治疗公式(施救者兵力) * 治疗率 * MSG_智力影响治疗公式(施救者智力) * 其他因素
 
     return Y
-
-
 
 # 伤害计算 这个方法可能会传入大量的参数
 def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType, 伤害值 = 1.0):

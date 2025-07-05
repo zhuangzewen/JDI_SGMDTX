@@ -17,6 +17,9 @@ def get_skill_info(skillname):
     if skillname == SkillName.星罗棋布:
         from DataFitting.星罗棋布_fitt import 星罗棋布_info
         skillInfo = 星罗棋布_info()
+    elif skillname == SkillName.普攻:
+        from DataFitting.普攻_fitt import 普攻_info
+        skillInfo = 普攻_info()
     else:
         skillInfo = SkillInfo(skillname)
     return skillInfo
@@ -85,6 +88,9 @@ def get_skill(skillname, hero):
     if skillname == SkillName.星罗棋布:
         from DataFitting.星罗棋布_fitt import 星罗棋布_skill
         skill = 星罗棋布_skill(hero, skillname)
+    elif skillname == SkillName.普攻:
+        from DataFitting.普攻_fitt import 普攻_skill
+        skill = 普攻_skill(hero, skillname)
     else:
         skill = Skill(hero, skillname)
     return skill

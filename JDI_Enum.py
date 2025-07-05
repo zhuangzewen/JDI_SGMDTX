@@ -12,6 +12,7 @@ class ResponseStatus(Enum):
     战法布阵开始 = '战法布阵开始'
     回合开始时 = '回合开始时'
     回合行动时 = '回合行动时'
+    普攻行动时 = '普攻行动时'
     回合结束时 = '回合结束时'
     回合结束后 = '回合结束后'
     
@@ -19,14 +20,17 @@ class ResponseStatus(Enum):
 
 class SkillFeature(Enum):
     辅助 = '辅助'
+    普攻 = '普攻'
 
 class SkillType(Enum):
     指挥 = '指挥'
     主动 = '主动'
     被动 = '被动'
     追击 = '追击'
+    普攻 = '普攻'
 
 class SkillName(Enum):
+    普攻 = "普攻"
     星罗棋布 = "星罗棋布"
     七进七出 = "七进七出"
     骁勇无前 = "骁勇无前"
@@ -136,6 +140,7 @@ class HeroInfoKey(Enum):
     D_SkillClass = 'D_SkillClass'
     F_SkillClass = 'F_SkillClass'
     S_SkillClass = 'S_SkillClass'
+    P_SkillClass = 'P_SkillClass'
 
 class Formation(Enum):
     一字阵 = '一字阵'

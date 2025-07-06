@@ -39,7 +39,7 @@ def battle():
 
     Log().show_system_info('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
-    team1_hero1 = HeroInfo(HeroName.赵云)
+    team1_hero1 = HeroInfo(HeroName.吕布)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero1.set_skills(None, 0, None, 0)
     team1_hero2 = HeroInfo(HeroName.Sp_诸葛亮)
@@ -55,7 +55,7 @@ def battle():
     team2_hero2 = HeroInfo(HeroName.Sp_诸葛亮)
     team2_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero2.set_skills(None, 0, None, 0)
-    team2_hero3 = HeroInfo(HeroName.甘夫人)
+    team2_hero3 = HeroInfo(HeroName.刘备)
     team2_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero3.set_skills(None, 0, None, 0)
 

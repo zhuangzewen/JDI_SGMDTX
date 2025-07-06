@@ -1,5 +1,6 @@
 
 import random
+from JDI_Log import Log
 
 def 获取对比行动优先级(hero1_xg, hero2_xg):
 
@@ -22,13 +23,17 @@ def int_随机一到两个敌方():
 
 def 根据受击率列表随机一个敌方(hit_rate_list):
     total_hit_rate = sum(hit_rate_list)
+    # Log total_hit_rate
+    Log().show_debug_info('DEBUG------- 受击率总和: {}'.format(total_hit_rate))
     if total_hit_rate == 0:
         return None
     random_value = random.uniform(0, total_hit_rate)
+    Log().show_debug_info('DEBUG------- 随机受击率: {}'.format(random_value))
     cumulative_sum = 0.0
     for i, hit_rate in enumerate(hit_rate_list):
         cumulative_sum += hit_rate
         if cumulative_sum >= random_value:
+            Log().show_debug_info('DEBUG------- 随机受击武将索引: {}'.format(i))
             return i
     return None
 

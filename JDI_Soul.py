@@ -1,6 +1,6 @@
 
 from JDI_Log import Log
-from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType
+from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType, SkillName
 from JDI_Skill import Skill
 from JDI_Hero import Hero
 
@@ -124,10 +124,10 @@ class Soul():
             Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
 
         elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已施加'.format(heroName))
+            Log().show_battle_info('        [{}]的[星罗棋布-双前排阵型]效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已施加'.format(heroName))
+            Log().show_battle_info('        [{}]的[星罗棋布-三前排阵型]效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.损失兵力:
 
@@ -144,7 +144,10 @@ class Soul():
             setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
             setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
             setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
-            Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
+            if (self.skill and self.skill.get_战法名称() == SkillName.普攻):
+                Log().show_battle_info('        [{}]损失了兵力{}({})'.format(heroName, abs(伤害数值), 剩余兵力))
+            else:
+                Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
 
             if 剩余兵力 <= 0:
 

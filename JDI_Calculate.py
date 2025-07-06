@@ -193,7 +193,10 @@ def 从队列确定受击武将(heroList):
 
     Log().show_debug_info('DEBUG------- 受击队列武将: {}'.format([hero.get_武将名称().value for hero in heroList]))
     Log().show_debug_info('DEBUG------- 随机受击武将索引: {}'.format(randomInt))
-    return heroList[randomInt]
+
+    selected_hero = heroList[randomInt]
+    Log().show_debug_info('DEBUG------- 随机受击武将: {}'.format(selected_hero.get_武将名称().value))
+    return selected_hero
 
 def 对敌方所有目标生效(skill, battleField):
     from JDI_Skill import Skill

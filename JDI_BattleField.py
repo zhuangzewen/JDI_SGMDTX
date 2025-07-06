@@ -71,19 +71,19 @@ class BattleField():
             return random.choice([True, False])  # 如果兵力也相同，则随机返回一个胜利方
 
     # 请善待这个方法
-    def respond(self, status: ResponseStatus, actor: Hero = None):
+    def respond(self, status: ResponseStatus, 时机响应武将: Hero = None):
 
         Log().show_debug_info('DEBUG------- 当前响应时机为: {}'.format(status))
 
         if status == ResponseStatus.武将溃败:         
             for soul in self.getSoulList():
                 soul: Soul
-                if soul.initiator != actor:
+                if soul.initiator != 时机响应武将:
                     continue
                 soul.restore_initial()
             for skill in self.getCommandHandleRespon():
                 skill: Skill
-                if skill.get_持有者() == actor:
+                if skill.get_持有者() == 时机响应武将:
                     self.getCommandHandleRespon().remove(skill)
             return
 
@@ -110,12 +110,23 @@ class BattleField():
 
                 if 战法名称 == SkillName.普攻:
                     if status == ResponseStatus.普攻行动时:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
                         def 普攻_伤害效果(self):
-                            valueList = 对敌方所有目标生效(skill, self)
-                            # 随机一个敌方武将作为攻击目标
-                            target_hero = random.choice(valueList)
-
+                            attacked_heroes = 对敌方所有目标生效(skill, self)
+                            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+                            attacked_name = attacked.get_武将名称().value
+                            if attacked is None:
+                                Log().show_battle_info('        [{}]发动战法【{}】 没有目标'.format(战法持有者名称.value, 战法名称.value))
+                                return
+                            Log().show_battle_info('  [{}]对[{}]发动普通攻击'.format(战法持有者名称.value, attacked_name))
+                            value = 计算伤害(self, 时机响应武将, attacked, DamageType.兵刃, SkillType.普攻, 伤害值= 1)
+                            damage_soul = Soul(target=attacked,
+                                               initiator=时机响应武将,
+                                               sourceType=SoulSourceType.武将战法,
+                                               skill=skill,
+                                               effect_type=SoulEffectType.损失兵力,
+                                               effect_value=value,
+                                               battleField=self)
+                            damage_soul.deploy_initial()
                         普攻_伤害效果(self)
                 elif 战法名称 == SkillName.星罗棋布:
                     if status == ResponseStatus.阵型结束:
@@ -145,11 +156,11 @@ class BattleField():
                         Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
                         def 星罗棋布_谋略减伤效果():
                             valueList = 对己方所有目标生效(skill, self)
-                            for hero in valueList:
+                            for 目标武将 in valueList:
                                 reduce_value = skill.星罗棋布_受到谋略伤害降低系数()
-                                if hero == skill.get_持有者():
+                                if 目标武将 == skill.get_持有者():
                                     reduce_value = reduce_value * 1.3
-                                soul = Soul(target=hero, 
+                                soul = Soul(target=目标武将, 
                                         initiator=skill.get_持有者(), 
                                         sourceType=SoulSourceType.武将战法, 
                                         skill=skill, 
@@ -219,7 +230,7 @@ class BattleField():
                         soul_list = skill.get_Soul_list()
                         for soul in soul_list:
                             soul: Soul
-                            if soul.effect_type == SoulEffectType.星罗棋布_双前排阵型 and soul.target == actor:
+                            if soul.effect_type == SoulEffectType.星罗棋布_双前排阵型 and soul.target == 时机响应武将:
                                 # 对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 
                                 # 发起攻击的武将
@@ -262,6 +273,8 @@ class BattleField():
                                 atta_hero = msg_对我方智力最高的武将(skill, self)
                                 attaHero_name = atta_hero.get_武将名称()
                                 attacked_heroes = 对敌方所有目标生效(skill, self)
+
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(attaHero_name.value, 战法名称.value))
 
                                 # 发起攻击次数
                                 attack_times = len(attacked_heroes)
@@ -713,7 +726,7 @@ class BattleField():
                     hero: Hero
                     hero_name = hero.get_武将名称().value
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
-                    self.respond(ResponseStatus.每回合行动时, actor=hero)
+                    self.respond(ResponseStatus.每回合行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
                             Log().show_battle_info('  [{}]战斗结束'.format(self.team1.teamInfo.teamName))
@@ -722,6 +735,8 @@ class BattleField():
                             Log().show_battle_info('  [{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
+                    self.respond(ResponseStatus.普攻行动时, 时机响应武将=hero)
+                    
                 self.respond(ResponseStatus.回合结束时)
                 self.respond(ResponseStatus.每回合结束后)
 

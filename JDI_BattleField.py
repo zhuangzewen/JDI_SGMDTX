@@ -102,24 +102,24 @@ class BattleField():
                     Log().show_debug_info('DEBUG------- 当前战斗已经结束 无法响应战法')
                     return
 
-                hero: Hero = skill.get_持有者()
-                heroName = hero.get_武将名称()
-                Log().show_debug_info('DEBUG------- 当前检索成功 武将: {}'.format(heroName))
-                skillName = skill.get_战法名称()
-                Log().show_debug_info('DEBUG------- 当前检索成功 战法: {}'.format(skillName))
+                战法持有者: Hero = skill.get_持有者()
+                战法持有者名称 = 战法持有者.get_武将名称()
+                Log().show_debug_info('DEBUG------- 当前检索成功 武将: {}'.format(战法持有者名称))
+                战法名称 = skill.get_战法名称()
+                Log().show_debug_info('DEBUG------- 当前检索成功 战法: {}'.format(战法名称))
 
-                if skillName == SkillName.普攻:
+                if 战法名称 == SkillName.普攻:
                     if status == ResponseStatus.普攻行动时:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(heroName.value, skillName.value))
+                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
                         def 普攻_伤害效果(self):
                             valueList = 对敌方所有目标生效(skill, self)
                             # 随机一个敌方武将作为攻击目标
                             target_hero = random.choice(valueList)
 
                         普攻_伤害效果(self)
-                elif skillName == SkillName.星罗棋布:
+                elif 战法名称 == SkillName.星罗棋布:
                     if status == ResponseStatus.阵型结束:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(heroName.value, skillName.value))
+                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
                         def 星罗棋布_阵型强化效果(self): 
                             for soul in 对己方阵型强化SOUL生效(skill, self):
                                 soul: Soul
@@ -135,14 +135,14 @@ class BattleField():
                                 if is_exist:
                                     continue
 
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, skillName.value))
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, 战法名称.value))
                                 strengRatio = skill.星罗棋布_阵型强化系数() * soul.effect_value
                                 newSoul = Soul(target=soul.target, initiator=skill.get_持有者(), sourceType=SoulSourceType.星罗棋布_阵型强化, skill=skill, effect_type=soul.effect_type, effect_value=strengRatio)
                                 newSoul.deploy_initial()
                                 self.getSoulList().append(newSoul)
                         星罗棋布_阵型强化效果(self)
                     elif status == ResponseStatus.战法布阵开始:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(heroName.value, skillName.value))
+                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
                         def 星罗棋布_谋略减伤效果():
                             valueList = 对己方所有目标生效(skill, self)
                             for hero in valueList:
@@ -159,10 +159,10 @@ class BattleField():
                                 self.getSoulList().append(soul)
                         星罗棋布_谋略减伤效果()
 
-                        Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-额外效果]效果'.format(heroName.value, skillName.value))
+                        Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-额外效果]效果'.format(战法持有者名称.value, 战法名称.value))
                         def 星罗棋布_额外效果():
                             if msg_判断己方前排武将数量(skill, self) == 1:
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(heroName.value, skillName.value))
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(战法持有者名称.value, 战法名称.value))
                                 frontLineHero = msg_对我方的单前排生效(skill, self)
 
                                 lock_soul = Soul(target=frontLineHero,
@@ -183,7 +183,7 @@ class BattleField():
                                 soul.deploy_initial()
                                 self.getSoulList().append(soul)                    
                             elif msg_判断己方前排武将数量(skill, self) == 2:
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(heroName.value, skillName.value))
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(战法持有者名称.value, 战法名称.value))
                                 lowest_ts_hero = msg_对我方统帅最低的武将(skill, self)
 
                                 soul = Soul(target=lowest_ts_hero, 
@@ -204,13 +204,12 @@ class BattleField():
                                 self.getSoulList().append(murder_soul)
                                 skill.get_Soul_list().append(murder_soul)
                             elif msg_判断己方前排武将数量(skill, self) == 3:
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(heroName.value, skillName.value))
-                                lowest_ts_hero = msg_对我方智力最高的武将(skill, self)
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(战法持有者名称.value, 战法名称.value))
 
-                                soul = Soul(target=lowest_ts_hero, 
-                                                initiator=skill.get_持有者(), 
-                                                sourceType=SoulSourceType.武将战法, 
-                                                skill=skill, 
+                                soul = Soul(target=战法持有者,
+                                                initiator=skill.get_持有者(),
+                                                sourceType=SoulSourceType.武将战法,
+                                                skill=skill,
                                                 effect_type=SoulEffectType.星罗棋布_三前排阵型)
                                 soul.deploy_initial()
                                 self.getSoulList().append(soul)
@@ -228,7 +227,7 @@ class BattleField():
                                 attaHero_name = atta_hero.get_武将名称()
                                 attacked_heroes = 对敌方所有目标生效(skill, self)
 
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(attaHero_name.value, skillName.value))
+                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(attaHero_name.value, 战法名称.value))
 
                                 # 发起攻击次数
                                 attack_times = int_随机一到两个敌方()
@@ -260,7 +259,7 @@ class BattleField():
                                 # 对敌军全体造成60%谋略伤害(额外受全军累积治疗量影响)
 
                                 # 发起攻击的武将
-                                atta_hero = soul.target
+                                atta_hero = msg_对我方智力最高的武将(skill, self)
                                 attaHero_name = atta_hero.get_武将名称()
                                 attacked_heroes = 对敌方所有目标生效(skill, self)
 
@@ -369,17 +368,19 @@ class BattleField():
         Log().show_battle_info('[列队布阵阶段]')
  
         def 列队布阵_补给强化(self):
-            # 当队伍的补给小于100时 队伍中存活的武将 造成的伤害降低10%
-            if self.team1.teamInfo.supply < 100:
-                Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team1.teamInfo.teamName, self.team1.teamInfo.supply, 10))
-                self.team1.造成伤害降低 -= 0.1
-            else:
-                Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team1.teamInfo.teamName, self.team1.teamInfo.supply, 0))
-            if self.team2.teamInfo.supply < 100:
-                Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team2.teamInfo.teamName, self.team2.teamInfo.supply, 10))
-                self.team2.造成伤害降低 -= 0.1
-            else:
-                Log().show_battle_info('  [{}]的补给为{},造成伤害降低{}%'.format(self.team2.teamInfo.teamName, self.team2.teamInfo.supply, 0))
+            # 当队伍的补给小于40时 队伍中存活的武将 造成的伤害降低50%
+            # 当队伍的补给小于80时 队伍中存活的武将 造成的伤害降低25%
+
+            for team in [self.team1, self.team2]:
+                team: Team
+                teamInfo = team.teamInfo
+                if teamInfo.supply < 40:
+                    team.造成伤害降低 = 0.5
+                elif teamInfo.supply < 80:
+                    team.造成伤害降低 = 0.25
+                else:
+                    team.造成伤害降低 = 0
+                Log().show_battle_info('  [{}]当前补给为{},造成伤害降低{}%'.format(teamInfo.teamName, teamInfo.supply, team.造成伤害降低 * 100))
 
         def 列队布阵_阵型强化(self):
             for team in [self.team1, self.team2]:

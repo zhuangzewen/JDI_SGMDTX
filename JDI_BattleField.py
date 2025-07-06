@@ -108,7 +108,16 @@ class BattleField():
                 skillName = skill.get_战法名称()
                 Log().show_debug_info('DEBUG------- 当前检索成功 战法: {}'.format(skillName))
 
-                if skillName == SkillName.星罗棋布:
+                if skillName == SkillName.普攻:
+                    if status == ResponseStatus.普攻行动时:
+                        Log().show_battle_info('  [{}]发动战法【{}】'.format(heroName.value, skillName.value))
+                        def 普攻_伤害效果(self):
+                            valueList = 对敌方所有目标生效(skill, self)
+                            # 随机一个敌方武将作为攻击目标
+                            target_hero = random.choice(valueList)
+
+                        普攻_伤害效果(self)
+                elif skillName == SkillName.星罗棋布:
                     if status == ResponseStatus.阵型结束:
                         Log().show_battle_info('  [{}]发动战法【{}】'.format(heroName.value, skillName.value))
                         def 星罗棋布_阵型强化效果(self): 
@@ -319,6 +328,8 @@ class BattleField():
 
             S_SkillClass: Skill = getattr(hero, HeroInfoKey.S_SkillClass.value)
 
+            P_SkillClass: Skill = getattr(hero, HeroInfoKey.P_SkillClass.value)
+
 
             # 查询三个战法 先加载 被动战法 再加载 指挥战法
             # 只有包含 SkillInfoKey.战法响应时机列表 : [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始] 这两个的才会被加载
@@ -348,6 +359,11 @@ class BattleField():
                         self.getCommandHandleRespon().append(skill)
                         skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
                         Log().show_debug_info('DEBUG------- 填充主动战法 -- 成功填充主动战法【{}】'.format(skill_name))
+
+        # 普攻
+        self.getCommandHandleRespon().append(getattr(hero, HeroInfoKey.P_SkillClass.value))
+        Log().show_debug_info('DEBUG------- 填充普攻战法 -- 成功填充普攻战法')
+            
 
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')
@@ -704,8 +720,7 @@ class BattleField():
                         elif self.isOver() == 2:
                             Log().show_battle_info('  [{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
-                    Log().show_battle_info('  [{}]行动结束'.format(hero.get_武将名称().value))
-                    
+
                 self.respond(ResponseStatus.回合结束时)
                 self.respond(ResponseStatus.每回合结束后)
 

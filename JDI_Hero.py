@@ -257,6 +257,11 @@ class Hero():
         S_skill.设置战法升阶(getattr(hero_info, HeroInfoKey.第二战法升阶.value))
         setattr(self, HeroInfoKey.S_SkillClass.value, S_skill)
 
+        # 普攻战法
+        P_skill = get_skill(SkillName.普攻, self)
+        P_skill.设置战法升阶(0)  # 普攻没有升阶
+        setattr(self, HeroInfoKey.P_SkillClass.value, P_skill)
+
     # 初始化基础数值
     def init_base_values(self):
 

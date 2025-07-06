@@ -13,17 +13,6 @@ class SkillInfo():
                     keyStr = keyName.value
                     setattr(self, keyStr, skills[skillname][keyName])
 
-def get_skill_info(skillname):
-    if skillname == SkillName.星罗棋布:
-        from DataFitting.星罗棋布_fitt import 星罗棋布_info
-        skillInfo = 星罗棋布_info()
-    elif skillname == SkillName.普攻:
-        from DataFitting.普攻_fitt import 普攻_info
-        skillInfo = 普攻_info()
-    else:
-        skillInfo = SkillInfo(skillname)
-    return skillInfo
-
 class Skill():
 
     def get_战法信息(self):
@@ -84,13 +73,24 @@ class Skill():
             return getattr(skill_info, SkillInfoKey.战法类型.value)
         return None
 
-def get_skill(skillname, hero):
-    if skillname == SkillName.星罗棋布:
-        from DataFitting.星罗棋布_fitt import 星罗棋布_skill
-        skill = 星罗棋布_skill(hero, skillname)
-    elif skillname == SkillName.普攻:
-        from DataFitting.普攻_fitt import 普攻_skill
-        skill = 普攻_skill(hero, skillname)
+def get_skill_info(skillName):
+    if skillName == SkillName.星罗棋布:
+        from DataFitting.星罗棋布_fitt import 星罗棋布_info
+        skillInfo = 星罗棋布_info()
+    elif skillName == SkillName.普攻:
+        from DataFitting.普攻_fitt import 普攻_info
+        skillInfo = 普攻_info()
     else:
-        skill = Skill(hero, skillname)
+        skillInfo = SkillInfo(skillName)
+    return skillInfo
+
+def get_skill(skillName, hero):
+    if skillName == SkillName.星罗棋布:
+        from DataFitting.星罗棋布_fitt import 星罗棋布_skill
+        skill = 星罗棋布_skill(hero, skillName)
+    elif skillName == SkillName.普攻:
+        from DataFitting.普攻_fitt import 普攻_skill
+        skill = 普攻_skill(hero, skillName)
+    else:
+        skill = Skill(hero, skillName)
     return skill

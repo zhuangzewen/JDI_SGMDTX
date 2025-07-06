@@ -7,19 +7,6 @@ class HeroInfo():
     def __init__(self, heroName):
 
         heroes = {
-            HeroName.Sp_诸葛亮: {HeroInfoKey.武将名称:HeroName.Sp_诸葛亮,
-                                HeroInfoKey.武将阵营:Faction.蜀,
-                                HeroInfoKey.武将兵种:WeaponType.盾,
-                                HeroInfoKey.武将性别:1,
-                                HeroInfoKey.初始武力:53,
-                                HeroInfoKey.武力成长:0.56,
-                                HeroInfoKey.初始智力:125,
-                                HeroInfoKey.智力成长:3.00,
-                                HeroInfoKey.初始统帅:104,
-                                HeroInfoKey.统帅成长:2.24,
-                                HeroInfoKey.初始先攻:61,
-                                HeroInfoKey.先攻成长:1.71,
-                                HeroInfoKey.自带战法:SkillName.星罗棋布},
             HeroName.赵云 :{HeroInfoKey.武将名称:HeroName.赵云,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.骑,
@@ -305,3 +292,11 @@ class Hero():
         setattr(self, HeroInfoKey.亖兵.value, 0)
 
         Log().show_debug_info('DEBUG------- 武将战斗数值初始化完成')
+
+def get_hero_info(heroName):
+    if heroName == HeroName.Sp_诸葛亮:
+        from Generals.SP诸葛亮 import SP诸葛亮_info
+        heroInfo = SP诸葛亮_info()
+    else:
+        heroInfo = HeroInfo(heroName)
+    return heroInfo

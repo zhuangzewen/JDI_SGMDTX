@@ -39,7 +39,7 @@ def battle():
 
     Log().show_system_info('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
-    team1_hero1 = get_hero_info(HeroName.吕布)
+    team1_hero1 = get_hero_info(HeroName.诸葛亮)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero1.set_skills(None, 0, None, 0)
     team1_hero2 = get_hero_info(HeroName.Sp_诸葛亮)

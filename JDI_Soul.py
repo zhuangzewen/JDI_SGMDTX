@@ -94,11 +94,17 @@ class Soul():
             setattr(self.target, HeroInfoKey.先攻.value, cur_value)
             Log().show_battle_info('        [{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
 
+        elif self.effect_type == SoulEffectType.攻心:
+            cur_value = getattr(self.target, HeroInfoKey.攻心.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.攻心.value, cur_value)
+            Log().show_battle_info('        [{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.连击:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
-            Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.闪避:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
@@ -150,11 +156,14 @@ class Soul():
                 Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
 
             if 剩余兵力 <= 0:
-
                 setattr(self.target, HeroInfoKey.被击溃状态.value, True)
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
                 from JDI_Enum import ResponseStatus
                 self.battleField.respond(ResponseStatus.武将溃败, self.target)
+            else:
+                from JDI_Enum import ResponseStatus
+                self.battleField.respond(ResponseStatus.造成伤害时, self.initiator)
+                self.battleField.respond(ResponseStatus.受到伤害时, self.target)
 
 
     # 还原效果并销毁

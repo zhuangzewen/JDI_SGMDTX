@@ -306,6 +306,54 @@ class BattleField():
                                                        source_soul=soul,
                                                        battleField=self)
                                     damage_soul.deploy_initial()
+                elif 战法名称 == SkillName.草船借箭:
+                    if status == ResponseStatus.战法布阵开始:
+                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
+
+                        from Fitting.草船借箭 import 草船借箭_skill
+                        skill: 草船借箭_skill
+
+                        value = skill.草船借箭_攻心提升系数()
+                        soul = Soul(target=战法持有者, 
+                                    initiator=战法持有者, 
+                                    sourceType=SoulSourceType.武将战法, 
+                                    skill=skill, 
+                                    effect_type=SoulEffectType.攻心, 
+                                    effect_value= value)
+                        soul.deploy_initial()
+
+                    elif status == ResponseStatus.每回合重置阶段:
+                        skill.当前回合发动次数 = 0
+                    elif status == ResponseStatus.造成伤害时 or status == ResponseStatus.受到伤害时:
+                        if skill.当前回合发动次数 < 5:
+
+                            from Fitting.草船借箭 import 草船借箭_skill
+                            skill: 草船借箭_skill
+
+                            attacked_heroes = 对敌方所有目标生效(skill, self)
+                            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+
+                            伤害值 = skill.草船借箭_借箭伤害系数()
+                            value = 计算伤害(self, 战法持有者, attacked, DamageType.谋略, SkillType.指挥, 伤害值= 伤害值)
+
+                            showSoul = Soul(target=attacked, 
+                                            initiator=战法持有者, 
+                                            sourceType=SoulSourceType.武将战法, 
+                                            effect_type=SoulEffectType.草船借箭)
+
+
+                            damage_soul = Soul(target=attacked, 
+                                               initiator=战法持有者, 
+                                               sourceType=SoulSourceType.武将战法, 
+                                               skill=skill, 
+                                               effect_type=SoulEffectType.损失兵力, 
+                                               effect_value= value,
+                                               source_soul=showSoul,
+                                               battleField=self)
+                            damage_soul.deploy_initial()
+                            skill.当前回合发动次数 += 1
+
+
 
     def 重置武将状态(self):
 
@@ -376,7 +424,6 @@ class BattleField():
         self.getCommandHandleRespon().append(getattr(hero, HeroInfoKey.P_SkillClass.value))
         Log().show_debug_info('DEBUG------- 填充普攻战法 -- 成功填充普攻战法')
             
-
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')
  
@@ -711,6 +758,8 @@ class BattleField():
             for i in range(8):
                 
                 Log().show_battle_info('\n[第 {} 回合]'.format(i + 1))
+
+                self.respond(ResponseStatus.每回合重置阶段)
 
                 # 行动顺序判断
                 order_list_hero = 武将行动队列(self)

@@ -9,7 +9,7 @@
 # 我军全体受到谋略伤害降低10%(受智力影响,对自身的效果提升30%),
 # 战斗开始前施加星罗棋布,使阵型加成提升70%(受智力影响),并根据阵型类型获得棋局增益
 
-# 满阶星罗棋布
+# 满阶星罗棋布:
 # 我军全体受到谋略伤害降低11.5%(受智力影响,对自身的效果提升30%),
 # 战斗开始前施加星罗棋布,使阵型加成提升80.5%(受智力影响),并根据阵型类型获得棋局增益
 
@@ -20,8 +20,7 @@
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
 from JDI_Skill import SkillInfo, Skill
-from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
-from JDI_Enum import ResponseStatus
+from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType, ResponseStatus
 
 class 星罗棋布_info(SkillInfo):
     def __init__(self):

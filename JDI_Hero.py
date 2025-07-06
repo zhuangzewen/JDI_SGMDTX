@@ -125,6 +125,9 @@ class Hero():
         return getattr(self, HeroInfoKey.受击率.value)
     def get_固定受击率(self):
         return getattr(self, HeroInfoKey.固定受击率.value)
+    
+    def get_攻心(self):
+        return getattr(self, HeroInfoKey.攻心.value)
     def get_连击几率(self):
         return getattr(self, HeroInfoKey.连击几率.value)
     def get_闪避几率(self):
@@ -233,7 +236,7 @@ class Hero():
         hero_info: HeroInfo = getattr(self, HeroInfoKey.武将信息.value)
 
         D_skill = get_skill(getattr(hero_info, HeroInfoKey.自带战法.value), self)
-        D_skill.设置战法升阶(getattr(hero_info, HeroInfoKey.武将升阶.value))
+        D_skill.设置战法升阶(getattr(hero_info, HeroInfoKey.武将升品.value))
         setattr(self, HeroInfoKey.D_SkillClass.value, D_skill)
 
         F_skill = get_skill(getattr(hero_info, HeroInfoKey.第一战法.value), self)
@@ -277,6 +280,7 @@ class Hero():
         setattr(self, HeroInfoKey.已行动状态.value, False)
         setattr(self, HeroInfoKey.受击率.value, 0)
         setattr(self, HeroInfoKey.固定受击率.value, 0)
+        setattr(self, HeroInfoKey.攻心.value, 0)    
         setattr(self, HeroInfoKey.连击几率.value, 0)
         setattr(self, HeroInfoKey.闪避几率.value, 0)
         setattr(self, HeroInfoKey.会心几率.value, 0)
@@ -297,6 +301,9 @@ def get_hero_info(heroName):
     if heroName == HeroName.Sp_诸葛亮:
         from Generals.SP诸葛亮 import SP诸葛亮_info
         heroInfo = SP诸葛亮_info()
+    elif heroName == HeroName.诸葛亮:
+        from Generals.诸葛亮 import 诸葛亮_info
+        heroInfo = 诸葛亮_info()
     else:
         heroInfo = HeroInfo(heroName)
     return heroInfo

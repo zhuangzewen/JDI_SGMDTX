@@ -290,7 +290,7 @@ class BattleField():
                                     ourTeam = 获取武将所在的队伍(self, skill.get_持有者())
                                     ourTeam_治疗总量 = ourTeam.全队累计治疗量
 
-                                    from DataFitting.星罗棋布_fitt import 星罗棋布_skill
+                                    from Fitting.星罗棋布 import 星罗棋布_skill
                                     skill: 星罗棋布_skill
 
                                     受治疗影响伤害系数 = skill.星罗棋布_三前排_治疗量造成的伤害提升系数(ourTeam_治疗总量)

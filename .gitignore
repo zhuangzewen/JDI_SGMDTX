@@ -1,5 +1,6 @@
 
 *.pyc
 venv/
-JDI_Log_*.txt
+JDI_Log/
+
 

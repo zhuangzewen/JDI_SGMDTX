@@ -2,8 +2,15 @@
 # 准备创建一个 带创建时间的log文件 并防止中文乱码
 import logging
 import time
+import os
 
-logFileName = 'JDI_Log_{}.log'.format(time.strftime('%Y%m%d_%H%M%S', time.localtime()))
+# 如果 JDF_Log文件夹不存在，则创建一个JDF_Log文件夹
+try:
+    os.mkdir("JDI_Log")
+except FileExistsError:
+    pass
+
+logFileName = "JDI_Log/JDI_Log_" + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()) + ".log"
 logging.basicConfig(filename=logFileName, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', encoding="utf-8")
 
 class Log():

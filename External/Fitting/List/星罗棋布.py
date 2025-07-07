@@ -19,7 +19,7 @@
 # 双前排阵型: 我军统帅最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
-from JDI_Skill import SkillInfo, Skill
+from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType, ResponseStatus
 
 class 星罗棋布_info(SkillInfo):
@@ -83,7 +83,7 @@ class 星罗棋布_skill(Skill):
             pass
 
         rankUp = self.get_战法升阶()
-        from JDI_Hero import Hero
+        from Generals.JDI_Hero import Hero
         original_value = 0.7 + rankUp * 0.021
         owner: Hero = self.get_持有者()
         x = owner.get_智力()
@@ -131,7 +131,7 @@ class 星罗棋布_skill(Skill):
             pass
 
         rankUp = self.get_战法升阶()
-        from JDI_Hero import Hero
+        from Generals.JDI_Hero import Hero
         original_value = 0.1 + rankUp * 0.003
         owner: Hero = self.get_持有者()
         x = owner.get_智力()
@@ -179,7 +179,7 @@ class 星罗棋布_skill(Skill):
 
             pass
 
-        from JDI_Hero import Hero
+        from Generals.JDI_Hero import Hero
         original_value = 0.12
         owner: Hero = self.get_持有者()
         x = owner.get_智力()

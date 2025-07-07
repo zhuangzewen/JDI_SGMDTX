@@ -7,7 +7,7 @@
 # 普攻:
 # 对敌军单体造成100%伤害(受武力或智力影响，取较高的一项)
 
-from JDI_Skill import SkillInfo, Skill
+from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
 from JDI_Enum import ResponseStatus
 from JDI_Enum import SkillInfoKey

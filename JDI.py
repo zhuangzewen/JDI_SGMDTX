@@ -1,9 +1,9 @@
 
-from JDI_Log import Log
+from _Log.JDI_Log import Log
 from JDI_Enum import HeroName, Formation, SimulatorMode
-from JDI_Hero import HeroInfo, get_hero_info
-from JDI_Team import TeamInfo
-from JDI_BattleField import BattleField
+from Generals.JDI_Hero import HeroInfo, get_hero_info
+from Simulator.Team.JDI_Team import TeamInfo
+from Simulator.JDI_BattleField import BattleField
 
 # 优化完成 1.0       
 class Simulator():

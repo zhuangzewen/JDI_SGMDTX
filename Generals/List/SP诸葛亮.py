@@ -13,7 +13,7 @@
 # HeroInfoKey.先攻成长:1.71,
 # HeroInfoKey.自带战法:SkillName.星罗棋布
 
-from JDI_Hero import HeroInfo
+from Generals.JDI_Hero import HeroInfo
 from JDI_Enum import HeroName, Faction, WeaponType, SkillName
 
 

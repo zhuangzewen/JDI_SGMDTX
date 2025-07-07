@@ -1,8 +1,8 @@
 
-from JDI_Log import Log
+from _Log.JDI_Log import Log
 from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType, SkillName
-from JDI_Skill import Skill
-from JDI_Hero import Hero
+from External.Fitting.JDI_Skill import Skill
+from Generals.JDI_Hero import Hero
 
 
 class Soul():
@@ -30,7 +30,7 @@ class Soul():
         self.source_soul = source_soul      # 来源魂灵
 
         if battleField is not None:
-            from JDI_BattleField import BattleField
+            from Simulator.JDI_BattleField import BattleField
             self.battleField = battleField
 
     def deploy_initial(self):

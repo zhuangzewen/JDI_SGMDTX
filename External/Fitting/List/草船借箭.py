@@ -11,7 +11,7 @@
 # 满阶草船借箭:
 # 自身攻心提升27.5%,自身受到或造成伤害时,有50%概率对敌方随机单体造成92%谋略伤害,每回合可触发5次
 
-from JDI_Skill import SkillInfo, Skill
+from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType, ResponseStatus
 
 class 草船借箭_info(SkillInfo):

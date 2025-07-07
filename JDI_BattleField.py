@@ -300,7 +300,7 @@ class BattleField():
                     if status == ResponseStatus.战法布阵开始:
                         Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
 
-                        from Fitting.草船借箭 import 草船借箭_skill
+                        from External.Fitting.草船借箭 import 草船借箭_skill
                         skill: 草船借箭_skill
 
                         value = skill.草船借箭_攻心提升系数()
@@ -317,7 +317,7 @@ class BattleField():
                     elif status == ResponseStatus.造成伤害时 or status == ResponseStatus.受到伤害时:
                         if skill.当前回合发动次数 < 5:
 
-                            from Fitting.草船借箭 import 草船借箭_skill
+                            from External.Fitting.草船借箭 import 草船借箭_skill
                             skill: 草船借箭_skill
 
                             attacked_heroes = 对敌方所有目标生效(skill, self)

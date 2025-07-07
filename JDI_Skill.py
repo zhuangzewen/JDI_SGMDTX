@@ -71,13 +71,13 @@ class Skill():
 
 def get_skill_info(skillName):
     if skillName == SkillName.普攻:
-        from Fitting.普攻 import 普攻_info
+        from External.Fitting.普攻 import 普攻_info
         skillInfo = 普攻_info()
     elif skillName == SkillName.星罗棋布:
-        from Fitting.星罗棋布 import 星罗棋布_info
+        from External.Fitting.星罗棋布 import 星罗棋布_info
         skillInfo = 星罗棋布_info()
     elif skillName == SkillName.草船借箭:
-        from Fitting.草船借箭 import 草船借箭_info
+        from External.Fitting.草船借箭 import 草船借箭_info
         skillInfo = 草船借箭_info()
     else:
         skillInfo = SkillInfo(skillName)
@@ -85,13 +85,13 @@ def get_skill_info(skillName):
 
 def get_skill(skillName, hero):
     if skillName == SkillName.普攻:
-        from Fitting.普攻 import 普攻_skill
+        from External.Fitting.普攻 import 普攻_skill
         skill = 普攻_skill(hero, skillName)
     elif skillName == SkillName.星罗棋布:
-        from Fitting.星罗棋布 import 星罗棋布_skill
+        from External.Fitting.星罗棋布 import 星罗棋布_skill
         skill = 星罗棋布_skill(hero, skillName)
     elif skillName == SkillName.草船借箭:
-        from Fitting.草船借箭 import 草船借箭_skill
+        from External.Fitting.草船借箭 import 草船借箭_skill
         skill = 草船借箭_skill(hero, skillName)
     else:
         skill = Skill(hero, skillName)

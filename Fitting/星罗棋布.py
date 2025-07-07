@@ -29,11 +29,24 @@ class 星罗棋布_info(SkillInfo):
         self.战法特性 = SkillFeature.辅助
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始, ResponseStatus.每回合行动时, ResponseStatus.每回合结束后]
+        self.战法响应时机列表 = [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始, ResponseStatus.每回合行动时, ResponseStatus.每回合结束时]
 
 class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
+
+    def response_阵型结束(self):
+        pass
+
+    def response_战法布阵开始(self):
+        pass
+
+    def response_每回合行动时(self):
+        pass
+
+    def response_每回合结束后(self):
+        pass
+
 
     def 星罗棋布_阵型强化系数(self):
         def 拟合过程数据统计():

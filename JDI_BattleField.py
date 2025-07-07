@@ -252,7 +252,7 @@ class BattleField():
                                                        source_soul=soul,
                                                        battleField=self)
                                     damage_soul.deploy_initial()
-                    elif status == ResponseStatus.每回合结束后:
+                    elif status == ResponseStatus.每回合结束时:
                         soul_list = skill.get_Soul_list()
                         for soul in soul_list:
                             soul: Soul
@@ -378,7 +378,6 @@ class BattleField():
 
             P_SkillClass: Skill = getattr(hero, HeroInfoKey.P_SkillClass.value)
 
-
             # 查询三个战法 先加载 被动战法 再加载 指挥战法
             # 只有包含 SkillInfoKey.战法响应时机列表 : [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始] 这两个的才会被加载
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
@@ -402,8 +401,8 @@ class BattleField():
                         self.getCommandHandleRespon().append(skill)
                         skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
 
-        # 普攻
-        self.getCommandHandleRespon().append(getattr(hero, HeroInfoKey.P_SkillClass.value))
+            # 普攻
+            self.getCommandHandleRespon().append(P_SkillClass)
             
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')
@@ -767,7 +766,7 @@ class BattleField():
                     self.respond(ResponseStatus.普攻行动时, 时机响应武将=hero)
                     
                 self.respond(ResponseStatus.回合结束时)
-                self.respond(ResponseStatus.每回合结束后)
+                self.respond(ResponseStatus.每回合结束时)
 
         return self.isOverWithoutDefeated()
 

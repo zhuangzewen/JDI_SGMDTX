@@ -10,7 +10,6 @@
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
 from JDI_Enum import ResponseStatus
-from JDI_Enum import SkillInfoKey
 
 class 普攻_info(SkillInfo):
     def __init__(self):

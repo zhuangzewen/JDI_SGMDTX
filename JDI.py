@@ -1,7 +1,7 @@
 
 from Log.JDI_Log import Log
 from JDI_Enum import HeroName, Formation, SimulatorMode
-from Generals.JDI_Hero import HeroInfo, get_hero_info
+from Generals.JDI_Hero import get_hero_info
 from Simulator.Team.JDI_Team import TeamInfo
 from Simulator.JDI_BattleField import BattleField
 

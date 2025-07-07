@@ -280,7 +280,7 @@ class BattleField():
                                     ourTeam = 获取武将所在的队伍(self, skill.get_持有者())
                                     ourTeam_治疗总量 = ourTeam.全队累计治疗量
 
-                                    from Fitting.星罗棋布 import 星罗棋布_skill
+                                    from External.Fitting.List.星罗棋布 import 星罗棋布_skill
                                     skill: 星罗棋布_skill
 
                                     受治疗影响伤害系数 = skill.星罗棋布_三前排_治疗量造成的伤害提升系数(ourTeam_治疗总量)
@@ -300,7 +300,7 @@ class BattleField():
                     if status == ResponseStatus.战法布阵开始:
                         Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
 
-                        from External.Fitting.草船借箭 import 草船借箭_skill
+                        from External.Fitting.List.草船借箭 import 草船借箭_skill
                         skill: 草船借箭_skill
 
                         value = skill.草船借箭_攻心提升系数()
@@ -317,7 +317,7 @@ class BattleField():
                     elif status == ResponseStatus.造成伤害时 or status == ResponseStatus.受到伤害时:
                         if skill.当前回合发动次数 < 5:
 
-                            from External.Fitting.草船借箭 import 草船借箭_skill
+                            from External.Fitting.List.草船借箭 import 草船借箭_skill
                             skill: 草船借箭_skill
 
                             attacked_heroes = 对敌方所有目标生效(skill, self)

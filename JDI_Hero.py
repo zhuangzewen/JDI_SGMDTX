@@ -279,10 +279,10 @@ class Hero():
 
 def get_hero_info(heroName):
     if heroName == HeroName.Sp_诸葛亮:
-        from Generals.SP诸葛亮 import SP诸葛亮_info
+        from Generals.List.SP诸葛亮 import SP诸葛亮_info
         heroInfo = SP诸葛亮_info()
     elif heroName == HeroName.诸葛亮:
-        from Generals.诸葛亮 import 诸葛亮_info
+        from Generals.List.诸葛亮 import 诸葛亮_info
         heroInfo = 诸葛亮_info()
     else:
         heroInfo = HeroInfo(heroName)

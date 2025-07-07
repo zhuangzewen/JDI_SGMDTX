@@ -47,19 +47,15 @@ class Skill():
             skillInfo = get_skill_info(skillName)
             setattr(self, SkillInfoKey.战法信息.value, skillInfo)
             setattr(self, SkillInfoKey.加载状态.value, True)
-            Log().show_debug_info('DEBUG------- 武将技能初始化完成'.format(skillName))
-            Log().show_debug_info('DEBUG------- 武将技能信息: {}'.format(skillInfo.__dict__))
 
         else:
             setattr(self, SkillInfoKey.加载状态.value, False)
-            Log().show_debug_info('DEBUG------- 武将技能初始化失败'.format(skillName))
 
         setattr(self, SkillInfoKey.持有者.value, hero)
         setattr(self, SkillInfoKey.Soul_list.value, [])
 
     def 设置战法升阶(self, value):
         setattr(self, SkillInfoKey.战法升阶.value, value)
-        Log().show_debug_info('DEBUG------- 设置战法升阶: {}'.format(value))
     
     def 加载状态(self):
         return getattr(self, SkillInfoKey.加载状态.value)

@@ -72,9 +72,6 @@ class HeroInfo():
                             HeroInfoKey.初始先攻:76,
                             HeroInfoKey.先攻成长:1.99,
                             HeroInfoKey.自带战法:SkillName.九伐中原}}
-        
-        # 输出调试信息，表示武将信息配置成功
-        Log().show_debug_info('DEBUG------- 武将INFO配置成功')
 
         # 遍历heroes字典中指定武将的信息
         for keyName in heroes[heroName]:
@@ -86,8 +83,6 @@ class HeroInfo():
                 keyStr = keyName.value
                 # 使用setattr函数将值赋给当前对象的属性
                 setattr(self, keyStr, heroes[heroName][keyName])
-                # 输出调试信息，显示武将信息和对应的属性值
-                Log().show_debug_info('DEBUG----------- 武将INFO -- {}: {}'.format(keyStr, getattr(self, keyStr)))
             
     def set_extra(self, wl_extra=0, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=0, premium_info=0):
         setattr(self, HeroInfoKey.武将升阶.value, rank_info)
@@ -97,9 +92,6 @@ class HeroInfo():
         setattr(self, HeroInfoKey.统帅加点.value, ts_extra)
         setattr(self, HeroInfoKey.先攻加点.value, xg_extra)
 
-        Log().show_debug_info('DEBUG------- 武将EXTRA配置成功')
-        Log().show_debug_info('DEBUG----------- 武将EXTRA -- 武力加点: {}, 智力加点: {}, 统帅加点: {}, 先攻加点: {}, 武将升阶: {}, 武将升品: {}'.format(wl_extra, zl_extra, ts_extra, xg_extra, rank_info, premium_info))
-        
     def set_team_name(self, teamName):
         setattr(self, HeroInfoKey.队伍名称.value, teamName)
 
@@ -107,11 +99,9 @@ class HeroInfo():
     def set_skills(self, firstSkill, firstSkill_RankUp, secondSkill, secondSkill_RankUp):
         setattr(self, HeroInfoKey.第一战法.value, firstSkill)
         setattr(self, HeroInfoKey.第一战法升阶.value, firstSkill_RankUp)
-        Log().show_debug_info('DEBUG----------- 武将INFO -- 第一战法: {}, 第一战法升阶: {}'.format(firstSkill, firstSkill_RankUp))
 
         setattr(self, HeroInfoKey.第二战法.value, secondSkill)
         setattr(self, HeroInfoKey.第二战法升阶.value, secondSkill_RankUp)
-        Log().show_debug_info('DEBUG----------- 武将INFO -- 第二战法: {}, 第二战法升阶: {}'.format(secondSkill, secondSkill_RankUp))
 
 class Hero():
 
@@ -211,8 +201,6 @@ class Hero():
         return getattr(self, HeroInfoKey.先攻.value)
 
     def __init__(self, heroInfo):
-        
-        Log().show_debug_info('DEBUG------- 武将初始化成功')
 
         setattr(self, HeroInfoKey.武将信息.value, heroInfo)
         setattr(self, HeroInfoKey.被击溃状态.value, False)
@@ -221,15 +209,6 @@ class Hero():
 
         self.init_base_values()
         self.init_battle_values()
-        
-        # 逐条输出所有参数
-        for key in HeroInfoKey:
-
-            if key == HeroInfoKey.武将信息:
-                Log().show_debug_info('DEBUG------- info -- {}'.format(self.get_武将信息()))
-            else :
-                if hasattr(self, key.value):
-                    Log().show_debug_info('DEBUG------- hero -- {}: {}'.format(key.value, getattr(self, key.value)))
 
     # 载入初始技能 
     def load_skill(self):
@@ -255,21 +234,16 @@ class Hero():
     # 初始化基础数值
     def init_base_values(self):
 
-        Log().show_debug_info('DEBUG------- 武将基础数值初始化完成')
 
         level = self.get_等级()
 
         real_wl = self.get_初始武力() + self.get_武力成长() * (level - 5) + self.get_武力加点()
-        Log().show_debug_info('DEBUG------- real_wl: {} = {} + {} * ({} - 5) + {}'.format(real_wl, self.get_初始武力(), self.get_武力成长(), level, self.get_武力加点()))
         setattr(self, HeroInfoKey.武力.value, real_wl)
         real_zl = self.get_初始智力() + self.get_智力成长() * (level - 5) + self.get_智力加点()
-        Log().show_debug_info('DEBUG------- real_zl: {} = {} + {} * ({} - 5) + {}'.format(real_zl, self.get_初始智力(), self.get_智力成长(), level, self.get_智力加点()))
         setattr(self, HeroInfoKey.智力.value, real_zl)
         real_ts = self.get_初始统帅() + self.get_统帅成长() * (level - 5) + self.get_统帅加点()
-        Log().show_debug_info('DEBUG------- real_ts: {} = {} + {} * ({} - 5) + {}'.format(real_ts, self.get_初始统帅(), self.get_统帅成长(), level, self.get_统帅加点()))
         setattr(self, HeroInfoKey.统帅.value, real_ts)
         real_xg = self.get_初始先攻() + self.get_先攻成长() * (level - 5) + self.get_先攻加点()
-        Log().show_debug_info('DEBUG------- real_xg: {} = {} + {} * ({} - 5) + {}'.format(real_xg, self.get_初始先攻(), self.get_先攻成长(), level, self.get_先攻加点()))
         setattr(self, HeroInfoKey.先攻.value, real_xg)
 
 
@@ -294,8 +268,6 @@ class Hero():
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
         setattr(self, HeroInfoKey.伤兵.value, 0)
         setattr(self, HeroInfoKey.亖兵.value, 0)
-
-        Log().show_debug_info('DEBUG------- 武将战斗数值初始化完成')
 
 def get_hero_info(heroName):
     if heroName == HeroName.Sp_诸葛亮:

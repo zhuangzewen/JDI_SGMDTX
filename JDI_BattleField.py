@@ -50,9 +50,7 @@ class BattleField():
 
         # 首先对比未溃败的数量
         team1_alive_count = sum(1 for hero in team1_heroes if not hero.get_被击溃状态())
-        Log().show_debug_info('DEBUG------- 当前队伍1存活武将数量: {}'.format(team1_alive_count))
         team2_alive_count = sum(1 for hero in team2_heroes if not hero.get_被击溃状态())
-        Log().show_debug_info('DEBUG------- 当前队伍2存活武将数量: {}'.format(team2_alive_count))
         if team1_alive_count > team2_alive_count:
             return True
         elif team1_alive_count < team2_alive_count:
@@ -60,9 +58,7 @@ class BattleField():
 
         # 如果数量相同，则对比兵力综合
         team1_total_hp = sum(hero.get_兵力() for hero in team1_heroes if not hero.get_被击溃状态())
-        Log().show_debug_info('DEBUG------- 当前队伍1兵力总和: {}'.format(team1_total_hp))
         team2_total_hp = sum(hero.get_兵力() for hero in team2_heroes if not hero.get_被击溃状态())
-        Log().show_debug_info('DEBUG------- 当前队伍2兵力总和: {}'.format(team2_total_hp))
         if team1_total_hp > team2_total_hp:
             return True
         elif team1_total_hp < team2_total_hp:
@@ -73,7 +69,6 @@ class BattleField():
     # 请善待这个方法
     def respond(self, status: ResponseStatus, 时机响应武将: Hero = None):
 
-        Log().show_debug_info('DEBUG------- 当前响应时机为: {}'.format(status))
 
         if status == ResponseStatus.武将溃败:         
             for soul in self.getSoulList():
@@ -90,23 +85,18 @@ class BattleField():
         # 检索所有战法，并根据战法响应
         for skill in self.getCommandHandleRespon():
             if self.isOver() != 0:
-                Log().show_debug_info('DEBUG------- 当前战斗已经结束 无法响应战法')
                 return
 
             skill: Skill
             respon_list = skill.get_战法响应时机列表()
-            Log().show_debug_info('DEBUG------- 当前检索战法响应时机为: {}'.format(respon_list))
 
             if status in respon_list:
                 if self.isOver() != 0:
-                    Log().show_debug_info('DEBUG------- 当前战斗已经结束 无法响应战法')
                     return
 
                 战法持有者: Hero = skill.get_持有者()
                 战法持有者名称 = 战法持有者.get_武将名称()
-                Log().show_debug_info('DEBUG------- 当前检索成功 武将: {}'.format(战法持有者名称))
                 战法名称 = skill.get_战法名称()
-                Log().show_debug_info('DEBUG------- 当前检索成功 战法: {}'.format(战法名称))
 
                 if 战法名称 == SkillName.普攻:
                     if status == ResponseStatus.普攻行动时:
@@ -371,7 +361,6 @@ class BattleField():
             hero_name = hero.get_武将名称().value
             # 输出 队伍名 + 武将名 的排列
             teamName = hero.get_队伍名称()
-            Log().show_debug_info('DEBUG------- 填充战法 -- 顺序排列【{}】所在队伍【{}】'.format(hero_name, teamName))
 
         for hero in order_list_hero:
 
@@ -380,7 +369,6 @@ class BattleField():
             hero_name = getattr(hero_info, HeroInfoKey.武将名称.value).value
 
             # 输出名
-            Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前检索武将【{}】'.format(hero_name))
 
             D_SkillClass: Skill = getattr(hero, HeroInfoKey.D_SkillClass.value)
 
@@ -396,33 +384,26 @@ class BattleField():
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 被动
                 if skill.加载状态 == True :
-                    Log().show_debug_info('DEBUG------- 填充被动战法 -- 当前检索战法类型【{}】'.format(skill.战法类型()))
                     if skill.战法类型() == SkillType.被动:
                         self.getCommandHandleRespon().append(skill)
                         skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
-                        Log().show_debug_info('DEBUG------- 填充被动战法 -- 成功填充被动战法【{}】'.format(skill_name))
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 指挥
                 if skill.加载状态 == True :
-                    Log().show_debug_info('DEBUG------- 填充指挥战法 -- 当前检索战法类型【{}】'.format(skill.战法类型()))
                     if skill.战法类型() == SkillType.指挥:
                         self.getCommandHandleRespon().append(skill)
                         skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
-                        Log().show_debug_info('DEBUG------- 填充指挥战法 -- 成功填充指挥战法【{}】'.format(skill_name))
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 主动 && 追击
                 if skill.加载状态 == True :
-                    Log().show_debug_info('DEBUG------- 填充主动战法 -- 当前检索战法类型【{}】'.format(skill.战法类型()))
                     if skill.战法类型() == SkillType.主动 or skill.战法类型() == SkillType.追击:
                         self.getCommandHandleRespon().append(skill)
                         skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
-                        Log().show_debug_info('DEBUG------- 填充主动战法 -- 成功填充主动战法【{}】'.format(skill_name))
 
         # 普攻
         self.getCommandHandleRespon().append(getattr(hero, HeroInfoKey.P_SkillClass.value))
-        Log().show_debug_info('DEBUG------- 填充普攻战法 -- 成功填充普攻战法')
             
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')
@@ -767,7 +748,6 @@ class BattleField():
                     hero: Hero
                     hero_name = hero.get_武将名称().value
                     team_name = hero.get_队伍名称()
-                    Log().show_debug_info('DEBUG------- 当前武将队列[{}]【{}】'.format(team_name, hero_name))
 
                 self.respond(ResponseStatus.回合开始时)
 

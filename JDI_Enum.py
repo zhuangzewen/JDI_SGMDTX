@@ -77,6 +77,9 @@ class WeaponType(Enum):
     弓 = '弓'
 
 class HeroInfoKey(Enum):
+
+    持有Soul列表 = '持有Soul列表'
+    响应Soul列表 = '响应Soul列表'
     
     武将信息 = '武将信息'
     队伍名称 = '队伍名称'

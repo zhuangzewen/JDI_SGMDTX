@@ -105,6 +105,11 @@ class HeroInfo():
 
 class Hero():
 
+    def get_持有Soul列表(self):
+        return getattr(self, HeroInfoKey.持有Soul列表.value)
+    def get_响应Soul列表(self):
+        return getattr(self, HeroInfoKey.响应Soul列表.value)
+
     def get_武将信息(self):
         return getattr(self, HeroInfoKey.武将信息.value)
     def get_前排状态(self):
@@ -268,6 +273,9 @@ class Hero():
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
         setattr(self, HeroInfoKey.伤兵.value, 0)
         setattr(self, HeroInfoKey.亖兵.value, 0)
+
+        setattr(self, HeroInfoKey.持有Soul列表.value, [])
+        setattr(self, HeroInfoKey.响应Soul列表.value, [])
 
 def get_hero_info(heroName):
     if heroName == HeroName.Sp_诸葛亮:

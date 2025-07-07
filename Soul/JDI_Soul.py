@@ -1,5 +1,5 @@
 
-from _Log.JDI_Log import Log
+from Log.JDI_Log import Log
 from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType, SkillName
 from External.Fitting.JDI_Skill import Skill
 from Generals.JDI_Hero import Hero

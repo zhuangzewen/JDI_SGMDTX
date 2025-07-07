@@ -1,7 +1,6 @@
 
 from JDI_Enum import SkillName, HeroName, Faction, WeaponType, HeroInfoKey
 from External.Fitting.JDI_Skill import Skill, get_skill
-from _Log.JDI_Log import Log
 
 class HeroInfo():
     def __init__(self, heroName):

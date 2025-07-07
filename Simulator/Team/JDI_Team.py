@@ -1,6 +1,5 @@
 
 from Generals.JDI_Hero import Hero, HeroInfo
-from _Log.JDI_Log import Log
 
 class TeamInfo():
     def __init__(self, formation, firstHeroInfo, secondHeroInfo, thirdHeroInfo, teamName='', supply=100):

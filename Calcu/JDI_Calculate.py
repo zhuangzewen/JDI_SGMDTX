@@ -1,5 +1,5 @@
 
-from _Log.JDI_Log import Log
+from Log.JDI_Log import Log
 from Calcu.JDI_RanVal import *
 import math
 from JDI_Enum import DamageType, SkillType, WeaponType

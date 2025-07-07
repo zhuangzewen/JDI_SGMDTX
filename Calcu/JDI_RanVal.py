@@ -1,6 +1,5 @@
 
 import random
-from _Log.JDI_Log import Log
 
 def 获取对比行动优先级(hero1_xg, hero2_xg):
 
@@ -35,7 +34,6 @@ def 根据受击率列表随机一个敌方(hit_rate_list):
     return None
 
 def 随机暴击伤害(攻击者, 伤害类型) -> float:
-    from _Log.JDI_Log import Log
     from Generals.JDI_Hero import Hero
     from JDI_Enum import DamageType
 

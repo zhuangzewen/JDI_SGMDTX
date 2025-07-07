@@ -1,6 +1,5 @@
 
-from JDI_Enum import ResponseStatus, SkillType, SkillName, SkillInfoKey
-from JDI_Log import Log
+from JDI_Enum import SkillName, SkillInfoKey
 
 class SkillInfo():
 

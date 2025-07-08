@@ -1,10 +1,11 @@
 
 from Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from JDI_Enum import HeroInfoKey, SkillName
+from JDI_Enum import HeroInfoKey
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from External.Fitting.JDI_Skill import Skill
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
 
 
@@ -156,7 +157,7 @@ class Soul():
             setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
             setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
             setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
-            if (self.skill and self.skill.get_战法名称() == SkillName.普攻):
+            if (self.skill and self.skill.get_战法名称() == Fitting_List_Enum.普攻):
                 Log().show_battle_info('        [{}]损失了兵力{}({})'.format(heroName, abs(伤害数值), 剩余兵力))
             else:
                 Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))

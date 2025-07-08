@@ -1,7 +1,9 @@
 
 from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
-from JDI_Enum import SkillName, Faction, WeaponType, HeroInfoKey
+from JDI_Enum import Faction, WeaponType, HeroInfoKey
 from External.Fitting.JDI_Skill import get_skill
+from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 
 class HeroInfo():
     def __init__(self, heroName):
@@ -19,7 +21,7 @@ class HeroInfo():
                             HeroInfoKey.统帅成长:2.15,
                             HeroInfoKey.初始先攻:66,
                             HeroInfoKey.先攻成长:2.29,
-                            HeroInfoKey.自带战法:SkillName.七进七出},
+                            HeroInfoKey.自带战法:Fitting_List_Enum.七进七出},
             Generals_Name_Enum.吕布 :{HeroInfoKey.武将名称:Generals_Name_Enum.吕布,
                             HeroInfoKey.武将阵营:Faction.群,
                             HeroInfoKey.武将兵种:WeaponType.骑,
@@ -32,7 +34,7 @@ class HeroInfo():
                             HeroInfoKey.统帅成长:1.89,
                             HeroInfoKey.初始先攻:76,
                             HeroInfoKey.先攻成长:2.57,
-                            HeroInfoKey.自带战法:SkillName.骁勇无前},
+                            HeroInfoKey.自带战法:Fitting_List_Enum.骁勇无前},
             Generals_Name_Enum.甘夫人 :{HeroInfoKey.武将名称:Generals_Name_Enum.甘夫人,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.弓,
@@ -45,7 +47,7 @@ class HeroInfo():
                             HeroInfoKey.统帅成长:1.62,
                             HeroInfoKey.初始先攻:90,
                             HeroInfoKey.先攻成长:1.68,
-                            HeroInfoKey.自带战法:SkillName.皇思淑仁},
+                            HeroInfoKey.自带战法:Fitting_List_Enum.皇思淑仁},
             Generals_Name_Enum.刘备 :{HeroInfoKey.武将名称:Generals_Name_Enum.刘备,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.盾,
@@ -58,7 +60,7 @@ class HeroInfo():
                             HeroInfoKey.统帅成长:2.12,
                             HeroInfoKey.初始先攻:53,
                             HeroInfoKey.先攻成长:1.72,
-                            HeroInfoKey.自带战法:SkillName.携民渡江},
+                            HeroInfoKey.自带战法:Fitting_List_Enum.携民渡江},
             Generals_Name_Enum.姜维 :{HeroInfoKey.武将名称:Generals_Name_Enum.姜维,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.枪,
@@ -71,7 +73,7 @@ class HeroInfo():
                             HeroInfoKey.统帅成长:2.01,
                             HeroInfoKey.初始先攻:76,
                             HeroInfoKey.先攻成长:1.99,
-                            HeroInfoKey.自带战法:SkillName.九伐中原}}
+                            HeroInfoKey.自带战法:Fitting_List_Enum.九伐中原}}
 
         # 遍历heroes字典中指定武将的信息
         for keyName in heroes[heroName]:
@@ -232,7 +234,7 @@ class Hero():
         setattr(self, HeroInfoKey.S_SkillClass.value, S_skill)
 
         # 普攻战法
-        P_skill = get_skill(SkillName.普攻, self)
+        P_skill = get_skill(Fitting_List_Enum.普攻, self)
         P_skill.设置战法升阶(0)  # 普攻没有升阶
         setattr(self, HeroInfoKey.P_SkillClass.value, P_skill)
 

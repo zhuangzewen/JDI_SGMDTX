@@ -13,11 +13,14 @@
 
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
+from JDI_Enum import WeaponType
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
+from External.Fitting.Enum.FittingType_Enum import SkillType
 
 class 草船借箭_info(SkillInfo):
     def __init__(self):
-        self.战法名称 = SkillName.草船借箭
+        self.战法名称 = Fitting_List_Enum.草船借箭
         self.战法类型 = SkillType.指挥
         self.战法特性 = SkillFeature.谋略
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]

@@ -15,7 +15,8 @@
 
 from Generals.JDI_Hero import HeroInfo
 from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
-from JDI_Enum import Faction, WeaponType, SkillName
+from JDI_Enum import Faction, WeaponType
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 
 class 诸葛亮_info(HeroInfo):
     def __init__(self):
@@ -31,4 +32,4 @@ class 诸葛亮_info(HeroInfo):
         self.统帅成长 = 2.30
         self.初始先攻 = 57
         self.先攻成长 = 1.65
-        self.自带战法 = SkillName.草船借箭
+        self.自带战法 = Fitting_List_Enum.草船借箭

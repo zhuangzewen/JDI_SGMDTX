@@ -1,5 +1,6 @@
 
-from JDI_Enum import SkillName, SkillInfoKey
+from External.Fitting.Enum.FittingInfoKey_Enum import SkillInfoKey
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 
 class SkillInfo():
 
@@ -42,7 +43,7 @@ class Skill():
 
     def __init__(self, hero, skillName):
 
-        if isinstance(skillName, SkillName):
+        if isinstance(skillName, Fitting_List_Enum):
             skillInfo = get_skill_info(skillName)
             setattr(self, SkillInfoKey.战法信息.value, skillInfo)
             setattr(self, SkillInfoKey.加载状态.value, True)
@@ -72,13 +73,13 @@ class Skill():
         return None
 
 def get_skill_info(skillName):
-    if skillName == SkillName.普攻:
+    if skillName == Fitting_List_Enum.普攻:
         from External.Fitting.List.普攻 import 普攻_info
         skillInfo = 普攻_info()
-    elif skillName == SkillName.星罗棋布:
+    elif skillName == Fitting_List_Enum.星罗棋布:
         from External.Fitting.List.星罗棋布 import 星罗棋布_info
         skillInfo = 星罗棋布_info()
-    elif skillName == SkillName.草船借箭:
+    elif skillName == Fitting_List_Enum.草船借箭:
         from External.Fitting.List.草船借箭 import 草船借箭_info
         skillInfo = 草船借箭_info()
     else:
@@ -86,13 +87,13 @@ def get_skill_info(skillName):
     return skillInfo
 
 def get_skill(skillName, hero):
-    if skillName == SkillName.普攻:
+    if skillName == Fitting_List_Enum.普攻:
         from External.Fitting.List.普攻 import 普攻_skill
         skill = 普攻_skill(hero, skillName)
-    elif skillName == SkillName.星罗棋布:
+    elif skillName == Fitting_List_Enum.星罗棋布:
         from External.Fitting.List.星罗棋布 import 星罗棋布_skill
         skill = 星罗棋布_skill(hero, skillName)
-    elif skillName == SkillName.草船借箭:
+    elif skillName == Fitting_List_Enum.草船借箭:
         from External.Fitting.List.草船借箭 import 草船借箭_skill
         skill = 草船借箭_skill(hero, skillName)
     else:

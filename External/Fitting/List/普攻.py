@@ -7,8 +7,11 @@
 # 普攻:
 # 对敌军单体造成100%伤害(受武力或智力影响，取较高的一项)
 
-from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
+from JDI_Enum import WeaponType
 from External.Fitting.JDI_Skill import SkillInfo, Skill
+from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
+from External.Fitting.Enum.FittingType_Enum import SkillType
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
@@ -21,7 +24,7 @@ from Log.JDI_Log import Log
 
 class 普攻_info(SkillInfo):
     def __init__(self):
-        self.战法名称 = SkillName.普攻
+        self.战法名称 = Fitting_List_Enum.普攻
         self.战法类型 = SkillType.普攻
         self.战法特性 = SkillFeature.普攻
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]

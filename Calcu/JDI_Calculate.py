@@ -1,7 +1,9 @@
 
 from Calcu.JDI_RanVal import *
-from JDI_Enum import SkillType, WeaponType
+from JDI_Enum import WeaponType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+from External.Fitting.Enum.FittingType_Enum import SkillType
+
 
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero

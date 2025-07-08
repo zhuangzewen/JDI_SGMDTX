@@ -69,7 +69,7 @@ class BattleField():
     # 请善待这个方法
     def respond(self, status: ResponseStatus, 时机响应武将: Hero = None):
 
-
+        return
         if status == ResponseStatus.武将溃败:         
             for soul in self.getSoulList():
                 soul: Soul
@@ -356,19 +356,10 @@ class BattleField():
     def 填充战法(self):
         
         order_list_hero = 武将行动队列(self)
-        for hero in order_list_hero:
-            hero: Hero
-            hero_name = hero.get_武将名称().value
-            # 输出 队伍名 + 武将名 的排列
-            teamName = hero.get_队伍名称()
 
         for hero in order_list_hero:
 
             hero: Hero
-            hero_info = getattr(hero, HeroInfoKey.武将信息.value)
-            hero_name = getattr(hero_info, HeroInfoKey.武将名称.value).value
-
-            # 输出名
 
             D_SkillClass: Skill = getattr(hero, HeroInfoKey.D_SkillClass.value)
 
@@ -385,24 +376,25 @@ class BattleField():
                 if skill.加载状态 == True :
                     if skill.战法类型() == SkillType.被动:
                         self.getCommandHandleRespon().append(skill)
-                        skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
+                        skill.fill_init_soul()
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 指挥
                 if skill.加载状态 == True :
                     if skill.战法类型() == SkillType.指挥:
                         self.getCommandHandleRespon().append(skill)
-                        skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
+                        skill.fill_init_soul()
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 主动 && 追击
                 if skill.加载状态 == True :
                     if skill.战法类型() == SkillType.主动 or skill.战法类型() == SkillType.追击:
                         self.getCommandHandleRespon().append(skill)
-                        skill_name = getattr(skill.战法信息, SkillInfoKey.战法名称.value)
+                        skill.fill_init_soul()
 
             # 普攻
             self.getCommandHandleRespon().append(P_SkillClass)
+            P_SkillClass.fill_init_soul()
             
     def 列队布阵(self):
         Log().show_battle_info('[列队布阵阶段]')
@@ -741,12 +733,7 @@ class BattleField():
 
                 self.respond(ResponseStatus.每回合重置阶段)
 
-                # 行动顺序判断
                 order_list_hero = 武将行动队列(self)
-                for hero in order_list_hero:
-                    hero: Hero
-                    hero_name = hero.get_武将名称().value
-                    team_name = hero.get_队伍名称()
 
                 self.respond(ResponseStatus.回合开始时)
 
@@ -765,7 +752,6 @@ class BattleField():
 
                     self.respond(ResponseStatus.普攻行动时, 时机响应武将=hero)
                     
-                self.respond(ResponseStatus.回合结束时)
                 self.respond(ResponseStatus.每回合结束时)
 
         return self.isOverWithoutDefeated()

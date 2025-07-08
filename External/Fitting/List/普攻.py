@@ -10,6 +10,8 @@
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
 from JDI_Enum import ResponseStatus
+# soul
+from Soul.JDI_Soul import Soul
 
 class 普攻_info(SkillInfo):
     def __init__(self):
@@ -24,8 +26,13 @@ class 普攻_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 
+    def fill_init_soul(self):
+        super().fill_init_soul()
+
     def 普攻_伤害系数(self):
         """
         普攻的伤害系数为 1.0
         """
         return 1.0
+
+        

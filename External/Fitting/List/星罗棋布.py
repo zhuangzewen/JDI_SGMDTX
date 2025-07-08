@@ -35,6 +35,9 @@ class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 
+    def fill_init_soul(self):
+        super().fill_init_soul()
+
     def response_阵型结束(self):
         pass
 

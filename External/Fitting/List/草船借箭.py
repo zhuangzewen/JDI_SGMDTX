@@ -23,6 +23,9 @@ class 草船借箭_info(SkillInfo):
         self.发动率 = 1
         self.战法响应时机列表 = [ResponseStatus.战法布阵开始, ResponseStatus.每回合重置阶段, ResponseStatus.造成伤害时, ResponseStatus.受到伤害时]
 
+    def fill_init_soul(self):
+        super().fill_init_soul()
+
 class 草船借箭_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)

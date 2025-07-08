@@ -53,6 +53,9 @@ class Skill():
         setattr(self, SkillInfoKey.持有者.value, hero)
         setattr(self, SkillInfoKey.Soul_list.value, [])
 
+    def fill_init_soul(self):
+        pass
+
     def 设置战法升阶(self, value):
         setattr(self, SkillInfoKey.战法升阶.value, value)
     

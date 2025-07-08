@@ -36,7 +36,7 @@ class Soul():
             from BattleField.JDI_BattleField import BattleField
             self.battleField = battleField
 
-    def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None):
+    def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None):
         pass
 
     def deploy_initial(self):

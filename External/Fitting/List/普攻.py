@@ -7,13 +7,17 @@
 # 普攻:
 # 对敌军单体造成100%伤害(受武力或智力影响，取较高的一项)
 
-from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
-from Soul.JDI_Soul import Soul
+from External.Fitting.JDI_Skill import SkillInfo, Skill
+from Generals.JDI_Hero import Hero
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Generals.JDI_Hero import Hero
+from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+from Soul.JDI_Soul import Soul
+from Log.JDI_Log import Log
+
+
 
 class 普攻_info(SkillInfo):
     def __init__(self):
@@ -38,9 +42,24 @@ class 普攻_soul(Soul):
                  battleField = None):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
 
-    def response(self, status = SoulResponseTime.无响应阶段, battleField=None):
-        print(f"响应普攻: ")
-
+    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None):
+        if status != SoulResponseTime.普攻行动时 or hero != self.target:
+            return
+        
+        from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
+        attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+        attacked: Hero = 从队列确定受击武将(attacked_heroes)
+        attacked_name = attacked.get_武将名称().value
+        Log().show_battle_info('  [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
+        value = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
+        damage_soul = Soul(target=attacked,
+                            initiator=self.target,
+                            sourceType=SoulSourceType.武将战法,
+                            skill=self.skill,
+                            effect_type=SoulEffectType.损失兵力,
+                            effect_value=value,
+                            battleField=battleField)
+        damage_soul.deploy_initial()
 
 class 普攻_skill(Skill):
     def __init__(self, hero, skillName):

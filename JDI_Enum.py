@@ -1,12 +1,6 @@
 
 from enum import Enum
 
-class DamageType(Enum):
-    谋略 = 1
-    兵刃 = 2
-    逃兵 = 3
-    择优 = 4
-
 class SkillFeature(Enum):
     辅助 = '辅助'
     谋略 = '谋略'

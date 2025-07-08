@@ -1,6 +1,7 @@
 
 from Calcu.JDI_RanVal import *
-from JDI_Enum import DamageType, SkillType, WeaponType
+from JDI_Enum import SkillType, WeaponType
+from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero
@@ -127,21 +128,19 @@ def 对己方所有目标生效(skill, battleField):
     elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
 
-def 对己方阵型强化SOUL生效(skill, battleField):
+def 对己方阵型强化SOUL生效(hero, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
     from Soul.JDI_Soul import Soul, SoulSourceType
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     # 返回新数组
@@ -191,21 +190,18 @@ def 从队列确定受击武将(heroList):
     selected_hero = heroList[randomInt]
     return selected_hero
 
-def 对敌方所有目标生效(skill, battleField):
-    from External.Fitting.JDI_Skill import Skill
+def 对敌方所有目标生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
 
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
 
-    owner = skill.get_持有者()
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
 
 def 武将行动队列(battleField):
@@ -289,18 +285,18 @@ def 获取武将所在的队伍(battleField, hero):
         return team2
 
 def MSG_确定伤害类型(攻击者, 伤害类型):
-    from JDI_Enum import DamageType
+    from Soul.Enum.SoulDamageType_Enum import SoulDamageType
     from Generals.JDI_Hero import Hero
 
     攻击者: Hero
-    确定伤害类型:DamageType = 伤害类型
-    if 确定伤害类型 == DamageType.择优:
+    确定伤害类型:SoulDamageType = 伤害类型
+    if 确定伤害类型 == SoulDamageType.择优:
         wuli = 攻击者.get_武力()
         zhiLi = 攻击者.get_智力()
         if wuli >= zhiLi:
-            确定伤害类型 = DamageType.兵刃
+            确定伤害类型 = SoulDamageType.兵刃
         else:
-            确定伤害类型 = DamageType.谋略
+            确定伤害类型 = SoulDamageType.谋略
 
     return 确定伤害类型
 
@@ -353,18 +349,18 @@ def MSG_兵力伤害公式(兵力: int):
     # 默认返回值（理论上不会执行到这里）
     return 1.0
 
-def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤害值):
+def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: SoulDamageType, 伤害值):
 
-    if 伤害类型 == DamageType.谋略:
+    if 伤害类型 == SoulDamageType.谋略:
         攻方数值 = 攻击者.get_智力()
         防方数值 = (防御者.get_统帅() + 防御者.get_智力()) * 0.5
-    elif 伤害类型 == DamageType.兵刃:
+    elif 伤害类型 == SoulDamageType.兵刃:
         攻方数值 = 攻击者.get_武力()
         防方数值 = 防御者.get_统帅()
-    elif 伤害类型 == DamageType.逃兵:
+    elif 伤害类型 == SoulDamageType.逃兵:
         攻方数值 = 1
         防方数值 = 1
-    elif 伤害类型 == DamageType.择优:
+    elif 伤害类型 == SoulDamageType.择优:
         wuli = 攻击者.get_武力()
         zhiLi = 攻击者.get_智力()
         if wuli > zhiLi:
@@ -423,7 +419,7 @@ def MSG_兵种减伤公式(攻击者, 防御者):
 
     return 减伤系数
 
-def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType):
+def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType, 战法类型: SkillType):
     from Generals.JDI_Hero import Hero
     攻击者: Hero
     防御者: Hero
@@ -452,7 +448,7 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, �
         对后排造成伤害提升 = 攻击者.get_对后排造成伤害提升()
         造成伤害提升 *= 对后排造成伤害提升
 
-    if 伤害类型 == DamageType.谋略:
+    if 伤害类型 == SoulDamageType.谋略:
         受到谋略伤害降低 = 防御者.get_受到谋略伤害降低()
         武将增减伤系数 *= (1 + 受到谋略伤害降低)
 
@@ -476,7 +472,7 @@ def 治疗计算(battleField, 施救者, 受助者, 治疗率 = 1.0):
     return Y
 
 # 伤害计算 这个方法可能会传入大量的参数
-def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType, 伤害值 = 1.0):
+def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: SoulDamageType, 战法类型: SkillType, 伤害值 = 1.0):
 
     from BattleField.JDI_BattleField import BattleField
     from Generals.JDI_Hero import Hero

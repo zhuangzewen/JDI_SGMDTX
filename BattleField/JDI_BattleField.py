@@ -3,7 +3,8 @@ from Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from JDI_Enum import SkillName, WeaponType, HeroInfoKey, SkillType, DamageType
+from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+from JDI_Enum import SkillName, WeaponType, HeroInfoKey, SkillType
 from BattleField.Team.JDI_Team import TeamInfo, Team, Formation
 from Generals.JDI_Hero import Hero
 from External.Fitting.JDI_Skill import Skill
@@ -86,7 +87,7 @@ class BattleField():
             checkHero: Hero
             for soul in checkHero.get_响应Soul列表():
                 soul: Soul
-                soul.response(status, battleField=self)
+                soul.response(status, battleField=self, hero=时机响应武将)
 
         return
     
@@ -762,13 +763,20 @@ class BattleField():
                     self.respond(SoulResponseTime.每回合行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
-                            Log().show_battle_info('  [{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
                             return True
                         elif self.isOver() == 2:
-                            Log().show_battle_info('  [{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
                     self.respond(SoulResponseTime.普攻行动时, 时机响应武将=hero)
+                    if self.isOver() != 0:
+                        if self.isOver() == 1:
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            return True
+                        elif self.isOver() == 2:
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            return False
                     
                 self.respond(SoulResponseTime.每回合结束时)
 

@@ -143,16 +143,6 @@ class HeroInfoKey(Enum):
     S_SkillClass = 'S_SkillClass'
     P_SkillClass = 'P_SkillClass'
 
-class Formation(Enum):
-    一字阵 = '一字阵'
-    萁型阵 = '萁型阵'
-    雁型阵 = '雁型阵'
-    方圆阵 = '方圆阵'
-    锥型阵 = '锥型阵'
-    鱼鳞阵 = '鱼鳞阵'
-    钩型阵 = '钩型阵'
-    偃月阵 = '偃月阵'
-
 class SoulSourceType(Enum):
     不溯源 = '不溯源'
 
@@ -198,10 +188,3 @@ class SoulEffectType(Enum):
     星罗棋布_三前排阵型 = '星罗棋布_三前排阵型'
 
     草船借箭 = '草船借箭'
-
-class SimulatorMode(Enum):
-
-    VS_1 = 'VS_1'
-    VS_Team = 'VS_Team'
-    VS_Random = 'VS_Random'
-

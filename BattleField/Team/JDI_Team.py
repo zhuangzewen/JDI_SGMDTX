@@ -1,5 +1,16 @@
 
+from enum import Enum
 from Generals.JDI_Hero import Hero, HeroInfo
+
+class Formation(Enum):
+    一字阵 = '一字阵'
+    萁型阵 = '萁型阵'
+    雁型阵 = '雁型阵'
+    方圆阵 = '方圆阵'
+    锥型阵 = '锥型阵'
+    鱼鳞阵 = '鱼鳞阵'
+    钩型阵 = '钩型阵'
+    偃月阵 = '偃月阵'
 
 class TeamInfo():
     def __init__(self, formation, firstHeroInfo, secondHeroInfo, thirdHeroInfo, teamName='', supply=100):

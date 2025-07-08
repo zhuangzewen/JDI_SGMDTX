@@ -1,7 +1,7 @@
 
 from Log.JDI_Log import Log
-from JDI_Enum import ResponseStatus, SkillName, WeaponType, HeroInfoKey, Formation, SoulSourceType, SoulEffectType, SkillType, DamageType
-from BattleField.Team.JDI_Team import TeamInfo, Team
+from JDI_Enum import ResponseStatus, SkillName, WeaponType, HeroInfoKey, SoulSourceType, SoulEffectType, SkillType, DamageType
+from BattleField.Team.JDI_Team import TeamInfo, Team, Formation
 from Generals.JDI_Hero import Hero
 from External.Fitting.JDI_Skill import Skill
 from Soul.JDI_Soul import Soul

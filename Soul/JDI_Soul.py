@@ -36,6 +36,9 @@ class Soul():
             from BattleField.JDI_BattleField import BattleField
             self.battleField = battleField
 
+    def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None):
+        pass
+
     def deploy_initial(self):
 
         self.target: Hero
@@ -166,9 +169,6 @@ class Soul():
                 self.battleField.respond(SoulResponseTime.造成伤害时, self.initiator)
                 self.battleField.respond(SoulResponseTime.受到伤害时, self.target)
 
-
-    # 还原效果并销毁
-    # 方法与上面的部署正相反
     def restore_initial(self):
 
         self.target: Hero

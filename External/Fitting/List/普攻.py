@@ -24,6 +24,14 @@ class 普攻_info(SkillInfo):
         self.发动率 = 1
         self.战法响应时机列表 = [SoulResponseTime.普攻行动时]
 
+class 普攻_soul(Soul):
+    def __init__(self, target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul=None, battleField=None):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+        self.战法名称 = SkillName.普攻
+        self.战法类型 = SkillType.普攻
+        self.战法特性 = SkillFeature.普攻
+
+
 class 普攻_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
@@ -36,7 +44,7 @@ class 普攻_skill(Skill):
             skill=self,
             response_time=SoulResponseTime.普攻行动时,
             duration=-1,
-            effect_type=SoulEffectType.无影响,
+            effect_type=SoulEffectType.普攻,
             effect_value=0,
             source_soul=None,
             battleField=battleField

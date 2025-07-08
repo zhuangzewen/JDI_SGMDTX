@@ -1,4 +1,4 @@
-
+from enum import Enum
 from Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
@@ -10,25 +10,36 @@ from External.Fitting.JDI_Skill import Skill
 from Soul.JDI_Soul import Soul
 from Calcu.JDI_Calculate import *
 
+class BattleFieldInfoKey(Enum):
+    TEAM1 = "team1"
+    TEAM2 = "team2"
+    COMMAND_HANDLE_RESPON = "command_handle_respon"
+    SOUL_LIST = "soul_list"
+    ORDER_LIST = "order_list"
+
 class BattleField():
 
     def __init__(self):
-        self.team1 = None
-        self.team2 = None
-        self.command_handle_respon = []
-        self.soul_list = []
+        setattr(self, BattleFieldInfoKey.TEAM1.value, None)
+        setattr(self, BattleFieldInfoKey.TEAM2.value, None)
+        setattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value, [])
+        setattr(self, BattleFieldInfoKey.SOUL_LIST.value, [])
+        setattr(self, BattleFieldInfoKey.ORDER_LIST.value, [])
 
     def getTeam1(self):
-        return self.team1
+        return getattr(self, BattleFieldInfoKey.TEAM1.value)
     
     def getTeam2(self):
-        return self.team2
-    
+        return getattr(self, BattleFieldInfoKey.TEAM2.value)
+
     def getCommandHandleRespon(self):
-        return self.command_handle_respon
-    
+        return getattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value)
+
     def getSoulList(self):
-        return self.soul_list
+        return getattr(self, BattleFieldInfoKey.SOUL_LIST.value)
+    
+    def getOrderList(self):
+        return getattr(self, BattleFieldInfoKey.ORDER_LIST.value)
 
     def isOver(self):
 
@@ -36,7 +47,6 @@ class BattleField():
         team2_heroes = [self.team2.firstHero, self.team2.secondHero, self.team2.thirdHero]
 
         team1_all_defeated = all(hero.get_被击溃状态() for hero in team1_heroes)
-
         team2_all_defeated = all(hero.get_被击溃状态() for hero in team2_heroes)
 
         
@@ -72,7 +82,14 @@ class BattleField():
     # 请善待这个方法
     def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None):
 
+        for checkHero in self.getOrderList():
+            checkHero: Hero
+            for soul in checkHero.get_响应Soul列表():
+                soul: Soul
+                soul.response(status, battleField=self)
+
         return
+    
         if status == SoulResponseTime.武将溃败:
             for soul in self.getSoulList():
                 soul: Soul
@@ -345,8 +362,6 @@ class BattleField():
                                                battleField=self)
                             damage_soul.deploy_initial()
                             skill.当前回合发动次数 += 1
-
-
 
     def 重置武将状态(self):
 
@@ -736,11 +751,11 @@ class BattleField():
 
                 self.respond(SoulResponseTime.每回合重置阶段)
 
-                order_list_hero = 武将行动队列(self)
+                setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
                 self.respond(SoulResponseTime.回合开始时)
 
-                for hero in order_list_hero:
+                for hero in self.getOrderList():  
                     hero: Hero
                     hero_name = hero.get_武将名称().value
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))

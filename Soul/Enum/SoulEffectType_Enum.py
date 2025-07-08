@@ -4,6 +4,8 @@ from enum import Enum
 class SoulEffectType(Enum):
     无影响 = '无影响'
 
+    普攻 = '普攻'
+
     造成伤害 = '造成伤害'
     对前排造成伤害 = '对前排造成伤害'
     对后排造成伤害 = '对后排造成伤害'

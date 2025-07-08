@@ -16,8 +16,8 @@ def msg_过滤掉被击溃的武将(heroes):
 
 def msg_判断己方前排武将数量(skill, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
     skill: Skill
     battleField: BattleField
@@ -38,8 +38,8 @@ def msg_判断己方前排武将数量(skill, battleField):
 
 def msg_对我方的单前排生效(skill, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
     skill: Skill
     battleField: BattleField
@@ -60,8 +60,8 @@ def msg_对我方的单前排生效(skill, battleField):
 
 def msg_对我方统帅最低的武将(skill, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
     skill: Skill
     battleField: BattleField
@@ -86,8 +86,8 @@ def msg_对我方统帅最低的武将(skill, battleField):
 
 def msg_对我方智力最高的武将(skill, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
     skill: Skill
     battleField: BattleField
@@ -112,8 +112,8 @@ def msg_对我方智力最高的武将(skill, battleField):
 
 def 对己方所有目标生效(skill, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
     skill: Skill
     battleField: BattleField
@@ -193,8 +193,8 @@ def 从队列确定受击武将(heroList):
 
 def 对敌方所有目标生效(skill, battleField):
     from External.Fitting.JDI_Skill import Skill
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
     skill: Skill
     battleField: BattleField
@@ -209,8 +209,8 @@ def 对敌方所有目标生效(skill, battleField):
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
 
 def 武将行动队列(battleField):
-    from Simulator.JDI_BattleField import BattleField
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
     from Generals.JDI_Hero import Hero
     from JDI_Enum import HeroInfoKey
 
@@ -273,9 +273,9 @@ def 武将行动队列(battleField):
     return order_list
 
 def 获取武将所在的队伍(battleField, hero):
-    from Simulator.Team.JDI_Team import Team
+    from BattleField.Team.JDI_Team import Team
     from Generals.JDI_Hero import Hero
-    from Simulator.JDI_BattleField import BattleField
+    from BattleField.JDI_BattleField import BattleField
 
     battleField: BattleField
     hero: Hero
@@ -459,7 +459,7 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, �
     return 武将增减伤系数
 
 def 治疗计算(battleField, 施救者, 受助者, 治疗率 = 1.0):
-    from Simulator.JDI_BattleField import BattleField
+    from BattleField.JDI_BattleField import BattleField
     from Generals.JDI_Hero import Hero
 
     battleField: BattleField
@@ -478,7 +478,7 @@ def 治疗计算(battleField, 施救者, 受助者, 治疗率 = 1.0):
 # 伤害计算 这个方法可能会传入大量的参数
 def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType, 伤害值 = 1.0):
 
-    from Simulator.JDI_BattleField import BattleField
+    from BattleField.JDI_BattleField import BattleField
     from Generals.JDI_Hero import Hero
 
     battleField: BattleField

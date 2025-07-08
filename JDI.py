@@ -3,8 +3,8 @@ from Log.JDI_Log import Log
 from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
 from JDI_Enum import Formation, SimulatorMode
 from Generals.JDI_Hero import get_hero_info
-from Simulator.Team.JDI_Team import TeamInfo
-from Simulator.JDI_BattleField import BattleField
+from BattleField.Team.JDI_Team import TeamInfo
+from BattleField.JDI_BattleField import BattleField
 
 # 优化完成 1.0       
 class Simulator():

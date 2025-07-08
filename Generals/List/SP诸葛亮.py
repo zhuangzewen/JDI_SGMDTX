@@ -14,12 +14,13 @@
 # HeroInfoKey.自带战法:SkillName.星罗棋布
 
 from Generals.JDI_Hero import HeroInfo
-from JDI_Enum import HeroName, Faction, WeaponType, SkillName
+from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
+from JDI_Enum import Faction, WeaponType, SkillName
 
 
 class SP诸葛亮_info(HeroInfo):
     def __init__(self):
-        self.武将名称 = HeroName.Sp_诸葛亮
+        self.武将名称 = Generals_Name_Enum.SP诸葛亮
         self.武将阵营 = Faction.蜀
         self.武将兵种 = WeaponType.盾
         self.武将性别 = 1

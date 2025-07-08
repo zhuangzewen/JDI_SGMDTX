@@ -1,12 +1,13 @@
 
-from JDI_Enum import SkillName, HeroName, Faction, WeaponType, HeroInfoKey
+from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
+from JDI_Enum import SkillName, Faction, WeaponType, HeroInfoKey
 from External.Fitting.JDI_Skill import get_skill
 
 class HeroInfo():
     def __init__(self, heroName):
 
         heroes = {
-            HeroName.赵云 :{HeroInfoKey.武将名称:HeroName.赵云,
+            Generals_Name_Enum.赵云 :{HeroInfoKey.武将名称:Generals_Name_Enum.赵云,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.骑,
                             HeroInfoKey.武将性别:1,
@@ -19,7 +20,7 @@ class HeroInfo():
                             HeroInfoKey.初始先攻:66,
                             HeroInfoKey.先攻成长:2.29,
                             HeroInfoKey.自带战法:SkillName.七进七出},
-            HeroName.吕布 :{HeroInfoKey.武将名称:HeroName.吕布,
+            Generals_Name_Enum.吕布 :{HeroInfoKey.武将名称:Generals_Name_Enum.吕布,
                             HeroInfoKey.武将阵营:Faction.群,
                             HeroInfoKey.武将兵种:WeaponType.骑,
                             HeroInfoKey.武将性别:1,
@@ -32,7 +33,7 @@ class HeroInfo():
                             HeroInfoKey.初始先攻:76,
                             HeroInfoKey.先攻成长:2.57,
                             HeroInfoKey.自带战法:SkillName.骁勇无前},
-            HeroName.甘夫人 :{HeroInfoKey.武将名称:HeroName.甘夫人,
+            Generals_Name_Enum.甘夫人 :{HeroInfoKey.武将名称:Generals_Name_Enum.甘夫人,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.弓,
                             HeroInfoKey.武将性别:0,
@@ -45,7 +46,7 @@ class HeroInfo():
                             HeroInfoKey.初始先攻:90,
                             HeroInfoKey.先攻成长:1.68,
                             HeroInfoKey.自带战法:SkillName.皇思淑仁},
-            HeroName.刘备 :{HeroInfoKey.武将名称:HeroName.刘备,
+            Generals_Name_Enum.刘备 :{HeroInfoKey.武将名称:Generals_Name_Enum.刘备,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.盾,
                             HeroInfoKey.武将性别:1,
@@ -58,7 +59,7 @@ class HeroInfo():
                             HeroInfoKey.初始先攻:53,
                             HeroInfoKey.先攻成长:1.72,
                             HeroInfoKey.自带战法:SkillName.携民渡江},
-            HeroName.姜维 :{HeroInfoKey.武将名称:HeroName.姜维,
+            Generals_Name_Enum.姜维 :{HeroInfoKey.武将名称:Generals_Name_Enum.姜维,
                             HeroInfoKey.武将阵营:Faction.蜀,
                             HeroInfoKey.武将兵种:WeaponType.枪,
                             HeroInfoKey.武将性别:1,
@@ -277,10 +278,10 @@ class Hero():
         setattr(self, HeroInfoKey.响应Soul列表.value, [])
 
 def get_hero_info(heroName):
-    if heroName == HeroName.Sp_诸葛亮:
+    if heroName == Generals_Name_Enum.SP诸葛亮:
         from Generals.List.SP诸葛亮 import SP诸葛亮_info
         heroInfo = SP诸葛亮_info()
-    elif heroName == HeroName.诸葛亮:
+    elif heroName == Generals_Name_Enum.诸葛亮:
         from Generals.List.诸葛亮 import 诸葛亮_info
         heroInfo = 诸葛亮_info()
     else:

@@ -55,15 +55,6 @@ class SkillInfoKey(Enum):
     战法升阶 = '战法升阶'
     Soul_list = 'Soul_list'
 
-class HeroName(Enum):
-    Sp_诸葛亮 = "Sp_诸葛亮"
-    诸葛亮 = "诸葛亮"
-    赵云 = "赵云"
-    吕布 = "吕布"
-    甘夫人 = "甘夫人"
-    刘备 = "刘备"
-    姜维 = "姜维"
-
 class Faction(Enum):
     魏 = '魏'
     蜀 = '蜀'

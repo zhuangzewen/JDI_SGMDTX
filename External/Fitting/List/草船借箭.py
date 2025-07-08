@@ -12,7 +12,8 @@
 # 自身攻心提升27.5%,自身受到或造成伤害时,有50%概率对敌方随机单体造成92%谋略伤害,每回合可触发5次
 
 from External.Fitting.JDI_Skill import SkillInfo, Skill
-from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType, ResponseStatus
+from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
+from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
 
 class 草船借箭_info(SkillInfo):
     def __init__(self):
@@ -21,7 +22,7 @@ class 草船借箭_info(SkillInfo):
         self.战法特性 = SkillFeature.谋略
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [ResponseStatus.战法布阵开始, ResponseStatus.每回合重置阶段, ResponseStatus.造成伤害时, ResponseStatus.受到伤害时]
+        self.战法响应时机列表 = [SoulResponseTime.战法布阵开始, SoulResponseTime.每回合重置阶段, SoulResponseTime.造成伤害时, SoulResponseTime.受到伤害时]
 
     def fill_init_soul(self):
         super().fill_init_soul()

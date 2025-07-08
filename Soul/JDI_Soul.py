@@ -161,12 +161,10 @@ class Soul():
             if 剩余兵力 <= 0:
                 setattr(self.target, HeroInfoKey.被击溃状态.value, True)
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
-                from JDI_Enum import ResponseStatus
-                self.battleField.respond(ResponseStatus.武将溃败, self.target)
+                self.battleField.respond(SoulResponseTime.武将溃败, self.target)
             else:
-                from JDI_Enum import ResponseStatus
-                self.battleField.respond(ResponseStatus.造成伤害时, self.initiator)
-                self.battleField.respond(ResponseStatus.受到伤害时, self.target)
+                self.battleField.respond(SoulResponseTime.造成伤害时, self.initiator)
+                self.battleField.respond(SoulResponseTime.受到伤害时, self.target)
 
 
     # 还原效果并销毁

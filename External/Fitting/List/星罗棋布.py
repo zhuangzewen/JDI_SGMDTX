@@ -20,7 +20,8 @@
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
 from External.Fitting.JDI_Skill import SkillInfo, Skill
-from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType, ResponseStatus
+from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
+from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
 
 class 星罗棋布_info(SkillInfo):
     def __init__(self):
@@ -29,7 +30,7 @@ class 星罗棋布_info(SkillInfo):
         self.战法特性 = SkillFeature.辅助
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [ResponseStatus.阵型结束, ResponseStatus.战法布阵开始, ResponseStatus.每回合行动时, ResponseStatus.每回合结束时]
+        self.战法响应时机列表 = [SoulResponseTime.阵型结束, SoulResponseTime.战法布阵开始, SoulResponseTime.每回合行动时, SoulResponseTime.每回合结束时]
 
 class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):

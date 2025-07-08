@@ -9,11 +9,11 @@
 
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from JDI_Enum import SkillName, SkillType, SkillFeature, WeaponType
-from JDI_Enum import ResponseStatus
 from Soul.JDI_Soul import Soul
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+from Generals.JDI_Hero import Hero
 
 class 普攻_info(SkillInfo):
     def __init__(self):
@@ -22,7 +22,7 @@ class 普攻_info(SkillInfo):
         self.战法特性 = SkillFeature.普攻
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [ResponseStatus.普攻行动时]
+        self.战法响应时机列表 = [SoulResponseTime.普攻行动时]
 
 class 普攻_skill(Skill):
     def __init__(self, hero, skillName):
@@ -41,7 +41,9 @@ class 普攻_skill(Skill):
             source_soul=None,
             battleField=battleField
         )
-        pass
+        持有者and响应者: Hero = self.get_持有者()
+        持有者and响应者.get_持有Soul列表().append(普攻_soul)
+        持有者and响应者.get_响应Soul列表().append(普攻_soul)
 
     def 普攻_伤害系数(self):
         """

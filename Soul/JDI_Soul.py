@@ -1,6 +1,9 @@
 
 from Log.JDI_Log import Log
-from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType, SkillName
+from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+from JDI_Enum import HeroInfoKey, SkillName
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from External.Fitting.JDI_Skill import Skill
 from Generals.JDI_Hero import Hero
 
@@ -13,7 +16,7 @@ class Soul():
                  initiator: Hero = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
                  skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.None_Response, 
+                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
                  effect_value: float = 0,
@@ -30,7 +33,7 @@ class Soul():
         self.source_soul = source_soul      # 来源魂灵
 
         if battleField is not None:
-            from Simulator.JDI_BattleField import BattleField
+            from BattleField.JDI_BattleField import BattleField
             self.battleField = battleField
 
     def deploy_initial(self):

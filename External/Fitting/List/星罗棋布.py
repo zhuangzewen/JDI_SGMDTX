@@ -72,7 +72,6 @@ class 星罗棋布_阵型强化_soul(Soul):
                 Log().show_battle_info('  [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 break
         
-        
         for 己方阵型强化soul in 对己方阵型强化SOUL生效(self.target, battleField):
             己方阵型强化soul: Soul
             targetHero = 己方阵型强化soul.target
@@ -89,9 +88,14 @@ class 星罗棋布_阵型强化_soul(Soul):
 
             Log().show_battle_info('    [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, self.skill.get_战法名称().value))
             strengRatio = self.skill.星罗棋布_阵型强化系数() * 己方阵型强化soul.effect_value
-            新阵型强化soul = Soul(target=己方阵型强化soul.target, initiator=self.skill.get_持有者(), sourceType=SoulSourceType.星罗棋布_阵型强化, skill=self.skill, effect_type=己方阵型强化soul.effect_type, effect_value=strengRatio)
-            新阵型强化soul.deploy_initial()
-            battleField.getSoulList().append(新阵型强化soul)
+            阵型强化soul = Soul(target=己方阵型强化soul.target, 
+                            initiator=self.skill.get_持有者(), 
+                            sourceType=SoulSourceType.星罗棋布_阵型强化, 
+                            skill=self.skill, 
+                            effect_type=己方阵型强化soul.effect_type, 
+                            effect_value=strengRatio)
+            阵型强化soul.deploy_initial()
+            battleField.getSoulList().append(阵型强化soul)
         存在未强化的阵型SOUL = False
 
 class 星罗棋布_谋略减伤_soul(Soul):
@@ -118,14 +122,14 @@ class 星罗棋布_谋略减伤_soul(Soul):
             reduce_value = self.skill.星罗棋布_受到谋略伤害降低系数()
             if 目标武将 == self.skill.get_持有者():
                 reduce_value = reduce_value * 1.3
-            soul = Soul(target=目标武将, 
-                    initiator=self.skill.get_持有者(), 
-                    sourceType=SoulSourceType.武将战法, 
-                    skill=self.skill, 
-                    effect_type=SoulEffectType.受到谋略伤害, 
-                    effect_value= - reduce_value)
-            soul.deploy_initial()
-            battleField.getSoulList().append(soul)
+            谋略减伤soul = Soul(target=目标武将, 
+                            initiator=self.skill.get_持有者(), 
+                            sourceType=SoulSourceType.武将战法, 
+                            skill=self.skill, 
+                            effect_type=SoulEffectType.受到谋略伤害, 
+                            effect_value= - reduce_value)
+            谋略减伤soul.deploy_initial()
+            battleField.getSoulList().append(谋略减伤soul)
 
 class 星罗棋布_额外效果_soul(Soul):
     def __init__(self, 
@@ -151,35 +155,35 @@ class 星罗棋布_额外效果_soul(Soul):
             Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             frontLineHero = msg_对我方的单前排生效(self.target, battleField)
 
-            lock_soul = Soul(target=frontLineHero,
+            固定受击率soul = Soul(target=frontLineHero,
                             initiator=self.skill.get_持有者(), 
                             sourceType=SoulSourceType.武将战法, 
                             skill=self.skill, 
                             effect_type=SoulEffectType.固定受击率, 
                             effect_value=0.85)
-            lock_soul.deploy_initial()
-            battleField.getSoulList().append(lock_soul)
+            固定受击率soul.deploy_initial()
+            battleField.getSoulList().append(固定受击率soul)
 
-            soul = Soul(target=frontLineHero, 
+            单前排减伤soul = Soul(target=frontLineHero, 
                         initiator=self.skill.get_持有者(), 
                         sourceType=SoulSourceType.武将战法, 
                         skill=self.skill, 
                         effect_type=SoulEffectType.受到伤害, 
                         effect_value= - self.skill.星罗棋布_单前排_受到伤害降低系数())
-            soul.deploy_initial()
-            battleField.getSoulList().append(soul)                    
+            单前排减伤soul.deploy_initial()
+            battleField.getSoulList().append(单前排减伤soul)                    
         elif msg_判断己方前排武将数量(self.target, battleField) == 2:
             Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             lowest_ts_hero = msg_对我方统帅最低的武将(self.target, battleField)
 
-            soul = Soul(target=lowest_ts_hero, 
+            单前排减伤soul = Soul(target=lowest_ts_hero, 
                             initiator=self.skill.get_持有者(), 
                             sourceType=SoulSourceType.武将战法, 
                             skill=self.skill, 
                             effect_type=SoulEffectType.对前排造成伤害, 
                             effect_value= self.skill.星罗棋布_双前排_对前排造成伤害提升系数())
-            soul.deploy_initial()
-            battleField.getSoulList().append(soul)
+            单前排减伤soul.deploy_initial()
+            battleField.getSoulList().append(单前排减伤soul)
 
             murder_soul = Soul(target=lowest_ts_hero,
                                 initiator=self.skill.get_持有者(),
@@ -192,14 +196,14 @@ class 星罗棋布_额外效果_soul(Soul):
         elif msg_判断己方前排武将数量(self.target, battleField) == 3:
             Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
-            soul = Soul(target=self.target,
+            单前排减伤soul = Soul(target=self.target,
                             initiator=self.skill.get_持有者(),
                             sourceType=SoulSourceType.武将战法,
                             skill=self.skill,
                             effect_type=SoulEffectType.星罗棋布_三前排阵型)
-            soul.deploy_initial()
-            battleField.getSoulList().append(soul)
-            self.skill.get_Soul_list().append(soul)
+            单前排减伤soul.deploy_initial()
+            battleField.getSoulList().append(单前排减伤soul)
+            self.skill.get_Soul_list().append(单前排减伤soul)
 
 class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):

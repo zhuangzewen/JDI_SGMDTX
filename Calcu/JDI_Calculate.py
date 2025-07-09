@@ -18,20 +18,18 @@ def msg_过滤掉被击溃的武将(heroes):
             result.append(hero)
     return result
 
-def msg_判断己方前排武将数量(skill, battleField):
+def msg_判断己方前排武将数量(hero, battleField):
     from External.Fitting.JDI_Skill import Skill
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     length = 0
@@ -40,20 +38,17 @@ def msg_判断己方前排武将数量(skill, battleField):
             length += 1
     return length
 
-def msg_对我方的单前排生效(skill, battleField):
-    from External.Fitting.JDI_Skill import Skill
+def msg_对我方的单前排生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     for hero in heroes:
@@ -62,20 +57,18 @@ def msg_对我方的单前排生效(skill, battleField):
 
     return None
 
-def msg_对我方统帅最低的武将(skill, battleField):
+def msg_对我方统帅最低的武将(hero, battleField):
     from External.Fitting.JDI_Skill import Skill
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     lowest_ts_hero = None
@@ -88,20 +81,17 @@ def msg_对我方统帅最低的武将(skill, battleField):
 
     return lowest_ts_hero
 
-def msg_对我方智力最高的武将(skill, battleField):
-    from External.Fitting.JDI_Skill import Skill
+def msg_对我方智力最高的武将(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     highest_zl_hero = None
@@ -114,21 +104,18 @@ def msg_对我方智力最高的武将(skill, battleField):
 
     return highest_zl_hero
 
-def 对己方所有目标生效(skill, battleField):
-    from External.Fitting.JDI_Skill import Skill
+def 对己方所有目标生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
 
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
 
-    owner = skill.get_持有者()
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
 
 def 对己方阵型强化SOUL生效(hero, battleField):

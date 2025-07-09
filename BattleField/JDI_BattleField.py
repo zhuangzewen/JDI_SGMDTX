@@ -120,30 +120,7 @@ class BattleField():
                 战法名称 = skill.get_战法名称()
 
                 if 战法名称 == SkillName.星罗棋布:
-                    if status == ResponseStatus.阵型强化结束时:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
-                        def 星罗棋布_阵型强化效果(self): 
-                            for soul in 对己方阵型强化SOUL生效(skill, self):
-                                soul: Soul
-                                targetHero = soul.target
-                                target_name = targetHero.get_武将名称().value
-
-                                # 判断已经存在 星罗棋布_阵型强化效果的soul continue
-                                is_exist = False
-                                for exist_soul in self.getSoulList():
-                                    if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == soul.effect_type and exist_soul.skill == skill:
-                                        is_exist = True
-                                        break
-                                if is_exist:
-                                    continue
-
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, 战法名称.value))
-                                strengRatio = skill.星罗棋布_阵型强化系数() * soul.effect_value
-                                newSoul = Soul(target=soul.target, initiator=skill.get_持有者(), sourceType=SoulSourceType.星罗棋布_阵型强化, skill=skill, effect_type=soul.effect_type, effect_value=strengRatio)
-                                newSoul.deploy_initial()
-                                self.getSoulList().append(newSoul)
-                        星罗棋布_阵型强化效果(self)
-                    elif status == ResponseStatus.战法布阵开始:
+                    if status == ResponseStatus.战法布阵开始:
                         Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
                         def 星罗棋布_谋略减伤效果():
                             valueList = 对己方所有目标生效(skill, self)

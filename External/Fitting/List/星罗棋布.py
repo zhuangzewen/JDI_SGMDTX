@@ -19,12 +19,20 @@
 # 双前排阵型: 我军统帅最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
-from External.Fitting.JDI_Skill import SkillInfo, Skill
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
+from Generals.JDI_Hero import Hero
 from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from External.Fitting.JDI_Skill import SkillInfo, Skill
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from Soul.Class.Damage_Class import Damage
+from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+from Soul.JDI_Soul import Soul
+from Log.JDI_Log import Log
+from Calcu.JDI_Calculate import 对己方阵型强化SOUL生效, 从队列确定受击武将, 计算伤害
 
 class 星罗棋布_info(SkillInfo):
     def __init__(self):
@@ -33,14 +41,113 @@ class 星罗棋布_info(SkillInfo):
         self.战法特性 = SkillFeature.辅助
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [SoulResponseTime.阵型结束, SoulResponseTime.战法布阵开始, SoulResponseTime.每回合行动时, SoulResponseTime.每回合结束时]
+
+class 星罗棋布_阵型强化_soul(Soul):
+    def __init__(self, 
+                 target: Hero, 
+                 initiator: Hero = None, 
+                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
+                 skill: Skill = None, 
+                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
+                 duration: int = -1, 
+                 effect_type: SoulEffectType = SoulEffectType.无影响, 
+                 effect_value: float = 0,
+                 source_soul = None,
+                 battleField = None):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+
+    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        if status != SoulResponseTime.阵型强化结束时:
+            return
+
+        for soul in 对己方阵型强化SOUL生效(self.target, battleField):
+            soul: Soul
+            targetHero = soul.target
+            存在未强化的阵型SOUL = True
+            for exist_soul in battleField.getSoulList():
+                if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == soul.effect_type and exist_soul.skill == self.skill:
+                    存在未强化的阵型SOUL = False
+                    break
+            if 存在未强化的阵型SOUL:
+                Log().show_battle_info('  [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+                break
+        
+        
+        for soul in 对己方阵型强化SOUL生效(self.target, battleField):
+            soul: Soul
+            targetHero = soul.target
+            target_name = targetHero.get_武将名称().value
+
+            # 判断已经存在 星罗棋布_阵型强化效果的soul continue
+            存在未强化的阵型SOUL = False
+            for exist_soul in battleField.getSoulList():
+                if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == soul.effect_type and exist_soul.skill == self.skill:
+                    存在未强化的阵型SOUL = True
+                    break
+            if 存在未强化的阵型SOUL:
+                continue
+
+            Log().show_battle_info('    [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, self.skill.get_战法名称().value))
+            strengRatio = self.skill.星罗棋布_阵型强化系数() * soul.effect_value
+            newSoul = Soul(target=soul.target, initiator=self.skill.get_持有者(), sourceType=SoulSourceType.星罗棋布_阵型强化, skill=self.skill, effect_type=soul.effect_type, effect_value=strengRatio)
+            newSoul.deploy_initial()
+            battleField.getSoulList().append(newSoul)
+        存在未强化的阵型SOUL = False
+
+class 星罗棋布_谋略减伤_soul(Soul):
+    def __init__(self, 
+                 target: Hero, 
+                 initiator: Hero = None, 
+                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
+                 skill: Skill = None, 
+                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
+                 duration: int = -1, 
+                 effect_type: SoulEffectType = SoulEffectType.无影响, 
+                 effect_value: float = 0,
+                 source_soul = None,
+                 battleField = None):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+
+    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        if status != SoulResponseTime.战法布阵开始时:
+            return
+        
+        Log().show_battle_info('  [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
 class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 
     def fill_init_soul(self):
-        super().fill_init_soul()
+        持有者and响应者: Hero = self.get_持有者()
+
+        星罗棋布阵型强化soul = 星罗棋布_阵型强化_soul(
+            target=self.get_持有者(),
+            initiator=self.get_持有者(),
+            sourceType=SoulSourceType.不溯源,
+            skill=self,
+            response_time=SoulResponseTime.阵型强化结束时,
+            duration=-1,
+            effect_type=SoulEffectType.待响应,
+            effect_value=0,
+            source_soul=None,
+            battleField=None)
+        持有者and响应者.get_持有Soul列表().append(星罗棋布阵型强化soul)
+        持有者and响应者.get_响应Soul列表().append(星罗棋布阵型强化soul)
+
+        星罗棋布谋略减伤soul = 星罗棋布_谋略减伤_soul(
+            target=self.get_持有者(),
+            initiator=self.get_持有者(),
+            sourceType=SoulSourceType.不溯源,
+            skill=self,
+            response_time=SoulResponseTime.战法布阵开始时,
+            duration=-1,
+            effect_type=SoulEffectType.待响应,
+            effect_value=0,
+            source_soul=None,
+            battleField=None)
+        持有者and响应者.get_持有Soul列表().append(星罗棋布谋略减伤soul)
+        持有者and响应者.get_响应Soul列表().append(星罗棋布谋略减伤soul)
 
     def response_阵型结束(self):
         pass

@@ -25,7 +25,7 @@ class 草船借箭_info(SkillInfo):
         self.战法特性 = SkillFeature.谋略
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [SoulResponseTime.战法布阵开始, SoulResponseTime.每回合重置阶段, SoulResponseTime.造成伤害时, SoulResponseTime.受到伤害时]
+        self.战法响应时机列表 = [SoulResponseTime.战法布阵开始时, SoulResponseTime.每回合重置阶段, SoulResponseTime.造成伤害时, SoulResponseTime.受到伤害时]
 
     def fill_init_soul(self):
         super().fill_init_soul()

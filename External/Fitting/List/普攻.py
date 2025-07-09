@@ -29,7 +29,6 @@ class 普攻_info(SkillInfo):
         self.战法特性 = SkillFeature.普攻
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 1
-        self.战法响应时机列表 = [SoulResponseTime.普攻行动时]
 
 class 普攻_soul(Soul):
     def __init__(self, 
@@ -70,19 +69,18 @@ class 普攻_skill(Skill):
         # 调用父类的构造函数
         super().__init__(hero, skillName)
 
-    def fill_init_soul(self, battleField=None):
+    def fill_init_soul(self):
         普攻soul = 普攻_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.不溯源,
+            sourceType=SoulSourceType.武将战法,
             skill=self,
             response_time=SoulResponseTime.普攻行动时,
             duration=-1,
-            effect_type=SoulEffectType.普攻,
+            effect_type=SoulEffectType.待响应,
             effect_value=0,
             source_soul=None,
-            battleField=battleField
-        )
+            battleField=None)
         持有者and响应者: Hero = self.get_持有者()
         持有者and响应者.get_持有Soul列表().append(普攻soul)
         持有者and响应者.get_响应Soul列表().append(普攻soul)

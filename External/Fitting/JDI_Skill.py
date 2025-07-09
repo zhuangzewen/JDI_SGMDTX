@@ -23,11 +23,6 @@ class Skill():
             return getattr(self.get_战法信息(), SkillInfoKey.战法名称.value)
         return None
     
-    def get_战法响应时机列表(self):
-        if hasattr(self.get_战法信息(), SkillInfoKey.战法响应时机列表.value):
-            return getattr(self.get_战法信息(), SkillInfoKey.战法响应时机列表.value)
-        return []
-    
     def get_持有者(self):
         return getattr(self, SkillInfoKey.持有者.value)
     

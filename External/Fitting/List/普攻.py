@@ -5,21 +5,21 @@
 # 发动率: 1
 
 # 普攻:
-# 对敌军单体造成100%伤害(受武力或智力影响，取较高的一项)
+# 对敌军单体造成100%兵刃伤害
 
+from Generals.JDI_Hero import Hero
 from Generals.Enum.Generals_Enum import WeaponType
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Generals.JDI_Hero import Hero
+from Soul.Class.Damage_Class import Damage
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
 from Log.JDI_Log import Log
-
 
 
 class 普攻_info(SkillInfo):
@@ -45,7 +45,7 @@ class 普攻_soul(Soul):
                  battleField = None):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
 
-    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None):
+    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
         if status != SoulResponseTime.普攻行动时 or hero != self.target:
             return
         
@@ -54,14 +54,15 @@ class 普攻_soul(Soul):
         attacked: Hero = 从队列确定受击武将(attacked_heroes)
         attacked_name = attacked.get_武将名称().value
         Log().show_battle_info('  [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
-        value = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
+        damage_class: Damage = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
         damage_soul = Soul(target=attacked,
                             initiator=self.target,
                             sourceType=SoulSourceType.武将战法,
                             skill=self.skill,
                             effect_type=SoulEffectType.损失兵力,
-                            effect_value=value,
-                            battleField=battleField)
+                            effect_value=damage_class.damage_value,
+                            battleField=battleField,
+                            damage=damage_class)
         damage_soul.deploy_initial()
 
 class 普攻_skill(Skill):

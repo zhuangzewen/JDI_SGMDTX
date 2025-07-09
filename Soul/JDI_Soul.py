@@ -7,7 +7,7 @@ from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from External.Fitting.JDI_Skill import Skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
-
+from Soul.Class.Damage_Class import Damage
 
 class Soul():
     # 目标 发起者 来源类型 技能 响应时机 持续回合 效果类型 效果值
@@ -22,7 +22,8 @@ class Soul():
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
                  effect_value: float = 0,
                  source_soul = None,
-                 battleField = None):
+                 battleField = None,
+                 damage: Damage = None):
         self.target = target                # 目标
         self.initiator = initiator          # 发起者
         self.sourceType = sourceType        # 来源类型
@@ -32,12 +33,13 @@ class Soul():
         self.effect_type = effect_type      # 效果类型
         self.effect_value = effect_value    # 效果值
         self.source_soul = source_soul      # 来源魂灵
+        self.damage = damage                # 伤害类
 
         if battleField is not None:
             from BattleField.JDI_BattleField import BattleField
             self.battleField = battleField
 
-    def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None):
+    def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, SourceSoul = None):
         pass
 
     def deploy_initial(self):
@@ -167,8 +169,8 @@ class Soul():
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
                 self.battleField.respond(SoulResponseTime.武将溃败, self.target)
             else:
-                self.battleField.respond(SoulResponseTime.造成伤害时, self.initiator)
-                self.battleField.respond(SoulResponseTime.受到伤害时, self.target)
+                self.battleField.respond(SoulResponseTime.造成伤害时, self.initiator, self.source_soul)
+                self.battleField.respond(SoulResponseTime.受到伤害时, self.target, self.source_soul)
 
     def restore_initial(self):
 

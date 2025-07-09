@@ -81,13 +81,13 @@ class BattleField():
             return random.choice([True, False])  # 如果兵力也相同，则随机返回一个胜利方
 
     # 请善待这个方法
-    def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None):
+    def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None, SourceSoul: Soul = None):
 
         for checkHero in self.getOrderList():
             checkHero: Hero
             for soul in checkHero.get_响应Soul列表():
                 soul: Soul
-                soul.response(status, battleField=self, hero=时机响应武将)
+                soul.response(status, battleField=self, hero=时机响应武将, sourceSoul=SourceSoul)
 
         return
     

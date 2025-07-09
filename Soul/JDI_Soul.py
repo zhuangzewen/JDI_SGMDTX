@@ -1,7 +1,7 @@
 
 from Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from JDI_Enum import HeroInfoKey
+from Generals.Enum.Generals_Enum import HeroInfoKey
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from External.Fitting.JDI_Skill import Skill

@@ -1,6 +1,6 @@
 
-from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
-from JDI_Enum import Faction, WeaponType, HeroInfoKey
+from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
+from Generals.Enum.Generals_Enum import Faction, WeaponType, HeroInfoKey
 from External.Fitting.JDI_Skill import get_skill
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum

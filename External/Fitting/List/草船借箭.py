@@ -13,7 +13,7 @@
 
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from JDI_Enum import WeaponType
+from Generals.Enum.Generals_Enum import WeaponType
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType

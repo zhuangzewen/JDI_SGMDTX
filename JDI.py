@@ -1,7 +1,7 @@
 
 from enum import Enum
 from Log.JDI_Log import Log
-from Generals.Enum.Generals_List_Enum import Generals_Name_Enum
+from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
 from Generals.JDI_Hero import get_hero_info
 from BattleField.Team.JDI_Team import TeamInfo, Formation
 from BattleField.JDI_BattleField import BattleField

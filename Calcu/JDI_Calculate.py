@@ -1,13 +1,13 @@
 
 from Calcu.JDI_RanVal import *
-from JDI_Enum import WeaponType
+from Generals.Enum.Generals_Enum import WeaponType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from External.Fitting.Enum.FittingType_Enum import SkillType
 
 
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero
-    from JDI_Enum import HeroInfoKey
+    from Generals.Enum.Generals_Enum import HeroInfoKey
 
     heroes: list[Hero]
 
@@ -210,7 +210,7 @@ def 武将行动队列(battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
     from Generals.JDI_Hero import Hero
-    from JDI_Enum import HeroInfoKey
+    from Generals.Enum.Generals_Enum import HeroInfoKey
 
     battleField: BattleField
     

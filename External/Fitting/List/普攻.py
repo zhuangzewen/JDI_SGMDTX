@@ -7,7 +7,7 @@
 # 普攻:
 # 对敌军单体造成100%伤害(受武力或智力影响，取较高的一项)
 
-from JDI_Enum import WeaponType
+from Generals.Enum.Generals_Enum import WeaponType
 from External.Fitting.JDI_Skill import SkillInfo, Skill
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType
@@ -66,6 +66,7 @@ class 普攻_soul(Soul):
 
 class 普攻_skill(Skill):
     def __init__(self, hero, skillName):
+        # 调用父类的构造函数
         super().__init__(hero, skillName)
 
     def fill_init_soul(self, battleField=None):

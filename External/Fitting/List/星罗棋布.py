@@ -337,13 +337,9 @@ class 星罗棋布_额外效果_双前排阵型(Soul):
             return
         
         if self.target == hero:
-            self.initiator.get_持有Soul列表().remove(self)
-            self.target.get_响应Soul列表().remove(self)
             return
         
         Log().show_battle_info('        [{}]的[星罗棋布-双前排阵型]效果已消失'.format(self.target.get_武将名称().value))
-        self.initiator.get_持有Soul列表().remove(self)
-        self.target.get_响应Soul列表().remove(self)
 
     def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
@@ -393,9 +389,6 @@ class 星罗棋布_额外效果_三前排阵型(Soul):
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
         if hero != self.initiator:
             return
-        
-        self.initiator.get_持有Soul列表().remove(self)
-        self.target.get_响应Soul列表().remove(self)
 
     def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 

@@ -85,6 +85,9 @@ class BattleField():
                 for soul in checkHero.get_持有Soul列表():
                     soul: Soul
                     soul.response(status, battleField=self, hero=时机响应武将, sourceSoul=SourceSoul)
+
+            时机响应武将.get_持有Soul列表().clear()
+            时机响应武将.get_响应Soul列表().clear()
         else:
             for checkHero in self.getOrderList():
                 checkHero: Hero

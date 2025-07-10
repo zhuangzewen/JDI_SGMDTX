@@ -258,7 +258,7 @@ def 武将行动队列(battleField):
     msg_重置武将行动状态()
     return order_list
 
-def 获取武将所在的队伍(battleField, hero):
+def 获取武将所在的队伍(hero, battleField):
     from BattleField.Team.JDI_Team import Team
     from Generals.JDI_Hero import Hero
     from BattleField.JDI_BattleField import BattleField
@@ -480,7 +480,7 @@ def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: SoulDamageType
 
     武将增减伤公式 = MSG_武将增减伤公式(攻击者, 防御者, 确定伤害类型, 战法类型)
 
-    队伍造成伤害降低 = 获取武将所在的队伍(battleField, 攻击者).造成伤害降低
+    队伍造成伤害降低 = 获取武将所在的队伍(攻击者, battleField).造成伤害降低
 
 
     伤害系数 = 伤害值

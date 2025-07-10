@@ -75,7 +75,7 @@ class 普攻_skill(Skill):
             initiator=self.get_持有者(),
             sourceType=SoulSourceType.武将战法,
             skill=self,
-            response_time=SoulResponseTime.普攻行动时,
+            response_time=SoulResponseTime.内置待响应,
             duration=-1,
             effect_type=SoulEffectType.待响应,
             effect_value=0,

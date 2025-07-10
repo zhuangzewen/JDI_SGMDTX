@@ -3,6 +3,8 @@ from enum import Enum
 
 class SoulResponseTime(Enum):
     无响应阶段 = '无响应阶段'
+    内置待响应 = '内置待响应'
+
     阵型强化结束时 = '阵型强化结束时'
     普攻行动时 = '普攻行动时'
     战法布阵开始时 = '战法布阵开始时'

@@ -120,117 +120,7 @@ class BattleField():
                 战法名称 = skill.get_战法名称()
 
                 if 战法名称 == SkillName.星罗棋布:
-                    if status == ResponseStatus.战法布阵开始:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
-                        def 星罗棋布_谋略减伤效果():
-                            valueList = 对己方所有目标生效(skill, self)
-                            for 目标武将 in valueList:
-                                reduce_value = skill.星罗棋布_受到谋略伤害降低系数()
-                                if 目标武将 == skill.get_持有者():
-                                    reduce_value = reduce_value * 1.3
-                                soul = Soul(target=目标武将, 
-                                        initiator=skill.get_持有者(), 
-                                        sourceType=SoulSourceType.武将战法, 
-                                        skill=skill, 
-                                        effect_type=SoulEffectType.受到谋略伤害, 
-                                        effect_value= - reduce_value)
-                                soul.deploy_initial()
-                                self.getSoulList().append(soul)
-                        星罗棋布_谋略减伤效果()
-
-                        Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-额外效果]效果'.format(战法持有者名称.value, 战法名称.value))
-                        def 星罗棋布_额外效果():
-                            if msg_判断己方前排武将数量(skill, self) == 1:
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(战法持有者名称.value, 战法名称.value))
-                                frontLineHero = msg_对我方的单前排生效(skill, self)
-
-                                lock_soul = Soul(target=frontLineHero,
-                                                initiator=skill.get_持有者(), 
-                                                sourceType=SoulSourceType.武将战法, 
-                                                skill=skill, 
-                                                effect_type=SoulEffectType.固定受击率, 
-                                                effect_value=0.85)
-                                lock_soul.deploy_initial()
-                                self.getSoulList().append(lock_soul)
-
-                                soul = Soul(target=frontLineHero, 
-                                            initiator=skill.get_持有者(), 
-                                            sourceType=SoulSourceType.武将战法, 
-                                            skill=skill, 
-                                            effect_type=SoulEffectType.受到伤害, 
-                                            effect_value= - skill.星罗棋布_单前排_受到伤害降低系数())
-                                soul.deploy_initial()
-                                self.getSoulList().append(soul)                    
-                            elif msg_判断己方前排武将数量(skill, self) == 2:
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(战法持有者名称.value, 战法名称.value))
-                                lowest_ts_hero = msg_对我方统帅最低的武将(skill, self)
-
-                                soul = Soul(target=lowest_ts_hero, 
-                                                initiator=skill.get_持有者(), 
-                                                sourceType=SoulSourceType.武将战法, 
-                                                skill=skill, 
-                                                effect_type=SoulEffectType.对前排造成伤害, 
-                                                effect_value= skill.星罗棋布_双前排_对前排造成伤害提升系数())
-                                soul.deploy_initial()
-                                self.getSoulList().append(soul)
-
-                                murder_soul = Soul(target=lowest_ts_hero,
-                                                   initiator=skill.get_持有者(),
-                                                   sourceType=SoulSourceType.武将战法,
-                                                   skill=skill,
-                                                   effect_type=SoulEffectType.星罗棋布_双前排阵型)
-                                murder_soul.deploy_initial()
-                                self.getSoulList().append(murder_soul)
-                                skill.get_Soul_list().append(murder_soul)
-                            elif msg_判断己方前排武将数量(skill, self) == 3:
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(战法持有者名称.value, 战法名称.value))
-
-                                soul = Soul(target=战法持有者,
-                                                initiator=skill.get_持有者(),
-                                                sourceType=SoulSourceType.武将战法,
-                                                skill=skill,
-                                                effect_type=SoulEffectType.星罗棋布_三前排阵型)
-                                soul.deploy_initial()
-                                self.getSoulList().append(soul)
-                                skill.get_Soul_list().append(soul)
-                        星罗棋布_额外效果()
-                    elif status == ResponseStatus.每回合行动时:
-                        soul_list = skill.get_Soul_list()
-                        for soul in soul_list:
-                            soul: Soul
-                            if soul.effect_type == SoulEffectType.星罗棋布_双前排阵型 and soul.target == 时机响应武将:
-                                # 对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
-
-                                # 发起攻击的武将
-                                atta_hero = soul.target
-                                attaHero_name = atta_hero.get_武将名称()
-                                attacked_heroes = 对敌方所有目标生效(skill, self)
-
-                                Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(attaHero_name.value, 战法名称.value))
-
-                                # 发起攻击次数
-                                attack_times = int_随机一到两个敌方()
-                                for i in range(attack_times):
-
-                                    if len(attacked_heroes) == 0:
-                                        Log().show_battle_info('        [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
-                                        break
-
-                                    attacked: Hero = 从队列确定受击武将(attacked_heroes)
-                                    attacked_heroes.remove(attacked)
-                                    value = 计算伤害(self, atta_hero, attacked, DamageType.择优, SkillType.指挥, 伤害值= 1.6)
-
-                                    # 创建一个伤害 SOUL
-                                    damage_soul = Soul(target=attacked,
-                                                       initiator=atta_hero,
-                                                       sourceType=SoulSourceType.武将战法,
-                                                       skill=skill,
-                                                       effect_type=SoulEffectType.损失兵力,
-                                                       effect_value=value,
-                                                       source_soul=soul,
-                                                       battleField=self)
-                                    damage_soul.deploy_initial()
-                    elif status == ResponseStatus.每回合结束时:
+                    if status == ResponseStatus.每回合结束时:
                         soul_list = skill.get_Soul_list()
                         for soul in soul_list:
                             soul: Soul
@@ -560,22 +450,42 @@ class BattleField():
                 firstHero_country = getattr(getattr(firstHero, HeroInfoKey.武将信息.value), HeroInfoKey.武将阵营.value).value
                 secondHero_country = getattr(getattr(secondHero, HeroInfoKey.武将信息.value), HeroInfoKey.武将阵营.value).value
                 thirdHero_country = getattr(getattr(thirdHero, HeroInfoKey.武将信息.value), HeroInfoKey.武将阵营.value).value
-                
+
                 if (firstHero_country == secondHero_country and secondHero_country == thirdHero_country):
                     bonus = 0.1
                     Log().show_battle_info(f' 【{team.teamInfo.teamName}】获得【{firstHero_country}】强化效果,属性提升{bonus*100}%')
+                    
+                    if firstHero_country == '魏':
+                        sountryType: SoulSourceType = SoulSourceType.魏阵营加成
+                    elif firstHero_country == '蜀':
+                        sountryType: SoulSourceType = SoulSourceType.蜀阵营加成
+                    elif firstHero_country == '吴':
+                        sountryType: SoulSourceType = SoulSourceType.吴阵营加成
+                    elif firstHero_country == '群':
+                        sountryType: SoulSourceType = SoulSourceType.阵营加成
+
                     for hero in firstHero, secondHero, thirdHero:
                         for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统帅, SoulEffectType.先攻]:
                             # 取出当前的值 * 0.05 后相加
                             current_value = getattr(hero, effectType.value)
                             real_value = current_value * bonus
-                            soul = Soul(target=hero, effect_type=effectType, effect_value=real_value)
+                            soul = Soul(target=hero, sourceType=sountryType, effect_type=effectType, effect_value=real_value)
                             soul.deploy_initial()
+                            self.getSoulList().append(soul)
                 elif (firstHero_country == secondHero_country or secondHero_country == thirdHero_country or firstHero_country == thirdHero_country):
                     if secondHero_country == thirdHero_country:
                         same_country = secondHero_country
                     else:
                         same_country = firstHero_country
+
+                    if same_country == '魏':
+                        sountryType: SoulSourceType = SoulSourceType.魏阵营加成
+                    elif same_country == '蜀':
+                        sountryType: SoulSourceType = SoulSourceType.蜀阵营加成
+                    elif same_country == '吴':
+                        sountryType: SoulSourceType = SoulSourceType.吴阵营加成 
+                    elif same_country == '群':
+                        sountryType: SoulSourceType = SoulSourceType.阵营加成
 
                     bonus = 0.05
                     Log().show_battle_info(f' 【{team.teamInfo.teamName}】获得【{same_country}】强化效果,属性提升 {bonus*100}%')
@@ -584,8 +494,9 @@ class BattleField():
                             # 取出当前的值 * 0.05 后相加
                             current_value = getattr(hero, effectType.value)
                             real_value = current_value * bonus
-                            soul = Soul(target=hero, effect_type=effectType, effect_value=real_value) 
+                            soul = Soul(target=hero, sourceType=sountryType, effect_type=effectType, effect_value=real_value)
                             soul.deploy_initial()
+                            self.getSoulList().append(soul)
 
         def 列队布阵_兵种强化(self):
             for team in [self.team1, self.team2]:
@@ -617,41 +528,47 @@ class BattleField():
                     Log().show_battle_info(f' 【{team.teamInfo.teamName}】获得【兵种-盾】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if hypaspist == 3:
-                            soul = Soul(target=hero, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
+                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
                         else:
-                            soul = Soul(target=hero, effect_type=SoulEffectType.受到伤害, effect_value=-0.035)
+                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.035)
                         soul.deploy_initial()
+                        self.getSoulList().append(soul)
                 elif gunner >= 2:
                     Log().show_battle_info(f' 【{team.teamInfo.teamName}】获得【兵种-枪】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if gunner == 3:
-                            increase_soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=0.03)
-                            reduce_soul = Soul(target=hero, effect_type=SoulEffectType.受到伤害, effect_value=-0.02)
+                            increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.03)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.02)
                         else:
-                            increase_soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=0.021)
-                            reduce_soul = Soul(target=hero, effect_type=SoulEffectType.受到伤害, effect_value=-0.014)
+                            increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.021)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.014)
 
                         increase_soul.deploy_initial()
+                        self.getSoulList().append(increase_soul)
                         reduce_soul.deploy_initial()
+                        self.getSoulList().append(reduce_soul)
                 elif bowman >= 2:
                     Log().show_battle_info(f' 【{team.teamInfo.teamName}】获得【兵种-弓】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if bowman == 3:
-                            soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=0.05)
+                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.05)
                         else:
-                            soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=0.035)
+                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.035)
                         soul.deploy_initial()
+                        self.getSoulList().append(soul)
                 elif cavalryman >= 2:
                     Log().show_battle_info(f' 【{team.teamInfo.teamName}】获得【兵种-骑】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if cavalryman == 3:
-                            increase_soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=0.02)
-                            reduce_soul = Soul(target=hero, effect_type=SoulEffectType.受到伤害, effect_value=-0.03)
+                            increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.02)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.03)
                         else:
-                            increase_soul = Soul(target=hero, effect_type=SoulEffectType.造成伤害, effect_value=0.014)
-                            reduce_soul = Soul(target=hero, effect_type=SoulEffectType.受到伤害, effect_value=-0.021)
+                            increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.014)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.021)
                         increase_soul.deploy_initial()
+                        self.getSoulList().append(increase_soul)
                         reduce_soul.deploy_initial()
+                        self.getSoulList().append(reduce_soul)
 
         列队布阵_补给强化(self)
 

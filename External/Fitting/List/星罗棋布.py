@@ -25,14 +25,13 @@ from External.Fitting.JDI_Skill import SkillInfo, Skill
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Class.Damage_Class import Damage
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
 from Log.JDI_Log import Log
-from Calcu.JDI_Calculate import 对己方阵型强化SOUL生效, 从队列确定受击武将, 计算伤害, 对己方所有目标生效, msg_判断己方前排武将数量, msg_对我方的单前排生效, msg_对我方统帅最低的武将, msg_过滤掉被击溃的武将
+from Calcu.JDI_Calculate import *
 
 class 星罗棋布_info(SkillInfo):
     def __init__(self):
@@ -171,39 +170,135 @@ class 星罗棋布_额外效果_soul(Soul):
                         effect_type=SoulEffectType.受到伤害, 
                         effect_value= - self.skill.星罗棋布_单前排_受到伤害降低系数())
             单前排减伤soul.deploy_initial()
-            battleField.getSoulList().append(单前排减伤soul)                    
+            battleField.getSoulList().append(单前排减伤soul)      
+
         elif msg_判断己方前排武将数量(self.target, battleField) == 2:
             Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             lowest_ts_hero = msg_对我方统帅最低的武将(self.target, battleField)
 
-            单前排减伤soul = Soul(target=lowest_ts_hero, 
+            对前排增伤soul = Soul(target=lowest_ts_hero, 
                             initiator=self.skill.get_持有者(), 
                             sourceType=SoulSourceType.武将战法, 
                             skill=self.skill, 
                             effect_type=SoulEffectType.对前排造成伤害, 
                             effect_value= self.skill.星罗棋布_双前排_对前排造成伤害提升系数())
-            单前排减伤soul.deploy_initial()
-            battleField.getSoulList().append(单前排减伤soul)
+            对前排增伤soul.deploy_initial()
+            battleField.getSoulList().append(对前排增伤soul)
 
-            murder_soul = Soul(target=lowest_ts_hero,
-                                initiator=self.skill.get_持有者(),
-                                sourceType=SoulSourceType.武将战法,
-                                skill=self.skill,
-                                effect_type=SoulEffectType.星罗棋布_双前排阵型)
-            murder_soul.deploy_initial()
-            battleField.getSoulList().append(murder_soul)
-            self.skill.get_Soul_list().append(murder_soul)
+            星罗棋布双前排额外效果soul = 星罗棋布_额外效果_双前排阵型(target=lowest_ts_hero,
+                                              initiator=self.skill.get_持有者(),
+                                              sourceType=SoulSourceType.武将战法,
+                                              skill=self.skill,
+                                              response_time=SoulResponseTime.内置待响应,
+                                              duration=-1,
+                                              effect_type=SoulEffectType.待响应,
+                                              effect_value=0,
+                                              source_soul=None,
+                                              battleField=battleField)
+            双前排持有者 = self.skill.get_持有者()
+            双前排响应者 = lowest_ts_hero
+            双前排持有者.get_持有Soul列表().append(星罗棋布双前排额外效果soul)
+            双前排响应者.get_响应Soul列表().append(星罗棋布双前排额外效果soul)
+
         elif msg_判断己方前排武将数量(self.target, battleField) == 3:
             Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
-            单前排减伤soul = Soul(target=self.target,
-                            initiator=self.skill.get_持有者(),
-                            sourceType=SoulSourceType.武将战法,
-                            skill=self.skill,
-                            effect_type=SoulEffectType.星罗棋布_三前排阵型)
-            单前排减伤soul.deploy_initial()
-            battleField.getSoulList().append(单前排减伤soul)
-            self.skill.get_Soul_list().append(单前排减伤soul)
+            星罗棋布三前排额外效果soul = 星罗棋布_额外效果_三前排阵型(target=self.target,
+                                              initiator=self.skill.get_持有者(),
+                                              sourceType=SoulSourceType.武将战法,
+                                              skill=self.skill,
+                                              response_time=SoulResponseTime.内置待响应,
+                                              duration=-1,
+                                              effect_type=SoulEffectType.待响应,
+                                              effect_value=0,
+                                              source_soul=None,
+                                              battleField=battleField)
+            self.target.get_持有Soul列表().append(星罗棋布三前排额外效果soul)
+            self.target.get_响应Soul列表().append(星罗棋布三前排额外效果soul)
+
+class 星罗棋布_额外效果_双前排阵型(Soul):
+    def __init__(self, target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+
+    def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        if status != SoulResponseTime.每回合行动时 or hero != self.target:
+            return
+
+        Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+
+        # 发起攻击的武将
+        atta_hero = self.target
+        attaHero_name = atta_hero.get_武将名称()
+        attacked_heroes = 对敌方所有目标生效(atta_hero, battleField)
+
+        # 发起攻击次数
+        attack_times = int_随机一到两个敌方()
+        for _ in range(attack_times):
+
+            if len(attacked_heroes) == 0:
+                Log().show_battle_info('        [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
+                break
+
+            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+            attacked_heroes.remove(attacked)
+            damageModel = 计算伤害(battleField, atta_hero, attacked, SoulDamageType.择优, SkillType.指挥, 伤害值= 1.6)
+
+            # 创建一个伤害 SOUL
+            damage_soul = Soul(target=attacked,
+                                initiator=atta_hero,
+                                sourceType=SoulSourceType.武将战法,
+                                skill= self.skill,
+                                effect_type=SoulEffectType.损失兵力,
+                                effect_value= damageModel.damage_value,
+                                source_soul=self,
+                                battleField= battleField,
+                                damage=damageModel)
+            damage_soul.deploy_initial()
+
+class 星罗棋布_额外效果_三前排阵型(Soul):
+    def __init__(self, target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+
+    def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        if status != SoulResponseTime.每回合结束时:
+            return
+
+        # 发起攻击的武将
+        atta_hero = msg_对我方智力最高的武将(self.target, battleField)
+        attaHero_name = atta_hero.get_武将名称()
+        attacked_heroes = 对敌方所有目标生效(atta_hero, battleField)
+
+        Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(attaHero_name.value, self.skill.get_战法名称().value))
+
+        # 发起攻击次数
+        attack_times = len(attacked_heroes)
+        for i in range(attack_times):
+
+            if len(attacked_heroes) == 0:
+                Log().show_battle_info('        [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
+                break
+
+            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+            attacked_heroes.remove(attacked)
+
+            ourTeam = 获取武将所在的队伍(atta_hero, battleField)
+            ourTeam_治疗总量 = ourTeam.全队累计治疗量
+
+            受治疗影响伤害系数 = self.skill.星罗棋布_三前排_治疗量造成的伤害提升系数(ourTeam_治疗总量)
+            damageModel = 计算伤害(battleField, atta_hero, attacked, SoulDamageType.谋略, SkillType.指挥, 伤害值= 受治疗影响伤害系数)
+
+            # 创建一个伤害 SOUL
+            damage_soul = Soul(target=attacked,
+                                initiator=atta_hero,
+                                sourceType=SoulSourceType.武将战法,
+                                skill= self.skill,
+                                effect_type=SoulEffectType.损失兵力,
+                                effect_value=damageModel.damage_value,
+                                source_soul=self,
+                                battleField=battleField,
+                                damage=damageModel)
+            damage_soul.deploy_initial()
+
 
 class 星罗棋布_skill(Skill):
     def __init__(self, hero, skillName):
@@ -215,9 +310,9 @@ class 星罗棋布_skill(Skill):
         星罗棋布阵型强化soul = 星罗棋布_阵型强化_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.不溯源,
+            sourceType=SoulSourceType.武将战法,
             skill=self,
-            response_time=SoulResponseTime.阵型强化结束时,
+            response_time=SoulResponseTime.内置待响应,
             duration=-1,
             effect_type=SoulEffectType.待响应,
             effect_value=0,
@@ -229,9 +324,9 @@ class 星罗棋布_skill(Skill):
         星罗棋布谋略减伤soul = 星罗棋布_谋略减伤_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.不溯源,
+            sourceType=SoulSourceType.武将战法,
             skill=self,
-            response_time=SoulResponseTime.战法布阵开始时,
+            response_time=SoulResponseTime.内置待响应,
             duration=-1,
             effect_type=SoulEffectType.待响应,
             effect_value=0,
@@ -243,9 +338,9 @@ class 星罗棋布_skill(Skill):
         星罗棋布额外效果soul = 星罗棋布_额外效果_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.不溯源,
+            sourceType=SoulSourceType.武将战法,
             skill=self,
-            response_time=SoulResponseTime.战法布阵开始时,
+            response_time=SoulResponseTime.内置待响应,
             duration=-1,
             effect_type=SoulEffectType.待响应,
             effect_value=0,

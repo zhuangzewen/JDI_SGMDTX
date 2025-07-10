@@ -138,19 +138,16 @@ class Soul():
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
             Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
 
-        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
-            Log().show_battle_info('        [{}]的[星罗棋布-双前排阵型]效果已施加'.format(heroName))
-
-        elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
-            Log().show_battle_info('        [{}]的[星罗棋布-三前排阵型]效果已施加'.format(heroName))
-
         elif self.effect_type == SoulEffectType.损失兵力:
 
             伤害来源武将: Hero = self.initiator
             伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
             伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
-            伤害来源Soul效果 = self.source_soul.effect_type.value if self.source_soul else '未知效果来源'
+            伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
             伤害数值 = int(self.effect_value)
+
+            if (self.target.get_兵力() < 伤害数值):
+                伤害数值 = int(self.target.get_兵力())
             剩余兵力 = int(self.target.get_兵力() - 伤害数值)
 
             伤兵数值 = int(伤害数值 * 0.8)
@@ -263,13 +260,7 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.固定受击率:
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
-            Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
-
-        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已失效'.format(heroName))
-
-        elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已失效'.format(heroName))
+            Log().show_battle_info('        [{}]的【固定受击率】降低为{:.2f}%'.format(heroName, self.effect_value * 100))
 
         elif self.effect_type == SoulEffectType.损失兵力:
             # 兵噶不恢复

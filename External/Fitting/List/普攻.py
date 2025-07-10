@@ -52,7 +52,7 @@ class 普攻_soul(Soul):
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
         attacked: Hero = 从队列确定受击武将(attacked_heroes)
         attacked_name = attacked.get_武将名称().value
-        Log().show_battle_info('  [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
+        Log().show_battle_info('    [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
         damage_class: Damage = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
         damage_soul = Soul(target=attacked,
                             initiator=self.target,

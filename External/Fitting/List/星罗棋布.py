@@ -58,18 +58,16 @@ class 星罗棋布_阵型强化_soul(Soul):
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
-        if hero != self.initiator:
-            return
-        
         soul_to_remove = []
         for soul in self.soul持有列表:
             if soul.target == hero:
                 soul_to_remove.append(soul)
         for soul in soul_to_remove:
-            battleField.getSoulList().remove(soul)
             self.soul持有列表.remove(soul)
-            soul = None
-        
+
+        if hero != self.initiator:
+            return
+
         if self.soul持有列表.__len__() > 0:
             Log().show_battle_info('        [{}]的[星罗棋布-阵型]效果已消失'.format(self.target.get_武将名称().value))
 
@@ -80,9 +78,7 @@ class 星罗棋布_阵型强化_soul(Soul):
                 soul.restore_initial()
                 soul_to_remove.append(soul)
         for soul in soul_to_remove:
-            battleField.getSoulList().remove(soul)
             self.soul持有列表.remove(soul)
-            soul = None
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
@@ -97,7 +93,7 @@ class 星罗棋布_阵型强化_soul(Soul):
             己方阵型强化soul: Soul
             targetHero = 己方阵型强化soul.target
             存在未强化的阵型SOUL = True
-            for exist_soul in battleField.getSoulList():
+            for exist_soul in self.soul持有列表:
                 if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == 己方阵型强化soul.effect_type and exist_soul.skill == self.skill:
                     存在未强化的阵型SOUL = False
                     break
@@ -112,7 +108,7 @@ class 星罗棋布_阵型强化_soul(Soul):
 
             # 判断已经存在 星罗棋布_阵型强化效果的soul continue
             存在未强化的阵型SOUL = False
-            for exist_soul in battleField.getSoulList():
+            for exist_soul in self.soul持有列表:
                 if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == 己方阵型强化soul.effect_type and exist_soul.skill == self.skill:
                     存在未强化的阵型SOUL = True
                     break
@@ -128,8 +124,8 @@ class 星罗棋布_阵型强化_soul(Soul):
                             effect_type=己方阵型强化soul.effect_type, 
                             effect_value=strengRatio)
             阵型强化soul.deploy_initial()
-            battleField.getSoulList().append(阵型强化soul)
             self.soul持有列表.append(阵型强化soul)
+
         存在未强化的阵型SOUL = False
 
 class 星罗棋布_谋略减伤_soul(Soul):
@@ -158,7 +154,6 @@ class 星罗棋布_谋略减伤_soul(Soul):
             if soul.target == hero:
                 souls_to_remove.append(soul)
         for soul in souls_to_remove:
-            battleField.getSoulList().remove(soul)
             self.soul持有列表.remove(soul)
             soul = None
 
@@ -173,7 +168,6 @@ class 星罗棋布_谋略减伤_soul(Soul):
                 souls_to_remove.append(soul)
 
         for soul in souls_to_remove:
-            battleField.getSoulList().remove(soul)
             self.soul持有列表.remove(soul)
             soul = None
 
@@ -199,7 +193,6 @@ class 星罗棋布_谋略减伤_soul(Soul):
                             effect_type=SoulEffectType.受到谋略伤害, 
                             effect_value= - reduce_value)
             谋略减伤soul.deploy_initial()
-            battleField.getSoulList().append(谋略减伤soul)
             self.soul持有列表.append(谋略减伤soul)
 
 class 星罗棋布_额外效果_soul(Soul):
@@ -228,7 +221,6 @@ class 星罗棋布_额外效果_soul(Soul):
             if soul.target == self.target:
                 soul_to_remove.append(soul)
         for soul in soul_to_remove:
-            battleField.getSoulList().remove(soul)
             self.soul持有列表_单前排.remove(soul) if soul in self.soul持有列表_单前排 else None
             self.soul持有列表_双前排.remove(soul) if soul in self.soul持有列表_双前排 else None
             soul = None

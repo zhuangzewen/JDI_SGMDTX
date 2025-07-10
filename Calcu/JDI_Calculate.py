@@ -119,7 +119,6 @@ def 对己方所有目标生效(hero, battleField):
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
 
 def 对己方阵型强化SOUL生效(hero, battleField):
-    from External.Fitting.JDI_Skill import Skill
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
     from Soul.JDI_Soul import Soul, SoulSourceType
@@ -133,12 +132,14 @@ def 对己方阵型强化SOUL生效(hero, battleField):
     elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
-    # 返回新数组
     check_list = []
-    for soul in battleField.getSoulList():
-        soul: Soul
-        if soul.sourceType == SoulSourceType.阵型加成 and soul.target in heroes and soul.target.get_被击溃状态() == False:
-            check_list.append(soul)
+    for hero in heroes:
+        if hero.get_被击溃状态() == False:
+            for soul in hero.get_响应Soul列表():
+                soul: Soul
+                if soul.sourceType == SoulSourceType.阵型加成:
+                    check_list.append(soul)
+
     return check_list
 
 def 实际受击率(hero):

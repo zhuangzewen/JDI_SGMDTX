@@ -211,7 +211,11 @@ class Hero():
 
         setattr(self, HeroInfoKey.武将信息.value, heroInfo)
         setattr(self, HeroInfoKey.被击溃状态.value, False)
-        setattr(self, HeroInfoKey.兵力.value, 10000)
+        if self.get_武将名称() == Generals_Name_Enum.SP诸葛亮:
+            setattr(self, HeroInfoKey.兵力.value, 100)
+        else:
+            setattr(self, HeroInfoKey.兵力.value, 10000)
+
         setattr(self, HeroInfoKey.等级.value, 50)
 
         self.init_base_values()

@@ -15,7 +15,6 @@ class BattleFieldInfoKey(Enum):
     TEAM1 = "team1"
     TEAM2 = "team2"
     COMMAND_HANDLE_RESPON = "command_handle_respon"
-    SOUL_LIST = "soul_list"
     ORDER_LIST = "order_list"
 
 class BattleField():
@@ -24,7 +23,6 @@ class BattleField():
         setattr(self, BattleFieldInfoKey.TEAM1.value, None)
         setattr(self, BattleFieldInfoKey.TEAM2.value, None)
         setattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value, [])
-        setattr(self, BattleFieldInfoKey.SOUL_LIST.value, [])
         setattr(self, BattleFieldInfoKey.ORDER_LIST.value, [])
 
     def getTeam1(self):
@@ -35,9 +33,6 @@ class BattleField():
 
     def getCommandHandleRespon(self):
         return getattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value)
-
-    def getSoulList(self):
-        return getattr(self, BattleFieldInfoKey.SOUL_LIST.value)
     
     def getOrderList(self):
         return getattr(self, BattleFieldInfoKey.ORDER_LIST.value)
@@ -82,6 +77,8 @@ class BattleField():
     # 请善待这个方法
     def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None, SourceSoul: Soul = None):
 
+        # response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, SourceSoul = None):
+
         if status == SoulResponseTime.武将溃败:
             for checkHero in self.getOrderList():
                 checkHero: Hero
@@ -93,21 +90,10 @@ class BattleField():
                 checkHero: Hero
                 for soul in checkHero.get_响应Soul列表():
                     soul: Soul
-                    soul.response(status, battleField=self, hero=时机响应武将, sourceSoul=SourceSoul)
+                    soul.response(status=status, battleField=self, hero=时机响应武将, sourceSoul=SourceSoul)
 
         return
-    
-        if status == SoulResponseTime.武将溃败:
-            for soul in self.getSoulList():
-                soul: Soul
-                if soul.initiator != 时机响应武将:
-                    continue
-                soul.restore_initial()
-            for skill in self.getCommandHandleRespon():
-                skill: Skill
-                if skill.get_持有者() == 时机响应武将:
-                    self.getCommandHandleRespon().remove(skill)
-            return
+
 
         # 检索所有战法，并根据战法响应
         for skill in self.getCommandHandleRespon():
@@ -243,9 +229,9 @@ class BattleField():
 
         def 列队布阵_阵型强化(self):
             for team in [self.team1, self.team2]:
-                firstHero = team.firstHero
-                secondHero = team.secondHero
-                thirdHero = team.thirdHero
+                firstHero:Hero = team.firstHero
+                secondHero:Hero = team.secondHero
+                thirdHero:Hero = team.thirdHero
                 if team.teamInfo.formation == Formation.一字阵:
                     Log().show_battle_info('    [{}]获得【阵型-一字阵】强化效果'.format(team.teamInfo.teamName))
                     # 队伍阵型为一字阵
@@ -261,9 +247,10 @@ class BattleField():
                     setattr(thirdHero, HeroInfoKey.受击率.value, 0.33)
 
                     for hero in firstHero, secondHero, thirdHero:
+                        hero: Hero
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.08)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                 elif team.teamInfo.formation == Formation.萁型阵:
                     Log().show_battle_info('    [{}]获得【阵型-萁型阵】强化效果'.format(team.teamInfo.teamName))
@@ -275,14 +262,14 @@ class BattleField():
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.6)
                     firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.06)
                     firstHero_soul.deploy_initial()
-                    self.getSoulList().append(firstHero_soul)
+                    firstHero.get_响应Soul列表().append(firstHero_soul)
 
                     for hero in secondHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
                         setattr(hero, HeroInfoKey.受击率.value, 0.2)
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.造成伤害, effect_value=0.12)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                 elif team.teamInfo.formation == Formation.雁型阵:
                     Log().show_battle_info('    [{}]获得【阵型-雁型阵】强化效果'.format(team.teamInfo.teamName))
@@ -294,14 +281,14 @@ class BattleField():
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.2)
                     firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.造成伤害, effect_value=0.15)
                     firstHero_soul.deploy_initial()
-                    self.getSoulList().append(firstHero_soul)
+                    firstHero.get_响应Soul列表().append(firstHero_soul)
 
                     for hero in secondHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, True)
                         setattr(hero, HeroInfoKey.受击率.value, 0.4)
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.统帅, effect_value=20)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                 elif team.teamInfo.formation == Formation.方圆阵:
                     # 队伍阵型为方圆阵
@@ -314,13 +301,13 @@ class BattleField():
                         setattr(hero, HeroInfoKey.受击率.value, 0.4)
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                     setattr(thirdHero, HeroInfoKey.前排.value, False)
                     setattr(thirdHero, HeroInfoKey.受击率.value, 0.2)
                     thirdHero_soul = Soul(target=thirdHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.连击, effect_value=0.4)
                     thirdHero_soul.deploy_initial()
-                    self.getSoulList().append(thirdHero_soul)
+                    thirdHero.get_响应Soul列表().append(thirdHero_soul)
 
                 elif team.teamInfo.formation == Formation.锥型阵:
                     # 队伍阵型为锥型阵
@@ -331,15 +318,15 @@ class BattleField():
                     for hero in firstHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
                         setattr(hero, HeroInfoKey.受击率.value, 0.2)
-                        soul = Soul( target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                     setattr(secondHero, HeroInfoKey.前排.value, True)
                     setattr(secondHero, HeroInfoKey.受击率.value, 0.6)
                     secondHero_soul = Soul(target=secondHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.造成伤害, effect_value=0.16)
                     secondHero_soul.deploy_initial()
-                    self.getSoulList().append(secondHero_soul)
+                    secondHero.get_响应Soul列表().append(secondHero_soul)
 
                 elif team.teamInfo.formation == Formation.鱼鳞阵:
                     # 队伍阵型为鱼鳞阵
@@ -351,7 +338,7 @@ class BattleField():
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.6)
                     firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.DodgeRate, effect_value=0.12)
                     firstHero_soul.deploy_initial()
-                    self.getSoulList().append(firstHero_soul)
+                    firstHero.get_响应Soul列表().append(firstHero_soul)
 
                     for hero in secondHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
@@ -360,7 +347,7 @@ class BattleField():
                         soul.deploy_initial()
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.MagnificentRate, effect_value=0.08)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                 elif team.teamInfo.formation == Formation.钩型阵:
                     # 队伍阵型为钩型阵
@@ -373,13 +360,13 @@ class BattleField():
                         setattr(hero, HeroInfoKey.受击率.value, 0.2)
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.连击, effect_value=0.25)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                     setattr(thirdHero, HeroInfoKey.前排.value, True)
                     setattr(thirdHero, HeroInfoKey.受击率.value, 0.6)
                     thirdHero_soul = Soul(target=thirdHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.08)
                     thirdHero_soul.deploy_initial()
-                    self.getSoulList().append(thirdHero_soul)
+                    thirdHero.get_响应Soul列表().append(thirdHero_soul)
 
                 elif team.teamInfo.formation == Formation.偃月阵:
                     # 队伍阵型为偃月阵
@@ -392,13 +379,13 @@ class BattleField():
                         setattr(hero, HeroInfoKey.受击率.value, 0.4)
                         soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.造成伤害, effect_value=0.14)
                         soul.deploy_initial()
-                        self.getSoulList().append(soul)
+                        hero.get_响应Soul列表().append(soul)
 
                     setattr(secondHero, HeroInfoKey.前排.value, False)
                     setattr(secondHero, HeroInfoKey.受击率.value, 0.2)
                     secondHero_soul = Soul(target=secondHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
                     secondHero_soul.deploy_initial()
-                    self.getSoulList().append(secondHero_soul)
+                    secondHero.get_响应Soul列表().append(secondHero_soul)
 
                 self.respond(SoulResponseTime.阵型强化结束时)
 
@@ -426,13 +413,14 @@ class BattleField():
                         sountryType: SoulSourceType = SoulSourceType.阵营加成
 
                     for hero in firstHero, secondHero, thirdHero:
+                        hero: Hero
                         for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统帅, SoulEffectType.先攻]:
                             # 取出当前的值 * 0.05 后相加
                             current_value = getattr(hero, effectType.value)
                             real_value = current_value * bonus
                             soul = Soul(target=hero, sourceType=sountryType, effect_type=effectType, effect_value=real_value)
                             soul.deploy_initial()
-                            self.getSoulList().append(soul)
+                            hero.get_响应Soul列表().append(soul)
                 elif (firstHero_country == secondHero_country or secondHero_country == thirdHero_country or firstHero_country == thirdHero_country):
                     if secondHero_country == thirdHero_country:
                         same_country = secondHero_country
@@ -457,7 +445,7 @@ class BattleField():
                             real_value = current_value * bonus
                             soul = Soul(target=hero, sourceType=sountryType, effect_type=effectType, effect_value=real_value)
                             soul.deploy_initial()
-                            self.getSoulList().append(soul)
+                            hero.get_响应Soul列表().append(soul)
 
         def 列队布阵_兵种强化(self):
             for team in [self.team1, self.team2]:
@@ -488,11 +476,13 @@ class BattleField():
                 if hypaspist >= 2:
                     Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-盾】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
+                        hero: Hero  
                         if hypaspist == 3:
                             soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
                         else:
                             soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.035)
                         soul.deploy_initial()
+                        hero.get_响应Soul列表().append(soul)
                 elif gunner >= 2:
                     Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-枪】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
@@ -502,9 +492,10 @@ class BattleField():
                         else:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.021)
                             reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.014)
-
                         increase_soul.deploy_initial()
+                        hero.get_响应Soul列表().append(increase_soul)
                         reduce_soul.deploy_initial()
+                        hero.get_响应Soul列表().append(reduce_soul)
                 elif bowman >= 2:
                     Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-弓】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
@@ -513,6 +504,7 @@ class BattleField():
                         else:
                             soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.035)
                         soul.deploy_initial()
+                        hero.get_响应Soul列表().append(soul)
                 elif cavalryman >= 2:
                     Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-骑】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
@@ -523,7 +515,9 @@ class BattleField():
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.014)
                             reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.021)
                         increase_soul.deploy_initial()
+                        hero.get_响应Soul列表().append(increase_soul)
                         reduce_soul.deploy_initial()
+                        hero.get_响应Soul列表().append(reduce_soul)
 
         列队布阵_补给强化(self)
 
@@ -564,7 +558,6 @@ class BattleField():
         for _ in range(8):
             Log().show_battle_info('\n[第 {} 局]'.format(_ + 1))
             self.command_handle_respon = []
-            self.soul_list = []
 
             self.重置武将状态()
             

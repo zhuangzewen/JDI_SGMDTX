@@ -74,90 +74,11 @@ class BattleField():
         else:
             return random.choice([True, False])  # 如果兵力也相同，则随机返回一个胜利方
 
-    # 请善待这个方法
     def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None, 溯源SOUL: Soul = None):
 
-        if status == SoulResponseTime.武将溃败:
-            for checkHero in self.getOrderList():
-                checkHero: Hero
-                for soul in checkHero.get_持有Soul列表():
-                    soul: Soul
-                    soul.response(status = status, battleField=self, hero=时机响应武将, sourceSoul=溯源SOUL)
-
-            时机响应武将.get_持有Soul列表().clear()
-            时机响应武将.get_响应Soul列表().clear()
-        else:
-            for checkHero in self.getOrderList():
-                checkHero: Hero
-                for soul in checkHero.get_响应Soul列表():
-                    soul: Soul
-                    soul.response(status=status, battleField=self, hero=时机响应武将, sourceSoul=溯源SOUL)
-
-        return
-
-
-        # 检索所有战法，并根据战法响应
-        for skill in self.getCommandHandleRespon():
-            if self.isOver() != 0:
-                return
-
-            skill: Skill
-            respon_list = skill.get_战法响应时机列表()
-
-            if status in respon_list:
-                if self.isOver() != 0:
-                    return
-
-                战法持有者: Hero = skill.get_持有者()
-                战法持有者名称 = 战法持有者.get_武将名称()
-                战法名称 = skill.get_战法名称()
-
-                if 战法名称 == SkillName.草船借箭:
-                    if status == ResponseStatus.战法布阵开始:
-                        Log().show_battle_info('  [{}]发动战法【{}】'.format(战法持有者名称.value, 战法名称.value))
-
-                        from External.Fitting.List.草船借箭 import 草船借箭_skill
-                        skill: 草船借箭_skill
-
-                        value = skill.草船借箭_攻心提升系数()
-                        soul = Soul(target=战法持有者, 
-                                    initiator=战法持有者, 
-                                    sourceType=SoulSourceType.武将战法, 
-                                    skill=skill, 
-                                    effect_type=SoulEffectType.攻心, 
-                                    effect_value= value)
-                        soul.deploy_initial()
-
-                    elif status == ResponseStatus.每回合重置阶段:
-                        skill.当前回合发动次数 = 0
-                    elif status == ResponseStatus.造成伤害时 or status == ResponseStatus.受到伤害时:
-                        if skill.当前回合发动次数 < 5:
-
-                            from External.Fitting.List.草船借箭 import 草船借箭_skill
-                            skill: 草船借箭_skill
-
-                            attacked_heroes = 对敌方所有目标生效(skill, self)
-                            attacked: Hero = 从队列确定受击武将(attacked_heroes)
-
-                            伤害值 = skill.草船借箭_借箭伤害系数()
-                            value = 计算伤害(self, 战法持有者, attacked, DamageType.谋略, SkillType.指挥, 伤害值= 伤害值)
-
-                            showSoul = Soul(target=attacked, 
-                                            initiator=战法持有者, 
-                                            sourceType=SoulSourceType.武将战法, 
-                                            effect_type=SoulEffectType.草船借箭)
-
-
-                            damage_soul = Soul(target=attacked, 
-                                               initiator=战法持有者, 
-                                               sourceType=SoulSourceType.武将战法, 
-                                               skill=skill, 
-                                               effect_type=SoulEffectType.损失兵力, 
-                                               effect_value= value,
-                                               source_soul=showSoul,
-                                               battleField=self)
-                            damage_soul.deploy_initial()
-                            skill.当前回合发动次数 += 1
+        for checkHero in self.getOrderList():
+            checkHero: Hero
+            checkHero.response(status=status, battleField=self, hero=时机响应武将, sourceSoul=溯源SOUL)
 
     def 重置武将状态(self):
 

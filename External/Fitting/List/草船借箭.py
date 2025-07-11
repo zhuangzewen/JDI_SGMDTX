@@ -99,10 +99,8 @@ class 草船借箭_soul(Soul):
             if hero != self.target:
                 return
             
-            if status == SoulResponseTime.造成伤害时 and sourceSoul == self:
+            if status == SoulResponseTime.造成伤害时 and (sourceSoul != None and sourceSoul.source_soul != None and sourceSoul.source_soul == self):
                 return
-
-            
 
             if self.草船借箭发动次数 < 5:
                 if random.random() > 0.5:

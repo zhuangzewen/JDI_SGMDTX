@@ -2,8 +2,10 @@
 from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
 from Generals.Enum.Generals_Enum import Faction, WeaponType, HeroInfoKey
 from External.Fitting.JDI_Skill import get_skill
-from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
+from Calcu.JDI_Calculate import *
+from Log.JDI_Log import Log
 
 class HeroInfo():
     def __init__(self, heroName):
@@ -254,8 +256,6 @@ class Hero():
         real_xg = self.get_初始先攻() + self.get_先攻成长() * (level - 5) + self.get_先攻加点()
         setattr(self, HeroInfoKey.先攻.value, real_xg)
 
-
-
     # 初始化战斗数值
     def init_battle_values(self):
         setattr(self, HeroInfoKey.前排.value, True)
@@ -279,6 +279,34 @@ class Hero():
 
         setattr(self, HeroInfoKey.持有Soul列表.value, [])
         setattr(self, HeroInfoKey.响应Soul列表.value, [])
+
+
+    # 响应针对武将的response
+    def response(self, status, battleField=None, hero=None, sourceSoul=None):
+        
+        if status == SoulResponseTime.武将溃败:
+            self.get_响应Soul列表().clear()
+
+            for soul in self.get_持有Soul列表():
+                soul: Soul
+                soul.response(status=status, battleField=self, hero=hero, sourceSoul=sourceSoul)
+
+            self.get_持有Soul列表().clear()
+
+        elif status == SoulResponseTime.造成伤害时:
+            if hero != self:
+                return
+            
+            if self.get_攻心() > 0:
+                伤害SOUL: Soul = sourceSoul
+                恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
+                Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
+                Log().show_battle_info('        [{}]恢复了兵力{}'.format(self.get_武将名称().value, 恢复兵力))
+
+        for soul in self.get_响应Soul列表():
+            from Soul.JDI_Soul import Soul
+            soul: Soul
+            soul.response(status=status, battleField=battleField, hero=self, sourceSoul=sourceSoul)
 
 def get_hero_info(heroName):
     if heroName == Generals_Name_Enum.SP诸葛亮:

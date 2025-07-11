@@ -168,8 +168,8 @@ class Soul():
 
             from BattleField.JDI_BattleField import BattleField
             self.battleField : BattleField
-            self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self.source_soul)
-            self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self.source_soul)
+            self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self)
 
     def restore_initial(self):
 

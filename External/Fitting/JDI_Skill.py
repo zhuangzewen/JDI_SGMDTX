@@ -72,13 +72,13 @@ def get_skill_info(skillName):
         from External.Fitting.List.普攻 import 普攻_info
         skillInfo = 普攻_info()
     elif skillName == Fitting_List_Enum.星罗棋布:
-        from External.Fitting.List.星罗棋布 import 星罗棋布_info
+        from External.Fitting.List.自带战法.指挥.星罗棋布 import 星罗棋布_info
         skillInfo = 星罗棋布_info()
     elif skillName == Fitting_List_Enum.草船借箭:
-        from External.Fitting.List.草船借箭 import 草船借箭_info
+        from External.Fitting.List.自带战法.指挥.草船借箭 import 草船借箭_info
         skillInfo = 草船借箭_info()
     elif skillName == Fitting_List_Enum.十二奇策:
-        from External.Fitting.List.十二奇策 import 十二奇策_info
+        from External.Fitting.List.自带战法.主动.十二奇策 import 十二奇策_info
         skillInfo = 十二奇策_info()
     else:
         skillInfo = SkillInfo(skillName)
@@ -89,13 +89,13 @@ def get_skill(skillName, hero):
         from External.Fitting.List.普攻 import 普攻_skill
         skill = 普攻_skill(hero, skillName)
     elif skillName == Fitting_List_Enum.星罗棋布:
-        from External.Fitting.List.星罗棋布 import 星罗棋布_skill
+        from External.Fitting.List.自带战法.指挥.星罗棋布 import 星罗棋布_skill
         skill = 星罗棋布_skill(hero, skillName)
     elif skillName == Fitting_List_Enum.草船借箭:
-        from External.Fitting.List.草船借箭 import 草船借箭_skill
+        from External.Fitting.List.自带战法.指挥.草船借箭 import 草船借箭_skill
         skill = 草船借箭_skill(hero, skillName)
     elif skillName == Fitting_List_Enum.十二奇策:
-        from External.Fitting.List.十二奇策 import 十二奇策_skill
+        from External.Fitting.List.自带战法.主动.十二奇策 import 十二奇策_skill
         skill = 十二奇策_skill(hero, skillName)
     else:
         skill = Skill(hero, skillName)

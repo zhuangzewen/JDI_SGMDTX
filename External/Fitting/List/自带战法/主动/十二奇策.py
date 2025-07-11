@@ -57,10 +57,39 @@ class 十二奇策_soul(Soul):
                 Log().show_battle_info('        [{}]因几率未发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 return
             Log().show_battle_info('        [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
-            
+
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
             for _ in range(2):
-                pass
+
+                if len(attacked_heroes) == 0:
+                    break
+
+                attacked: Hero = 从队列确定受击武将(attacked_heroes)
+                attacked_heroes.remove(attacked)
+
+                damageModel = 计算伤害(battleField, self.target, attacked, SoulDamageType.谋略, SkillType.指挥, 伤害值= 2.2)
+                damage_soul = Soul(target=attacked,
+                                    initiator=self.target,
+                                    sourceType=SoulSourceType.武将战法,
+                                    skill= self.skill,
+                                    effect_type=SoulEffectType.损失兵力,
+                                    effect_value=damageModel.damage_value,
+                                    source_soul=self,
+                                    battleField=battleField,
+                                    damage=damageModel)
+                damage_soul.deploy_initial()
+
+                # 创建一个异常soul
+                exception_soul = Soul(target=attacked,
+                                        initiator=self.target,
+                                        sourceType=SoulSourceType.武将战法,
+                                        skill=self.skill,
+                                        duration=2,
+                                        effect_type=SoulEffectType.震慑,
+                                        effect_value=1,
+                                        source_soul=self,
+                                        battleField=battleField)
+                exception_soul.deploy_initial()
 
 
 class 十二奇策_skill(Skill):

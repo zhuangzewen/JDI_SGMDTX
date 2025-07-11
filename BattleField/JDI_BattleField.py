@@ -75,16 +75,14 @@ class BattleField():
             return random.choice([True, False])  # 如果兵力也相同，则随机返回一个胜利方
 
     # 请善待这个方法
-    def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None, SourceSoul: Soul = None):
-
-        # response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, SourceSoul = None):
+    def respond(self, status: SoulResponseTime, 时机响应武将: Hero = None, 溯源SOUL: Soul = None):
 
         if status == SoulResponseTime.武将溃败:
             for checkHero in self.getOrderList():
                 checkHero: Hero
                 for soul in checkHero.get_持有Soul列表():
                     soul: Soul
-                    soul.response(status, battleField=self, hero=时机响应武将, sourceSoul=SourceSoul)
+                    soul.response(status = status, battleField=self, hero=时机响应武将, sourceSoul=溯源SOUL)
 
             时机响应武将.get_持有Soul列表().clear()
             时机响应武将.get_响应Soul列表().clear()
@@ -93,7 +91,7 @@ class BattleField():
                 checkHero: Hero
                 for soul in checkHero.get_响应Soul列表():
                     soul: Soul
-                    soul.response(status=status, battleField=self, hero=时机响应武将, sourceSoul=SourceSoul)
+                    soul.response(status=status, battleField=self, hero=时机响应武将, sourceSoul=溯源SOUL)
 
         return
 
@@ -390,7 +388,7 @@ class BattleField():
                     secondHero_soul.deploy_initial()
                     secondHero.get_响应Soul列表().append(secondHero_soul)
 
-                self.respond(SoulResponseTime.阵型强化结束时)
+                self.respond(status = SoulResponseTime.阵型强化结束时)
 
         def 列队布阵_阵营强化(self):
             for team in [self.team1, self.team2]:
@@ -568,23 +566,23 @@ class BattleField():
 
             self.列队布阵()
 
-            self.respond(SoulResponseTime.战法布阵开始时)
+            self.respond(status = SoulResponseTime.战法布阵开始时)
 
             # 八个回合
             for i in range(8):
                 
                 Log().show_battle_info('\n[第 {} 回合]'.format(i + 1))
 
-                self.respond(SoulResponseTime.每回合重置阶段)
+                self.respond(status = SoulResponseTime.每回合重置阶段)
 
                 setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
-                self.respond(SoulResponseTime.回合开始时)
+                self.respond(status = SoulResponseTime.回合开始时)
 
                 for hero in self.getOrderList():  
                     hero: Hero
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
-                    self.respond(SoulResponseTime.每回合行动时, 时机响应武将=hero)
+                    self.respond(status=SoulResponseTime.每回合行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
                             Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
@@ -593,7 +591,7 @@ class BattleField():
                             Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
-                    self.respond(SoulResponseTime.普攻行动时, 时机响应武将=hero)
+                    self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
                             Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
@@ -602,7 +600,7 @@ class BattleField():
                             Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
                     
-                self.respond(SoulResponseTime.每回合结束时)
+                self.respond(status = SoulResponseTime.每回合结束时)
 
         return self.isOverWithoutDefeated()
 

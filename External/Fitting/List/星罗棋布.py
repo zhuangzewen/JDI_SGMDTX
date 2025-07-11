@@ -58,15 +58,15 @@ class 星罗棋布_阵型强化_soul(Soul):
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
+        if hero != self.initiator:
+            return
+        
         soul_to_remove = []
         for soul in self.soul持有列表:
             if soul.target == hero:
                 soul_to_remove.append(soul)
         for soul in soul_to_remove:
             self.soul持有列表.remove(soul)
-
-        if hero != self.initiator:
-            return
 
         if self.soul持有列表.__len__() > 0:
             Log().show_battle_info('        [{}]的[星罗棋布-阵型]效果已消失'.format(self.target.get_武将名称().value))
@@ -143,7 +143,6 @@ class 星罗棋布_谋略减伤_soul(Soul):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
         self.soul持有列表 = []
 
-    # 处理溃败的方法
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
         if hero != self.initiator:
@@ -155,7 +154,6 @@ class 星罗棋布_谋略减伤_soul(Soul):
                 souls_to_remove.append(soul)
         for soul in souls_to_remove:
             self.soul持有列表.remove(soul)
-            soul = None
 
         if self.soul持有列表.__len__() <= 0:
             return
@@ -169,7 +167,6 @@ class 星罗棋布_谋略减伤_soul(Soul):
 
         for soul in souls_to_remove:
             self.soul持有列表.remove(soul)
-            soul = None
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
@@ -223,7 +220,6 @@ class 星罗棋布_额外效果_soul(Soul):
         for soul in soul_to_remove:
             self.soul持有列表_单前排.remove(soul) if soul in self.soul持有列表_单前排 else None
             self.soul持有列表_双前排.remove(soul) if soul in self.soul持有列表_双前排 else None
-            soul = None
 
         if self.soul持有列表_单前排.__len__() <= 0 and self.soul持有列表_双前排.__len__() <= 0:
             return

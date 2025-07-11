@@ -164,10 +164,12 @@ class Soul():
             if 剩余兵力 <= 0:
                 setattr(self.target, HeroInfoKey.被击溃状态.value, True)
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
-                self.battleField.respond(SoulResponseTime.武将溃败, self.target)
-            else:
-                self.battleField.respond(SoulResponseTime.造成伤害时, self.initiator, self.source_soul)
-                self.battleField.respond(SoulResponseTime.受到伤害时, self.target, self.source_soul)
+                self.battleField.respond(status=SoulResponseTime.武将溃败, 时机响应武将=self.target)
+
+            from BattleField.JDI_BattleField import BattleField
+            self.battleField : BattleField
+            self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self.source_soul)
+            self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self.source_soul)
 
     def restore_initial(self):
 
@@ -232,6 +234,12 @@ class Soul():
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.先攻.value, cur_value)
             Log().show_battle_info('        [{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+
+        elif self.effect_type == SoulEffectType.攻心:
+            cur_value = getattr(self.target, HeroInfoKey.攻心.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.攻心.value, cur_value)
+            Log().show_battle_info('        [{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.连击:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)

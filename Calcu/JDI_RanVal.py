@@ -22,6 +22,7 @@ def int_随机一到两个敌方():
 
 def 根据受击率列表随机一个敌方(hit_rate_list):
     total_hit_rate = sum(hit_rate_list)
+    # Log total_hit_rate
     if total_hit_rate == 0:
         return None
     random_value = random.uniform(0, total_hit_rate)
@@ -33,17 +34,15 @@ def 根据受击率列表随机一个敌方(hit_rate_list):
     return None
 
 def 随机暴击伤害(攻击者, 伤害类型) -> float:
-    from JDI_Log import Log
-    from JDI_Hero import Hero
-    from JDI_Enum import DamageType
+    from Generals.JDI_Hero import Hero
+    from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 
     攻击者: Hero = 攻击者
     random_value = random.random()
-    Log().show_debug_info('DEBUG------- 随机暴击率: {}'.format(random_value))
-    if 伤害类型 == DamageType.谋略:
+    if 伤害类型 == SoulDamageType.谋略:
         if random_value <= 攻击者.get_奇谋几率():
             return 0.5
-    elif 伤害类型 == DamageType.兵刃:
+    elif 伤害类型 == SoulDamageType.兵刃:
         if random_value <= 攻击者.get_会心几率():
             return 0.5
     return 0

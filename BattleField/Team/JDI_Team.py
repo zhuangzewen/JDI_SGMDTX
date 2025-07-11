@@ -1,6 +1,16 @@
 
-from JDI_Hero import Hero, HeroInfo
-from JDI_Log import Log
+from enum import Enum
+from Generals.JDI_Hero import Hero, HeroInfo
+
+class Formation(Enum):
+    一字阵 = '一字阵'
+    萁型阵 = '萁型阵'
+    雁型阵 = '雁型阵'
+    方圆阵 = '方圆阵'
+    锥型阵 = '锥型阵'
+    鱼鳞阵 = '鱼鳞阵'
+    钩型阵 = '钩型阵'
+    偃月阵 = '偃月阵'
 
 class TeamInfo():
     def __init__(self, formation, firstHeroInfo, secondHeroInfo, thirdHeroInfo, teamName='', supply=100):
@@ -14,10 +24,6 @@ class TeamInfo():
         self.teamName = teamName
         self.supply = supply
 
-        Log().show_debug_info('DEBUG------- 队伍信息初始化完成: {}'.format(self.teamName))
-        Log().show_debug_info('DEBUG------- 队伍信息: {}'.format(self.__dict__))
-        Log().show_debug_info('DEBUG------- 队伍名称: {}'.format(teamName))
-
 class Team():
     def __init__(self, teamInfo: TeamInfo, firstHero: Hero, secondHero: Hero, thirdHero: Hero):
         self.teamInfo = teamInfo
@@ -25,3 +31,4 @@ class Team():
         self.secondHero = secondHero
         self.thirdHero = thirdHero
         self.造成伤害降低 = 0
+        self.全队累计治疗量 = 0

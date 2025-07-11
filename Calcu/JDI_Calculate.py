@@ -1,12 +1,14 @@
 
-from JDI_Log import Log
-from JDI_RanVal import *
-import math
-from JDI_Enum import DamageType, SkillType, WeaponType
+from Calcu.JDI_RanVal import *
+from Generals.Enum.Generals_Enum import WeaponType
+from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+from External.Fitting.Enum.FittingType_Enum import SkillType
+from Soul.Class.Damage_Class import Damage
+
 
 def msg_过滤掉被击溃的武将(heroes):
-    from JDI_Hero import Hero
-    from JDI_Enum import HeroInfoKey
+    from Generals.JDI_Hero import Hero
+    from Generals.Enum.Generals_Enum import HeroInfoKey
 
     heroes: list[Hero]
 
@@ -16,20 +18,18 @@ def msg_过滤掉被击溃的武将(heroes):
             result.append(hero)
     return result
 
-def msg_判断己方前排武将数量(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
+def msg_判断己方前排武将数量(hero, battleField):
+    from External.Fitting.JDI_Skill import Skill
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     length = 0
@@ -38,20 +38,17 @@ def msg_判断己方前排武将数量(skill, battleField):
             length += 1
     return length
 
-def msg_对我方的单前排生效(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
+def msg_对我方的单前排生效(hero, battleField):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     for hero in heroes:
@@ -60,20 +57,18 @@ def msg_对我方的单前排生效(skill, battleField):
 
     return None
 
-def msg_对我方统帅最低的武将(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
+def msg_对我方统帅最低的武将(hero, battleField):
+    from External.Fitting.JDI_Skill import Skill
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     lowest_ts_hero = None
@@ -86,20 +81,17 @@ def msg_对我方统帅最低的武将(skill, battleField):
 
     return lowest_ts_hero
 
-def msg_对我方智力最高的武将(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
+def msg_对我方智力最高的武将(hero, battleField):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
     highest_zl_hero = None
@@ -112,52 +104,48 @@ def msg_对我方智力最高的武将(skill, battleField):
 
     return highest_zl_hero
 
-def 对己方所有目标生效(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
+def 对己方所有目标生效(hero, battleField):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
 
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
 
-    owner = skill.get_持有者()
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
 
-def 对己方阵型强化SOUL生效(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
-    from JDI_Soul import Soul, SoulSourceType
+def 对己方阵型强化SOUL生效(hero, battleField):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
+    from Soul.JDI_Soul import Soul, SoulSourceType
 
-    skill: Skill
     battleField: BattleField
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
-    owner = skill.get_持有者()
 
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         heroes = [team1.firstHero, team1.secondHero, team1.thirdHero]
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         heroes = [team2.firstHero, team2.secondHero, team2.thirdHero]
 
-    # 返回新数组
     check_list = []
-    for soul in battleField.getSoulList():
-        soul: Soul
-        if soul.sourceType == SoulSourceType.阵型加成 and soul.target in heroes and soul.target.get_被击溃状态() == False:
-            check_list.append(soul)
+    for hero in heroes:
+        if hero.get_被击溃状态() == False:
+            for soul in hero.get_响应Soul列表():
+                soul: Soul
+                if soul.sourceType == SoulSourceType.阵型加成:
+                    check_list.append(soul)
+
     return check_list
 
 def 实际受击率(hero):
 
     # 兵力影响受击率 
-    from JDI_Hero import Hero
+    from Generals.JDI_Hero import Hero
     hero: Hero
     
     # 先判断固定受击率
@@ -170,12 +158,15 @@ def 实际受击率(hero):
     
     # 受击率 = -7.5e-9 * 兵力^2 + 0.0001625 * 兵力 - 0.275
     if hero.get_受击率() == 0.6:
-        return -7.5e-9 * hero.get_兵力() ** 2 + 0.0001625 * hero.get_兵力() - 0.275
-    
+        rate = -7.5e-9 * hero.get_兵力() ** 2 + 0.0001625 * hero.get_兵力() - 0.275
+        if rate < 0.34:
+            rate = 0.34
+        return rate
+
     return 0
 
 def 从队列确定受击武将(heroList):
-    from JDI_Hero import Hero
+    from Generals.JDI_Hero import Hero
     heroList: list[Hero]
 
     # 创建受击率数组
@@ -187,31 +178,28 @@ def 从队列确定受击武将(heroList):
 
     randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
 
-    Log().show_debug_info('DEBUG------- 受击队列武将: {}'.format([hero.get_武将名称().value for hero in heroList]))
-    return heroList[randomInt]
+    selected_hero = heroList[randomInt]
+    return selected_hero
 
-def 对敌方所有目标生效(skill, battleField):
-    from JDI_Skill import Skill
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
+def 对敌方所有目标生效(hero, battleField):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
 
-    skill: Skill
     battleField: BattleField
 
     team1: Team = battleField.getTeam1()
     team2: Team = battleField.getTeam2()
 
-    owner = skill.get_持有者()
-    if owner in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
-    elif owner in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
 
 def 武将行动队列(battleField):
-    from JDI_BattleField import BattleField
-    from JDI_Team import Team
-    from JDI_Hero import Hero
-    from JDI_Enum import HeroInfoKey
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
+    from Generals.JDI_Hero import Hero
+    from Generals.Enum.Generals_Enum import HeroInfoKey
 
     battleField: BattleField
     
@@ -237,7 +225,7 @@ def 武将行动队列(battleField):
 
     def msg_两队先攻对比(hero1, hero2):
 
-        from JDI_RanVal import 获取对比行动优先级
+        from Calcu.JDI_RanVal import 获取对比行动优先级
 
         hero1_xg = getattr(hero1, HeroInfoKey.先攻.value)
         hero2_xg = getattr(hero2, HeroInfoKey.先攻.value)
@@ -271,10 +259,10 @@ def 武将行动队列(battleField):
     msg_重置武将行动状态()
     return order_list
 
-def 获取武将所在的队伍(battleField, hero):
-    from JDI_Team import Team
-    from JDI_Hero import Hero
-    from JDI_BattleField import BattleField
+def 获取武将所在的队伍(hero, battleField):
+    from BattleField.Team.JDI_Team import Team
+    from Generals.JDI_Hero import Hero
+    from BattleField.JDI_BattleField import BattleField
 
     battleField: BattleField
     hero: Hero
@@ -288,39 +276,82 @@ def 获取武将所在的队伍(battleField, hero):
         return team2
 
 def MSG_确定伤害类型(攻击者, 伤害类型):
-    from JDI_Enum import DamageType
-    from JDI_Hero import Hero
+    from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+    from Generals.JDI_Hero import Hero
 
     攻击者: Hero
-    确定伤害类型:DamageType = 伤害类型
-    if 确定伤害类型 == DamageType.择优:
+    确定伤害类型:SoulDamageType = 伤害类型
+    if 确定伤害类型 == SoulDamageType.择优:
         wuli = 攻击者.get_武力()
         zhiLi = 攻击者.get_智力()
         if wuli >= zhiLi:
-            确定伤害类型 = DamageType.兵刃
+            确定伤害类型 = SoulDamageType.兵刃
         else:
-            确定伤害类型 = DamageType.谋略
+            确定伤害类型 = SoulDamageType.谋略
 
     return 确定伤害类型
 
-def MSG_兵力伤害公式(兵力: int):
-    Log().show_debug_info('DEBUG------- 兵力伤害公式: 兵力 = {}'.format(兵力))
-    value_health = 1 + 0.2 * math.log10(兵力 / 10000)
-    Log().show_debug_info('DEBUG------- 兵力伤害公式: {:.4f}'.format(value_health))
+def MSG_智力影响治疗公式(智力: float):
+    # 套用伦同学的 智力影响治疗公式
+    value_health = 0.00257413709518457 * (智力 ** 2) + 0.0558280362334805 * 智力 + 1177.637581883191
     return value_health
 
-def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤害值):
+def MSG_兵力治疗公式(兵力: int):
+    # 套用伦同学的 兵力影响治疗公式
+    value_health =  0.9300942060815 + 0.0055332101979583 * (兵力 ** 0.274780014559044)
+    return value_health
 
-    if 伤害类型 == DamageType.谋略:
+def MSG_兵力伤害公式(兵力: int):
+    troop_count = 兵力
+
+    # 处理兵力为0的特殊情况
+    if troop_count <= 0:
+        return 0.0
+    
+    # 定义关键点列表 [(兵力阈值, 衰减比例), ...]
+    key_points = [
+        (9000, 0.0),
+        (5000, 0.2),
+        (3700, 0.3),
+        (2500, 0.4),
+        (1600, 0.5),
+        (700, 0.6),
+        (300, 0.7),
+        (1, 0.8)
+    ]
+    
+    # 找到对应的区间
+    for i, (threshold, reduction) in enumerate(key_points):
+        if troop_count >= threshold:
+            # 如果是最高区间，直接返回对应的衰减比例
+            if i == 0:
+                return 1.0 - reduction
+            
+            # 计算当前区间的斜率和基础衰减
+            next_threshold, next_reduction = key_points[i-1]
+            slope = (next_reduction - reduction) / (next_threshold - threshold)
+            current_reduction = reduction + slope * (troop_count - threshold)
+            
+            # 返回实际伤害比值（1 - 削减比例）
+            value_health = 1.0 - current_reduction
+            
+            return value_health
+    
+    # 默认返回值（理论上不会执行到这里）
+    return 1.0
+
+def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: SoulDamageType, 伤害值):
+
+    if 伤害类型 == SoulDamageType.谋略:
         攻方数值 = 攻击者.get_智力()
         防方数值 = (防御者.get_统帅() + 防御者.get_智力()) * 0.5
-    elif 伤害类型 == DamageType.兵刃:
+    elif 伤害类型 == SoulDamageType.兵刃:
         攻方数值 = 攻击者.get_武力()
         防方数值 = 防御者.get_统帅()
-    elif 伤害类型 == DamageType.逃兵:
+    elif 伤害类型 == SoulDamageType.逃兵:
         攻方数值 = 1
         防方数值 = 1
-    elif 伤害类型 == DamageType.择优:
+    elif 伤害类型 == SoulDamageType.择优:
         wuli = 攻击者.get_武力()
         zhiLi = 攻击者.get_智力()
         if wuli > zhiLi:
@@ -338,12 +369,11 @@ def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: DamageType, 伤�
     p5=2.3750e-03
 
     attaValue = p0 + p1 * 攻方数值 + p2 * 防方数值 + p3 * 攻方数值 ** 2 + p4 * 攻方数值 * 防方数值 + p5 * 防方数值 ** 2
-    Log().show_debug_info('DEBUG------- 攻方数值: {:.4f}, 防方数值: {:.4f}, 计算结果: {:.4f}'.format(攻方数值, 防方数值, attaValue))
 
     return attaValue
 
 def MSG_兵种增伤公式(攻击者, 防御者):
-    from JDI_Hero import Hero
+    from Generals.JDI_Hero import Hero
     攻击者: Hero
     防御者: Hero
 
@@ -362,7 +392,7 @@ def MSG_兵种增伤公式(攻击者, 防御者):
     return 增伤系数
 
 def MSG_兵种减伤公式(攻击者, 防御者):
-    from JDI_Hero import Hero
+    from Generals.JDI_Hero import Hero
     攻击者: Hero
     防御者: Hero
 
@@ -380,55 +410,63 @@ def MSG_兵种减伤公式(攻击者, 防御者):
 
     return 减伤系数
 
-def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType):
-    from JDI_Hero import Hero
+def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType, 战法类型: SkillType):
+    from Generals.JDI_Hero import Hero
     攻击者: Hero
     防御者: Hero
 
     武将增减伤系数 = 1
 
     造成伤害提升 = 攻击者.get_造成伤害提升()
-    Log().show_debug_info('DEBUG------- 攻击者 {} 造成伤害提升: {:.4f}'.format(攻击者.get_武将名称(), 造成伤害提升))
     兵种增伤系数 = MSG_兵种增伤公式(攻击者, 防御者)
     if 兵种增伤系数 != 0:
         造成伤害提升 += 兵种增伤系数
-        Log().show_debug_info('DEBUG-------- 兵种增伤系数: {:.4f}, 造成伤害提升: {:.4f}'.format(兵种增伤系数, 造成伤害提升))
 
     武将增减伤系数 *= 造成伤害提升
-    Log().show_debug_info('DEBUG------- 造成伤害提升: {:.4f}, 武将增减伤系数: {:.4f}'.format(造成伤害提升, 武将增减伤系数))
 
     受到伤害降低 = 防御者.get_受到伤害降低()
-    Log().show_debug_info('DEBUG------- 防御者 {} 受到伤害降低: {:.4f}'.format(防御者.get_武将名称(), 受到伤害降低))
     兵种减伤系数 = MSG_兵种减伤公式(攻击者, 防御者)
     if 兵种减伤系数 != 0:
         实际兵种减伤 = (1 + 受到伤害降低) * 兵种减伤系数
         受到伤害降低 += 实际兵种减伤
-        Log().show_debug_info('DEBUG-------- 兵种减伤系数: {:.4f}, 受到伤害降低: {:.4f}'.format(兵种减伤系数, 受到伤害降低))
 
     武将增减伤系数 *= (1 + 受到伤害降低)
-    Log().show_debug_info('DEBUG------- 受到伤害降低: {:.4f}, 武将增减伤系数: {:.4f}'.format(受到伤害降低, 武将增减伤系数))
 
     if 防御者.get_前排状态() == True:
         对前排造成伤害提升 = 攻击者.get_对前排造成伤害提升()
         武将增减伤系数 *= 对前排造成伤害提升
-        Log().show_debug_info('DEBUG------- 对前排造成伤害提升: {:.4f}, 武将增减伤系数: {:.4f}'.format(对前排造成伤害提升, 武将增减伤系数))
     else:
         对后排造成伤害提升 = 攻击者.get_对后排造成伤害提升()
         造成伤害提升 *= 对后排造成伤害提升
-        Log().show_debug_info('DEBUG------- 对后排造成伤害提升: {:.4f}, 武将增减伤系数: {:.4f}'.format(对后排造成伤害提升, 武将增减伤系数))
 
-    if 伤害类型 == DamageType.谋略:
+    if 伤害类型 == SoulDamageType.谋略:
         受到谋略伤害降低 = 防御者.get_受到谋略伤害降低()
         武将增减伤系数 *= (1 + 受到谋略伤害降低)
-        Log().show_debug_info('DEBUG------- 受到谋略伤害降低: {:.4f}, 武将增减伤系数: {:.4f}'.format(受到谋略伤害降低, 武将增减伤系数))
 
     return 武将增减伤系数
 
-# 伤害计算 这个方法可能会传入大量的参数
-def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, 战法类型: SkillType, 伤害值 = 1.0):
+def 治疗计算(battleField, 施救者, 受助者, 治疗率 = 1.0):
+    from BattleField.JDI_BattleField import BattleField
+    from Generals.JDI_Hero import Hero
 
-    from JDI_BattleField import BattleField
-    from JDI_Hero import Hero
+    battleField: BattleField
+    施救者: Hero
+    受助者: Hero
+
+    施救者兵力 = 施救者.get_兵力()
+    施救者智力 = 施救者.get_智力()
+
+    其他因素 = 1
+
+    Y = MSG_兵力治疗公式(施救者兵力) * 治疗率 * MSG_智力影响治疗公式(施救者智力) * 其他因素
+
+    return Y
+
+# 伤害计算 这个方法可能会传入大量的参数
+def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: SoulDamageType, 战法类型: SkillType, 伤害值 = 1.0):
+
+    from BattleField.JDI_BattleField import BattleField
+    from Generals.JDI_Hero import Hero
 
     battleField: BattleField
 
@@ -443,16 +481,14 @@ def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: DamageType, �
 
     武将增减伤公式 = MSG_武将增减伤公式(攻击者, 防御者, 确定伤害类型, 战法类型)
 
-    队伍造成伤害降低 = 获取武将所在的队伍(battleField, 攻击者).造成伤害降低
+    队伍造成伤害降低 = 获取武将所在的队伍(攻击者, battleField).造成伤害降低
 
 
     伤害系数 = 伤害值
     暴击伤害 = 随机暴击伤害(攻击者, 确定伤害类型)
 
 
-    Log().show_debug_info('DEBUG------- 计算伤害: {} 对 {} 造成伤害'.format(攻击者.get_武将名称(), 防御者.get_武将名称()))
     attack_damage = (武将伤害公式 * 伤害系数 * 兵力伤害公式 * 武将增减伤公式 * (1 + 暴击伤害) * (1 + 队伍造成伤害降低))
-    Log().show_debug_info('DEBUG------- 武将伤害公式: {:.4f}, 伤害系数: {:.4f}, 兵力伤害公式: {:.4f}, 武将增减伤公式: {:.4f}, 暴击伤害: {:.4f}, 队伍造成伤害降低: {:.4f}'
-                          .format(武将伤害公式, 伤害系数, 兵力伤害公式, 武将增减伤公式, (1 + 暴击伤害), (1 + 队伍造成伤害降低)))
-    Log().show_debug_info('DEBUG------- 最后结果: {:.4f}'.format(attack_damage))
-    return attack_damage
+
+    Damage_class = Damage(攻击者, 防御者, 确定伤害类型, attack_damage, is_crit=暴击伤害 > 0)
+    return Damage_class

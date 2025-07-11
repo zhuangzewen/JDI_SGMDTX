@@ -1,9 +1,13 @@
 
-from JDI_Log import Log
-from JDI_Enum import HeroInfoKey, SoulSourceType, SoulResponseTime, SoulEffectType
-from JDI_Skill import Skill
-from JDI_Hero import Hero
-
+from Log.JDI_Log import Log
+from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+from Generals.Enum.Generals_Enum import HeroInfoKey
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
+from External.Fitting.JDI_Skill import Skill
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from Generals.JDI_Hero import Hero
+from Soul.Class.Damage_Class import Damage
 
 class Soul():
     # 目标 发起者 来源类型 技能 响应时机 持续回合 效果类型 效果值
@@ -13,12 +17,13 @@ class Soul():
                  initiator: Hero = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
                  skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.None_Response, 
+                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
                  effect_value: float = 0,
                  source_soul = None,
-                 battleField = None):
+                 battleField = None,
+                 damage: Damage = None):
         self.target = target                # 目标
         self.initiator = initiator          # 发起者
         self.sourceType = sourceType        # 来源类型
@@ -28,10 +33,14 @@ class Soul():
         self.effect_type = effect_type      # 效果类型
         self.effect_value = effect_value    # 效果值
         self.source_soul = source_soul      # 来源魂灵
+        self.damage = damage                # 伤害类
 
         if battleField is not None:
-            from JDI_BattleField import BattleField
+            from BattleField.JDI_BattleField import BattleField
             self.battleField = battleField
+
+    def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul = None):
+        pass
 
     def deploy_initial(self):
 
@@ -94,11 +103,17 @@ class Soul():
             setattr(self.target, HeroInfoKey.先攻.value, cur_value)
             Log().show_battle_info('        [{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
 
+        elif self.effect_type == SoulEffectType.攻心:
+            cur_value = getattr(self.target, HeroInfoKey.攻心.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.攻心.value, cur_value)
+            Log().show_battle_info('        [{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.连击:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
-            Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.闪避:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
@@ -123,19 +138,16 @@ class Soul():
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
             Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
 
-        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已施加'.format(heroName))
-
-        elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已施加'.format(heroName))
-
         elif self.effect_type == SoulEffectType.损失兵力:
 
             伤害来源武将: Hero = self.initiator
             伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
             伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
-            伤害来源Soul效果 = self.source_soul.effect_type.value if self.source_soul else '未知效果来源'
+            伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
             伤害数值 = int(self.effect_value)
+
+            if (self.target.get_兵力() < 伤害数值):
+                伤害数值 = int(self.target.get_兵力())
             剩余兵力 = int(self.target.get_兵力() - 伤害数值)
 
             伤兵数值 = int(伤害数值 * 0.8)
@@ -144,18 +156,21 @@ class Soul():
             setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
             setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
             setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
-            Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
+            if (self.skill and self.skill.get_战法名称() == Fitting_List_Enum.普攻):
+                Log().show_battle_info('        [{}]损失了兵力{}({})'.format(heroName, abs(伤害数值), 剩余兵力))
+            else:
+                Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
 
             if 剩余兵力 <= 0:
-
                 setattr(self.target, HeroInfoKey.被击溃状态.value, True)
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
-                from JDI_Enum import ResponseStatus
-                self.battleField.respond(ResponseStatus.武将溃败, self.target)
+                self.battleField.respond(status=SoulResponseTime.武将溃败, 时机响应武将=self.target)
 
+            from BattleField.JDI_BattleField import BattleField
+            self.battleField : BattleField
+            self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self)
 
-    # 还原效果并销毁
-    # 方法与上面的部署正相反
     def restore_initial(self):
 
         self.target: Hero
@@ -220,6 +235,12 @@ class Soul():
             setattr(self.target, HeroInfoKey.先攻.value, cur_value)
             Log().show_battle_info('        [{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
 
+        elif self.effect_type == SoulEffectType.攻心:
+            cur_value = getattr(self.target, HeroInfoKey.攻心.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.攻心.value, cur_value)
+            Log().show_battle_info('        [{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.连击:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
             cur_value -= self.effect_value
@@ -247,13 +268,7 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.固定受击率:
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
-            Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
-
-        elif self.effect_type == SoulEffectType.星罗棋布_双前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-双前排阵型】效果已失效'.format(heroName))
-
-        elif self.effect_type == SoulEffectType.星罗棋布_三前排阵型:
-            Log().show_battle_info('        [{}]的【星罗棋布-三前排阵型】效果已失效'.format(heroName))
+            Log().show_battle_info('        [{}]的【固定受击率】降低为{:.2f}%'.format(heroName, self.effect_value * 100))
 
         elif self.effect_type == SoulEffectType.损失兵力:
             # 兵噶不恢复

@@ -46,6 +46,7 @@ class 十二奇策_soul(Soul):
                  source_soul = None,
                  battleField = None):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+        self.soul持有列表 = []
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
         if status == SoulResponseTime.主动战法行动时 and hero == self.target:
@@ -79,18 +80,20 @@ class 十二奇策_soul(Soul):
                                     damage=damageModel)
                 damage_soul.deploy_initial()
 
-                # 创建一个异常soul
-                exception_soul = Soul(target=attacked,
-                                        initiator=self.target,
-                                        sourceType=SoulSourceType.武将战法,
-                                        skill=self.skill,
-                                        duration=2,
-                                        effect_type=SoulEffectType.震慑,
-                                        effect_value=1,
-                                        source_soul=self,
-                                        battleField=battleField)
-                exception_soul.deploy_initial()
-
+                # 创建一个震慑
+                from External.Fitting.List.Abnormal.震慑 import 震慑_soul
+                震慑soul = 震慑_soul(
+                    target=attacked,
+                    initiator=self.target,
+                    sourceType=SoulSourceType.武将战法,
+                    skill=self.skill,
+                    response_time=SoulResponseTime.内置待响应,
+                    effect_type=SoulEffectType.震慑,
+                    effect_value=0,
+                    battleField=battleField)
+                震慑soul.deploy_initial()
+                self.soul持有列表.append(震慑soul)
+                self.target.get_响应Soul列表().append(震慑soul)
 
 class 十二奇策_skill(Skill):
     def __init__(self, hero, skillName):

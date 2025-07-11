@@ -138,6 +138,9 @@ class Soul():
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
             Log().show_battle_info('        [{}]的【固定受击率】提升为{:.2f}%'.format(heroName, self.effect_value * 100))
 
+        elif self.effect_type == SoulEffectType.震慑:
+            Log().show_battle_info('        [{}]的【震慑】效果已施加'.format(heroName))
+
         elif self.effect_type == SoulEffectType.损失兵力:
 
             伤害来源武将: Hero = self.initiator

@@ -56,7 +56,8 @@ class 十二奇策_soul(Soul):
             if random.random() > 实际发动率:
                 Log().show_battle_info('        [{}]因几率未发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 return
-
+            Log().show_battle_info('        [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+            
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
             for _ in range(2):
                 pass
@@ -76,8 +77,7 @@ class 十二奇策_skill(Skill):
             response_time=SoulResponseTime.内置待响应,
             effect_type=SoulEffectType.无影响,
             effect_value=0,
-            battleField=self.get_持有者().get_战场()
-        )
+            battleField=None)
         self.get_Soul_list().append(十二奇策soul)
         self.get_持有者().get_持有Soul列表().append(十二奇策soul)
         self.get_持有者().get_响应Soul列表().append(十二奇策soul)

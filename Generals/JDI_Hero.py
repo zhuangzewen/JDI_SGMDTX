@@ -99,7 +99,6 @@ class HeroInfo():
     def set_team_name(self, teamName):
         setattr(self, HeroInfoKey.队伍名称.value, teamName)
 
-
     def set_skills(self, firstSkill, firstSkill_RankUp, secondSkill, secondSkill_RankUp):
         setattr(self, HeroInfoKey.第一战法.value, firstSkill)
         setattr(self, HeroInfoKey.第一战法升阶.value, firstSkill_RankUp)
@@ -302,10 +301,27 @@ class Hero():
         elif status == SoulResponseTime.造成伤害时:
             if hero != self:
                 return
-            
-            if self.get_攻心() > 0:
+            # SoulDamageType
+            if self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
+
+                当前兵力 = self.get_兵力()
+                当前伤兵 = self.get_伤兵()
+
+                if 恢复兵力 <= 当前伤兵:
+                    剩余伤兵 = 当前伤兵 - 恢复兵力
+                    实际兵力 = 当前兵力 + 恢复兵力
+                    setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
+                    setattr(self, HeroInfoKey.兵力.value, 实际兵力)
+                else:
+                    恢复兵力 = 当前伤兵
+                    剩余伤兵 = 0
+                    实际兵力 = 当前兵力 + 恢复兵力
+                    setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
+                    setattr(self, HeroInfoKey.兵力.value, 实际兵力)
+                    
+
                 Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
                 Log().show_battle_info('        [{}]恢复了兵力{}'.format(self.get_武将名称().value, 恢复兵力))
 

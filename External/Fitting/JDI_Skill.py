@@ -77,6 +77,9 @@ def get_skill_info(skillName):
     elif skillName == Fitting_List_Enum.草船借箭:
         from External.Fitting.List.草船借箭 import 草船借箭_info
         skillInfo = 草船借箭_info()
+    elif skillName == Fitting_List_Enum.十二奇策:
+        from External.Fitting.List.十二奇策 import 十二奇策_info
+        skillInfo = 十二奇策_info()
     else:
         skillInfo = SkillInfo(skillName)
     return skillInfo

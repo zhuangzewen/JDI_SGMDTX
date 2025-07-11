@@ -104,7 +104,7 @@ class 草船借箭_soul(Soul):
 
             if self.草船借箭发动次数 < 5:
                 if random.random() > 0.5:
-                    Log().show_battle_info('        [{}]发动来自【{}】的[草船借箭]效果, 但未触发'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+                    Log().show_debug_info('        [{}]发动来自【{}】的[草船借箭]效果, 但因几率未触发'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                     return
                 
                 Log().show_battle_info('        [{}]执行来自【{}】的[草船借箭]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))

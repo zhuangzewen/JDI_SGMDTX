@@ -490,5 +490,5 @@ def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: SoulDamageType
 
     attack_damage = (武将伤害公式 * 伤害系数 * 兵力伤害公式 * 武将增减伤公式 * (1 + 暴击伤害) * (1 + 队伍造成伤害降低))
 
-    Damage_class = Damage(攻击者, 防御者, attack_damage, is_crit=暴击伤害 > 0)
+    Damage_class = Damage(攻击者, 防御者, 确定伤害类型, attack_damage, is_crit=暴击伤害 > 0)
     return Damage_class

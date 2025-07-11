@@ -312,7 +312,7 @@ class Hero():
         for soul in self.get_响应Soul列表():
             from Soul.JDI_Soul import Soul
             soul: Soul
-            soul.response(status=status, battleField=battleField, hero=self, sourceSoul=sourceSoul)
+            soul.response(status=status, battleField=battleField, hero=hero, sourceSoul=sourceSoul)
 
 def get_hero_info(heroName):
     if heroName == Generals_Name_Enum.SP诸葛亮:

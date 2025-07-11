@@ -99,11 +99,12 @@ class 草船借箭_soul(Soul):
             if hero != self.target:
                 return
             
-            if status == SoulResponseTime.造成伤害时 and (sourceSoul != None and sourceSoul.source_soul != None and sourceSoul.source_soul == self):
+            if status == SoulResponseTime.造成伤害时 and sourceSoul.source_soul == self:
                 return
 
             if self.草船借箭发动次数 < 5:
                 if random.random() > 0.5:
+                    Log().show_battle_info('        [{}]发动来自【{}】的[草船借箭]效果, 但未触发'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                     return
                 
                 Log().show_battle_info('        [{}]执行来自【{}】的[草船借箭]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))

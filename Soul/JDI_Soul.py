@@ -162,7 +162,10 @@ class Soul():
             if (self.skill and self.skill.get_战法名称() == Fitting_List_Enum.普攻):
                 Log().show_battle_info('        [{}]损失了兵力{}({})'.format(heroName, abs(伤害数值), 剩余兵力))
             else:
-                Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
+                if 伤害来源Soul效果 == '':
+                    Log().show_battle_info('        [{}]由于[{}]【{}】的伤害,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, abs(伤害数值), 剩余兵力))
+                else :
+                    Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
 
             if 剩余兵力 <= 0:
                 setattr(self.target, HeroInfoKey.被击溃状态.value, True)

@@ -323,7 +323,7 @@ class Hero():
                     
 
                 Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
-                Log().show_battle_info('        [{}]恢复了兵力{}'.format(self.get_武将名称().value, 恢复兵力))
+                Log().show_battle_info('        [{}]恢复了兵力{}({})'.format(self.get_武将名称().value, 恢复兵力, self.get_兵力()))
 
         for soul in self.get_响应Soul列表():
             from Soul.JDI_Soul import Soul

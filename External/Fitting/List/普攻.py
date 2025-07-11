@@ -45,24 +45,27 @@ class 普攻_soul(Soul):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
-        if status != SoulResponseTime.普攻行动时 or hero != self.target:
-            return
+        if status == SoulResponseTime.普攻行动时 and hero == self.target:
         
-        from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
-        attacked_heroes = 对敌方所有目标生效(self.target, battleField)
-        attacked: Hero = 从队列确定受击武将(attacked_heroes)
-        attacked_name = attacked.get_武将名称().value
-        Log().show_battle_info('    [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
-        damage_class: Damage = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
-        damage_soul = Soul(target=attacked,
-                            initiator=self.target,
-                            sourceType=SoulSourceType.武将战法,
-                            skill=self.skill,
-                            effect_type=SoulEffectType.损失兵力,
-                            effect_value=damage_class.damage_value,
-                            battleField=battleField,
-                            damage=damage_class)
-        damage_soul.deploy_initial()
+            from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
+            attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+            attacked_name = attacked.get_武将名称().value
+            Log().show_battle_info('    [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
+            damage_class: Damage = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
+            damage_soul = Soul(target=attacked,
+                                initiator=self.target,
+                                sourceType=SoulSourceType.武将战法,
+                                skill=self.skill,
+                                effect_type=SoulEffectType.损失兵力,
+                                effect_value=damage_class.damage_value,
+                                source_soul=self,
+                                battleField=battleField,
+                                damage=damage_class)
+            damage_soul.deploy_initial()
+
+        elif status == SoulResponseTime.造成伤害时:
+            pass
 
 class 普攻_skill(Skill):
     def __init__(self, hero, skillName):

@@ -315,6 +315,9 @@ def get_hero_info(heroName):
     elif heroName == Generals_Name_Enum.诸葛亮:
         from Generals.List.诸葛亮 import 诸葛亮_info
         heroInfo = 诸葛亮_info()
+    elif heroName == Generals_Name_Enum.荀攸:
+        from Generals.List.荀攸 import 荀攸_info
+        heroInfo = 荀攸_info()
     else:
         heroInfo = HeroInfo(heroName)
     return heroInfo

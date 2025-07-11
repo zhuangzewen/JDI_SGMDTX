@@ -32,3 +32,52 @@ class 十二奇策_info(SkillInfo):
         self.战法特性 = SkillFeature.谋略
         self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
         self.发动率 = 0.6
+
+class 十二奇策_soul(Soul):
+    def __init__(self, 
+                 target: Hero, 
+                 initiator: Hero = None, 
+                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
+                 skill: Skill = None, 
+                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
+                 duration: int = -1, 
+                 effect_type: SoulEffectType = SoulEffectType.无影响, 
+                 effect_value: float = 0,
+                 source_soul = None,
+                 battleField = None):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+
+    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        if status == SoulResponseTime.主动战法行动时 and hero == self.target:
+
+            实际发动率 = (1 + self.target.get_主动战法发动率降低()) * self.skill.get_战法信息().发动率
+
+            # 判断是否发动
+            if random.random() > 实际发动率:
+                Log().show_battle_info('        [{}]因几率未发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+                return
+
+            attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+            for _ in range(2):
+                pass
+
+
+class 十二奇策_skill(Skill):
+    def __init__(self, hero, skillName):
+        # 调用父类的构造函数
+        super().__init__(hero, skillName)
+
+    def fill_init_soul(self):
+        十二奇策soul = 十二奇策_soul(
+            target=self.get_持有者(),
+            initiator=self.get_持有者(),
+            sourceType=SoulSourceType.武将战法,
+            skill=self,
+            response_time=SoulResponseTime.内置待响应,
+            effect_type=SoulEffectType.无影响,
+            effect_value=0,
+            battleField=self.get_持有者().get_战场()
+        )
+        self.get_Soul_list().append(十二奇策soul)
+        self.get_持有者().get_持有Soul列表().append(十二奇策soul)
+        self.get_持有者().get_响应Soul列表().append(十二奇策soul)

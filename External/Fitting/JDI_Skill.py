@@ -91,6 +91,9 @@ def get_skill(skillName, hero):
     elif skillName == Fitting_List_Enum.草船借箭:
         from External.Fitting.List.草船借箭 import 草船借箭_skill
         skill = 草船借箭_skill(hero, skillName)
+    elif skillName == Fitting_List_Enum.十二奇策:
+        from External.Fitting.List.十二奇策 import 十二奇策_skill
+        skill = 十二奇策_skill(hero, skillName)
     else:
         skill = Skill(hero, skillName)
     return skill

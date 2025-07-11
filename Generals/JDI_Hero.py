@@ -145,6 +145,9 @@ class Hero():
         return getattr(self, HeroInfoKey.受到伤害降低.value)
     def get_受到谋略伤害降低(self):
         return getattr(self, HeroInfoKey.受到谋略伤害降低.value)
+    
+    def get_主动战法发动率降低(self):
+        return getattr(self, HeroInfoKey.主动战法发动率降低.value)
 
     def get_被击溃状态(self):
         return getattr(self, HeroInfoKey.被击溃状态.value)
@@ -274,6 +277,9 @@ class Hero():
         setattr(self, HeroInfoKey.受到伤害降低.value, 0)
         setattr(self, HeroInfoKey.受到伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.主动战法发动率降低.value, 0)
+
         setattr(self, HeroInfoKey.伤兵.value, 0)
         setattr(self, HeroInfoKey.亖兵.value, 0)
 

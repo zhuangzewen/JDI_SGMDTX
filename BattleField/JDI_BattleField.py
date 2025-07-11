@@ -503,7 +503,17 @@ class BattleField():
                 for hero in self.getOrderList():  
                     hero: Hero
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
-                    self.respond(status=SoulResponseTime.每回合行动时, 时机响应武将=hero)
+                    
+                    self.respond(status=SoulResponseTime.回合行动时, 时机响应武将=hero)
+                    if self.isOver() != 0:
+                        if self.isOver() == 1:
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            return True
+                        elif self.isOver() == 2:
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            return False
+
+                    self.respond(status=SoulResponseTime.主动战法行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
                             Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
@@ -521,7 +531,7 @@ class BattleField():
                             Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
                     
-                self.respond(status = SoulResponseTime.每回合结束时)
+                self.respond(status = SoulResponseTime.回合结束时)
 
         return self.isOverWithoutDefeated()
 

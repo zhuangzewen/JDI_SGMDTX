@@ -343,7 +343,7 @@ class 星罗棋布_额外效果_双前排阵型(Soul):
             self.handle_defeat(battleField, hero, sourceSoul)
             return
 
-        if status != SoulResponseTime.每回合行动时 or hero != self.target:
+        if status != SoulResponseTime.回合行动时 or hero != self.target:
             return
 
         Log().show_battle_info('    [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
@@ -392,7 +392,7 @@ class 星罗棋布_额外效果_三前排阵型(Soul):
             self.handle_defeat(battleField, hero, sourceSoul)
             return
 
-        if status != SoulResponseTime.每回合结束时:
+        if status != SoulResponseTime.回合结束时:
             return
 
         # 发起攻击的武将

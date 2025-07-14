@@ -132,8 +132,12 @@ class Hero():
         return getattr(self, HeroInfoKey.闪避几率.value)
     def get_会心几率(self):
         return getattr(self, HeroInfoKey.会心几率.value)
+    def get_会心伤害(self):
+        return getattr(self, HeroInfoKey.会心伤害.value)
     def get_奇谋几率(self):
         return getattr(self, HeroInfoKey.奇谋几率.value)
+    def get_奇谋伤害(self):
+        return getattr(self, HeroInfoKey.奇谋伤害.value)
     def get_造成伤害提升(self):
         return getattr(self, HeroInfoKey.造成伤害提升.value)
     def get_对前排造成伤害提升(self):
@@ -268,7 +272,9 @@ class Hero():
         setattr(self, HeroInfoKey.连击几率.value, 0)
         setattr(self, HeroInfoKey.闪避几率.value, 0)
         setattr(self, HeroInfoKey.会心几率.value, 0)
+        setattr(self, HeroInfoKey.会心伤害.value, 1.5)
         setattr(self, HeroInfoKey.奇谋几率.value, 0)
+        setattr(self, HeroInfoKey.奇谋伤害.value, 1.5)
         setattr(self, HeroInfoKey.造成伤害提升.value, 1)
         setattr(self, HeroInfoKey.造成伤害降低.value, 0)
         setattr(self, HeroInfoKey.对前排造成伤害提升.value, 1)

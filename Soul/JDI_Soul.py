@@ -122,17 +122,29 @@ class Soul():
             setattr(self.target, HeroInfoKey.闪避几率.value, cur_value)
             Log().show_battle_info('        [{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.会心:
+        elif self.effect_type == SoulEffectType.会心几率:
             cur_value = getattr(self.target, HeroInfoKey.会心几率.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.会心几率.value, cur_value)
             Log().show_battle_info('        [{}]的【会心几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.奇谋:
+        elif self.effect_type == SoulEffectType.会心伤害:
+            cur_value = getattr(self.target, HeroInfoKey.会心伤害.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.会心伤害.value, cur_value)
+            Log().show_battle_info('        [{}]的【会心伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.奇谋几率:
             cur_value = getattr(self.target, HeroInfoKey.奇谋几率.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.奇谋几率.value, cur_value)
             Log().show_battle_info('        [{}]的【奇谋几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.奇谋伤害:
+            cur_value = getattr(self.target, HeroInfoKey.奇谋伤害.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.奇谋伤害.value, cur_value)
+            Log().show_battle_info('        [{}]的【奇谋伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.固定受击率:
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
@@ -172,6 +184,20 @@ class Soul():
             Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.妖术:
+            会心伤害soul = Soul(target=self.target, 
+                        sourceType=SoulSourceType.负面状态效果, 
+                        skill=self.skill,
+                        effect_type=SoulEffectType.会心伤害, 
+                        effect_value=-0.15,
+                        source_soul=self)
+            会心伤害soul.deploy_initial()
+            奇谋伤害soul = Soul(target=self.target, 
+                        sourceType=SoulSourceType.负面状态效果, 
+                        skill=self.skill,
+                        effect_type=SoulEffectType.奇谋伤害,
+                        effect_value=-0.15,
+                        source_soul=self)
+            奇谋伤害soul.deploy_initial()
             Log().show_battle_info('        [{}]的【妖术】效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.损失兵力:
@@ -293,13 +319,13 @@ class Soul():
             setattr(self.target, HeroInfoKey.闪避几率.value, ori_value)
             Log().show_battle_info('        [{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100, ori_value * 100))
 
-        elif self.effect_type == SoulEffectType.会心:
+        elif self.effect_type == SoulEffectType.会心几率:
             cur_value = getattr(self.target, HeroInfoKey.会心几率.value)
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.会心几率.value, cur_value)
             Log().show_battle_info('        [{}]的【会心几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.奇谋:
+        elif self.effect_type == SoulEffectType.奇谋几率:
             cur_value = getattr(self.target, HeroInfoKey.奇谋几率.value)
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.奇谋几率.value, cur_value)

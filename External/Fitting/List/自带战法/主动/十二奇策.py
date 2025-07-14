@@ -81,10 +81,9 @@ class 十二奇策_soul(Soul):
                                     damage=damageModel)
                 damage_soul.deploy_initial()
 
+                Log().show_battle_info('        [{}]执行来自【{}】的[十二奇谋]效果'.format(attacked.get_武将名称().value, self.skill.get_战法名称().value))
+
                 real_abnormal = 生效未施加的异常状态(attacked, battleField)
-                if real_abnormal is None:
-                    Log().show_battle_info('        [{}]未施加异常状态'.format(attacked.get_武将名称().value))
-                    continue
                 if real_abnormal == SoulEffectType.震慑:
                     from External.Fitting.List.Abnormal.震慑 import 震慑_soul
                     异常soul = 震慑_soul(

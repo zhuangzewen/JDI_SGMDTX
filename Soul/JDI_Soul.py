@@ -369,7 +369,23 @@ class Soul():
             Log().show_battle_info('        [{}]的【畏惧】效果已解除'.format(heroName))
 
         elif self.effect_type == SoulEffectType.妖术:
-            Log().show_battle_info('        [{}]的【妖术】效果已解除'.format(heroName))
+            Log().show_battle_info('        [{}]的【妖术】效果已消失'.format(heroName))
+            
+            会心伤害soul = Soul(target=self.target, 
+                        sourceType=SoulSourceType.负面状态效果, 
+                        skill=self.skill,
+                        effect_type=SoulEffectType.会心伤害, 
+                        effect_value=0.15,
+                        source_soul=self)
+            会心伤害soul.deploy_initial()
+            奇谋伤害soul = Soul(target=self.target, 
+                        sourceType=SoulSourceType.负面状态效果, 
+                        skill=self.skill,
+                        effect_type=SoulEffectType.奇谋伤害,
+                        effect_value=0.15,
+                        source_soul=self)
+            奇谋伤害soul.deploy_initial()
+            
 
         elif self.effect_type == SoulEffectType.损失兵力:
             # 兵噶不恢复

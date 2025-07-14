@@ -41,8 +41,8 @@ def 随机暴击伤害(攻击者, 伤害类型) -> float:
     random_value = random.random()
     if 伤害类型 == SoulDamageType.谋略:
         if random_value <= 攻击者.get_奇谋几率():
-            return 0.5
+            return 攻击者.get_奇谋伤害()
     elif 伤害类型 == SoulDamageType.兵刃:
         if random_value <= 攻击者.get_会心几率():
-            return 0.5
-    return 0
+            return 攻击者.get_会心伤害()
+    return 1

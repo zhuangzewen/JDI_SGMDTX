@@ -51,7 +51,8 @@ class 十二奇策_soul(Soul):
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
         if status == SoulResponseTime.主动战法行动时 and hero == self.target:
 
-            实际发动率 = (1 + self.target.get_主动战法发动率降低()) * self.skill.get_战法信息().发动率
+            十二奇策skill: 十二奇策_skill = self.skill
+            实际发动率 = (1 + self.target.get_主动战法发动率降低()) * 十二奇策skill.十二奇策_发动率()
 
             # 判断是否发动
             if random.random() > 实际发动率:
@@ -80,20 +81,170 @@ class 十二奇策_soul(Soul):
                                     damage=damageModel)
                 damage_soul.deploy_initial()
 
-                # 创建一个震慑
-                from External.Fitting.List.Abnormal.震慑 import 震慑_soul
-                震慑soul = 震慑_soul(
-                    target=attacked,
-                    initiator=self.target,
-                    sourceType=SoulSourceType.武将战法,
-                    skill=self.skill,
-                    response_time=SoulResponseTime.内置待响应,
-                    effect_type=SoulEffectType.震慑,
-                    effect_value=0,
-                    battleField=battleField)
-                震慑soul.deploy_initial()
-                self.soul持有列表.append(震慑soul)
-                self.target.get_响应Soul列表().append(震慑soul)
+                real_abnormal = 生效未施加的异常状态(attacked, battleField)
+                if real_abnormal is None:
+                    Log().show_battle_info('        [{}]未施加异常状态'.format(attacked.get_武将名称().value))
+                    continue
+                if real_abnormal == SoulEffectType.震慑:
+                    from External.Fitting.List.Abnormal.震慑 import 震慑_soul
+                    异常soul = 震慑_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.震慑,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.缴械:
+                    from External.Fitting.List.Abnormal.缴械 import 缴械_soul
+                    异常soul = 缴械_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.缴械,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.技穷:
+                    from External.Fitting.List.Abnormal.技穷 import 技穷_soul
+                    异常soul = 技穷_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.技穷,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.混乱:
+                    from External.Fitting.List.Abnormal.混乱 import 混乱_soul
+                    异常soul = 混乱_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.混乱,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.嘲讽:
+                    from External.Fitting.List.Abnormal.嘲讽 import 嘲讽_soul
+                    异常soul = 嘲讽_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.嘲讽,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.虚弱:
+                    from External.Fitting.List.Abnormal.虚弱 import 虚弱_soul
+                    异常soul = 虚弱_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.虚弱,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.断粮:
+                    from External.Fitting.List.Abnormal.断粮 import 断粮_soul
+                    异常soul = 断粮_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.断粮,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.洪水:
+                    from External.Fitting.List.Abnormal.洪水 import 洪水_soul
+                    异常soul = 洪水_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.洪水,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.火攻:
+                    from External.Fitting.List.Abnormal.火攻 import 火攻_soul
+                    异常soul = 火攻_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.火攻,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.风暴:
+                    from External.Fitting.List.Abnormal.风暴 import 风暴_soul
+                    异常soul = 风暴_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.风暴,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.畏惧:
+                    from External.Fitting.List.Abnormal.畏惧 import 畏惧_soul
+                    异常soul = 畏惧_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.畏惧,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                elif real_abnormal == SoulEffectType.妖术:
+                    from External.Fitting.List.Abnormal.妖术 import 妖术_soul
+                    异常soul = 妖术_soul(
+                        target=attacked,
+                        initiator=self.target,
+                        sourceType=SoulSourceType.武将战法,
+                        skill=self.skill,
+                        response_time=SoulResponseTime.内置待响应,
+                        duration=2,
+                        effect_type=SoulEffectType.妖术,
+                        effect_value=0,
+                        source_soul=self,
+                        battleField=battleField)
+                
+                异常soul.deploy_initial()
+                self.soul持有列表.append(异常soul)
+                attacked.get_响应Soul列表().append(异常soul)
 
 class 十二奇策_skill(Skill):
     def __init__(self, hero, skillName):
@@ -113,3 +264,19 @@ class 十二奇策_skill(Skill):
         self.get_Soul_list().append(十二奇策soul)
         self.get_持有者().get_持有Soul列表().append(十二奇策soul)
         self.get_持有者().get_响应Soul列表().append(十二奇策soul)
+
+    def 十二奇策_发动率(self):
+        # 初始值为 0.6
+        # 每一级升阶提升基础初始值为 0.01
+
+        rankUp = self.get_战法升阶()
+        value = 0.6 + rankUp * 0.01
+        return value
+
+    def 十二奇策_伤害系数(self):
+        # 初始值为 220%
+        # 每一级升阶提升基础初始值为 2.4%
+
+        rankUp = self.get_战法升阶()
+        value = 2.2 + rankUp * 0.024
+        return value

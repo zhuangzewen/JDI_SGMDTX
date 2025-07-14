@@ -494,7 +494,7 @@ class BattleField():
                 
                 Log().show_battle_info('\n[第 {} 回合]'.format(i + 1))
 
-                self.respond(status = SoulResponseTime.每回合重置阶段)
+                self.respond(status = SoulResponseTime.回合重置阶段)
 
                 setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
@@ -503,6 +503,8 @@ class BattleField():
                 for hero in self.getOrderList():  
                     hero: Hero
                     Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
+
+                    self.respond(status=SoulResponseTime.武将回合重置阶段, 时机响应武将=hero)
                     
                     self.respond(status=SoulResponseTime.回合行动时, 时机响应武将=hero)
                     if self.isOver() != 0:

@@ -118,6 +118,34 @@ def 对己方所有目标生效(hero, battleField):
     elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
 
+def 生效未施加的异常状态(hero, battleField):
+    from Generals.JDI_Hero import Hero
+    hero: Hero
+    soul_list = hero.get_响应Soul列表()
+    from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+
+    real_abnormal_status = SoulEffectType.无影响
+
+    abnormal_list = [SoulEffectType.震慑, SoulEffectType.缴械, SoulEffectType.技穷,
+                     SoulEffectType.混乱, SoulEffectType.嘲讽, SoulEffectType.虚弱,
+                     SoulEffectType.断粮, SoulEffectType.洪水, SoulEffectType.火攻,
+                     SoulEffectType.风暴, SoulEffectType.畏惧, SoulEffectType.妖术]
+    for soul in soul_list:
+        if soul.effect_type in abnormal_list:
+            abnormal_list.remove(soul.effect_type)
+    if len(abnormal_list) > 0:
+        # 随机一个 return
+        random_soul_effect = random.choice(abnormal_list)
+        real_abnormal_status = random_soul_effect
+    else:
+        real_abnormal_status = random.choice([SoulEffectType.震慑, SoulEffectType.缴械, SoulEffectType.技穷,
+                                              SoulEffectType.混乱, SoulEffectType.嘲讽, SoulEffectType.虚弱,
+                                              SoulEffectType.断粮, SoulEffectType.洪水, SoulEffectType.火攻,
+                                              SoulEffectType.风暴, SoulEffectType.畏惧, SoulEffectType.妖术])
+        
+    print(f"生效未施加的异常状态: {real_abnormal_status}")
+    return real_abnormal_status
+
 def 对己方阵型强化SOUL生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team

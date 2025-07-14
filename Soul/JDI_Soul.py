@@ -141,6 +141,39 @@ class Soul():
         elif self.effect_type == SoulEffectType.震慑:
             Log().show_battle_info('        [{}]的【震慑】效果已施加'.format(heroName))
 
+        elif self.effect_type == SoulEffectType.缴械:
+            Log().show_battle_info('        [{}]的【缴械】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.技穷:
+            Log().show_battle_info('        [{}]的【技穷】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.混乱:
+            Log().show_battle_info('        [{}]的【混乱】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.嘲讽:
+            Log().show_battle_info('        [{}]的【嘲讽】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.虚弱:
+            Log().show_battle_info('        [{}]的【虚弱】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.断粮:
+            Log().show_battle_info('        [{}]的【断粮】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.洪水:
+            Log().show_battle_info('        [{}]的【洪水】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.火攻:
+            Log().show_battle_info('        [{}]的【火攻】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.风暴:
+            Log().show_battle_info('        [{}]的【风暴】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.畏惧:
+            Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.妖术:
+            Log().show_battle_info('        [{}]的【妖术】效果已施加'.format(heroName))
+
         elif self.effect_type == SoulEffectType.损失兵力:
 
             伤害来源武将: Hero = self.initiator
@@ -275,6 +308,42 @@ class Soul():
         elif self.effect_type == SoulEffectType.固定受击率:
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
             Log().show_battle_info('        [{}]的【固定受击率】降低为{:.2f}%'.format(heroName, self.effect_value * 100))
+
+        elif self.effect_type == SoulEffectType.震慑:
+            Log().show_battle_info('        [{}]的【震慑】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.缴械:
+            Log().show_battle_info('        [{}]的【缴械】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.技穷:
+            Log().show_battle_info('        [{}]的【技穷】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.混乱:
+            Log().show_battle_info('        [{}]的【混乱】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.嘲讽:
+            Log().show_battle_info('        [{}]的【嘲讽】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.虚弱:
+            Log().show_battle_info('        [{}]的【虚弱】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.断粮:
+            Log().show_battle_info('        [{}]的【断粮】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.洪水:
+            Log().show_battle_info('        [{}]的【洪水】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.火攻:
+            Log().show_battle_info('        [{}]的【火攻】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.风暴:
+            Log().show_battle_info('        [{}]的【风暴】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.畏惧:
+            Log().show_battle_info('        [{}]的【畏惧】效果已解除'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.妖术:
+            Log().show_battle_info('        [{}]的【妖术】效果已解除'.format(heroName))
 
         elif self.effect_type == SoulEffectType.损失兵力:
             # 兵噶不恢复

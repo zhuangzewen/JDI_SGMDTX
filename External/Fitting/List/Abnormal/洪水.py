@@ -1,14 +1,14 @@
 
 # 负面状态:
 # 异常状态:
-# 控制状态:
-# 震慑: 无法行动
+# 非控制状态:
+# 洪水: 统帅降低20点
 
 from Soul.JDI_Soul import Soul
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Generals.JDI_Hero import Hero
 
-class 震慑_soul(Soul):
+class 洪水_soul(Soul):
     def __init__(self, 
                  target, 
                  initiator=None, 

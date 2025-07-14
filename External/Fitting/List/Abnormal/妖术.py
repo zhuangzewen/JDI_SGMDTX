@@ -1,14 +1,14 @@
 
 # 负面状态:
 # 异常状态:
-# 控制状态:
-# 震慑: 无法行动
+# 非控制状态:
+# 妖术: 会心和奇谋伤害降低15%
 
 from Soul.JDI_Soul import Soul
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Generals.JDI_Hero import Hero
 
-class 震慑_soul(Soul):
+class 妖术_soul(Soul):
     def __init__(self, 
                  target, 
                  initiator=None, 
@@ -21,7 +21,7 @@ class 震慑_soul(Soul):
                  source_soul=None,
                  battleField=None):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
-
+    
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:
             hero: Hero = self.target

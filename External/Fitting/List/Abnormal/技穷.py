@@ -2,13 +2,13 @@
 # 负面状态:
 # 异常状态:
 # 控制状态:
-# 震慑: 无法行动
+# 技穷: 无法发动主动战法
 
 from Soul.JDI_Soul import Soul
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Generals.JDI_Hero import Hero
 
-class 震慑_soul(Soul):
+class 技穷_soul(Soul):
     def __init__(self, 
                  target, 
                  initiator=None, 

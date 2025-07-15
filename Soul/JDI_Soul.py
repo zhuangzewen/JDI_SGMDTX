@@ -73,6 +73,12 @@ class Soul():
             setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
             Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  cur_value * 100))
 
+        elif self.effect_type == SoulEffectType.受到伤害_绝对值:
+            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
+            Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.受到谋略伤害:
             cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害降低.value)
             real_value = (1 + cur_value) * self.effect_value
@@ -182,18 +188,34 @@ class Soul():
             Log().show_battle_info('        [{}]的【风暴】效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.畏惧:
-            Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
+
+            is存在同类状态 = False
+            if len(self.target.get_响应Soul列表()) > 0:
+                for soul in self.target.get_响应Soul列表():
+                    if soul.effect_type == SoulEffectType.畏惧 and soul != self:
+                        is存在同类状态 = True
+                        msg_移除响应(soul)
+            
+            if is存在同类状态:
+                Log().show_battle_info('        [{}]的【畏惧】效果已刷新'.format(heroName))
+            else:
+                受到伤害提升soul = Soul(target=self.target, 
+                                        sourceType=SoulSourceType.负面状态效果, 
+                                        skill=self.skill,
+                                        effect_type=SoulEffectType.受到伤害_绝对值, 
+                                        effect_value=0.1,
+                                        source_soul=self)
+                受到伤害提升soul.deploy_initial()
+                Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.妖术:
-            # 如果已经存在妖术 则触发刷新流程 
-            # [张飞] 的「妖术」效果已刷新
-
+    
             is存在同类状态 = False
             if len(self.target.get_响应Soul列表()) > 0:
                 for soul in self.target.get_响应Soul列表():
                     if soul.effect_type == SoulEffectType.妖术 and soul != self:
                         is存在同类状态 = True
-                        msg_移除响应(self)
+                        msg_移除响应(soul)
 
             if is存在同类状态:
                 Log().show_battle_info('        [{}]的【妖术】效果已刷新'.format(heroName))
@@ -380,7 +402,16 @@ class Soul():
             Log().show_battle_info('        [{}]的【风暴】效果已解除'.format(heroName))
 
         elif self.effect_type == SoulEffectType.畏惧:
-            Log().show_battle_info('        [{}]的【畏惧】效果已解除'.format(heroName))
+            msg_移除响应(self)
+            Log().show_battle_info('        [{}]的【畏惧】效果已消失'.format(heroName))
+
+            受到伤害降低soul = Soul(target=self.target, 
+                                    sourceType=SoulSourceType.负面状态效果, 
+                                    skill=self.skill,
+                                    effect_type=SoulEffectType.受到伤害_绝对值, 
+                                    effect_value=-0.1,
+                                    source_soul=self)
+            受到伤害降低soul.deploy_initial()
 
         elif self.effect_type == SoulEffectType.妖术:
             msg_移除响应(self)

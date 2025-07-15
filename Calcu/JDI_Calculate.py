@@ -12,7 +12,7 @@ def msg_移除响应(soul):
     soul: Soul
     hero: Hero = soul.target
     if soul in hero.get_响应Soul列表():
-        soul.target.remove(soul)
+        hero.get_响应Soul列表().remove(soul)
 
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero

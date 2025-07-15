@@ -48,7 +48,37 @@ class 十二奇策_soul(Soul):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
         self.soul持有列表 = []
 
+    def handle_defeat(self, status=None, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        if hero != self.initiator:
+            return
+
+        souls_to_remove = []
+        for soul in self.soul持有列表:
+            if soul.target == hero:
+                souls_to_remove.append(soul)
+        for soul in souls_to_remove:
+            self.soul持有列表.remove(soul)
+
+        if self.soul持有列表.__len__() <= 0:
+            return
+        
+        souls_to_remove = []
+        for soul in self.soul持有列表:
+            if soul.initiator == self.target:
+                Log().show_battle_info(f'        [{soul.target.get_武将名称().value}]的[十二奇策]效果已消失')
+                soul.restore_initial()
+                souls_to_remove.append(soul)
+
+        for soul in souls_to_remove:
+            self.soul持有列表.remove(soul)
+        
+
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+
+        if status == SoulResponseTime.武将溃败:
+            self.handle_defeat(status=status, battleField=battleField, hero=hero, sourceSoul=sourceSoul)
+            return
+        
         if status == SoulResponseTime.主动战法行动时 and hero == self.target:
 
             十二奇策skill: 十二奇策_skill = self.skill

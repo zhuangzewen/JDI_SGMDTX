@@ -77,6 +77,8 @@ class 草船借箭_soul(Soul):
                 if soul in self.soul持有列表:
                     self.soul持有列表.remove(soul)
 
+        self.target.get_响应Soul列表().append(soul)
+
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
 
         if status == SoulResponseTime.战法布阵开始时:

@@ -8,6 +8,7 @@ from External.Fitting.JDI_Skill import Skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
 from Soul.Class.Damage_Class import Damage
+from Calcu.JDI_Calculate import msg_移除响应
 
 class Soul():
     # 目标 发起者 来源类型 技能 响应时机 持续回合 效果类型 效果值
@@ -184,21 +185,34 @@ class Soul():
             Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.妖术:
-            会心伤害soul = Soul(target=self.target, 
-                        sourceType=SoulSourceType.负面状态效果, 
-                        skill=self.skill,
-                        effect_type=SoulEffectType.会心伤害, 
-                        effect_value=-0.15,
-                        source_soul=self)
-            会心伤害soul.deploy_initial()
-            奇谋伤害soul = Soul(target=self.target, 
-                        sourceType=SoulSourceType.负面状态效果, 
-                        skill=self.skill,
-                        effect_type=SoulEffectType.奇谋伤害,
-                        effect_value=-0.15,
-                        source_soul=self)
-            奇谋伤害soul.deploy_initial()
-            Log().show_battle_info('        [{}]的【妖术】效果已施加'.format(heroName))
+            # 如果已经存在妖术 则触发刷新流程 
+            # [张飞] 的「妖术」效果已刷新
+
+            is存在同类状态 = False
+            if len(self.target.get_响应Soul列表()) > 0:
+                for soul in self.target.get_响应Soul列表():
+                    if soul.effect_type == SoulEffectType.妖术 and soul != self:
+                        is存在同类状态 = True
+                        msg_移除响应(self)
+
+            if is存在同类状态:
+                Log().show_battle_info('        [{}]的【妖术】效果已刷新'.format(heroName))
+            else:
+                会心伤害soul = Soul(target=self.target, 
+                            sourceType=SoulSourceType.负面状态效果, 
+                            skill=self.skill,
+                            effect_type=SoulEffectType.会心伤害, 
+                            effect_value=-0.15,
+                            source_soul=self)
+                会心伤害soul.deploy_initial()
+                奇谋伤害soul = Soul(target=self.target, 
+                            sourceType=SoulSourceType.负面状态效果, 
+                            skill=self.skill,
+                            effect_type=SoulEffectType.奇谋伤害,
+                            effect_value=-0.15,
+                            source_soul=self)
+                奇谋伤害soul.deploy_initial()
+                Log().show_battle_info('        [{}]的【妖术】效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.损失兵力:
 
@@ -369,6 +383,7 @@ class Soul():
             Log().show_battle_info('        [{}]的【畏惧】效果已解除'.format(heroName))
 
         elif self.effect_type == SoulEffectType.妖术:
+            msg_移除响应(self)
             Log().show_battle_info('        [{}]的【妖术】效果已消失'.format(heroName))
             
             会心伤害soul = Soul(target=self.target, 
@@ -385,6 +400,8 @@ class Soul():
                         effect_value=0.15,
                         source_soul=self)
             奇谋伤害soul.deploy_initial()
+
+            
             
 
         elif self.effect_type == SoulEffectType.损失兵力:

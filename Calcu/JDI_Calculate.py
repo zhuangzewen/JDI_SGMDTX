@@ -6,6 +6,14 @@ from External.Fitting.Enum.FittingType_Enum import SkillType
 from Soul.Class.Damage_Class import Damage
 
 
+def msg_移除响应(soul):
+    from Soul.JDI_Soul import Soul
+    from Generals.JDI_Hero import Hero
+    soul: Soul
+    hero: Hero = soul.target
+    if soul in hero.get_响应Soul列表():
+        soul.target.remove(soul)
+
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero
     from Generals.Enum.Generals_Enum import HeroInfoKey
@@ -143,7 +151,6 @@ def 生效未施加的异常状态(hero, battleField):
                                               SoulEffectType.断粮, SoulEffectType.洪水, SoulEffectType.火攻,
                                               SoulEffectType.风暴, SoulEffectType.畏惧, SoulEffectType.妖术])
         
-    print(f"生效未施加的异常状态: {real_abnormal_status}")
     return real_abnormal_status
 
 def 对己方阵型强化SOUL生效(hero, battleField):

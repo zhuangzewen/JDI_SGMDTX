@@ -71,7 +71,8 @@ class 十二奇策_soul(Soul):
 
         for soul in souls_to_remove:
             self.soul持有列表.remove(soul)
-        
+
+        msg_移除响应(self)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 

@@ -490,15 +490,19 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
     兵种增伤系数 = MSG_兵种增伤公式(攻击者, 防御者)
     if 兵种增伤系数 != 0:
         造成伤害提升 += 兵种增伤系数
-    存在虚弱 = False
+    存在虚弱_soul = None
     存在清醒 = False
-    for soul in 攻击者.get_持有Soul列表():
+    for soul in 攻击者.get_响应Soul列表():
         from Soul.Enum.SoulEffectType_Enum import SoulEffectType
         if soul.effect_type == SoulEffectType.虚弱:
-            存在虚弱 = True
+            存在虚弱_soul = soul
         if soul.effect_type == SoulEffectType.清醒:
             存在清醒 = True
-    if 存在虚弱 and not 存在清醒:
+    if 存在虚弱_soul != None and not 存在清醒:
+        from Log.JDI_Log import Log
+        from Soul.JDI_Soul import Soul
+        存在虚弱_soul: Soul
+        Log().show_battle_info(f"        [{攻击者.get_武将名称().value}]由于[{存在虚弱_soul.initiator.get_武将名称().value}]【{存在虚弱_soul.skill.get_战法名称().value}】的[虚弱]效果造成伤害减少70%")
         造成伤害提升 *= 0.7
 
     武将增减伤系数 *= 造成伤害提升

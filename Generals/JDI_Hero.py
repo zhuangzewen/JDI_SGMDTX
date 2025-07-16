@@ -126,6 +126,8 @@ class Hero():
     
     def get_攻心(self):
         return getattr(self, HeroInfoKey.攻心.value)
+    def get_受治疗效果(self):
+        return getattr(self, HeroInfoKey.受治疗效果.value)
     def get_连击几率(self):
         return getattr(self, HeroInfoKey.连击几率.value)
     def get_闪避几率(self):
@@ -268,7 +270,8 @@ class Hero():
         setattr(self, HeroInfoKey.已行动状态.value, False)
         setattr(self, HeroInfoKey.受击率.value, 0)
         setattr(self, HeroInfoKey.固定受击率.value, 0)
-        setattr(self, HeroInfoKey.攻心.value, 0)    
+        setattr(self, HeroInfoKey.攻心.value, 0)
+        setattr(self, HeroInfoKey.受治疗效果.value, 1)
         setattr(self, HeroInfoKey.连击几率.value, 0)
         setattr(self, HeroInfoKey.闪避几率.value, 0)
         setattr(self, HeroInfoKey.会心几率.value, 0)
@@ -276,11 +279,9 @@ class Hero():
         setattr(self, HeroInfoKey.奇谋几率.value, 0)
         setattr(self, HeroInfoKey.奇谋伤害.value, 1.5)
         setattr(self, HeroInfoKey.造成伤害提升.value, 1)
-        setattr(self, HeroInfoKey.造成伤害降低.value, 0)
         setattr(self, HeroInfoKey.对前排造成伤害提升.value, 1)
         setattr(self, HeroInfoKey.对后排造成伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到伤害降低.value, 0)
-        setattr(self, HeroInfoKey.受到伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
 
         setattr(self, HeroInfoKey.主动战法发动率降低.value, 0)
@@ -311,6 +312,12 @@ class Hero():
             if self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
+                for soul in self.get_持有Soul列表():
+                    from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+                    if soul.effect_type == SoulEffectType.断粮:
+                        # 存在断粮则 * 0.7
+                        恢复兵力 = int(恢复兵力 * 0.7)
+                        break
 
                 当前兵力 = self.get_兵力()
                 当前伤兵 = self.get_伤兵()

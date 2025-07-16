@@ -515,23 +515,25 @@ class BattleField():
                             Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
-                    self.respond(status=SoulResponseTime.主动战法行动时, 时机响应武将=hero)
-                    if self.isOver() != 0:
-                        if self.isOver() == 1:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
-                            return True
-                        elif self.isOver() == 2:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
-                            return False
+                    if msg_主动战法发起判断(hero):
+                        self.respond(status=SoulResponseTime.主动战法行动时, 时机响应武将=hero)
+                        if self.isOver() != 0:
+                            if self.isOver() == 1:
+                                Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                                return True
+                            elif self.isOver() == 2:
+                                Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                                return False
 
-                    self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
-                    if self.isOver() != 0:
-                        if self.isOver() == 1:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
-                            return True
-                        elif self.isOver() == 2:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
-                            return False
+                    if msg_普攻发起判断(hero):
+                        self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
+                        if self.isOver() != 0:
+                            if self.isOver() == 1:
+                                Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                                return True
+                            elif self.isOver() == 2:
+                                Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                                return False
                     
                 self.respond(status = SoulResponseTime.回合结束时)
 

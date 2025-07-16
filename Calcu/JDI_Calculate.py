@@ -14,6 +14,40 @@ def msg_移除响应(soul):
     if soul in hero.get_响应Soul列表():
         hero.get_响应Soul列表().remove(soul)
 
+def msg_主动战法发起判断(hero):
+    # 是否 技穷 震慑 且 无清醒
+    have_技穷 = False
+    have_震慑 = False
+    have_清醒 = False
+    from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+    for soul in hero.get_响应Soul列表():
+        if soul.effect_type == SoulEffectType.技穷:
+            have_技穷 = True
+        elif soul.effect_type == SoulEffectType.震慑:
+            have_震慑 = True
+        elif soul.effect_type == SoulEffectType.清醒:
+            have_清醒 = True
+    if (have_技穷 or have_震慑) and not have_清醒:
+        return False
+    return True
+
+def msg_普攻发起判断(hero):
+    # 是否 缴械 震慑 且 无清醒
+    have_缴械 = False
+    have_震慑 = False
+    have_清醒 = False
+    from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+    for soul in hero.get_响应Soul列表():
+        if soul.effect_type == SoulEffectType.缴械:
+            have_缴械 = True
+        elif soul.effect_type == SoulEffectType.震慑:
+            have_震慑 = True
+        elif soul.effect_type == SoulEffectType.清醒:
+            have_清醒 = True
+    if (have_缴械 or have_震慑) and not have_清醒:
+        return False
+    return True
+    
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero
     from Generals.Enum.Generals_Enum import HeroInfoKey
@@ -456,6 +490,16 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
     兵种增伤系数 = MSG_兵种增伤公式(攻击者, 防御者)
     if 兵种增伤系数 != 0:
         造成伤害提升 += 兵种增伤系数
+    存在虚弱 = False
+    存在清醒 = False
+    for soul in 攻击者.get_持有Soul列表():
+        from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+        if soul.effect_type == SoulEffectType.虚弱:
+            存在虚弱 = True
+        if soul.effect_type == SoulEffectType.清醒:
+            存在清醒 = True
+    if 存在虚弱 and not 存在清醒:
+        造成伤害提升 *= 0.7
 
     武将增减伤系数 *= 造成伤害提升
 
@@ -477,6 +521,8 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
     if 伤害类型 == SoulDamageType.谋略:
         受到谋略伤害降低 = 防御者.get_受到谋略伤害降低()
         武将增减伤系数 *= (1 + 受到谋略伤害降低)
+
+ 
 
     return 武将增减伤系数
 

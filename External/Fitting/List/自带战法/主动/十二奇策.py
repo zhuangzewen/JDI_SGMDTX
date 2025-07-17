@@ -83,7 +83,7 @@ class 十二奇策_soul(Soul):
         if status == SoulResponseTime.主动战法行动时 and hero == self.target:
 
             if not msg_主动战法发起判断(self.target):
-                Log().show_battle_info('[{}]战法【{}】无法释放'.format(self.target.get_武将名称(), self.skill.get_战法名称()))
+                Log().show_battle_info('[{}]战法【{}】无法释放'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 return
 
             十二奇策skill: 十二奇策_skill = self.skill

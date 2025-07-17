@@ -53,7 +53,7 @@ class 普攻_soul(Soul):
         
             from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
-            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+            attacked: Hero = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             attacked_name = attacked.get_武将名称().value
             Log().show_battle_info('    [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
             damage_class: Damage = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)

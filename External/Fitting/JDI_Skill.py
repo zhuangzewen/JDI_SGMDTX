@@ -61,7 +61,7 @@ class Skill():
     def 战法信息(self):
         return getattr(self, SkillInfoKey.战法信息.value)
     
-    def 战法类型(self):
+    def get_战法类型(self):
         skill_info = getattr(self, SkillInfoKey.战法信息.value)
         if hasattr(skill_info, SkillInfoKey.战法类型.value):
             return getattr(skill_info, SkillInfoKey.战法类型.value)

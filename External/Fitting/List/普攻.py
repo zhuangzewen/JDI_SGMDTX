@@ -21,7 +21,6 @@ from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
 from Log.JDI_Log import Log
 
-
 class 普攻_info(SkillInfo):
     def __init__(self):
         self.战法名称 = Fitting_List_Enum.普攻
@@ -46,6 +45,11 @@ class 普攻_soul(Soul):
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
         if status == SoulResponseTime.普攻行动时 and hero == self.target:
+
+            from Calcu.JDI_Calculate import msg_普攻发起判断
+            if not msg_普攻发起判断(self.target):
+                Log().show_battle_info('[{}]无法普攻'.format(self.target.get_武将名称().value))
+                return
         
             from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)

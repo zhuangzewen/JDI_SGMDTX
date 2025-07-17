@@ -234,21 +234,85 @@ def 实际受击率(hero):
 
     return 0
 
-def 从队列确定受击武将(heroList):
-    from Generals.JDI_Hero import Hero
-    heroList: list[Hero]
+def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=None, needRemove=True):
 
-    # 创建受击率数组
-    hit_rate_list = []
-    for hero in heroList:
+    def normal_受击(heroList):
+        from Generals.JDI_Hero import Hero
+        heroList: list[Hero]
+
+        # 创建受击率数组
+        hit_rate_list = []
+        for hero in heroList:
+            hero: Hero
+            hit_rate = 实际受击率(hero)
+            hit_rate_list.append(hit_rate)
+
+        randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
+        selected_hero = heroList[randomInt]
+
+        if needRemove:
+            heroList.remove(selected_hero)
+
+        return selected_hero
+
+    if skill == None or hero == None or battleField == None:
+        return normal_受击(heroList)
+    else:
+        from External.Fitting.JDI_Skill import Skill
+        from Generals.JDI_Hero import Hero
+        from BattleField.JDI_BattleField import BattleField
+        from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+        skill: Skill
         hero: Hero
-        hit_rate = 实际受击率(hero)
-        hit_rate_list.append(hit_rate)
+        battleField: BattleField
+        if skill.get_战法类型() == SkillType.指挥 or skill.get_战法类型() == SkillType.被动:
+            return normal_受击(heroList)
+        清醒soul = None
+        混乱soul = None
+        嘲讽soul = None
+        for soul in hero.get_响应Soul列表():
+            if soul.effect_type == SoulEffectType.清醒:
+                清醒soul = soul
+            elif soul.effect_type == SoulEffectType.混乱:
+                混乱soul = soul
+            elif soul.effect_type == SoulEffectType.嘲讽:
+                嘲讽soul = soul
+        if 清醒soul != None:
+            return normal_受击(heroList)
+        if 混乱soul != None:
+            # 取所有除了自己的武将
+            team1 = battleField.getTeam1()
+            team2 = battleField.getTeam2()
+            real_heroes = [team1.firstHero, team1.secondHero, team1.thirdHero,
+                           team2.firstHero, team2.secondHero, team2.thirdHero]
+            real_heroes = msg_过滤掉被击溃的武将(real_heroes)
+            if hero in real_heroes:
+                real_heroes.remove(hero)
+            return random.choice(real_heroes)
+        if 嘲讽soul != None and skill.get_战法类型() == SkillType.普攻:
+            return 嘲讽soul.initiator
+        
+        return normal_受击(heroList)
 
-    randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
 
-    selected_hero = heroList[randomInt]
-    return selected_hero
+def msg_对敌方所有目标生效_number(hero, battleField, number=1):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
+
+    battleField: BattleField
+
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes_num = len(msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero]))
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes_num = len(msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero]))
+
+    if heroes_num < number:
+        return heroes_num
+    else:
+        return number
 
 def 对敌方所有目标生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField

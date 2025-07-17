@@ -95,14 +95,14 @@ class 十二奇策_soul(Soul):
                 return
             Log().show_battle_info('        [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
+            attacked_times = msg_对敌方所有目标生效_number(self.target, battleField, 2)
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
-            for _ in range(2):
+            for _ in range(attacked_times):
 
                 if len(attacked_heroes) == 0:
                     break
 
-                attacked: Hero = 从队列确定受击武将(attacked_heroes)
-                attacked_heroes.remove(attacked)
+                attacked: Hero = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
 
                 damageModel = 计算伤害(battleField, self.target, attacked, SoulDamageType.谋略, SkillType.指挥, 伤害值= 2.2)
                 damage_soul = Soul(target=attacked,

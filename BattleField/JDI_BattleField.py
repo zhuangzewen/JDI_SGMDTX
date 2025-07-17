@@ -109,21 +109,21 @@ class BattleField():
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 被动
                 if skill.加载状态 == True :
-                    if skill.战法类型() == SkillType.被动:
+                    if skill.get_战法类型() == SkillType.被动:
                         self.getCommandHandleRespon().append(skill)
                         skill.fill_init_soul()
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 指挥
                 if skill.加载状态 == True :
-                    if skill.战法类型() == SkillType.指挥:
+                    if skill.get_战法类型() == SkillType.指挥:
                         self.getCommandHandleRespon().append(skill)
                         skill.fill_init_soul()
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 主动 && 追击
                 if skill.加载状态 == True :
-                    if skill.战法类型() == SkillType.主动 or skill.战法类型() == SkillType.追击:
+                    if skill.get_战法类型() == SkillType.主动 or skill.get_战法类型() == SkillType.追击:
                         self.getCommandHandleRespon().append(skill)
                         skill.fill_init_soul()
 
@@ -524,16 +524,15 @@ class BattleField():
                             Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
-                    if msg_普攻发起判断(hero):
-                        self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
-                        if self.isOver() != 0:
-                            if self.isOver() == 1:
-                                Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
-                                return True
-                            elif self.isOver() == 2:
-                                Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
-                                return False
-                    
+                    self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
+                    if self.isOver() != 0:
+                        if self.isOver() == 1:
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            return True
+                        elif self.isOver() == 2:
+                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            return False
+                
                 self.respond(status = SoulResponseTime.回合结束时)
 
         return self.isOverWithoutDefeated()

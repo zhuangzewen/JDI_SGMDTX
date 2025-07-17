@@ -310,12 +310,13 @@ class Hero():
                 return
             # SoulDamageType
             if self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
+                Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
-                for soul in self.get_持有Soul列表():
+                for soul in self.get_响应Soul列表():
                     from Soul.Enum.SoulEffectType_Enum import SoulEffectType
                     if soul.effect_type == SoulEffectType.断粮:
-                        # 存在断粮则 * 0.7
+                        Log().show_battle_info('        [{}]由于[{}]【{}】的[断粮]效果治疗效率降为30%'.format(self.get_武将名称().value, soul.initiator.get_武将名称().value, soul.skill.get_战法名称().value))
                         恢复兵力 = int(恢复兵力 * 0.7)
                         break
 
@@ -334,8 +335,6 @@ class Hero():
                     setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
                     setattr(self, HeroInfoKey.兵力.value, 实际兵力)
                     
-
-                Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
                 Log().show_battle_info('        [{}]恢复了兵力{}({})'.format(self.get_武将名称().value, 恢复兵力, self.get_兵力()))
 
         for soul in self.get_响应Soul列表():

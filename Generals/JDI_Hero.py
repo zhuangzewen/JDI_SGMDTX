@@ -313,29 +313,16 @@ class Hero():
                 Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
-                for soul in self.get_响应Soul列表():
-                    from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-                    if soul.effect_type == SoulEffectType.断粮:
-                        Log().show_battle_info('        [{}]由于[{}]【{}】的[断粮]效果治疗效率降为30%'.format(self.get_武将名称().value, soul.initiator.get_武将名称().value, soul.skill.get_战法名称().value))
-                        恢复兵力 = int(恢复兵力 * 0.7)
-                        break
 
-                当前兵力 = self.get_兵力()
-                当前伤兵 = self.get_伤兵()
-
-                if 恢复兵力 <= 当前伤兵:
-                    剩余伤兵 = 当前伤兵 - 恢复兵力
-                    实际兵力 = 当前兵力 + 恢复兵力
-                    setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
-                    setattr(self, HeroInfoKey.兵力.value, 实际兵力)
-                else:
-                    恢复兵力 = 当前伤兵
-                    剩余伤兵 = 0
-                    实际兵力 = 当前兵力 + 恢复兵力
-                    setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
-                    setattr(self, HeroInfoKey.兵力.value, 实际兵力)
-                    
-                Log().show_battle_info('        [{}]恢复了兵力{}({})'.format(self.get_武将名称().value, 恢复兵力, self.get_兵力()))
+                from Soul.JDI_Soul import Soul
+                from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+                恢复soul = Soul(target=self,
+                                initiator=self,
+                                skill=None,
+                                effect_type=SoulEffectType.恢复兵力,
+                                effect_value=恢复兵力,
+                                battleField=battleField)
+                恢复soul.deploy_initial()
 
         for soul in self.get_响应Soul列表():
             from Soul.JDI_Soul import Soul
@@ -352,6 +339,9 @@ def get_hero_info(heroName):
     elif heroName == Generals_Name_Enum.荀攸:
         from Generals.List.荀攸 import 荀攸_info
         heroInfo = 荀攸_info()
+    elif heroName == Generals_Name_Enum.周瑜:
+        from Generals.List.周瑜 import 周瑜_info
+        heroInfo = 周瑜_info()
     else:
         heroInfo = HeroInfo(heroName)
     return heroInfo

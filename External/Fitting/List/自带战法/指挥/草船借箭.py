@@ -77,7 +77,7 @@ class 草船借箭_soul(Soul):
                 if soul in self.soul持有列表:
                     self.soul持有列表.remove(soul)
 
-        self.target.get_响应Soul列表().append(soul)
+        msg_移除响应(self)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
 
@@ -100,7 +100,8 @@ class 草船借箭_soul(Soul):
             if hero != self.target:
                 return
             
-            if status == SoulResponseTime.造成伤害时 and sourceSoul.source_soul == self:
+            if status == SoulResponseTime.造成伤害时:
+                # 草船借箭可以触发草船借箭
                 return
 
             if self.草船借箭发动次数 < 5:
@@ -113,7 +114,6 @@ class 草船借箭_soul(Soul):
                 self.草船借箭发动次数 += 1
 
                 atta_hero = self.target
-                attaHero_name = atta_hero.get_武将名称()
                 attacked_heroes = 对敌方所有目标生效(atta_hero, battleField)
                 attacked: Hero = 从队列确定受击武将(attacked_heroes)
 
@@ -135,7 +135,6 @@ class 草船借箭_soul(Soul):
 class 草船借箭_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
-        self.当前回合发动次数 = 0
 
     def fill_init_soul(self):
         持有者and响应者:Hero = self.get_持有者()

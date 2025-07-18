@@ -80,6 +80,9 @@ def get_skill_info(skillName):
     elif skillName == Fitting_List_Enum.十二奇策:
         from External.Fitting.List.自带战法.主动.十二奇策 import 十二奇策_info
         skillInfo = 十二奇策_info()
+    elif skillName == Fitting_List_Enum.临机制胜:
+        from External.Fitting.List.自带战法.指挥.临机制胜 import 临机制胜_info
+        skillInfo = 临机制胜_info()
     else:
         skillInfo = SkillInfo(skillName)
     return skillInfo
@@ -97,6 +100,9 @@ def get_skill(skillName, hero):
     elif skillName == Fitting_List_Enum.十二奇策:
         from External.Fitting.List.自带战法.主动.十二奇策 import 十二奇策_skill
         skill = 十二奇策_skill(hero, skillName)
+    elif skillName == Fitting_List_Enum.临机制胜:
+        from External.Fitting.List.自带战法.指挥.临机制胜 import 临机制胜_skill
+        skill = 临机制胜_skill(hero, skillName)
     else:
         skill = Skill(hero, skillName)
     return skill

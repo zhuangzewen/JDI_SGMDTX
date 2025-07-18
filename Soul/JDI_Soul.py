@@ -46,14 +46,20 @@ class Soul():
     def deploy_initial(self):
 
         self.target: Hero
-        heroInfo = self.target.get_武将信息()
         heroName = self.target.get_武将名称().value
+
+        # 补充判断 当发起者或目标为 溃败状态时 不响应
+        if self.initiator is not None and self.initiator.get_被击溃状态():
+            return
+        if self.target is not None and self.target.get_被击溃状态():
+            return
 
         if self.effect_value > 0:
             show_upEffect_name = '提升'
         else:
             show_upEffect_name = '降低'
 
+        from Soul.Enum.SoulEffectType_Enum import SoulEffectType
         if self.effect_type == SoulEffectType.造成伤害:
             cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
             cur_value += self.effect_value
@@ -72,12 +78,18 @@ class Soul():
             cur_value += real_value
             setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
             Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  cur_value * 100))
+            if self.effect_value > 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.受到伤害_绝对值:
             cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
             Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            if self.effect_value > 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.受到谋略伤害:
             cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害降低.value)
@@ -91,24 +103,36 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.初始武力.value, cur_value)
             Log().show_battle_info('        [{}]的【武力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.智力:
             cur_value = getattr(self.target, HeroInfoKey.智力.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.智力.value, cur_value)
             Log().show_battle_info('        [{}]的【智力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.统帅:
             cur_value = getattr(self.target, HeroInfoKey.统帅.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.统帅.value, cur_value)
             Log().show_battle_info('        [{}]的【统帅】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.先攻:
             cur_value = getattr(self.target, HeroInfoKey.先攻.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.先攻.value, cur_value)
             Log().show_battle_info('        [{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:    
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.攻心:
             cur_value = getattr(self.target, HeroInfoKey.攻心.value)
@@ -140,6 +164,9 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.会心伤害.value, cur_value)
             Log().show_battle_info('        [{}]的【会心伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.奇谋几率:
             cur_value = getattr(self.target, HeroInfoKey.奇谋几率.value)
@@ -152,6 +179,9 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.奇谋伤害.value, cur_value)
             Log().show_battle_info('        [{}]的【奇谋伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.固定受击率:
             setattr(self.target, HeroInfoKey.固定受击率.value, True)
@@ -182,6 +212,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【震慑】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【震慑】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.缴械:
             is存在同类状态 = False
@@ -195,6 +227,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【缴械】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【缴械】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.技穷:
             is存在同类状态 = False
@@ -208,6 +242,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【技穷】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【技穷】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.混乱:
             is存在同类状态 = False
@@ -221,6 +257,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【混乱】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【混乱】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.嘲讽:
             is存在同类状态 = False
@@ -234,6 +272,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【嘲讽】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【嘲讽】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.虚弱:
             is存在同类状态 = False
@@ -247,6 +287,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【虚弱】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【虚弱】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.断粮:
             is存在同类状态 = False
@@ -260,6 +302,8 @@ class Soul():
                 Log().show_battle_info('        [{}]的【断粮】效果已刷新'.format(heroName))
             else:
                 Log().show_battle_info('        [{}]的【断粮】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.洪水:
             is存在同类状态 = False
@@ -280,6 +324,8 @@ class Soul():
                                         source_soul=self)
                 统帅soul.deploy_initial()
                 Log().show_battle_info('        [{}]的【洪水】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.火攻:
             is存在同类状态 = False
@@ -300,6 +346,8 @@ class Soul():
                                         source_soul=self)
                 智力soul.deploy_initial()
                 Log().show_battle_info('        [{}]的【火攻】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.风暴:
 
@@ -321,6 +369,8 @@ class Soul():
                                         source_soul=self)
                 先攻soul.deploy_initial()
                 Log().show_battle_info('        [{}]的【风暴】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.畏惧:
 
@@ -342,6 +392,8 @@ class Soul():
                                         source_soul=self)
                 受到伤害soul.deploy_initial()
                 Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.妖术:
     
@@ -370,6 +422,8 @@ class Soul():
                             source_soul=self)
                 奇谋伤害soul.deploy_initial()
                 Log().show_battle_info('        [{}]的【妖术】效果已施加'.format(heroName))
+            self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
         elif self.effect_type == SoulEffectType.损失兵力:
 
@@ -406,6 +460,34 @@ class Soul():
             self.battleField : BattleField
             self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self)
+
+        elif self.effect_type == SoulEffectType.恢复兵力:
+
+            恢复兵力 = int(self.effect_value)
+            
+            for soul in self.target.get_响应Soul列表():
+                from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+                if soul.effect_type == SoulEffectType.断粮:
+                    Log().show_battle_info('        [{}]由于[{}]【{}】的[断粮]效果治疗效率降为30%'.format(self.target.get_武将名称().value, soul.initiator.get_武将名称().value, soul.skill.get_战法名称().value))
+                    恢复兵力 = int(恢复兵力 * 0.7)
+                    break
+
+            当前兵力 = self.target.get_兵力()
+            当前伤兵 = self.target.get_伤兵()
+
+            if 恢复兵力 <= 当前伤兵:
+                剩余伤兵 = 当前伤兵 - 恢复兵力
+                实际兵力 = 当前兵力 + 恢复兵力
+                setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
+                setattr(self, HeroInfoKey.兵力.value, 实际兵力)
+            else:
+                恢复兵力 = 当前伤兵
+                剩余伤兵 = 0
+                实际兵力 = 当前兵力 + 恢复兵力
+                setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
+                setattr(self, HeroInfoKey.兵力.value, 实际兵力)
+
+            Log().show_battle_info('        [{}]恢复了兵力{}({})'.format(self.target.get_武将名称().value, 恢复兵力, self.target.get_兵力()))
 
     def restore_initial(self):
 
@@ -604,10 +686,10 @@ class Soul():
                         source_soul=self)
             奇谋伤害soul.deploy_initial()
 
-            
-            
-
         elif self.effect_type == SoulEffectType.损失兵力:
             # 兵噶不恢复
             pass
-            
+
+        elif self.effect_type == SoulEffectType.恢复兵力:
+            # 兵力不恢复
+            pass

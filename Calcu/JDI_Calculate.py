@@ -146,20 +146,6 @@ def msg_对我方智力最高的武将(hero, battleField):
 
     return highest_zl_hero
 
-def 对己方所有目标生效(hero, battleField):
-    from BattleField.JDI_BattleField import BattleField
-    from BattleField.Team.JDI_Team import Team
-
-    battleField: BattleField
-
-    team1: Team = battleField.getTeam1()
-    team2: Team = battleField.getTeam2()
-
-    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
-        return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
-    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
-        return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
-
 def 生效未施加的异常状态(hero, battleField):
     from Generals.JDI_Hero import Hero
     hero: Hero
@@ -327,6 +313,39 @@ def 对敌方所有目标生效(hero, battleField):
         return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
     elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
+
+def msg_对己方所有目标生效_number(hero, battleField, number=1):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
+
+    battleField: BattleField
+
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        heroes_num = len(msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero]))
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        heroes_num = len(msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero]))
+
+    if heroes_num < number:
+        return heroes_num
+    else:
+        return number
+
+def 对己方所有目标生效(hero, battleField):
+    from BattleField.JDI_BattleField import BattleField
+    from BattleField.Team.JDI_Team import Team
+
+    battleField: BattleField
+
+    team1: Team = battleField.getTeam1()
+    team2: Team = battleField.getTeam2()
+
+    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
+        return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
+    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
+        return msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero])
 
 def 武将行动队列(battleField):
     from BattleField.JDI_BattleField import BattleField

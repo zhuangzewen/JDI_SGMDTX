@@ -47,7 +47,10 @@ def msg_普攻发起判断(hero):
     if (have_缴械 or have_震慑) and not have_清醒:
         return False
     return True
-    
+
+def msg_实际减伤系数(hero, value):
+    pass
+
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero
     from Generals.Enum.Generals_Enum import HeroInfoKey
@@ -608,8 +611,6 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
     if 伤害类型 == SoulDamageType.谋略:
         受到谋略伤害降低 = 防御者.get_受到谋略伤害降低()
         武将增减伤系数 *= (1 + 受到谋略伤害降低)
-
- 
 
     return 武将增减伤系数
 

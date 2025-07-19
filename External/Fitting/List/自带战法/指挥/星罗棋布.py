@@ -279,7 +279,7 @@ class 星罗棋布_额外效果_soul(Soul):
                         sourceType=SoulSourceType.武将战法, 
                         skill=self.skill, 
                         effect_type=SoulEffectType.受到伤害, 
-                        effect_value= - self.skill.星罗棋布_单前排_受到伤害降低系数())
+                        effect_value= msg_实际减伤系数(frontLineHero, - self.skill.星罗棋布_单前排_受到伤害降低系数()))
             单前排减伤soul.deploy_initial()
             self.soul持有列表_单前排.append(单前排减伤soul)
             Log().show_battle_info('        [{}]的[星罗棋布-单前排阵型]效果已施加'.format(frontLineHero.get_武将名称().value))

@@ -49,7 +49,9 @@ def msg_普攻发起判断(hero):
     return True
 
 def msg_实际减伤系数(hero, value):
-    pass
+    from Generals.Enum.Generals_Enum import HeroInfoKey
+    cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
+    return (1 + cur_value) * value
 
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero

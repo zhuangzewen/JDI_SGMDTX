@@ -74,16 +74,6 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.受到伤害:
             cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
-            real_value = (1 + cur_value) * self.effect_value
-            cur_value += real_value
-            setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
-            Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  cur_value * 100))
-            if self.effect_value > 0 and self.sourceType != SoulSourceType.负面状态效果:
-                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
-                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
-
-        elif self.effect_type == SoulEffectType.受到伤害_绝对值:
-            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
             Log().show_battle_info('        [{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
@@ -387,7 +377,7 @@ class Soul():
                 受到伤害soul = Soul(target=self.target, 
                                         sourceType=SoulSourceType.负面状态效果, 
                                         skill=self.skill,
-                                        effect_type=SoulEffectType.受到伤害_绝对值, 
+                                        effect_type=SoulEffectType.受到伤害, 
                                         effect_value=0.1,
                                         source_soul=self)
                 受到伤害soul.deploy_initial()
@@ -661,7 +651,7 @@ class Soul():
             受到伤害soul = Soul(target=self.target, 
                                     sourceType=SoulSourceType.负面状态效果, 
                                     skill=self.skill,
-                                    effect_type=SoulEffectType.受到伤害_绝对值, 
+                                    effect_type=SoulEffectType.受到伤害, 
                                     effect_value=-0.1,
                                     source_soul=self)
             受到伤害soul.deploy_initial()

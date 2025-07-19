@@ -170,7 +170,7 @@ class BattleField():
 
                     for hero in firstHero, secondHero, thirdHero:
                         hero: Hero
-                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.08)
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.08))
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
 
@@ -182,7 +182,7 @@ class BattleField():
 
                     setattr(firstHero, HeroInfoKey.前排.value, True)
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.6)
-                    firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.06)
+                    firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(firstHero, -0.06))
                     firstHero_soul.deploy_initial()
                     firstHero.get_响应Soul列表().append(firstHero_soul)
 
@@ -221,7 +221,7 @@ class BattleField():
                     for hero in firstHero, secondHero:
                         setattr(hero, HeroInfoKey.前排.value, True)
                         setattr(hero, HeroInfoKey.受击率.value, 0.4)
-                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.05))
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
 
@@ -240,7 +240,7 @@ class BattleField():
                     for hero in firstHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
                         setattr(hero, HeroInfoKey.受击率.value, 0.2)
-                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.05))
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
 
@@ -286,7 +286,7 @@ class BattleField():
 
                     setattr(thirdHero, HeroInfoKey.前排.value, True)
                     setattr(thirdHero, HeroInfoKey.受击率.value, 0.6)
-                    thirdHero_soul = Soul(target=thirdHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.08)
+                    thirdHero_soul = Soul(target=thirdHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(thirdHero, -0.08))
                     thirdHero_soul.deploy_initial()
                     thirdHero.get_响应Soul列表().append(thirdHero_soul)
 
@@ -305,7 +305,7 @@ class BattleField():
 
                     setattr(secondHero, HeroInfoKey.前排.value, False)
                     setattr(secondHero, HeroInfoKey.受击率.value, 0.2)
-                    secondHero_soul = Soul(target=secondHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
+                    secondHero_soul = Soul(target=secondHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(secondHero, -0.05))
                     secondHero_soul.deploy_initial()
                     secondHero.get_响应Soul列表().append(secondHero_soul)
 
@@ -400,9 +400,9 @@ class BattleField():
                     for hero in firstHero, secondHero, thirdHero:
                         hero: Hero  
                         if hypaspist == 3:
-                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.05)
+                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.05))
                         else:
-                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.035)
+                            soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.035))
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
                 elif gunner >= 2:
@@ -410,10 +410,10 @@ class BattleField():
                     for hero in firstHero, secondHero, thirdHero:
                         if gunner == 3:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.03)
-                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.02)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.02))
                         else:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.021)
-                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.014)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.014))
                         increase_soul.deploy_initial()
                         hero.get_响应Soul列表().append(increase_soul)
                         reduce_soul.deploy_initial()
@@ -432,10 +432,10 @@ class BattleField():
                     for hero in firstHero, secondHero, thirdHero:
                         if cavalryman == 3:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.02)
-                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.03)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.03))
                         else:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.014)
-                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=-0.021)
+                            reduce_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.021))
                         increase_soul.deploy_initial()
                         hero.get_响应Soul列表().append(increase_soul)
                         reduce_soul.deploy_initial()

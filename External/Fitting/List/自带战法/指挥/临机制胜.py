@@ -53,6 +53,7 @@ class 临机制胜_soul(Soul):
                  battleField = None):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
         self.临机制胜发动次数 = 0
+        self.临机制胜发动总次数 = 0
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
         
@@ -67,7 +68,7 @@ class 临机制胜_soul(Soul):
 
         elif status == SoulResponseTime.回合重置阶段:
             self.临机制胜发动次数 = 0
-            self.临机制胜发动总次数 = 0
+            
 
         elif status == SoulResponseTime.被施加异常时 or status == SoulResponseTime.被施加控制时:
 

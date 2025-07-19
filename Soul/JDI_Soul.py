@@ -452,7 +452,6 @@ class Soul():
                     Log().show_battle_info('        [{}]由于[{}]【{}】的[{}]效果,损失了兵力{}({})'.format(heroName, 伤害来源武将名称, 伤害来源技能名称, 伤害来源Soul效果, abs(伤害数值), 剩余兵力))
 
             if 剩余兵力 <= 0:
-                setattr(self.target, HeroInfoKey.被击溃状态.value, True)
                 Log().show_battle_info('        [{}]兵力为0 无法再战'.format(heroName))
                 self.battleField.respond(status=SoulResponseTime.武将溃败, 时机响应武将=self.target)
 

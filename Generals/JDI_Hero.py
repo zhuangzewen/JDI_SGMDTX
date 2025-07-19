@@ -295,8 +295,14 @@ class Hero():
 
     # 响应针对武将的response
     def response(self, status, battleField=None, hero=None, sourceSoul=None):
+
+        if self.get_被击溃状态():
+            return
         
-        if status == SoulResponseTime.武将溃败:
+        if status == SoulResponseTime.武将溃败 and hero == self:
+
+            setattr(self, HeroInfoKey.被击溃状态.value, True)
+
             self.get_响应Soul列表().clear()
 
             for soul in self.get_持有Soul列表():

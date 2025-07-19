@@ -348,6 +348,9 @@ def get_hero_info(heroName):
     elif heroName == Generals_Name_Enum.周瑜:
         from Generals.List.周瑜 import 周瑜_info
         heroInfo = 周瑜_info()
+    elif heroName == Generals_Name_Enum.许褚:
+        from Generals.List.许褚 import 许褚_info
+        heroInfo = 许褚_info()
     else:
         heroInfo = HeroInfo(heroName)
     return heroInfo

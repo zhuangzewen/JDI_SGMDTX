@@ -130,13 +130,13 @@ class Soul():
             setattr(self.target, HeroInfoKey.攻心.value, cur_value)
             Log().show_battle_info('        [{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.连击:
+        elif self.effect_type == SoulEffectType.连击几率:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
             Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.闪避:
+        elif self.effect_type == SoulEffectType.闪避几率:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
             real_value = (1 - cur_value) * self.effect_value
             cur_value += real_value
@@ -548,13 +548,13 @@ class Soul():
             setattr(self.target, HeroInfoKey.攻心.value, cur_value)
             Log().show_battle_info('        [{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.连击:
+        elif self.effect_type == SoulEffectType.连击几率:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
             Log().show_battle_info('        [{}]的【连击几率】{}{:.2f}%({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.闪避:
+        elif self.effect_type == SoulEffectType.闪避几率:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
             ori_value = (cur_value - self.effect_value) / (1 - self.effect_value)
             real_value = cur_value - ori_value

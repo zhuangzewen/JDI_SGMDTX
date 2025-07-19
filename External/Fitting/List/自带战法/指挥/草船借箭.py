@@ -81,6 +81,10 @@ class 草船借箭_soul(Soul):
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
 
+        if status == SoulResponseTime.武将溃败:
+            self.handle_defeat(battleField, hero, sourceSoul)
+            return
+
         if status == SoulResponseTime.战法布阵开始时:
             Log().show_battle_info('    [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             草船借箭攻心soul = Soul(target=self.target,

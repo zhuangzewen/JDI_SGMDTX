@@ -83,6 +83,9 @@ def get_skill_info(skillName):
     elif skillName == Fitting_List_Enum.临机制胜:
         from External.Fitting.List.自带战法.指挥.临机制胜 import 临机制胜_info
         skillInfo = 临机制胜_info()
+    elif skillName == Fitting_List_Enum.裸衣血战:
+        from External.Fitting.List.自带战法.被动.裸衣血战 import 裸衣血战_info
+        skillInfo = 裸衣血战_info()
     else:
         skillInfo = SkillInfo(skillName)
     return skillInfo
@@ -103,6 +106,9 @@ def get_skill(skillName, hero):
     elif skillName == Fitting_List_Enum.临机制胜:
         from External.Fitting.List.自带战法.指挥.临机制胜 import 临机制胜_skill
         skill = 临机制胜_skill(hero, skillName)
+    elif skillName == Fitting_List_Enum.裸衣血战:
+        from External.Fitting.List.自带战法.被动.裸衣血战 import 裸衣血战_skill
+        skill = 裸衣血战_skill(hero, skillName)
     else:
         skill = Skill(hero, skillName)
     return skill

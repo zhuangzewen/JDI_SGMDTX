@@ -227,7 +227,7 @@ class BattleField():
 
                     setattr(thirdHero, HeroInfoKey.前排.value, False)
                     setattr(thirdHero, HeroInfoKey.受击率.value, 0.2)
-                    thirdHero_soul = Soul(target=thirdHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.连击, effect_value=0.4)
+                    thirdHero_soul = Soul(target=thirdHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.连击几率, effect_value=0.4)
                     thirdHero_soul.deploy_initial()
                     thirdHero.get_响应Soul列表().append(thirdHero_soul)
 
@@ -280,7 +280,7 @@ class BattleField():
                     for hero in firstHero, secondHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
                         setattr(hero, HeroInfoKey.受击率.value, 0.2)
-                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.连击, effect_value=0.25)
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.连击几率, effect_value=0.25)
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
 

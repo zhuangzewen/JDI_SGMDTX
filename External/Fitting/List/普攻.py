@@ -71,7 +71,7 @@ class 普攻_soul(Soul):
 
             from BattleField.JDI_BattleField import BattleField
             battleField: BattleField
-            battleField.respond(status=SoulResponseTime.追击行动时, 时机响应武将=self.target)
+            battleField.respond(status=SoulResponseTime.追击行动时, 时机响应武将=self.target, 溯源SOUL=damage_soul)
 
             from Calcu.JDI_RanVal import 触发连击
             if status == SoulResponseTime.普攻行动时 and 触发连击(self.target):

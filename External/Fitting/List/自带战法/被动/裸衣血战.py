@@ -144,7 +144,7 @@ class 裸衣血战_skill(Skill):
                                      initiator=持有者and响应者, 
                                      sourceType=SoulSourceType.武将战法, 
                                      skill=self, 
-                                     response_time=SoulResponseTime.战法布阵开始时, 
+                                     response_time=SoulResponseTime.内置待响应, 
                                      effect_type=SoulEffectType.无影响)
         持有者and响应者.get_持有Soul列表().append(裸衣血战soul)
         持有者and响应者.get_响应Soul列表().append(裸衣血战soul)

@@ -44,8 +44,8 @@ class 普攻_soul(Soul):
         super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
-        
-        if status == SoulResponseTime.普攻行动时 and hero == self.target:
+
+        if (status == SoulResponseTime.普攻行动时 or status == SoulResponseTime.连击行动时) and hero == self.target:
 
             from Calcu.JDI_Calculate import msg_普攻发起判断
             if not msg_普攻发起判断(self.target):
@@ -69,8 +69,14 @@ class 普攻_soul(Soul):
                                 damage=damage_class)
             damage_soul.deploy_initial()
 
-        elif status == SoulResponseTime.造成伤害时:
-            pass
+            from BattleField.JDI_BattleField import BattleField
+            battleField: BattleField
+            battleField.respond(status=SoulResponseTime.追击行动时, 时机响应武将=self.target)
+
+            from Calcu.JDI_RanVal import 触发连击
+            if status == SoulResponseTime.普攻行动时 and 触发连击(self.target):
+                Log().show_battle_info('    [{}]进行连击'.format(self.target.get_武将名称().value))
+                battleField.respond(status=SoulResponseTime.连击行动时, 时机响应武将=self.target)
 
 class 普攻_skill(Skill):
     def __init__(self, hero, skillName):

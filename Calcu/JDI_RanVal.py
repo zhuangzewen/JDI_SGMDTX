@@ -46,3 +46,8 @@ def 随机暴击伤害(攻击者, 伤害类型) -> float:
         if random_value <= 攻击者.get_会心几率():
             return 攻击者.get_会心伤害()
     return 1
+
+def 触发连击(攻击者) -> bool:
+    from Generals.JDI_Hero import Hero
+    攻击者: Hero = 攻击者
+    return random.random() < 攻击者.get_连击几率()

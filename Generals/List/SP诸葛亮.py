@@ -34,5 +34,6 @@ class SP诸葛亮_info(HeroInfo):
         self.初始先攻 = 61
         self.先攻成长 = 1.71
         self.自带战法 = Fitting_List_Enum.星罗棋布
+        self.缘分列表 = [Fitting_List_Enum.才堪相配]
 
 

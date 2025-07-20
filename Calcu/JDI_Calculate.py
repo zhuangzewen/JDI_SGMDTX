@@ -239,6 +239,9 @@ def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=Non
             hit_rate_list.append(hit_rate)
 
         randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
+        if randomInt == None:
+            return None
+
         selected_hero = heroList[randomInt]
 
         if needRemove:

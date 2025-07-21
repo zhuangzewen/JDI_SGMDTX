@@ -113,6 +113,11 @@ class Hero():
     def get_响应Soul列表(self):
         return getattr(self, HeroInfoKey.响应Soul列表.value)
 
+    def get_缘分列表(self):
+        if hasattr(self.get_武将信息(), HeroInfoKey.缘分列表.value):
+            return getattr(self.get_武将信息(), HeroInfoKey.缘分列表.value)
+        return []
+
     def get_武将信息(self):
         return getattr(self, HeroInfoKey.武将信息.value)
     def get_前排状态(self):

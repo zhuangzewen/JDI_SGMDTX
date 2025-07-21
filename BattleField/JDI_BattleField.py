@@ -80,6 +80,12 @@ class BattleField():
             checkHero: Hero
             checkHero.response(status=status, battleField=self, hero=时机响应武将, sourceSoul=溯源SOUL)
 
+    def 重置队伍状态(self):
+
+        for team in [self.team1, self.team2]:
+            team: Team
+            team.重置队伍状态()
+
     def 重置武将状态(self):
 
         for hero in self.team1.firstHero, self.team1.secondHero, self.team1.thirdHero, \
@@ -441,6 +447,14 @@ class BattleField():
                         reduce_soul.deploy_initial()
                         hero.get_响应Soul列表().append(reduce_soul)
 
+        def 列队布阵_缘分强化(self):
+            for team in [self.team1, self.team2]:
+                # Log 队伍缘分
+                team: Team
+                for 缘分soul in team.缘分soul列表:
+                    缘分soul: Soul
+                    缘分soul.response(status=SoulResponseTime.战法布阵开始时, battleField=self)
+
         列队布阵_补给强化(self)
 
         列队布阵_阵型强化(self)
@@ -448,6 +462,8 @@ class BattleField():
         列队布阵_阵营强化(self)
 
         列队布阵_兵种强化(self)
+
+        列队布阵_缘分强化(self)
  
     def simulate(self, team1: TeamInfo, team2: TeamInfo):
 
@@ -480,6 +496,8 @@ class BattleField():
         for _ in range(8):
             Log().show_battle_info('\n[第 {} 局]'.format(_ + 1))
             self.command_handle_respon = []
+
+            self.重置队伍状态()
 
             self.重置武将状态()
             

@@ -190,6 +190,12 @@ class Soul():
             else:
                 Log().show_battle_info('        [{}]的【清醒】效果已施加'.format(heroName))
 
+        elif self.effect_type == SoulEffectType.受治疗效果:
+            cur_value = getattr(self.target, HeroInfoKey.受治疗效果.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受治疗效果.value, cur_value)
+            Log().show_battle_info('        [{}]的【受治疗效果】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.震慑:
             is存在同类状态 = False
             if len(self.target.get_响应Soul列表()) > 0:
@@ -580,6 +586,12 @@ class Soul():
         elif self.effect_type == SoulEffectType.清醒:
             msg_移除响应(self)
             Log().show_battle_info('        [{}]的【清醒】效果已消失'.format(heroName))
+
+        elif self.effect_type == SoulEffectType.受治疗效果:
+            cur_value = getattr(self.target, HeroInfoKey.受治疗效果.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受治疗效果.value, cur_value)
+            Log().show_battle_info('        [{}]的【受治疗效果】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.震慑:
             msg_移除响应(self)

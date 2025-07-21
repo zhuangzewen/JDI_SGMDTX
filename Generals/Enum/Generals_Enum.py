@@ -49,6 +49,7 @@ class HeroInfoKey(Enum):
     武将升阶 = 'rank_info'
     武将升品 = 'premium_info'
 
+    缘分列表 = '缘分列表'
     自带战法 = '自带战法'
     第一战法 = '第一战法'
     第一战法升阶 = '第一战法升阶'

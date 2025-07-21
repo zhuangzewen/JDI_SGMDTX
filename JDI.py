@@ -61,7 +61,7 @@ def battle():
     team2_hero1.set_skills(Fitting_List_Enum.临机制胜, 0, Fitting_List_Enum.十二奇策, 0)
     team2_hero2 = get_hero_info(Generals_Name_Enum.许褚)
     team2_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
-    team2_hero2.set_skills(None, 0, None, 0)
+    team2_hero2.set_skills(Fitting_List_Enum.膂力过人, 0, None, 0)
     team2_hero3 = get_hero_info(Generals_Name_Enum.诸葛亮)
     team2_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero3.set_skills(None, 0, None, 0)

@@ -84,7 +84,7 @@ class 膂力过人_soul(Soul):
             self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
             return
         
-        if status == SoulResponseTime.追击行动时 and self.target == self.initiator:
+        if status == SoulResponseTime.追击行动时 and self.target == hero:
             Log().show_battle_info('    [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             attacked_hero = sourceSoul.target
             damage_class: Damage = 计算伤害(battleField, 

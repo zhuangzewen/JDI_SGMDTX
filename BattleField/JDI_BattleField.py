@@ -402,7 +402,7 @@ class BattleField():
                         cavalryman += 1
 
                 if hypaspist >= 2:
-                    Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-盾】强化效果')
+                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-盾】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         hero: Hero  
                         if hypaspist == 3:
@@ -412,7 +412,7 @@ class BattleField():
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
                 elif gunner >= 2:
-                    Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-枪】强化效果')
+                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-枪】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if gunner == 3:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.03)
@@ -425,7 +425,7 @@ class BattleField():
                         reduce_soul.deploy_initial()
                         hero.get_响应Soul列表().append(reduce_soul)
                 elif bowman >= 2:
-                    Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-弓】强化效果')
+                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-弓】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if bowman == 3:
                             soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.05)
@@ -434,7 +434,7 @@ class BattleField():
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
                 elif cavalryman >= 2:
-                    Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【兵种-骑】强化效果')
+                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-骑】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if cavalryman == 3:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.02)

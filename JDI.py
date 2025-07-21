@@ -5,6 +5,7 @@ from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
 from Generals.JDI_Hero import get_hero_info
 from BattleField.Team.JDI_Team import TeamInfo, Formation
 from BattleField.JDI_BattleField import BattleField
+from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 
 class SimulatorMode(Enum):
     VS_1 = 'VS_1'
@@ -47,7 +48,7 @@ def battle():
     
     team1_hero1 = get_hero_info(Generals_Name_Enum.诸葛亮)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
-    team1_hero1.set_skills(None, 0, None, 0)
+    team1_hero1.set_skills(Fitting_List_Enum.临机制胜, 0, Fitting_List_Enum.十二奇策, 0)
     team1_hero2 = get_hero_info(Generals_Name_Enum.颜良)
     team1_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero2.set_skills(None, 0, None, 0)
@@ -57,7 +58,7 @@ def battle():
 
     team2_hero1 = get_hero_info(Generals_Name_Enum.SP诸葛亮)
     team2_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
-    team2_hero1.set_skills(None, 0, None, 0)
+    team2_hero1.set_skills(Fitting_List_Enum.临机制胜, 0, Fitting_List_Enum.十二奇策, 0)
     team2_hero2 = get_hero_info(Generals_Name_Enum.许褚)
     team2_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero2.set_skills(None, 0, None, 0)

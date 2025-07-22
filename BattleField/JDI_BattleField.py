@@ -1,14 +1,4 @@
-from enum import Enum
-from Log.JDI_Log import Log
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Generals.Enum.Generals_Enum import WeaponType, HeroInfoKey
-from BattleField.Team.JDI_Team import TeamInfo, Team, Formation
-from Generals.JDI_Hero import Hero
-from External.Fitting.JDI_Skill import Skill
-from Soul.JDI_Soul import Soul
-from Calcu.JDI_Calculate import *
+from Control.Imports.battlefield_imports import *
 
 class BattleFieldInfoKey(Enum):
     TEAM1 = "team1"

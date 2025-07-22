@@ -1,5 +1,5 @@
 
-from Log.JDI_Log import Log
+from Control.Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Generals.Enum.Generals_Enum import HeroInfoKey
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType

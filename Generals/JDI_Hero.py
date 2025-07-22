@@ -1,11 +1,5 @@
 
-from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
-from Generals.Enum.Generals_Enum import Faction, WeaponType, HeroInfoKey
-from External.Fitting.JDI_Skill import get_skill
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Calcu.JDI_Calculate import *
-from Log.JDI_Log import Log
+from Control.Imports.hero_imports import *
 
 class HeroInfo():
     def __init__(self, heroName):

@@ -4,7 +4,7 @@ from Generals.Enum.Generals_Enum import WeaponType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from Soul.Class.Damage_Class import Damage
-from Log.JDI_Log import Log
+from Control.Log.JDI_Log import Log
 
 def msg_移除响应(soul):
     from Soul.JDI_Soul import Soul
@@ -590,7 +590,7 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
         if soul.effect_type == SoulEffectType.清醒:
             存在清醒 = True
     if 存在虚弱_soul != None and not 存在清醒:
-        from Log.JDI_Log import Log
+        from Control.Log.JDI_Log import Log
         from Soul.JDI_Soul import Soul
         存在虚弱_soul: Soul
         Log().show_battle_info(f"        [{攻击者.get_武将名称().value}]由于[{存在虚弱_soul.initiator.get_武将名称().value}]【{存在虚弱_soul.skill.get_战法名称().value}】的[虚弱]效果造成伤害减少70%")

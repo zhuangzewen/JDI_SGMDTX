@@ -27,7 +27,7 @@ from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
-from Log.JDI_Log import Log
+from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import *
 
 class 临机制胜_info(SkillInfo):

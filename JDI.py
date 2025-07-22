@@ -1,11 +1,6 @@
 
-from enum import Enum
-from Log.JDI_Log import Log
-from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
-from Generals.JDI_Hero import get_hero_info
-from BattleField.Team.JDI_Team import TeamInfo, Formation
-from BattleField.JDI_BattleField import BattleField
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+# -*- coding: utf-8 -*-
+from Control.Imports.common_imports import *
 
 class SimulatorMode(Enum):
     VS_1 = 'VS_1'

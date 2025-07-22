@@ -13,17 +13,11 @@
 # 每回合制胜最多触发4次。累积触发4次制胜后,恢复我军全体兵力(治疗率46%,受智力影响)
 
 from External.Fitting.List.SkillBaseTemplate import (
-    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template
+    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
+    SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
+    Fitting_List_Enum, Log, random
 )
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import *
-import random
 
 class 临机制胜_info(BaseSkillInfo):
     def __init__(self):

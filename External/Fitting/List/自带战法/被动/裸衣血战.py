@@ -11,13 +11,9 @@
 # 战斗开始时,自身先攻和武力提升22点,连击率提升100%,统率降低15点。自身造成伤害额外提升5%
 
 from External.Fitting.List.SkillBaseTemplate import (
-    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template
+    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
+    SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log
 )
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Control.Log.JDI_Log import Log
 
 class 裸衣血战_info(BaseSkillInfo):
     def __init__(self):

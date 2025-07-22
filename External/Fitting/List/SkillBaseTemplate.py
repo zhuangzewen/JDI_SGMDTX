@@ -16,6 +16,14 @@ from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
 from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import *
+import random
+
+# 导出常用的枚举和类，供战法文件直接使用
+__all__ = [
+    'BaseSkillInfo', 'BaseSkillSoul', 'BaseSkill', 'get_skill_template',
+    'SoulResponseTime', 'SoulSourceType', 'SoulEffectType', 'SoulDamageType',
+    'SkillType', 'Fitting_List_Enum', 'Log', 'random'
+]
 
 class SkillTemplate:
     """战法配置模板类，用于快速创建战法配置"""

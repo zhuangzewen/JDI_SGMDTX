@@ -11,15 +11,10 @@
 # 普通攻击后,对当前攻击目标造成172.5%兵刃伤害,若目标武力低于自身额外造成90.5%兵刃伤害
 
 from External.Fitting.List.SkillBaseTemplate import (
-    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template
+    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
+    SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
+    Fitting_List_Enum, Log
 )
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import 计算伤害
 
 class 膂力过人_info(BaseSkillInfo):

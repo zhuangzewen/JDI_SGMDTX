@@ -186,9 +186,9 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【清醒】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[清醒]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【清醒】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[清醒]效果已施加'.format(heroName))
 
         elif self.effect_type == SoulEffectType.受治疗效果:
             cur_value = getattr(self.target, HeroInfoKey.受治疗效果.value)
@@ -205,9 +205,9 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【震慑】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[震慑]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【震慑】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[震慑]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -220,9 +220,9 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【缴械】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[缴械]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【缴械】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[缴械]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -235,9 +235,9 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【技穷】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[技穷]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【技穷】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[技穷]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -250,9 +250,9 @@ class Soul():
                         msg_移除响应(soul)
             
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【混乱】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[混乱]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【混乱】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[混乱]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -265,9 +265,9 @@ class Soul():
                         msg_移除响应(soul)
             
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【嘲讽】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[嘲讽]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【嘲讽】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[嘲讽]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -280,9 +280,9 @@ class Soul():
                         msg_移除响应(soul)
             
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【虚弱】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[虚弱]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【虚弱】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[虚弱]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -295,9 +295,9 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【断粮】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[断粮]效果已刷新'.format(heroName))
             else:
-                Log().show_battle_info('        [{}]的【断粮】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[断粮]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -310,7 +310,7 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【洪水】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[洪水]效果已刷新'.format(heroName))
             else:
                 统帅soul = Soul(target=self.target, 
                                         sourceType=SoulSourceType.负面状态效果, 
@@ -319,7 +319,7 @@ class Soul():
                                         effect_value=-20,
                                         source_soul=self)
                 统帅soul.deploy_initial()
-                Log().show_battle_info('        [{}]的【洪水】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[洪水]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -332,7 +332,7 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【火攻】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[火攻]效果已刷新'.format(heroName))
             else:
                 智力soul = Soul(target=self.target, 
                                         sourceType=SoulSourceType.负面状态效果, 
@@ -341,7 +341,7 @@ class Soul():
                                         effect_value=-15,
                                         source_soul=self)
                 智力soul.deploy_initial()
-                Log().show_battle_info('        [{}]的【火攻】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[火攻]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -355,7 +355,7 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【风暴】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[风暴]效果已刷新'.format(heroName))
             else:
                 先攻soul = Soul(target=self.target, 
                                         sourceType=SoulSourceType.负面状态效果, 
@@ -364,7 +364,7 @@ class Soul():
                                         effect_value=-30,
                                         source_soul=self)
                 先攻soul.deploy_initial()
-                Log().show_battle_info('        [{}]的【风暴】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[风暴]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -378,7 +378,7 @@ class Soul():
                         msg_移除响应(soul)
             
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【畏惧】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[畏惧]效果已刷新'.format(heroName))
             else:
                 受到伤害soul = Soul(target=self.target, 
                                         sourceType=SoulSourceType.负面状态效果, 
@@ -387,7 +387,7 @@ class Soul():
                                         effect_value=0.1,
                                         source_soul=self)
                 受到伤害soul.deploy_initial()
-                Log().show_battle_info('        [{}]的【畏惧】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[畏惧]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -401,7 +401,7 @@ class Soul():
                         msg_移除响应(soul)
 
             if is存在同类状态:
-                Log().show_battle_info('        [{}]的【妖术】效果已刷新'.format(heroName))
+                Log().show_battle_info('        [{}]的[妖术]效果已刷新'.format(heroName))
             else:
                 会心伤害soul = Soul(target=self.target, 
                             sourceType=SoulSourceType.负面状态效果, 
@@ -417,7 +417,7 @@ class Soul():
                             effect_value=-0.15,
                             source_soul=self)
                 奇谋伤害soul.deploy_initial()
-                Log().show_battle_info('        [{}]的【妖术】效果已施加'.format(heroName))
+                Log().show_battle_info('        [{}]的[妖术]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -595,35 +595,35 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.震慑:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【震慑】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[震慑]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.缴械:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【缴械】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[缴械]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.技穷:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【技穷】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[技穷]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.混乱:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【混乱】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[混乱]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.嘲讽:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【嘲讽】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[嘲讽]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.虚弱:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【虚弱】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[虚弱]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.断粮:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【断粮】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[断粮]效果已消失'.format(heroName))
 
         elif self.effect_type == SoulEffectType.洪水:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【洪水】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[洪水]效果已消失'.format(heroName))
             统帅soul = Soul(target=self.target, 
                                     sourceType=SoulSourceType.负面状态效果, 
                                     skill=self.skill,
@@ -634,7 +634,7 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.火攻:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【火攻】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[火攻]效果已消失'.format(heroName))
 
             智力soul = Soul(target=self.target, 
                                     sourceType=SoulSourceType.负面状态效果, 
@@ -646,7 +646,7 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.风暴:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【风暴】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[风暴]效果已消失'.format(heroName))
 
             先攻soul = Soul(target=self.target, 
                                     sourceType=SoulSourceType.负面状态效果, 
@@ -658,7 +658,7 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.畏惧:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【畏惧】效果已消失'.format(heroName))
+            Log().show_battle_info('        [{}]的[畏惧]效果已消失'.format(heroName))
 
             受到伤害soul = Soul(target=self.target, 
                                     sourceType=SoulSourceType.负面状态效果, 
@@ -670,10 +670,10 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.妖术:
             msg_移除响应(self)
-            Log().show_battle_info('        [{}]的【妖术】效果已消失'.format(heroName))
-            
-            会心伤害soul = Soul(target=self.target, 
-                        sourceType=SoulSourceType.负面状态效果, 
+            Log().show_battle_info('        [{}]的[妖术]效果已消失'.format(heroName))
+
+            会心伤害soul = Soul(target=self.target,
+                        sourceType=SoulSourceType.负面状态效果,
                         skill=self.skill,
                         effect_type=SoulEffectType.会心伤害, 
                         effect_value=0.15,

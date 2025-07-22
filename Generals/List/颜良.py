@@ -13,7 +13,8 @@
 # HeroInfoKey.先攻成长:2.56,
 # HeroInfoKey.自带战法:SkillName.膂力过人
 
-from ._base import HeroInfo, Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum
+from Generals.JDI_Hero import HeroInfo
+from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum
 
 class 颜良_info(HeroInfo):
     def __init__(self):

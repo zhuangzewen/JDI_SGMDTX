@@ -29,36 +29,10 @@ class 十二奇策_soul(BaseSkillSoul):
         super().__init__(target=target, initiator=initiator, skill=skill)
         self.soul持有列表 = []
 
-    def handle_defeat(self, status=None, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
-        if hero != self.initiator:
-            return
-
-        souls_to_remove = []
-        for soul in self.soul持有列表:
-            if soul.target == hero:
-                souls_to_remove.append(soul)
-        for soul in souls_to_remove:
-            self.soul持有列表.remove(soul)
-
-        if self.soul持有列表.__len__() <= 0:
-            return
-        
-        souls_to_remove = []
-        for soul in self.soul持有列表:
-            if soul.initiator == self.target:
-                Log().show_battle_info(f'        [{soul.target.get_武将名称().value}]的[十二奇策]效果已消失')
-                soul.restore_initial()
-                souls_to_remove.append(soul)
-
-        for soul in souls_to_remove:
-            self.soul持有列表.remove(soul)
-
-        msg_移除响应(self)
-
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
         if status == SoulResponseTime.武将溃败:
-            self.handle_defeat(status=status, battleField=battleField, hero=hero, sourceSoul=sourceSoul)
+            self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
             return
         
         if status == SoulResponseTime.主动战法行动时 and hero == self.target:
@@ -96,8 +70,6 @@ class 十二奇策_soul(BaseSkillSoul):
                                     battleField=battleField,
                                     damage=damageModel)
                 damage_soul.deploy_initial()
-
-                Log().show_battle_info('        [{}]执行来自【{}】的[十二奇谋]效果'.format(attacked.get_武将名称().value, self.skill.get_战法名称().value))
 
                 real_abnormal = 生效未施加的异常状态(attacked, battleField)
                 if real_abnormal == SoulEffectType.震慑:
@@ -257,6 +229,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         source_soul=self,
                         battleField=battleField)
                 
+                if 异常soul.initiator.get_被击溃状态() != True and 异常soul.target.get_被击溃状态() != True:
+                    Log().show_battle_info('        [{}]执行来自【{}】的[十二奇策-负面]效果'.format(attacked.get_武将名称().value, self.skill.get_战法名称().value))
+
                 异常soul.deploy_initial()
                 self.soul持有列表.append(异常soul)
                 attacked.get_响应Soul列表().append(异常soul)

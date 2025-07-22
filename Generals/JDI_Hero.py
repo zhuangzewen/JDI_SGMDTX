@@ -1,5 +1,6 @@
 
 from Control.Imports.hero_imports import *
+import random
 
 class HeroInfo():
     def __init__(self, heroName):
@@ -71,6 +72,13 @@ class HeroInfo():
                             HeroInfoKey.先攻成长:1.99,
                             HeroInfoKey.自带战法:Fitting_List_Enum.九伐中原}}
 
+        # 检查武将是否存在于预设中
+        if heroName not in heroes:
+            print(f"武将 '{heroName}' 不存在于预设数据中，已随机生成武将信息")
+            # 生成随机武将数据
+            random_data = self.generate_random_hero_data(heroName)
+            heroes[heroName] = random_data
+
         # 遍历heroes字典中指定武将的信息
         for keyName in heroes[heroName]:
             if isinstance(keyName, HeroInfoKey):
@@ -89,6 +97,36 @@ class HeroInfo():
         setattr(self, HeroInfoKey.智力加点.value, zl_extra)
         setattr(self, HeroInfoKey.统帅加点.value, ts_extra)
         setattr(self, HeroInfoKey.先攻加点.value, xg_extra)
+
+    @staticmethod
+    def generate_random_hero_data(heroName):
+        """生成随机武将数据"""
+        # 随机选择阵营
+        factions = [Faction.魏, Faction.蜀, Faction.吴, Faction.群]
+        random_faction = random.choice(factions)
+        
+        # 随机选择兵种
+        weapons = [WeaponType.骑, WeaponType.枪, WeaponType.弓, WeaponType.盾]
+        random_weapon = random.choice(weapons)
+        
+        # 随机生成属性值 (参考现有武将的属性范围)
+        random_data = {
+            HeroInfoKey.武将名称: heroName,
+            HeroInfoKey.武将阵营: random_faction,
+            HeroInfoKey.武将兵种: random_weapon,
+            HeroInfoKey.武将性别: random.choice([0, 1]),  # 0女 1男
+            HeroInfoKey.初始武力: random.randint(25, 125),
+            HeroInfoKey.武力成长: round(random.uniform(0.3, 3.0), 2),
+            HeroInfoKey.初始智力: random.randint(38, 111),
+            HeroInfoKey.智力成长: round(random.uniform(0.7, 2.6), 2),
+            HeroInfoKey.初始统帅: random.randint(91, 109),
+            HeroInfoKey.统帅成长: round(random.uniform(1.6, 2.2), 2),
+            HeroInfoKey.初始先攻: random.randint(53, 90),
+            HeroInfoKey.先攻成长: round(random.uniform(1.7, 2.6), 2),
+            HeroInfoKey.自带战法: None
+        }
+        
+        return random_data
 
     def set_team_name(self, teamName):
         setattr(self, HeroInfoKey.队伍名称.value, teamName)

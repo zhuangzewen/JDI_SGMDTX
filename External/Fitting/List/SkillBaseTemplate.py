@@ -177,6 +177,13 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum):
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
             trigger_rate=1.0
         ),
+        '指挥_辅助': SkillTemplate(
+            skill_name=skill_name,
+            skill_type=SkillType.指挥,
+            skill_feature=SkillFeature.辅助,
+            weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
+            trigger_rate=1.0
+        ),
         '追击_兵刃': SkillTemplate(
             skill_name=skill_name,
             skill_type=SkillType.追击,

@@ -19,27 +19,19 @@
 # 双前排阵型: 我军统帅最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
-from Generals.JDI_Hero import Hero
-from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.JDI_Skill import SkillInfo, Skill
-from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from Soul.JDI_Soul import Soul
-from Control.Log.JDI_Log import Log
+from External.Fitting.List.SkillBaseTemplate import (
+    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
+    SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
+    Fitting_List_Enum, Log, WeaponType, SkillFeature, Hero, Soul
+)
+from External.Fitting.JDI_Skill import Skill
 from Calcu.JDI_Calculate import *
 
-class 星罗棋布_info(SkillInfo):
+class 星罗棋布_info(BaseSkillInfo):
     def __init__(self):
-        self.战法名称 = Fitting_List_Enum.星罗棋布
-        self.战法类型 = SkillType.指挥
-        self.战法特性 = SkillFeature.辅助
-        self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
-        self.发动率 = 1
+        # 使用工厂方法获取模板
+        template = get_skill_template('指挥_辅助', Fitting_List_Enum.星罗棋布)
+        super().__init__(template)
 
 class 星罗棋布_阵型强化_soul(Soul):
     def __init__(self, 
@@ -440,7 +432,7 @@ class 星罗棋布_额外效果_三前排阵型(Soul):
                                 damage=damageModel)
             damage_soul.deploy_initial()
 
-class 星罗棋布_skill(Skill):
+class 星罗棋布_skill(BaseSkill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 

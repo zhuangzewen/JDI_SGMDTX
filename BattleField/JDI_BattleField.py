@@ -3,7 +3,6 @@ from Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Generals.Enum.Generals_Enum import WeaponType, HeroInfoKey
 from BattleField.Team.JDI_Team import TeamInfo, Team, Formation
 from Generals.JDI_Hero import Hero

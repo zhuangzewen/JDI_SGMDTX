@@ -13,10 +13,7 @@
 # HeroInfoKey.先攻成长:1.65,
 # HeroInfoKey.自带战法:SkillName.草船借箭
 
-from Generals.JDI_Hero import HeroInfo
-from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
-from Generals.Enum.Generals_Enum import Faction, WeaponType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from ._base import HeroInfo, Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum
 
 class 诸葛亮_info(HeroInfo):
     def __init__(self):

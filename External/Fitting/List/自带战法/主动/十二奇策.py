@@ -11,41 +11,25 @@
 # 异常状态:特殊负面状态
 # 包括:震慑、缴械、技穷、混乱、嘲讽、虚弱、断粮、洪水、火攻、风暴、畏惧、妖术,共计12种
 
-from Generals.JDI_Hero import Hero
-from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.JDI_Skill import SkillInfo, Skill
-from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from Soul.JDI_Soul import Soul
-from Control.Log.JDI_Log import Log
+from External.Fitting.List.SkillBaseTemplate import (
+    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
+    SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
+    Fitting_List_Enum, Log, random, WeaponType, SkillFeature, Hero, Soul
+)
 from Calcu.JDI_Calculate import *
 
-class 十二奇策_info(SkillInfo):
+class 十二奇策_info(BaseSkillInfo):
     def __init__(self):
-        self.战法名称 = Fitting_List_Enum.十二奇策
-        self.战法类型 = SkillType.主动
-        self.战法特性 = SkillFeature.谋略
-        self.适应兵种 = [WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑]
-        self.发动率 = 0.6
+        # 使用模板系统获取配置
+        template = get_skill_template('主动_谋略', Fitting_List_Enum.十二奇策)
+        super().__init__(template)
 
-class 十二奇策_soul(Soul):
-    def __init__(self, 
-                 target: Hero, 
-                 initiator: Hero = None, 
-                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
-                 duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
-                 battleField = None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+class 十二奇策_soul(BaseSkillSoul):
+    def __init__(self, target, initiator=None, sourceType=SoulSourceType.不溯源, 
+                 skill=None, response_time=SoulResponseTime.无响应阶段, duration=-1,
+                 effect_type=SoulEffectType.无影响, effect_value=0, source_soul=None, battleField=None):
+        super().__init__(target, initiator, sourceType, skill, response_time, duration, 
+                        effect_type, effect_value, source_soul, battleField)
         self.soul持有列表 = []
 
     def handle_defeat(self, status=None, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
@@ -280,9 +264,8 @@ class 十二奇策_soul(Soul):
                 self.soul持有列表.append(异常soul)
                 attacked.get_响应Soul列表().append(异常soul)
 
-class 十二奇策_skill(Skill):
+class 十二奇策_skill(BaseSkill):
     def __init__(self, hero, skillName):
-        # 调用父类的构造函数
         super().__init__(hero, skillName)
 
     def fill_init_soul(self):

@@ -189,7 +189,7 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
     def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
         if status == SoulResponseTime.武将溃败:
-            self.handle_defeat(battleField, hero, sourceSoul)
+            self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
             return
 
         if status != SoulResponseTime.回合行动时 or hero != self.target:

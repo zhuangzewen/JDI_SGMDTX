@@ -72,10 +72,7 @@ class BaseSkillSoul(Soul):
         if hero != self.initiator:
             return
         
-        self._remove_souls_for_target(self.target)
-        
-        if len(self.soul持有列表) <= 0:
-            return
+        self._remove_souls_for_target(hero)
         
         if self.damage and self.damage.skillEffectName:
             skillEffectName = self.damage.skillEffectName

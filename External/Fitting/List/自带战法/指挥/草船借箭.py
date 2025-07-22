@@ -92,30 +92,6 @@ class 草船借箭_soul(BaseSkillSoul):
             )
             damage_soul.deploy_initial()
 
-    def handle_defeat(self, battleField=None, hero=None, sourceSoul=None):
-        """处理武将溃败的标准方法"""
-        if hero != self.initiator:
-            return
-        
-        # 清理目标相关的soul
-        self.soul持有列表 = [soul for soul in self.soul持有列表 if soul.target != self.target]
-        
-        if len(self.soul持有列表) <= 0:
-            return
-
-        # 恢复并清理发起者相关的soul
-        souls_to_remove = []
-        for soul in self.soul持有列表:
-            if soul.initiator == self.target:
-                soul.restore_initial()
-                souls_to_remove.append(soul)
-
-        for soul in souls_to_remove:
-            if soul in self.soul持有列表:
-                self.soul持有列表.remove(soul)
-
-        msg_移除响应(self)
-
 class 草船借箭_skill(BaseSkill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)

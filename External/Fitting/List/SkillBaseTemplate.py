@@ -61,9 +61,10 @@ class BaseSkillSoul(Soul):
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
                  effect_value: float = 0,
                  source_soul = None,
-                 battleField = None):
+                 battleField = None,
+                 damage: Damage = None):
         super().__init__(target, initiator, sourceType, skill, response_time, 
-                        duration, effect_type, effect_value, source_soul, battleField)
+                        duration, effect_type, effect_value, source_soul, battleField, damage)
         self.soul持有列表 = []
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
@@ -75,7 +76,11 @@ class BaseSkillSoul(Soul):
         
         if len(self.soul持有列表) <= 0:
             return
-            
+        
+        if self.damage and self.damage.skillEffectName:
+            skillEffectName = self.damage.skillEffectName
+            Log().show_battle_info('        [{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, skillEffectName))
+
         self._restore_and_remove_initiator_souls()
         msg_移除响应(self)
 

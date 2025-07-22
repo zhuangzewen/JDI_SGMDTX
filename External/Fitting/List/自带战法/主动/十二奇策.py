@@ -25,11 +25,8 @@ class 十二奇策_info(BaseSkillInfo):
         super().__init__(template)
 
 class 十二奇策_soul(BaseSkillSoul):
-    def __init__(self, target, initiator=None, sourceType=SoulSourceType.不溯源, 
-                 skill=None, response_time=SoulResponseTime.无响应阶段, duration=-1,
-                 effect_type=SoulEffectType.无影响, effect_value=0, source_soul=None, battleField=None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, 
-                        effect_type, effect_value, source_soul, battleField)
+    def __init__(self, target, initiator, skill):
+        super().__init__(target=target, initiator=initiator, skill=skill)
         self.soul持有列表 = []
 
     def handle_defeat(self, status=None, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
@@ -272,12 +269,7 @@ class 十二奇策_skill(BaseSkill):
         十二奇策soul = 十二奇策_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.武将战法,
-            skill=self,
-            response_time=SoulResponseTime.内置待响应,
-            effect_type=SoulEffectType.无影响,
-            effect_value=0,
-            battleField=None)
+            skill=self)
         self.get_Soul_list().append(十二奇策soul)
         self.get_持有者().get_持有Soul列表().append(十二奇策soul)
         self.get_持有者().get_响应Soul列表().append(十二奇策soul)

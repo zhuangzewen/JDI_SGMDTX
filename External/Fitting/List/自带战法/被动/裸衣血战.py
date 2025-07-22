@@ -60,12 +60,9 @@ class 裸衣血战_skill(BaseSkill):
         soul = 裸衣血战_soul(
             target=持有者and响应者, 
             initiator=持有者and响应者, 
-            sourceType=SoulSourceType.武将战法, 
-            skill=self, 
-            response_time=SoulResponseTime.内置待响应, 
-            effect_type=SoulEffectType.无影响
+            skill=self
         )
-        
+
         持有者and响应者.get_持有Soul列表().append(soul)
         持有者and响应者.get_响应Soul列表().append(soul)
 

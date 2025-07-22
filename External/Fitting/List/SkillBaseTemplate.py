@@ -51,7 +51,9 @@ class BaseSkillInfo(SkillInfo):
 class BaseSkillSoul(Soul):
     """基础战法Soul类，提供通用功能"""
     
-    def __init__(self, target: Hero, initiator: Hero = None, 
+    def __init__(self, 
+                 target: Hero, 
+                 initiator: Hero = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
                  skill: Skill = None, 
                  response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
@@ -153,43 +155,61 @@ class BaseSkill(Skill):
         return damage_soul
 
 # 预定义的常用战法模板
-def get_skill_template(template_type: str, skill_name: Fitting_List_Enum):
-    """获取战法模板的工厂方法"""
+def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigger_rate: float = None):
+    """获取战法模板的工厂方法
+    
+    Args:
+        template_type: 模板类型
+        skill_name: 战法名称
+        trigger_rate: 可选的自定义发动率，如果为None则使用默认值
+    """
+    # 默认发动率映射（所有类型默认为1.0）
+    default_rates = {
+        '被动_兵刃': 1.0,
+        '主动_谋略': 1.0,
+        '指挥_谋略': 1.0,
+        '指挥_辅助': 1.0,
+        '追击_兵刃': 1.0
+    }
+    
+    # 使用提供的发动率或默认值
+    final_trigger_rate = trigger_rate if trigger_rate is not None else default_rates.get(template_type, 1.0)
+    
     templates = {
         '被动_兵刃': SkillTemplate(
             skill_name=skill_name,
             skill_type=SkillType.被动,
             skill_feature=SkillFeature.兵刃,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
-            trigger_rate=1.0
+            trigger_rate=final_trigger_rate
         ),
         '主动_谋略': SkillTemplate(
             skill_name=skill_name,
             skill_type=SkillType.主动,
             skill_feature=SkillFeature.谋略,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
-            trigger_rate=0.4
+            trigger_rate=final_trigger_rate
         ),
         '指挥_谋略': SkillTemplate(
             skill_name=skill_name,
             skill_type=SkillType.指挥,
             skill_feature=SkillFeature.谋略,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
-            trigger_rate=1.0
+            trigger_rate=final_trigger_rate
         ),
         '指挥_辅助': SkillTemplate(
             skill_name=skill_name,
             skill_type=SkillType.指挥,
             skill_feature=SkillFeature.辅助,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
-            trigger_rate=1.0
+            trigger_rate=final_trigger_rate
         ),
         '追击_兵刃': SkillTemplate(
             skill_name=skill_name,
             skill_type=SkillType.追击,
             skill_feature=SkillFeature.兵刃,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
-            trigger_rate=0.5
+            trigger_rate=final_trigger_rate
         )
     }
     return templates.get(template_type)

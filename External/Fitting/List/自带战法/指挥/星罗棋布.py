@@ -36,16 +36,9 @@ class 星罗棋布_info(BaseSkillInfo):
 class 星罗棋布_阵型强化_soul(Soul):
     def __init__(self, 
                  target: Hero, 
-                 initiator: Hero = None, 
-                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
-                 duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
-                 battleField = None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+                 initiator: Hero, 
+                 skill: Skill):
+        super().__init__(target=target, initiator=initiator, skill=skill)
         self.soul持有列表 = []
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
@@ -125,16 +118,9 @@ class 星罗棋布_阵型强化_soul(Soul):
 class 星罗棋布_谋略减伤_soul(Soul):
     def __init__(self, 
                  target: Hero, 
-                 initiator: Hero = None, 
-                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
-                 duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
-                 battleField = None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+                 initiator: Hero, 
+                 skill: Skill):
+        super().__init__(target=target, initiator=initiator, skill=skill)
         self.soul持有列表 = []
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
@@ -191,16 +177,9 @@ class 星罗棋布_谋略减伤_soul(Soul):
 class 星罗棋布_额外效果_soul(Soul):
     def __init__(self, 
                  target: Hero, 
-                 initiator: Hero = None, 
-                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
-                 duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
-                 battleField = None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+                 initiator: Hero, 
+                 skill: Skill = None):
+        super().__init__(target=target, initiator=initiator, skill=skill)
         self.soul持有列表_单前排 = []
         self.soul持有列表_双前排 = []
 
@@ -442,42 +421,22 @@ class 星罗棋布_skill(BaseSkill):
         星罗棋布阵型强化soul = 星罗棋布_阵型强化_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.武将战法,
-            skill=self,
-            response_time=SoulResponseTime.内置待响应,
-            duration=-1,
-            effect_type=SoulEffectType.待响应,
-            effect_value=0,
-            source_soul=None,
-            battleField=None)
+            skill=self
+        )
         持有者and响应者.get_持有Soul列表().append(星罗棋布阵型强化soul)
         持有者and响应者.get_响应Soul列表().append(星罗棋布阵型强化soul)
 
         星罗棋布谋略减伤soul = 星罗棋布_谋略减伤_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.武将战法,
-            skill=self,
-            response_time=SoulResponseTime.内置待响应,
-            duration=-1,
-            effect_type=SoulEffectType.待响应,
-            effect_value=0,
-            source_soul=None,
-            battleField=None)
+            skill=self)
         持有者and响应者.get_持有Soul列表().append(星罗棋布谋略减伤soul)
         持有者and响应者.get_响应Soul列表().append(星罗棋布谋略减伤soul)
 
         星罗棋布额外效果soul = 星罗棋布_额外效果_soul(
             target=self.get_持有者(),
             initiator=self.get_持有者(),
-            sourceType=SoulSourceType.武将战法,
-            skill=self,
-            response_time=SoulResponseTime.内置待响应,
-            duration=-1,
-            effect_type=SoulEffectType.待响应,
-            effect_value=0,
-            source_soul=None,
-            battleField=None)
+            skill=self)
         持有者and响应者.get_持有Soul列表().append(星罗棋布额外效果soul)
         持有者and响应者.get_响应Soul列表().append(星罗棋布额外效果soul)
 

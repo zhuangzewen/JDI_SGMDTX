@@ -82,13 +82,7 @@ class 普攻_skill(BaseSkill):
             target=self.get_持有者(),
             initiator=self.get_持有者(),
             sourceType=SoulSourceType.武将战法,
-            skill=self,
-            response_time=SoulResponseTime.内置待响应,
-            duration=-1,
-            effect_type=SoulEffectType.待响应,
-            effect_value=0,
-            source_soul=None,
-            battleField=None)
+            skill=self)
         持有者and响应者: Hero = self.get_持有者()
         持有者and响应者.get_持有Soul列表().append(普攻soul)
         持有者and响应者.get_响应Soul列表().append(普攻soul)

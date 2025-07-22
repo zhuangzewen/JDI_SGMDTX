@@ -13,7 +13,7 @@
 from External.Fitting.List.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
-    Fitting_List_Enum, Log, random
+    Fitting_List_Enum, Log, random, Hero, Soul, Skill
 )
 from Calcu.JDI_Calculate import *
 
@@ -24,11 +24,11 @@ class 草船借箭_info(BaseSkillInfo):
         super().__init__(template)
 
 class 草船借箭_soul(BaseSkillSoul):
-    def __init__(self, target, initiator=None, sourceType=SoulSourceType.不溯源, 
-                 skill=None, response_time=SoulResponseTime.无响应阶段, duration=-1,
-                 effect_type=SoulEffectType.无影响, effect_value=0, source_soul=None, battleField=None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, 
-                        effect_type, effect_value, source_soul, battleField)
+    def __init__(self, 
+                 target: Hero, 
+                 initiator: Hero,
+                 skill: Skill):
+        super().__init__(target=target, initiator=initiator, skill=skill)
         self.soul持有列表 = []
         self.草船借箭发动次数 = 0
 
@@ -82,7 +82,7 @@ class 草船借箭_soul(BaseSkillSoul):
         # 对敌方随机单体造成谋略伤害
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
         if len(attacked_heroes) > 0:
-            attacked = 从队列确定受击武将(attacked_heroes)
+            attacked = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             
             damage_soul = self.skill.create_damage_soul(
                 battleField, self.target, attacked,
@@ -127,10 +127,7 @@ class 草船借箭_skill(BaseSkill):
         soul = 草船借箭_soul(
             target=持有者and响应者, 
             initiator=持有者and响应者, 
-            sourceType=SoulSourceType.武将战法, 
-            skill=self, 
-            response_time=SoulResponseTime.内置待响应, 
-            effect_type=SoulEffectType.无影响
+            skill=self
         )
         
         持有者and响应者.get_持有Soul列表().append(soul)

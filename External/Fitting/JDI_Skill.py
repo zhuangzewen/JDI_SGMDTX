@@ -67,64 +67,79 @@ class Skill():
             return getattr(skill_info, SkillInfoKey.战法类型.value)
         return None
 
+def _get_skill_module(skillName):
+    """
+    通用的技能模块查找函数
+    返回找到的模块，如果未找到则返回None
+    """
+    if not isinstance(skillName, Fitting_List_Enum):
+        return None
+    
+    skill_name = skillName.value
+    
+    # 按优先级排序的搜索路径列表
+    search_paths = [
+        f"External.Fitting.List.{skill_name}",
+        f"External.Fitting.List.自带战法.主动.{skill_name}",
+        f"External.Fitting.List.自带战法.被动.{skill_name}",
+        f"External.Fitting.List.自带战法.指挥.{skill_name}",
+        f"External.Fitting.List.自带战法.追击.{skill_name}",
+        f"External.Fitting.List.携带战法.主动.{skill_name}",
+        f"External.Fitting.List.携带战法.被动.{skill_name}",
+        f"External.Fitting.List.携带战法.指挥.{skill_name}",
+        f"External.Fitting.List.携带战法.追击.{skill_name}",
+        f"External.Bonds.List.{skill_name}",
+    ]
+    
+    # 尝试每个路径，直到找到可用的模块
+    for module_path in search_paths:
+        try:
+            import importlib
+            module = importlib.import_module(module_path)
+            return module
+        except ImportError:
+            continue
+    
+    return None
+
 def get_skill_info(skillName):
-    if skillName == Fitting_List_Enum.普攻:
-        from External.Fitting.List.普攻 import 普攻_info
-        skillInfo = 普攻_info()
-    elif skillName == Fitting_List_Enum.星罗棋布:
-        from External.Fitting.List.自带战法.指挥.星罗棋布 import 星罗棋布_info
-        skillInfo = 星罗棋布_info()
-    elif skillName == Fitting_List_Enum.草船借箭:
-        from External.Fitting.List.自带战法.指挥.草船借箭 import 草船借箭_info
-        skillInfo = 草船借箭_info()
-    elif skillName == Fitting_List_Enum.十二奇策:
-        from External.Fitting.List.自带战法.主动.十二奇策 import 十二奇策_info
-        skillInfo = 十二奇策_info()
-    elif skillName == Fitting_List_Enum.临机制胜:
-        from External.Fitting.List.自带战法.指挥.临机制胜 import 临机制胜_info
-        skillInfo = 临机制胜_info()
-    elif skillName == Fitting_List_Enum.裸衣血战:
-        from External.Fitting.List.自带战法.被动.裸衣血战 import 裸衣血战_info
-        skillInfo = 裸衣血战_info()
-    elif skillName == Fitting_List_Enum.膂力过人:
-        from External.Fitting.List.自带战法.追击.膂力过人 import 膂力过人_info
-        skillInfo = 膂力过人_info()
-
-    elif skillName == Fitting_List_Enum.才堪相配:
-        from External.Bonds.List.才堪相配 import 才堪相配_info
-        skillInfo = 才堪相配_info()
-
-    else:
-        skillInfo = SkillInfo(skillName)
-    return skillInfo
+    """
+    动态获取技能信息，避免穷举
+    使用约定优于配置的方式自动查找技能模块
+    """
+    if not isinstance(skillName, Fitting_List_Enum):
+        return SkillInfo(skillName)
+    
+    skill_name = skillName.value
+    module = _get_skill_module(skillName)
+    
+    if module:
+        # 获取对应的info类
+        info_class_name = f"{skill_name}_info"
+        if hasattr(module, info_class_name):
+            info_class = getattr(module, info_class_name)
+            return info_class()
+    
+    # 如果模块未找到或没有对应的info类，返回默认的SkillInfo
+    return SkillInfo(skillName)
 
 def get_skill(skillName, hero):
-    if skillName == Fitting_List_Enum.普攻:
-        from External.Fitting.List.普攻 import 普攻_skill
-        skill = 普攻_skill(hero, skillName)
-    elif skillName == Fitting_List_Enum.星罗棋布:
-        from External.Fitting.List.自带战法.指挥.星罗棋布 import 星罗棋布_skill
-        skill = 星罗棋布_skill(hero, skillName)
-    elif skillName == Fitting_List_Enum.草船借箭:
-        from External.Fitting.List.自带战法.指挥.草船借箭 import 草船借箭_skill
-        skill = 草船借箭_skill(hero, skillName)
-    elif skillName == Fitting_List_Enum.十二奇策:
-        from External.Fitting.List.自带战法.主动.十二奇策 import 十二奇策_skill
-        skill = 十二奇策_skill(hero, skillName)
-    elif skillName == Fitting_List_Enum.临机制胜:
-        from External.Fitting.List.自带战法.指挥.临机制胜 import 临机制胜_skill
-        skill = 临机制胜_skill(hero, skillName)
-    elif skillName == Fitting_List_Enum.裸衣血战:
-        from External.Fitting.List.自带战法.被动.裸衣血战 import 裸衣血战_skill
-        skill = 裸衣血战_skill(hero, skillName)
-    elif skillName == Fitting_List_Enum.膂力过人:
-        from External.Fitting.List.自带战法.追击.膂力过人 import 膂力过人_skill
-        skill = 膂力过人_skill(hero, skillName)
-
-    elif skillName == Fitting_List_Enum.才堪相配:
-        from External.Bonds.List.才堪相配 import 才堪相配_skill
-        skill = 才堪相配_skill(hero, skillName)
-        
-    else:
-        skill = Skill(hero, skillName)
-    return skill
+    """
+    动态获取技能实例，避免穷举
+    使用约定优于配置的方式自动查找技能模块
+    """
+    if not isinstance(skillName, Fitting_List_Enum):
+        return Skill(hero, skillName)
+    
+    skill_name = skillName.value
+    module = _get_skill_module(skillName)
+    
+    if module:
+        # 获取对应的skill类
+        skill_class_name = f"{skill_name}_skill"
+        if hasattr(module, skill_class_name):
+            skill_class = getattr(module, skill_class_name)
+            return skill_class(hero, skillName)
+    
+    # 如果模块未找到或没有对应的skill类，返回默认的Skill
+    return Skill(hero, skillName)

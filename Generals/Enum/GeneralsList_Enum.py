@@ -60,7 +60,6 @@ class Generals_Name_Enum(Enum):
     太史慈 = "太史慈"
     孙坚 = "孙坚"
     周泰 = "周泰"
-    张昭 = "张昭"
     徐盛 = "徐盛"
     吕布 = "吕布"
     袁绍 = "袁绍"
@@ -87,3 +86,4 @@ class Generals_Name_Enum(Enum):
     马腾 = "马腾"
     皇甫嵩 = "皇甫嵩"
     EX皇甫嵩 = "EX皇甫嵩"
+    EX张昭 = "EX张昭"

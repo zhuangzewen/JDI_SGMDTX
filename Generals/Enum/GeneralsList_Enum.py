@@ -103,3 +103,4 @@ class Generals_Name_Enum(Enum):
     韩当 = "韩当"
     陈武 = "陈武"
     沙摩柯 = "沙摩柯"
+    马良 = "马良"

@@ -46,9 +46,9 @@ class 十二奇策_soul(BaseSkillSoul):
 
             # 判断是否发动
             if random.random() > 实际发动率:
-                Log().battle_L0('        [{}]因几率未发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+                Log().battle_L2('[{}]因几率未发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 return
-            Log().battle_L0('        [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+            Log().battle_L2('[{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
             attacked_times = msg_对敌方所有目标生效_number(self.target, battleField, 2)
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
@@ -230,7 +230,7 @@ class 十二奇策_soul(BaseSkillSoul):
                         battleField=battleField)
                 
                 if 异常soul.initiator.get_被击溃状态() != True and 异常soul.target.get_被击溃状态() != True:
-                    Log().battle_L0('        [{}]执行来自【{}】的[十二奇策-负面]效果'.format(attacked.get_武将名称().value, self.skill.get_战法名称().value))
+                    Log().battle_L2('[{}]执行来自【{}】的[十二奇策-负面]效果'.format(attacked.get_武将名称().value, self.skill.get_战法名称().value))
 
                 异常soul.deploy_initial()
                 self.soul持有列表.append(异常soul)

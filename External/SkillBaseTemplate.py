@@ -76,7 +76,7 @@ class BaseSkillSoul(Soul):
         
         if self.damage and self.damage.skillEffectName:
             skillEffectName = self.damage.skillEffectName
-            Log().battle_L0('        [{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, skillEffectName))
+            Log().battle_L2('[{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, skillEffectName))
 
         self._restore_and_remove_initiator_souls()
         msg_移除响应(self)
@@ -136,7 +136,7 @@ class BaseSkill(Skill):
         
         if effect_name:
             damage_model.skillEffectName = effect_name
-            Log().battle_L0('    [{}]执行来自【{}】的[{}]效果'.format(
+            Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
                 target.get_武将名称().value, 
                 self.get_战法名称().value, 
                 effect_name

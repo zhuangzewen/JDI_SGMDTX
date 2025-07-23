@@ -40,18 +40,18 @@ class 普攻_soul(BaseSkillSoul):
 
             from Calcu.JDI_Calculate import msg_普攻发起判断
             if not msg_普攻发起判断(self.target):
-                Log().battle_L0('    [{}]无法普攻'.format(self.target.get_武将名称().value))
+                Log().battle_L1('[{}]无法普攻'.format(self.target.get_武将名称().value))
                 return
         
             from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
             attacked: Hero = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             if attacked == None:
-                Log().battle_L0('    [{}]没有可攻击对象'.format(self.target.get_武将名称().value))
+                Log().battle_L1('[{}]没有可攻击对象'.format(self.target.get_武将名称().value))
                 return
             
             attacked_name = attacked.get_武将名称().value
-            Log().battle_L0('    [{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
+            Log().battle_L1('[{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
             damage_class: Damage = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.普攻, 伤害值= 1)
             damage_soul = Soul(target=attacked,
                                 initiator=self.target,
@@ -70,7 +70,7 @@ class 普攻_soul(BaseSkillSoul):
 
             from Calcu.JDI_RanVal import 触发连击
             if status == SoulResponseTime.普攻行动时 and 触发连击(self.target):
-                Log().battle_L0('    [{}]进行连击'.format(self.target.get_武将名称().value))
+                Log().battle_L1('[{}]进行连击'.format(self.target.get_武将名称().value))
                 battleField.respond(status=SoulResponseTime.连击行动时, 时机响应武将=self.target)
 
 class 普攻_skill(BaseSkill):

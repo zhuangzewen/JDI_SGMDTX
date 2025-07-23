@@ -287,7 +287,7 @@ class Hero():
                 return
             # SoulDamageType
             if self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
-                Log().battle_L0('        [{}]触发攻心'.format(self.get_武将名称().value))
+                Log().battle_L2('[{}]触发攻心'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
 

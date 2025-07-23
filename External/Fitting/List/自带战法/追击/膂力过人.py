@@ -10,7 +10,7 @@
 # 满阶膂力过人:
 # 普通攻击后,对当前攻击目标造成172.5%兵刃伤害,若目标武力低于自身额外造成90.5%兵刃伤害
 
-from External.Fitting.List.SkillBaseTemplate import (
+from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log

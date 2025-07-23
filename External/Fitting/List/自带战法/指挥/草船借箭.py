@@ -10,7 +10,7 @@
 # 满阶草船借箭:
 # 自身攻心提升27.5%,自身受到或造成伤害时,有50%概率对敌方随机单体造成92%谋略伤害,每回合可触发5次
 
-from External.Fitting.List.SkillBaseTemplate import (
+from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, Hero, Soul, Skill
@@ -28,7 +28,7 @@ class 草船借箭_soul(BaseSkillSoul):
                  target: Hero, 
                  initiator: Hero,
                  skill: Skill):
-        super().__init__(target=target, initiator=initiator, skill=skill)
+        super().__init__(target, initiator, skill=skill)
         self.soul持有列表 = []
         self.草船借箭发动次数 = 0
 

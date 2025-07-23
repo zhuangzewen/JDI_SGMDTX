@@ -12,7 +12,7 @@
 # 战斗中,敌我全体被施加异常状态时,有70%概率触发制胜:立刻对敌军随机两人造成69%谋略伤害。
 # 每回合制胜最多触发4次。累积触发4次制胜后,恢复我军全体兵力(治疗率46%,受智力影响)
 
-from External.Fitting.List.SkillBaseTemplate import (
+from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, Hero, Skill
@@ -30,7 +30,7 @@ class 临机制胜_soul(BaseSkillSoul):
                  target: Hero, 
                  initiator: Hero,
                  skill: Skill):
-        super().__init__(target=target, initiator=initiator, skill=skill)
+        super().__init__(target, initiator, skill=skill)
         self.临机制胜发动次数 = 0
         self.临机制胜发动总次数 = 0
 

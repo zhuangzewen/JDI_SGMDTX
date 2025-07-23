@@ -31,3 +31,4 @@ class 诸葛亮_info(HeroInfo):
         self.初始先攻 = 57
         self.先攻成长 = 1.65
         self.自带战法 = Fitting_List_Enum.草船借箭
+        self.缘分列表 = [Fitting_List_Enum.才堪相配]

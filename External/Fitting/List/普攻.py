@@ -7,7 +7,7 @@
 # 普攻:
 # 对敌军单体造成100%兵刃伤害
 
-from External.Fitting.List.SkillBaseTemplate import (
+from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, WeaponType, SkillFeature, Hero, Soul

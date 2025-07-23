@@ -10,7 +10,7 @@
 # 满阶裸衣血战:
 # 战斗开始时,自身先攻和武力提升22点,连击率提升100%,统率降低15点。自身造成伤害额外提升5%
 
-from External.Fitting.List.SkillBaseTemplate import (
+from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log
 )

@@ -19,6 +19,7 @@ from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
+from External.SkillBaseTemplate import BaseSkillSoul, BaseSkill
 from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import *
 from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
@@ -33,46 +34,9 @@ class 才堪相配_info(SkillInfo):
 class 才堪相配_soul(Soul):
     def __init__(self, 
                  target: Hero, 
-                 initiator: Hero = None, 
-                 sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
-                 duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
-                 battleField = None):
-        super().__init__(target, initiator, sourceType, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
-
-    def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
-        
-        if hero != self.initiator:
-            return
-        
-        soul_to_remove = []
-        for soul in self.soul持有列表:
-            if soul.target == self.target:
-                soul_to_remove.append(soul)
-        for soul in soul_to_remove:
-            self.soul持有列表.remove(soul)
-
-        if self.soul持有列表.__len__() <= 0:
-            return
-
-        soul_to_remove = []
-        for soul in self.soul持有列表:
-            if soul.initiator == self.target:
-                soul.restore_initial()
-                soul_to_remove.append(soul)
-
-        for soul in self.soul持有列表:
-            if soul.initiator == self.target:
-                if soul in self.soul持有列表:
-                    self.soul持有列表.remove(soul)
-                if soul in self.soul持有列表:
-                    self.soul持有列表.remove(soul)
-
-        msg_移除响应(self)
+                 initiator: Hero, 
+                 skill: Skill):
+        super().__init__(target, initiator, skill=skill)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
 
@@ -98,8 +62,7 @@ class 才堪相配_soul(Soul):
                 effect_hero_list.append(hero)
 
         if num_缘分武将 < 缘分武将生效数量:
-            Log().show_battle_info('缘分发动失败: [{}]缘分武将数量: {}，满足条件: {}'.format(
-                self.target.get_武将名称().value, num_缘分武将, 缘分武将生效数量))
+            Log().show_battle_info('    [{}]发动失败'.format(self.target.get_武将名称().value))
             return
 
         Log().show_battle_info('    [{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
@@ -138,17 +101,8 @@ class 才堪相配_skill(Skill):
 
     def fill_init_soul(self):
         持有者and响应者:Hero = self.get_持有者()
-        才堪相配soul = 才堪相配_soul(target=持有者and响应者, 
-                             initiator=持有者and响应者, 
-                             sourceType=SoulSourceType.武将战法, 
-                             skill=self, 
-                             response_time=SoulResponseTime.内置待响应, 
-                             effect_type=SoulEffectType.无影响)
+        才堪相配soul = 才堪相配_soul(
+                            target=持有者and响应者, 
+                            initiator=持有者and响应者, 
+                            skill=self)
         return 才堪相配soul
-
-    def 模版_系数(self):
-        rankUp = self.get_战法升阶()
-        value = 20 + rankUp * 0.4
-        return value
-    
-

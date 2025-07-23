@@ -11,7 +11,7 @@
 # 异常状态:特殊负面状态
 # 包括:震慑、缴械、技穷、混乱、嘲讽、虚弱、断粮、洪水、火攻、风暴、畏惧、妖术,共计12种
 
-from External.Fitting.List.SkillBaseTemplate import (
+from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, WeaponType, SkillFeature, Hero, Soul
@@ -26,7 +26,7 @@ class 十二奇策_info(BaseSkillInfo):
 
 class 十二奇策_soul(BaseSkillSoul):
     def __init__(self, target, initiator, skill):
-        super().__init__(target=target, initiator=initiator, skill=skill)
+        super().__init__(target, initiator, skill=skill)
         self.soul持有列表 = []
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):

@@ -88,3 +88,4 @@ class Generals_Name_Enum(Enum):
     EX皇甫嵩 = "EX皇甫嵩"
     EX张昭 = "EX张昭"
     刘表 = "刘表"
+    糜竺 = "糜竺"

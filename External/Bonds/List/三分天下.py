@@ -6,22 +6,10 @@
 # 缘分关系X人在同一队伍时激活效果
 # 【具体效果待补充】
 
-from Generals.JDI_Hero import Hero
-from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.JDI_Skill import SkillInfo, Skill
-from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from Soul.JDI_Soul import Soul
-from External.SkillBaseTemplate import BaseSkillSoul, BaseSkill
-from Control.Log.JDI_Log import Log
-from Calcu.JDI_Calculate import *
-from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
-from External.Bonds.BondUtils import BondUtils
+from External.Bonds.BondUtils import (
+    BondUtils, Hero, SkillInfo, Skill, SkillType, Fitting_List_Enum,
+    SoulResponseTime, Soul, Generals_Name_Enum
+)
 
 class 三分天下_info(SkillInfo):
     def __init__(self):

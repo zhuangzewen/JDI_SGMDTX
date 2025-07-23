@@ -7,22 +7,10 @@
 # 缘分关系1人在同一队伍时激活效果
 # 问鼎赛季时,我军全体激活的阵营加成 -【蜀】效果提升50%
 
-from Generals.JDI_Hero import Hero
-from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.JDI_Skill import SkillInfo, Skill
-from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from Soul.JDI_Soul import Soul
-from External.SkillBaseTemplate import BaseSkillSoul, BaseSkill
-from Control.Log.JDI_Log import Log
-from Calcu.JDI_Calculate import *
-from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
-from External.Bonds.BondUtils import BondUtils
+from External.Bonds.BondUtils import (
+    BondUtils, Hero, SkillInfo, Skill, SkillType, Fitting_List_Enum,
+    SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Log, Generals_Name_Enum
+)
 
 class 仁义昭烈_info(SkillInfo):
     def __init__(self):

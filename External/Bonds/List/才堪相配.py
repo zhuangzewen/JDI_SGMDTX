@@ -8,21 +8,10 @@
 # 部队中缘分武将收到的治疗效果提升8%
 
 
-from Generals.JDI_Hero import Hero
-from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.JDI_Skill import SkillInfo, Skill
-from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
-from External.Fitting.Enum.FittingType_Enum import SkillType
-from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
-from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
-from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulDamageType_Enum import SoulDamageType
-from Soul.JDI_Soul import Soul
-from External.SkillBaseTemplate import BaseSkillSoul, BaseSkill
-from Control.Log.JDI_Log import Log
-from Calcu.JDI_Calculate import *
-from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
+from External.Bonds.BondUtils import (
+    BondUtils, Hero, SkillInfo, Skill, SkillType, Fitting_List_Enum,
+    SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Log, Generals_Name_Enum
+)
 
 class 才堪相配_info(SkillInfo):
     def __init__(self):
@@ -39,48 +28,41 @@ class 才堪相配_soul(Soul):
         super().__init__(target, initiator, skill=skill)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
-
-        if status != SoulResponseTime.战法布阵开始时:
-            return
+        def 才堪相配_effect(team, effect_hero_list):
+            # 才堪相配效果：缘分武将受治疗效果提升8%
+            Log().battle_L1('[{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
+            
+            for effect_hero in effect_hero_list:
+                Log().battle_L1('        [{}]的【受治疗效果】提升8.00%({}%)'.format(
+                    effect_hero.get_武将名称().value, 
+                    (effect_hero.get_受治疗效果() + 0.08) * 100
+                ))
+                
+                治疗效果soul = Soul(
+                    target=effect_hero,
+                    initiator=self.target,
+                    sourceType=SoulSourceType.不溯源,
+                    skill=self.skill,
+                    response_time=SoulResponseTime.无响应阶段,
+                    duration=-1,
+                    effect_type=SoulEffectType.受治疗效果,
+                    effect_value=0.08,
+                    source_soul=self,
+                    battleField=battleField
+                )
+                治疗效果soul.deploy_initial()
+                effect_hero.get_响应Soul列表().append(治疗效果soul)
         
-        # 先判断是哪个 team
-        if self in battleField.team1.缘分soul列表:
-            team = battleField.team1
-        elif self in battleField.team2.缘分soul列表:
-            team = battleField.team2
-
-        # 判断未击溃缘分武将是否足够
-        num_缘分武将 = 0
-        effect_hero_list = []
-        skill: Skill = self.skill
-        skillInfo: SkillInfo = skill.get_战法信息()
-        缘分武将列表 = skillInfo.缘分武将
-        缘分武将生效数量 = skillInfo.缘分武将生效数量
-        for hero in team.firstHero, team.secondHero, team.thirdHero:
-            if hero.get_武将名称() in 缘分武将列表 and hero.get_被击溃状态() != True:
-                num_缘分武将 += 1
-                effect_hero_list.append(hero)
-
-        if num_缘分武将 < 缘分武将生效数量:
-            Log().battle_L1('[{}]发动失败'.format(self.target.get_武将名称().value))
-            return
-
-        Log().battle_L1('[{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
-
-        # 确认目标
-        for effect_hero in effect_hero_list:
-            治疗效果soul = Soul(target=effect_hero,
-                                    initiator=self.target,
-                                    sourceType=SoulSourceType.不溯源,
-                                    skill=self.skill,
-                                    response_time=SoulResponseTime.无响应阶段,
-                                    duration=-1,
-                                    effect_type=SoulEffectType.受治疗效果,
-                                    effect_value=0.08,
-                                    source_soul=self,
-                                    battleField=battleField)
-            治疗效果soul.deploy_initial()
-            effect_hero.get_响应Soul列表().append(治疗效果soul)
+        # 使用统一的缘分响应处理
+        BondUtils.standard_bond_response(
+            soul=self,
+            status=status,
+            battlefield=battleField,
+            hero=hero,
+            sourceSoul=sourceSoul,
+            bond_name="才堪相配",
+            effect_callback=才堪相配_effect
+        )
 
 
 class 才堪相配_skill(Skill):
@@ -88,7 +70,6 @@ class 才堪相配_skill(Skill):
         super().__init__(hero, skillName)
 
     def check_缘分(self, team = None):
-
         存在缘分武将 = []
         for hero in team.firstHero, team.secondHero, team.thirdHero:
             if hero.get_武将名称() in self.get_战法信息().缘分武将:

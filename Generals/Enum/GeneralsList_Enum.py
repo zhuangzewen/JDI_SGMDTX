@@ -99,3 +99,4 @@ class Generals_Name_Enum(Enum):
     潘璋 = "潘璋"
     丁奉 = "丁奉"
     蒋钦 = "蒋钦"
+    董袭 = "董袭"

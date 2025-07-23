@@ -9,7 +9,6 @@ class HeroInfo():
 
         # 检查武将是否存在于预设中
         if heroName not in heroes:
-            print(f"武将 '{heroName}' 不存在于预设数据中，已随机生成武将信息")
             # 生成随机武将数据
             random_data = self.generate_random_hero_data(heroName)
             heroes[heroName] = random_data
@@ -288,7 +287,7 @@ class Hero():
                 return
             # SoulDamageType
             if self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
-                Log().show_battle_info('        [{}]触发攻心'.format(self.get_武将名称().value))
+                Log().battle_L0('        [{}]触发攻心'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())
 
@@ -329,9 +328,7 @@ def get_hero_info(heroName):
             info_class = getattr(module, info_class_name)
             return info_class()
         else:
-            print(f"武将 '{heroName}' 的模块中未找到 {info_class_name} 类，已随机生成武将信息")
             return HeroInfo(heroName)
             
     except ImportError:
-        print(f"武将 '{heroName}' 不存在于预设数据中，已随机生成武将信息")
         return HeroInfo(heroName)

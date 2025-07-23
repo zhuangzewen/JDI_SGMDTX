@@ -127,7 +127,7 @@ class BattleField():
             P_SkillClass.fill_init_soul()
             
     def 列队布阵(self):
-        Log().show_battle_info('[列队布阵阶段]')
+        Log().battle_L0('[列队布阵阶段]')
  
         def 列队布阵_补给强化(self):
             # 当队伍的补给小于40时 队伍中存活的武将 造成的伤害降低50%
@@ -142,7 +142,7 @@ class BattleField():
                     team.造成伤害降低 = 0.25
                 else:
                     team.造成伤害降低 = 0
-                Log().show_battle_info('    [{}]当前补给为{},造成伤害降低{}%'.format(teamInfo.teamName, teamInfo.supply, team.造成伤害降低 * 100))
+                Log().battle_L1('[{}]当前补给为{},造成伤害降低{}%'.format(teamInfo.teamName, teamInfo.supply, team.造成伤害降低 * 100))
 
         def 列队布阵_阵型强化(self):
             for team in [self.team1, self.team2]:
@@ -150,7 +150,7 @@ class BattleField():
                 secondHero:Hero = team.secondHero
                 thirdHero:Hero = team.thirdHero
                 if team.teamInfo.formation == Formation.一字阵:
-                    Log().show_battle_info('    [{}]获得【阵型-一字阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-一字阵】强化效果'.format(team.teamInfo.teamName))
                     # 队伍阵型为一字阵
                     # 三前排 收到的伤害降低 8%
                     # 中间受击率 34%
@@ -170,7 +170,7 @@ class BattleField():
                         hero.get_响应Soul列表().append(soul)
 
                 elif team.teamInfo.formation == Formation.萁型阵:
-                    Log().show_battle_info('    [{}]获得【阵型-萁型阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-萁型阵】强化效果'.format(team.teamInfo.teamName))
                     # 队伍阵型为萁型阵
                     # 一号位前排 受击率 60% 受到的伤害降低 6%
                     # 二三号位后排 受击率 20% 造成的伤害提升 12%
@@ -189,7 +189,7 @@ class BattleField():
                         hero.get_响应Soul列表().append(soul)
 
                 elif team.teamInfo.formation == Formation.雁型阵:
-                    Log().show_battle_info('    [{}]获得【阵型-雁型阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-雁型阵】强化效果'.format(team.teamInfo.teamName))
                     # 队伍阵型为雁型阵
                     # 一号位后排 受击率 20% 造成的伤害提升 15%
                     # 二三号位前排 受击率 40% 统帅提升 20点
@@ -211,7 +211,7 @@ class BattleField():
                     # 队伍阵型为方圆阵
                     # 一二号位前排 受击率 40% 受到的伤害降低 5%
                     # 三号位后排 受击率 20% 连击率提升 40%
-                    Log().show_battle_info('    [{}]获得【阵型-方圆阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-方圆阵】强化效果'.format(team.teamInfo.teamName))
                     
                     for hero in firstHero, secondHero:
                         setattr(hero, HeroInfoKey.前排.value, True)
@@ -230,7 +230,7 @@ class BattleField():
                     # 队伍阵型为锥型阵
                     # 一三号位后排 受击率 20% 受到的伤害降低 5%
                     # 二号位前排 受击率 60% 造成的伤害提升 16%
-                    Log().show_battle_info('    [{}]获得【阵型-锥型阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-锥型阵】强化效果'.format(team.teamInfo.teamName))
                     
                     for hero in firstHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
@@ -249,7 +249,7 @@ class BattleField():
                     # 队伍阵型为鱼鳞阵
                     # 一号位前排 受击率 60% 规避提升 12%
                     # 二三号位后排 受击率 20% 会心&奇谋提升 8%
-                    Log().show_battle_info('    [{}]获得【阵型-鱼鳞阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-鱼鳞阵】强化效果'.format(team.teamInfo.teamName))
                     
                     setattr(firstHero, HeroInfoKey.前排.value, True)
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.6)
@@ -270,7 +270,7 @@ class BattleField():
                     # 队伍阵型为钩型阵
                     # 一二号位后排 受击率 20% 连击率提升 25%
                     # 三号位前排 受击率 60% 受到的伤害降低 8%
-                    Log().show_battle_info('    [{}]获得【阵型-钩型阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-钩型阵】强化效果'.format(team.teamInfo.teamName))
                     
                     for hero in firstHero, secondHero:
                         setattr(hero, HeroInfoKey.前排.value, False)
@@ -289,7 +289,7 @@ class BattleField():
                     # 队伍阵型为偃月阵
                     # 一三号位前排 受击率 40% 造成的伤害提升 14%
                     # 二号位后排 受击率 20% 受到的伤害降低 5%
-                    Log().show_battle_info('    [{}]获得【阵型-偃月阵】强化效果'.format(team.teamInfo.teamName))
+                    Log().battle_L0('    [{}]获得【阵型-偃月阵】强化效果'.format(team.teamInfo.teamName))
                     
                     for hero in firstHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, True)
@@ -318,7 +318,7 @@ class BattleField():
 
                 if (firstHero_country == secondHero_country and secondHero_country == thirdHero_country):
                     bonus = 0.1
-                    Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【{firstHero_country}】强化效果,属性提升{bonus*100}%')
+                    Log().battle_L1(f'[{team.teamInfo.teamName}]获得【{firstHero_country}】强化效果,属性提升{bonus*100}%')
                     
                     if firstHero_country == '魏':
                         sountryType: SoulSourceType = SoulSourceType.魏阵营加成
@@ -354,7 +354,7 @@ class BattleField():
                         sountryType: SoulSourceType = SoulSourceType.阵营加成
 
                     bonus = 0.05
-                    Log().show_battle_info(f'   [{team.teamInfo.teamName}]获得【{same_country}】强化效果,属性提升 {bonus*100}%')
+                    Log().battle_L1(f'[{team.teamInfo.teamName}]获得【{same_country}】强化效果,属性提升 {bonus*100}%')
                     for hero in firstHero, secondHero, thirdHero:
                         for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统帅, SoulEffectType.先攻]:
                             # 取出当前的值 * 0.05 后相加
@@ -391,7 +391,7 @@ class BattleField():
                         cavalryman += 1
 
                 if hypaspist >= 2:
-                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-盾】强化效果')
+                    Log().battle_L0(f'    [{team.teamInfo.teamName}]获得【兵种-盾】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         hero: Hero  
                         if hypaspist == 3:
@@ -401,7 +401,7 @@ class BattleField():
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
                 elif gunner >= 2:
-                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-枪】强化效果')
+                    Log().battle_L0(f'    [{team.teamInfo.teamName}]获得【兵种-枪】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if gunner == 3:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.03)
@@ -414,7 +414,7 @@ class BattleField():
                         reduce_soul.deploy_initial()
                         hero.get_响应Soul列表().append(reduce_soul)
                 elif bowman >= 2:
-                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-弓】强化效果')
+                    Log().battle_L0(f'    [{team.teamInfo.teamName}]获得【兵种-弓】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if bowman == 3:
                             soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.05)
@@ -423,7 +423,7 @@ class BattleField():
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
                 elif cavalryman >= 2:
-                    Log().show_battle_info(f'    [{team.teamInfo.teamName}]获得【兵种-骑】强化效果')
+                    Log().battle_L0(f'    [{team.teamInfo.teamName}]获得【兵种-骑】强化效果')
                     for hero in firstHero, secondHero, thirdHero:
                         if cavalryman == 3:
                             increase_soul = Soul(target=hero, sourceType=SoulSourceType.兵种加成, effect_type=SoulEffectType.造成伤害, effect_value=0.02)
@@ -483,7 +483,7 @@ class BattleField():
     def fight(self):
 
         for _ in range(8):
-            Log().show_battle_info('\n[第 {} 局]'.format(_ + 1))
+            Log().battle_L0('\n[第 {} 局]'.format(_ + 1))
             self.command_handle_respon = []
 
             self.重置队伍状态()
@@ -499,7 +499,7 @@ class BattleField():
             # 八个回合
             for i in range(8):
                 
-                Log().show_battle_info('\n[第 {} 回合]'.format(i + 1))
+                Log().battle_L0('\n[第 {} 回合]'.format(i + 1))
 
                 self.respond(status = SoulResponseTime.回合重置阶段)
 
@@ -509,35 +509,35 @@ class BattleField():
 
                 for hero in self.getOrderList():  
                     hero: Hero
-                    Log().show_battle_info('[{}]开始行动'.format(hero.get_武将名称().value))
+                    Log().battle_L0('[{}]开始行动'.format(hero.get_武将名称().value))
 
                     self.respond(status=SoulResponseTime.武将回合重置阶段, 时机响应武将=hero)
                     
                     self.respond(status=SoulResponseTime.回合行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
                             return True
                         elif self.isOver() == 2:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
                     self.respond(status=SoulResponseTime.主动战法行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
                             return True
                         elif self.isOver() == 2:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
                     self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
                     if self.isOver() != 0:
                         if self.isOver() == 1:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                            Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
                             return True
                         elif self.isOver() == 2:
-                            Log().show_battle_info('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                            Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
                 
                 self.respond(status = SoulResponseTime.回合结束时)

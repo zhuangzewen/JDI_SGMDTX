@@ -16,7 +16,7 @@ class Simulator():
 
         # 模拟对战的次数为 101
         num_of_battles = 1
-        Log().show_system_info('------------ 对抗的次数为 {}'.format(num_of_battles))
+        Log().system_L0('------------ 对抗的次数为 {}'.format(num_of_battles))
         # team1 获胜的次数
         num_of_wins_for_team1 = 0
         # team2 获胜的次数
@@ -24,7 +24,7 @@ class Simulator():
 
         for i in range(num_of_battles):
 
-            Log().show_battle_info('------------ 当前第 {} 次对抗测试'.format(i + 1))
+            Log().battle_L0('------------ 当前第 {} 次对抗测试'.format(i + 1))
 
             battle = BattleField()
             battle.simulate(team1, team2)
@@ -32,14 +32,14 @@ class Simulator():
                 num_of_wins_for_team1 += 1
             else:
                 num_of_wins_for_team2 += 1
-            Log().show_battle_info('------------ 当前对 {} 的第 {} 次对抗测试结束'.format(team2.teamName, i + 1))
+            Log().battle_L0('------------ 当前对 {} 的第 {} 次对抗测试结束'.format(team2.teamName, i + 1))
 
-        Log().show_system_info("------------ [{}] 获胜 {} 场，[{}] 获胜 {} 场".format(team1.teamName, num_of_wins_for_team1, team2.teamName, num_of_wins_for_team2))
+        Log().system_L0("------------ [{}] 获胜 {} 场，[{}] 获胜 {} 场".format(team1.teamName, num_of_wins_for_team1, team2.teamName, num_of_wins_for_team2))
 
 # 优化完成 1.0       
 def battle():
 
-    Log().show_system_info('------------ 当前选择的模式是:{}'.format('1_VS_1'))
+    Log().system_L0('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
     # 测试仁义昭烈缘分技能 - 3蜀武将测试
     # 基础蜀阵营加成应该是10%，仁义昭烈生效后应该变成15%
@@ -69,7 +69,7 @@ def battle():
     team1 = TeamInfo(Formation.方圆阵, team1_hero1, team1_hero2, team1_hero3, '仁义昭烈+才堪相配测试队(3蜀)')
     team2 = TeamInfo(Formation.偃月阵, team2_hero1, team2_hero2, team2_hero3, '对照组')
 
-    Log().show_system_info('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))
+    Log().system_L0('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))
 
     simulator = Simulator(SimulatorMode.VS_1)
     simulator.vs1(team1, team2)

@@ -30,7 +30,7 @@ class 膂力过人_soul(BaseSkillSoul):
             return
         
         if status == SoulResponseTime.追击行动时 and self.target == hero:
-            Log().show_battle_info('    [{}]发动战法【{}】'.format(
+            Log().battle_L0('    [{}]发动战法【{}】'.format(
                 self.target.get_武将名称().value, 
                 self.skill.get_战法名称().value
             ))

@@ -53,7 +53,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
                     存在未强化的阵型SOUL = False
                     break
             if 存在未强化的阵型SOUL:
-                Log().show_battle_info('    [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+                Log().battle_L0('    [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 break
         
         for 己方阵型强化soul in 对己方阵型强化SOUL生效(self.target, battleField):
@@ -70,7 +70,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
             if 存在未强化的阵型SOUL:
                 continue
 
-            Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-阵型]效果'.format(target_name, self.skill.get_战法名称().value))
+            Log().battle_L2(f'[{target_name}]执行来自【{self.skill.get_战法名称().value}】的[星罗棋布-阵型]效果')
             strengRatio = self.skill.星罗棋布_阵型强化系数() * 己方阵型强化soul.effect_value
             阵型强化soul = Soul(target=己方阵型强化soul.target, 
                             initiator=self.skill.get_持有者(), 
@@ -94,7 +94,7 @@ class 星罗棋布_谋略减伤_soul(BaseSkillSoul):
         if status != SoulResponseTime.战法布阵开始时:
             return
         
-        Log().show_battle_info('    [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+        Log().battle_L0('    [{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
         valueList = 对己方所有目标生效(self.target, battleField)
         for 目标武将 in valueList:
             reduce_value = self.skill.星罗棋布_受到谋略伤害降低系数()
@@ -120,10 +120,10 @@ class 星罗棋布_额外效果_soul(BaseSkillSoul):
         if status != SoulResponseTime.战法布阵开始时:
             return
         
-        Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-额外效果]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+        Log().battle_L0('        [{}]执行来自【{}】的[星罗棋布-额外效果]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
         
         if msg_判断己方前排武将数量(self.target, battleField) == 1:
-            Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+            Log().battle_L0('        [{}]执行来自【{}】的[星罗棋布-单前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             frontLineHero = msg_对我方的单前排生效(self.target, battleField)
 
             固定受击率soul = Soul(target=frontLineHero,
@@ -143,10 +143,10 @@ class 星罗棋布_额外效果_soul(BaseSkillSoul):
                         effect_value= msg_实际减伤系数(frontLineHero, - self.skill.星罗棋布_单前排_受到伤害降低系数()))
             单前排减伤soul.deploy_initial()
             self.soul持有列表.append(单前排减伤soul)
-            Log().show_battle_info('        [{}]的[星罗棋布-单前排阵型]效果已施加'.format(frontLineHero.get_武将名称().value))
+            Log().battle_L0('        [{}]的[星罗棋布-单前排阵型]效果已施加'.format(frontLineHero.get_武将名称().value))
 
         elif msg_判断己方前排武将数量(self.target, battleField) == 2:
-            Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+            Log().battle_L0('        [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
             lowest_ts_hero = msg_对我方统帅最低的武将(self.target, battleField)
 
             对前排增伤soul = Soul(target=lowest_ts_hero, 
@@ -168,12 +168,12 @@ class 星罗棋布_额外效果_soul(BaseSkillSoul):
             双前排响应者: Hero = lowest_ts_hero
             双前排持有者.get_持有Soul列表().append(星罗棋布双前排额外效果soul)
             双前排响应者.get_响应Soul列表().append(星罗棋布双前排额外效果soul)
-            Log().show_battle_info('        [{}]的[星罗棋布-双前排阵型]效果已施加'.format(lowest_ts_hero.get_武将名称().value))
+            Log().battle_L0('        [{}]的[星罗棋布-双前排阵型]效果已施加'.format(lowest_ts_hero.get_武将名称().value))
 
             self.damage = Damage(skillEffectName="星罗棋布-双前排阵型")
 
         elif msg_判断己方前排武将数量(self.target, battleField) == 3:
-            Log().show_battle_info('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+            Log().battle_L0('        [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
             星罗棋布三前排额外效果soul = 星罗棋布_额外效果_三前排阵型(
                                                 target=self.target,
@@ -182,7 +182,7 @@ class 星罗棋布_额外效果_soul(BaseSkillSoul):
                                                 skill=self.skill)
             self.target.get_持有Soul列表().append(星罗棋布三前排额外效果soul)
             self.target.get_响应Soul列表().append(星罗棋布三前排额外效果soul)
-            Log().show_battle_info('        [{}]的[星罗棋布-三前排阵型]效果已施加'.format(self.target.get_武将名称().value))
+            Log().battle_L0('        [{}]的[星罗棋布-三前排阵型]效果已施加'.format(self.target.get_武将名称().value))
 
 class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
 
@@ -195,7 +195,7 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
         if status != SoulResponseTime.回合行动时 or hero != self.target:
             return
 
-        Log().show_battle_info('    [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+        Log().battle_L0('    [{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
         # 发起攻击的武将
         atta_hero = self.target
@@ -207,7 +207,7 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
         for _ in range(attack_times):
 
             if len(attacked_heroes) == 0:
-                Log().show_battle_info('    [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
+                Log().battle_L0('    [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
                 break
 
             attacked: Hero = 从队列确定受击武将(attacked_heroes)
@@ -242,14 +242,14 @@ class 星罗棋布_额外效果_三前排阵型(BaseSkillSoul):
         attaHero_name = atta_hero.get_武将名称()
         attacked_heroes = 对敌方所有目标生效(atta_hero, battleField)
 
-        Log().show_battle_info('    [{}]执行来自【{}】的[星罗棋布-三前排阵型]效果'.format(attaHero_name.value, self.skill.get_战法名称().value))
+        Log().battle_L1(f'[{attaHero_name.value}]执行来自【{self.skill.get_战法名称().value}】的[星罗棋布-三前排阵型]效果')
 
         # 发起攻击次数
         attack_times = len(attacked_heroes)
         for i in range(attack_times):
 
             if len(attacked_heroes) == 0:
-                Log().show_battle_info('    [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
+                Log().battle_L0('    [{}]没有可攻击的敌方武将'.format(attaHero_name.value))
                 break
 
             attacked: Hero = 从队列确定受击武将(attacked_heroes)

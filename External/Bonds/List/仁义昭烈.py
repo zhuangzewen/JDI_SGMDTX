@@ -63,11 +63,10 @@ class 仁义昭烈_soul(Soul):
                 effect_hero_list.append(hero)
 
         if num_缘分武将 < 缘分武将生效数量:
-            Log().show_battle_info('   [{}]发动失败'.format(self.target.get_武将名称().value))
+            Log().battle_L1('[{}]发动失败'.format(self.target.get_武将名称().value))
             return
 
-        Log().show_battle_info('   [{}]获得【仁义昭烈】强化效果'.format(team.teamInfo.teamName))
-        Log().show_battle_info('   [{}]执行来自[仁义昭烈]效果'.format())
+        Log().battle_L1('[{}]获得【仁义昭烈】强化效果'.format(team.teamInfo.teamName))
 
         # 遍历所有武将，找到蜀阵营加成soul并提升50%
         for hero in team.firstHero, team.secondHero, team.thirdHero:
@@ -83,13 +82,23 @@ class 仁义昭烈_soul(Soul):
                         # 创建额外的提升soul
                         蜀加成提升soul = Soul(target=hero,
                                             initiator=self.target,
+                                            sourceType=SoulSourceType.不溯源,
                                             skill=self.skill,
+                                            response_time=SoulResponseTime.无响应阶段,
+                                            duration=-1,
                                             effect_type=soul.effect_type,  # 使用相同的效果类型
                                             effect_value=提升值,
                                             source_soul=self,
                                             battleField=battleField)
                         蜀加成提升soul.deploy_initial()
                         hero.get_响应Soul列表().append(蜀加成提升soul)
+                        
+                        Log().battle_L2('[{}]的【{}】提升{:.2f}({:.2f})'.format(
+                            hero.get_武将名称().value, 
+                            soul.effect_type.value if hasattr(soul.effect_type, 'value') else str(soul.effect_type),
+                            提升值,
+                            原始效果值 + 提升值
+                        ))
 
 
 class 仁义昭烈_skill(Skill):

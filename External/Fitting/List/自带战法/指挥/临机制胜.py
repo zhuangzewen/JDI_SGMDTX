@@ -40,7 +40,7 @@ class 临机制胜_soul(BaseSkillSoul):
             return
         
         if status == SoulResponseTime.战法布阵开始时:
-            Log().show_battle_info('    [{}]发动战法【{}】'.format(
+            Log().battle_L0('    [{}]发动战法【{}】'.format(
                 self.target.get_武将名称().value, 
                 self.skill.get_战法名称().value
             ))
@@ -51,8 +51,7 @@ class 临机制胜_soul(BaseSkillSoul):
         elif status in [SoulResponseTime.被施加异常时, SoulResponseTime.被施加控制时]:
             if self.临机制胜发动次数 < 4:
                 if random.random() > 0.7:
-                    Log().show_debug_info('        [{}]发动来自【{}】的[临机制胜-制胜]效果, 但因几率未触发'.format(
-                        hero.get_武将名称().value, self.skill.get_战法名称().value))
+                    Log().debug_L2(f'[{hero.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的[临机制胜-制胜]效果, 但因几率未触发')
                     return
                 
                 self._execute_制胜效果(battleField, hero)
@@ -62,7 +61,7 @@ class 临机制胜_soul(BaseSkillSoul):
 
     def _execute_制胜效果(self, battleField, hero):
         """执行制胜效果的便捷方法"""
-        Log().show_battle_info('        [{}]执行来自【{}】的[临机制胜-制胜]效果'.format(
+        Log().battle_L0('        [{}]执行来自【{}】的[临机制胜-制胜]效果'.format(
             hero.get_武将名称().value, self.skill.get_战法名称().value))
 
         self.临机制胜发动次数 += 1
@@ -86,7 +85,7 @@ class 临机制胜_soul(BaseSkillSoul):
 
     def _execute_治疗效果(self, battleField):
         """执行治疗效果的便捷方法"""
-        Log().show_battle_info('        [{}]执行来自【{}】的[临机制胜-治疗]效果'.format(
+        Log().battle_L0('        [{}]执行来自【{}】的[临机制胜-治疗]效果'.format(
             self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
         treatment_times = msg_对己方所有目标生效_number(self.target, battleField)

@@ -62,10 +62,10 @@ class 才堪相配_soul(Soul):
                 effect_hero_list.append(hero)
 
         if num_缘分武将 < 缘分武将生效数量:
-            Log().show_battle_info('   [{}]发动失败'.format(self.target.get_武将名称().value))
+            Log().battle_L0('   [{}]发动失败'.format(self.target.get_武将名称().value))
             return
 
-        Log().show_battle_info('   [{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
+        Log().battle_L0('   [{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
 
         # 确认目标
         for effect_hero in effect_hero_list:

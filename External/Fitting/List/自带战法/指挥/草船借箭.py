@@ -56,7 +56,7 @@ class 草船借箭_soul(BaseSkillSoul):
 
     def _deploy_攻心效果(self):
         """部署攻心提升效果的便捷方法"""
-        Log().show_battle_info('    [{}]发动战法【{}】'.format(
+        Log().battle_L0('    [{}]发动战法【{}】'.format(
             self.target.get_武将名称().value, 
             self.skill.get_战法名称().value
         ))
@@ -70,11 +70,10 @@ class 草船借箭_soul(BaseSkillSoul):
     def _try_trigger_借箭效果(self, battleField):
         """尝试触发借箭效果的便捷方法"""
         if random.random() > 0.5:
-            Log().show_debug_info('        [{}]发动来自【{}】的[草船借箭]效果, 但因几率未触发'.format(
-                self.target.get_武将名称().value, self.skill.get_战法名称().value))
+            Log().debug_L2(f'[{self.target.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的[草船借箭]效果, 但因几率未触发')
             return
         
-        Log().show_battle_info('        [{}]执行来自【{}】的[草船借箭]效果'.format(
+        Log().battle_L0('        [{}]执行来自【{}】的[草船借箭]效果'.format(
             self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
         self.草船借箭发动次数 += 1

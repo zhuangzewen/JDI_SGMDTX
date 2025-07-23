@@ -274,7 +274,7 @@ def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=Non
         if 清醒soul != None:
             return normal_受击(heroList)
         if 混乱soul != None:
-            Log().show_battle_info(f"    [{hero.get_武将名称().value}]由于[{soul.initiator.get_武将名称().value}]【{soul.skill.get_战法名称().value}】的「混乱」效果")
+            Log().battle_L0(f"    [{hero.get_武将名称().value}]由于[{soul.initiator.get_武将名称().value}]【{soul.skill.get_战法名称().value}】的「混乱」效果")
             team1 = battleField.getTeam1()
             team2 = battleField.getTeam2()
             real_heroes = [team1.firstHero, team1.secondHero, team1.thirdHero,
@@ -284,7 +284,7 @@ def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=Non
                 real_heroes.remove(hero)
             return random.choice(real_heroes)
         if 嘲讽soul != None and skill.get_战法类型() == SkillType.普攻:
-            Log().show_battle_info(f"    [{hero.get_武将名称().value}]由于[{soul.initiator.get_武将名称().value}]【{soul.skill.get_战法名称().value}】的「嘲讽」效果")
+            Log().battle_L0(f"    [{hero.get_武将名称().value}]由于[{soul.initiator.get_武将名称().value}]【{soul.skill.get_战法名称().value}】的「嘲讽」效果")
             return 嘲讽soul.initiator
         
         return normal_受击(heroList)
@@ -593,7 +593,7 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
         from Control.Log.JDI_Log import Log
         from Soul.JDI_Soul import Soul
         存在虚弱_soul: Soul
-        Log().show_battle_info(f"        [{攻击者.get_武将名称().value}]由于[{存在虚弱_soul.initiator.get_武将名称().value}]【{存在虚弱_soul.skill.get_战法名称().value}】的[虚弱]效果造成伤害减少70%")
+        Log().battle_L0(f"        [{攻击者.get_武将名称().value}]由于[{存在虚弱_soul.initiator.get_武将名称().value}]【{存在虚弱_soul.skill.get_战法名称().value}】的[虚弱]效果造成伤害减少70%")
         造成伤害提升 *= 0.7
 
     武将增减伤系数 *= 造成伤害提升

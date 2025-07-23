@@ -22,6 +22,7 @@ from External.SkillBaseTemplate import BaseSkillSoul, BaseSkill
 from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import *
 from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
+from External.Bonds.BondUtils import BondUtils
 
 class 仁义昭烈_info(SkillInfo):
     def __init__(self):
@@ -38,39 +39,10 @@ class 仁义昭烈_soul(Soul):
         super().__init__(target, initiator, skill=skill)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
-        if status != SoulResponseTime.战法布阵开始时:
-            return
-        
-        # 先判断是哪个 team
-        if self in battleField.team1.缘分soul列表:
-            team = battleField.team1
-        elif self in battleField.team2.缘分soul列表:
-            team = battleField.team2
-        else:
-            return
-
-        # 判断未击溃缘分武将是否足够
-        num_缘分武将 = 0
-        effect_hero_list = []
-        skill: Skill = self.skill
-        skillInfo: SkillInfo = skill.get_战法信息()
-        缘分武将列表 = skillInfo.缘分武将
-        缘分武将生效数量 = skillInfo.缘分武将生效数量
-        
-        for hero in team.firstHero, team.secondHero, team.thirdHero:
-            if hero.get_武将名称() in 缘分武将列表 and hero.get_被击溃状态() != True:
-                num_缘分武将 += 1
-                effect_hero_list.append(hero)
-
-        if num_缘分武将 < 缘分武将生效数量:
-            Log().battle_L1('[{}]发动失败'.format(self.target.get_武将名称().value))
-            return
-
-        Log().battle_L1('[{}]获得【仁义昭烈】强化效果'.format(team.teamInfo.teamName))
-
-        # 遍历所有武将，找到蜀阵营加成soul并提升50%
-        for hero in team.firstHero, team.secondHero, team.thirdHero:
-            if hero.get_被击溃状态() != True:
+        def 仁义昭烈_effect(team, effect_hero_list):
+            # 遍历所有武将，找到蜀阵营加成soul并提升50%
+            alive_heroes = BondUtils.get_alive_team_heroes(team)
+            for hero in alive_heroes:
                 # 遍历该武将的所有soul，找到蜀阵营加成相关的soul
                 for soul in hero.get_响应Soul列表():
                     # 检查是否是蜀阵营加成soul
@@ -99,6 +71,17 @@ class 仁义昭烈_soul(Soul):
                             提升值,
                             原始效果值 + 提升值
                         ))
+        
+        # 使用统一的缘分响应处理
+        BondUtils.standard_bond_response(
+            soul=self,
+            status=status,
+            battlefield=battleField,
+            hero=hero,
+            sourceSoul=sourceSoul,
+            bond_name="仁义昭烈",
+            effect_callback=仁义昭烈_effect
+        )
 
 
 class 仁义昭烈_skill(Skill):

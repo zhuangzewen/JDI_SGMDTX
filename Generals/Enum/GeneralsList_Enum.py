@@ -96,3 +96,4 @@ class Generals_Name_Enum(Enum):
     卢植 = "卢植"
     张曼成 = "张曼成"
     孔融 = "孔融"
+    潘璋 = "潘璋"

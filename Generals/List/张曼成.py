@@ -1,6 +1,6 @@
 # HeroInfoKey.武将名称:HeroName.张曼成,
 # HeroInfoKey.武将阵营:Faction.群,
-# HeroInfoKey.武将兵种:WeaponType.枪,
+# HeroInfoKey.武将兵种:WeaponType.盾,
 # HeroInfoKey.武将性别:1,
 # HeroInfoKey.初始武力:85,
 # HeroInfoKey.武力成长:1.55,
@@ -19,7 +19,7 @@ class 张曼成_info(HeroInfo):
     def __init__(self):
         self.武将名称 = Generals_Name_Enum.张曼成
         self.武将阵营 = Faction.群
-        self.武将兵种 = WeaponType.枪
+        self.武将兵种 = WeaponType.盾
         self.武将性别 = 1
         self.初始武力 = 85
         self.武力成长 = 1.55

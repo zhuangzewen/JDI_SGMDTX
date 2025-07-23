@@ -93,3 +93,4 @@ class Generals_Name_Enum(Enum):
     刘表 = "刘表"
     糜竺 = "糜竺"
     EX马腾 = "EX马腾"
+    卢植 = "卢植"

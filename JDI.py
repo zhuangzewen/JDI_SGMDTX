@@ -41,32 +41,31 @@ def battle():
 
     Log().system_L0('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
-    # 测试仁义昭烈缘分技能 - 3蜀武将测试
-    # 基础蜀阵营加成应该是10%，仁义昭烈生效后应该变成15%
-    team1_hero1 = get_hero_info(Generals_Name_Enum.刘备)
+    # 测试三分天下缘分技能 - 曹操刘备孙权组合测试
+    team1_hero1 = get_hero_info(Generals_Name_Enum.曹操)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
-    team1_hero1.set_skills(None, 0, None, 0)  # 刘备不需要手动设置仁义昭烈，通过缘分列表自动激活
+    team1_hero1.set_skills(None, 0, None, 0)  # 曹操通过缘分列表自动激活三分天下
     
-    team1_hero2 = get_hero_info(Generals_Name_Enum.诸葛亮)
+    team1_hero2 = get_hero_info(Generals_Name_Enum.刘备)
     team1_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=10, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero2.set_skills(None, 0, None, 0)
     
-    # 使用SP诸葛亮组成3蜀武将队伍，同时激活才堪相配
-    team1_hero3 = get_hero_info(Generals_Name_Enum.SP诸葛亮)
+    # 使用孙权组成三分天下队伍
+    team1_hero3 = get_hero_info(Generals_Name_Enum.孙权)
     team1_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=10, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero3.set_skills(None, 0, None, 0)
 
-    team2_hero1 = get_hero_info(Generals_Name_Enum.B队测试武将_1)
+    team2_hero1 = get_hero_info(Generals_Name_Enum.许褚)
     team2_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero1.set_skills(None, 0, None, 0)
-    team2_hero2 = get_hero_info(Generals_Name_Enum.B队测试武将_2)
+    team2_hero2 = get_hero_info(Generals_Name_Enum.许褚)
     team2_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero2.set_skills(None, 0, None, 0)
-    team2_hero3 = get_hero_info(Generals_Name_Enum.B队测试武将_3)
+    team2_hero3 = get_hero_info(Generals_Name_Enum.许褚)
     team2_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero3.set_skills(None, 0, None, 0)
 
-    team1 = TeamInfo(Formation.方圆阵, team1_hero1, team1_hero2, team1_hero3, '仁义昭烈+才堪相配测试队(3蜀)')
+    team1 = TeamInfo(Formation.方圆阵, team1_hero1, team1_hero2, team1_hero3, '三分天下测试队(曹操刘备孙权)')
     team2 = TeamInfo(Formation.偃月阵, team2_hero1, team2_hero2, team2_hero3, '对照组')
 
     Log().system_L0('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))

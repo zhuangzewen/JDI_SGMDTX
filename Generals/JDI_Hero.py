@@ -308,24 +308,30 @@ class Hero():
             soul.response(status=status, battleField=battleField, hero=hero, sourceSoul=sourceSoul)
 
 def get_hero_info(heroName):
-    if heroName == Generals_Name_Enum.SP诸葛亮:
-        from Generals.List.SP诸葛亮 import SP诸葛亮_info
-        heroInfo = SP诸葛亮_info()
-    elif heroName == Generals_Name_Enum.诸葛亮:
-        from Generals.List.诸葛亮 import 诸葛亮_info
-        heroInfo = 诸葛亮_info()
-    elif heroName == Generals_Name_Enum.荀攸:
-        from Generals.List.荀攸 import 荀攸_info
-        heroInfo = 荀攸_info()
-    elif heroName == Generals_Name_Enum.周瑜:
-        from Generals.List.周瑜 import 周瑜_info
-        heroInfo = 周瑜_info()
-    elif heroName == Generals_Name_Enum.许褚:
-        from Generals.List.许褚 import 许褚_info
-        heroInfo = 许褚_info()
-    elif heroName == Generals_Name_Enum.颜良:
-        from Generals.List.颜良 import 颜良_info
-        heroInfo = 颜良_info()
-    else:
-        heroInfo = HeroInfo(heroName)
-    return heroInfo
+    """
+    动态获取武将信息，避免穷举
+    使用约定优于配置的方式自动查找武将模块
+    """
+    if not isinstance(heroName, Generals_Name_Enum):
+        return HeroInfo(heroName)
+    
+    hero_name = heroName.value
+    
+    try:
+        # 动态导入武将模块
+        import importlib
+        module_path = f"Generals.List.{hero_name}"
+        module = importlib.import_module(module_path)
+        
+        # 获取对应的info类
+        info_class_name = f"{hero_name}_info"
+        if hasattr(module, info_class_name):
+            info_class = getattr(module, info_class_name)
+            return info_class()
+        else:
+            print(f"武将 '{heroName}' 的模块中未找到 {info_class_name} 类，已随机生成武将信息")
+            return HeroInfo(heroName)
+            
+    except ImportError:
+        print(f"武将 '{heroName}' 不存在于预设数据中，已随机生成武将信息")
+        return HeroInfo(heroName)

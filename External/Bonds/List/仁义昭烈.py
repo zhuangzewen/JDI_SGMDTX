@@ -38,7 +38,6 @@ class 仁义昭烈_soul(Soul):
         super().__init__(target, initiator, skill=skill)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
-
         if status != SoulResponseTime.战法布阵开始时:
             return
         
@@ -64,66 +63,33 @@ class 仁义昭烈_soul(Soul):
                 effect_hero_list.append(hero)
 
         if num_缘分武将 < 缘分武将生效数量:
-            Log().show_battle_info('    [{}]发动失败'.format(self.target.get_武将名称().value))
+            Log().show_battle_info('   [{}]发动失败'.format(self.target.get_武将名称().value))
             return
 
-        Log().show_battle_info('    [{}]获得【仁义昭烈】强化效果'.format(team.teamInfo.teamName))
+        Log().show_battle_info('   [{}]获得【仁义昭烈】强化效果'.format(team.teamInfo.teamName))
+        Log().show_battle_info('   [{}]执行来自[仁义昭烈]效果'.format())
 
-        # 对全队施加蜀阵营加成提升效果
+        # 遍历所有武将，找到蜀阵营加成soul并提升50%
         for hero in team.firstHero, team.secondHero, team.thirdHero:
             if hero.get_被击溃状态() != True:
-                # 提升蜀阵营加成50% (原本10%变成15%)
-                蜀加成提升soul = Soul(target=hero,
-                                    initiator=self.target,
-                                    sourceType=SoulSourceType.不溯源,
-                                    skill=self.skill,
-                                    response_time=SoulResponseTime.无响应阶段,
-                                    duration=-1,
-                                    effect_type=SoulEffectType.武力,
-                                    effect_value=0.05,  # 额外5%加成 (10% * 50% = 5%)
-                                    source_soul=self,
-                                    battleField=battleField)
-                蜀加成提升soul.deploy_initial()
-                hero.get_响应Soul列表().append(蜀加成提升soul)
-                
-                智力加成提升soul = Soul(target=hero,
-                                    initiator=self.target,
-                                    sourceType=SoulSourceType.不溯源,
-                                    skill=self.skill,
-                                    response_time=SoulResponseTime.无响应阶段,
-                                    duration=-1,
-                                    effect_type=SoulEffectType.智力,
-                                    effect_value=0.05,
-                                    source_soul=self,
-                                    battleField=battleField)
-                智力加成提升soul.deploy_initial()
-                hero.get_响应Soul列表().append(智力加成提升soul)
-                
-                统帅加成提升soul = Soul(target=hero,
-                                    initiator=self.target,
-                                    sourceType=SoulSourceType.不溯源,
-                                    skill=self.skill,
-                                    response_time=SoulResponseTime.无响应阶段,
-                                    duration=-1,
-                                    effect_type=SoulEffectType.统帅,
-                                    effect_value=0.05,
-                                    source_soul=self,
-                                    battleField=battleField)
-                统帅加成提升soul.deploy_initial()
-                hero.get_响应Soul列表().append(统帅加成提升soul)
-                
-                先攻加成提升soul = Soul(target=hero,
-                                    initiator=self.target,
-                                    sourceType=SoulSourceType.不溯源,
-                                    skill=self.skill,
-                                    response_time=SoulResponseTime.无响应阶段,
-                                    duration=-1,
-                                    effect_type=SoulEffectType.先攻,
-                                    effect_value=0.05,
-                                    source_soul=self,
-                                    battleField=battleField)
-                先攻加成提升soul.deploy_initial()
-                hero.get_响应Soul列表().append(先攻加成提升soul)
+                # 遍历该武将的所有soul，找到蜀阵营加成相关的soul
+                for soul in hero.get_响应Soul列表():
+                    # 检查是否是蜀阵营加成soul
+                    if hasattr(soul, 'sourceType') and soul.sourceType == SoulSourceType.蜀阵营加成:
+                        # 对现有的蜀阵营加成效果提升50%
+                        原始效果值 = soul.effect_value
+                        提升值 = 原始效果值 * 0.5  # 提升50%
+                        
+                        # 创建额外的提升soul
+                        蜀加成提升soul = Soul(target=hero,
+                                            initiator=self.target,
+                                            skill=self.skill,
+                                            effect_type=soul.effect_type,  # 使用相同的效果类型
+                                            effect_value=提升值,
+                                            source_soul=self,
+                                            battleField=battleField)
+                        蜀加成提升soul.deploy_initial()
+                        hero.get_响应Soul列表().append(蜀加成提升soul)
 
 
 class 仁义昭烈_skill(Skill):

@@ -52,6 +52,11 @@ class Team():
         for f in 缘分名称列表:
             from External.Fitting.JDI_Skill import get_skill_info
             缘分info = get_skill_info(f)
+            
+            # 检查缘分info是否有必要的属性
+            if not hasattr(缘分info, '缘分武将') or not hasattr(缘分info, '缘分武将生效数量'):
+                continue
+                
             缘分武将数量 = 0
             for hero in self.firstHero, self.secondHero, self.thirdHero:
                 hero: Hero

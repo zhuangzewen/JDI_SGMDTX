@@ -31,4 +31,8 @@ class 刘备_info(HeroInfo):
         self.初始先攻 = 53
         self.先攻成长 = 1.72
         self.自带战法 = Fitting_List_Enum.携民渡江
-        self.缘分列表 = [Fitting_List_Enum.仁义昭烈]
+        self.缘分列表 = [Fitting_List_Enum.三分天下, 
+                        Fitting_List_Enum.桃园结义, 
+                        Fitting_List_Enum.珠联璧合, 
+                        Fitting_List_Enum.缘系皇思, 
+                        Fitting_List_Enum.仁义昭烈]

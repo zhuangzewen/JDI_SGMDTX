@@ -33,22 +33,14 @@ class 才堪相配_soul(Soul):
             Log().battle_L1('[{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
             
             for effect_hero in effect_hero_list:
-                Log().battle_L1('        [{}]的【受治疗效果】提升8.00%({}%)'.format(
-                    effect_hero.get_武将名称().value, 
-                    (effect_hero.get_受治疗效果() + 0.08) * 100
-                ))
                 
                 治疗效果soul = Soul(
                     target=effect_hero,
                     initiator=self.target,
-                    sourceType=SoulSourceType.不溯源,
                     skill=self.skill,
-                    response_time=SoulResponseTime.无响应阶段,
-                    duration=-1,
                     effect_type=SoulEffectType.受治疗效果,
                     effect_value=0.08,
                     source_soul=self,
-                    battleField=battleField
                 )
                 治疗效果soul.deploy_initial()
                 effect_hero.get_响应Soul列表().append(治疗效果soul)

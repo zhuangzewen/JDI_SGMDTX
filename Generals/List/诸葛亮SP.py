@@ -2,7 +2,7 @@
 from Generals.JDI_Hero import HeroInfo
 from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum, BondsName_Enum
 
-class 诸葛亮_info(HeroInfo):
+class 诸葛亮SP_info(HeroInfo):
     def __init__(self):
         self.武将名称 = Generals_Name_Enum.诸葛亮SP
         self.武将阵营 = Faction.蜀

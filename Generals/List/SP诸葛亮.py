@@ -14,7 +14,7 @@
 # HeroInfoKey.自带战法:SkillName.星罗棋布
 
 from Generals.JDI_Hero import HeroInfo
-from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum
+from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum, BondsName_Enum
 
 
 class SP诸葛亮_info(HeroInfo):
@@ -32,6 +32,6 @@ class SP诸葛亮_info(HeroInfo):
         self.初始先攻 = 61
         self.先攻成长 = 1.71
         self.自带战法 = Fitting_List_Enum.星罗棋布
-        self.缘分列表 = [Fitting_List_Enum.才堪相配]
+        self.缘分列表 = [BondsName_Enum.才堪相配]
 
 

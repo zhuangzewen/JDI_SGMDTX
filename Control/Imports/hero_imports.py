@@ -10,8 +10,10 @@ from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Calcu.JDI_Calculate import *
 from Control.Log.JDI_Log import Log
+from External.Bonds.Enum.BondsList_Enum import BondsName_Enum
 
 __all__ = [
     'Generals_Name_Enum', 'Faction', 'WeaponType', 'HeroInfoKey', 
-    'get_skill', 'Fitting_List_Enum', 'SoulResponseTime', 'SoulDamageType', 'Log'
+    'get_skill', 'Fitting_List_Enum', 'SoulResponseTime', 'SoulDamageType', 'Log',
+    'BondsName_Enum'
 ]

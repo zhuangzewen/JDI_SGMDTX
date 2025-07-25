@@ -1,14 +1,16 @@
 # 战法名称: 携民渡江
 # 战法类型: 指挥
 # 战法特性: 治疗
-# 适应兵种: 盾
-# 发动率: 1.0
+# 适应兵种: 盾,弓,枪,骑
+# 发动率: 1
 
-# 基础效果描述
+# 携民渡江:
+# 战斗开始时，提升我军全体18点统率(受智力影响), 
+# 每回合结束时，恢复我军全体兵力(治疗率100%),然后驱散我军兵力最低单体1种负面状态并对其额外进行1次恢复(治疗率90%)
 
-# 十级效果描述
-
-# 满阶效果描述（不填写，后续实现时补充）
+# 满阶携民渡江:
+# 战斗开始时，提升我军全体18点统率(受智力影响), 
+# 每回合结束时，恢复我军全体兵力(治疗率100%),然后驱散我军兵力最低单体1种负面状态并对其额外进行1次恢复(治疗率90%)
 
 from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
@@ -19,67 +21,82 @@ from Calcu.JDI_Calculate import *
 
 class 携民渡江_info(BaseSkillInfo):
     def __init__(self):
-        # 使用工厂方法获取模板，参数1为战法类型_特性，参数2为战法枚举，参数3位发动率
         template = get_skill_template('指挥_治疗', Fitting_List_Enum.携民渡江, 1.0)
         super().__init__(template)
 
 class 携民渡江_soul(BaseSkillSoul):
-    def __init__(self, 
-                 target: Hero, 
-                 initiator: Hero,
-                 skill: Skill):
-        super().__init__(target, initiator, skill=skill)
-        self.soul持有列表 = []
 
     def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将溃败:
             self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
             return
 
-        # 根据不同的响应阶段执行不同的效果
-        # if status == SoulResponseTime.战法布阵开始时:
-        #     self._deploy_initial_effect()
-        #
-        # elif status == SoulResponseTime.回合重置阶段:
-        #     self._reset_count()
-        #
-        # elif status == SoulResponseTime.造成伤害时:
-        #     self._on_damage_dealt(battleField)
-        #
-        # elif status == SoulResponseTime.受到伤害时:
-        #     self._on_damage_taken(battleField)
-        #
-        # elif status == SoulResponseTime.回合结束时:
-        #     self._on_turn_end(battleField)
+        if status == SoulResponseTime.战法布阵开始时:
+            self._deploy_统帅效果(battleField)
 
-    # 示例：部署初始效果
-    def _deploy_initial_effect(self):
-        """部署初始效果的便捷方法"""
+        elif status == SoulResponseTime.回合结束时:
+            self._deploy_治疗效果(battleField)
+            pass
+
+    def _deploy_统帅效果(self, battleField):
+
         Log().battle_L1('[{}]发动战法【{}】'.format(
             self.target.get_武将名称().value, 
             self.skill.get_战法名称().value
         ))
-        
-        # 创建并部署效果
-        # effect_soul = self.skill.create_soul(
-        #     self.target, SoulEffectType.效果类型, self.skill.效果系数()
-        # )
-        # effect_soul.deploy_initial()
-        # self.soul持有列表.append(effect_soul)
 
-    # 示例：尝试触发效果
-    def _try_trigger_effect(self, battleField):
-        """尝试触发效果的便捷方法"""
-        # 检查触发条件
-        # if random.random() > 触发概率:
-        #     Log().debug_L2(f'[{self.target.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的效果, 但因几率未触发')
-        #     return
+        value_heroes = 对己方所有目标生效(self.target, battleField)
+        value_times = len(value_heroes)
         
-        # Log().battle_L2('[{}]执行来自【{}】的效果'.format(
-        #     self.target.get_武将名称().value, self.skill.get_战法名称().value))
+        for _ in range(value_times):
+            if len(value_heroes) == 0:
+                break
 
-        # 执行效果逻辑
-        # 例如：造成伤害、治疗、施加状态等
+            目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            统帅soul = self.skill.create_soul(
+                target=目标武将,
+                effect_type=SoulEffectType.统帅,
+                effect_value=self.skill.携民渡江_统帅提升系数()
+            )
+
+            统帅soul.deploy_initial()
+            self.soul持有列表.append(统帅soul)
+
+    def _deploy_治疗效果(self, battleField):
+
+        Log().battle_L1('[{}]发动战法【{}】'.format(
+            self.target.get_武将名称().value, 
+            self.skill.get_战法名称().value
+        ))
+
+        value_heroes = 对己方所有目标生效(self.target, battleField)
+        value_times = len(value_heroes)
+        
+        for _ in range(value_times):
+            if len(value_heroes) == 0:
+                break
+
+            目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            全体治疗soul = self.skill.create_soul(
+                target=目标武将,
+                effect_type=SoulEffectType.恢复兵力,
+                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = 1.0)
+            )
+            全体治疗soul.deploy_initial()   
+
+        low_hero:Hero = msg_对己方兵力最低目标生效(self.target, battleField)
+
+        负面soul = msg_负面状态列表(low_hero)
+        if len(负面soul) != 0:
+            随机负面soul: Soul = random.choice(负面soul)
+            随机负面soul.restore_initial()
+
+        单点治疗soul = self.skill.create_soul(
+            target=low_hero,
+            effect_type=SoulEffectType.恢复兵力,
+            effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = 0.9)
+        )
+        单点治疗soul.deploy_initial()   
 
 class 携民渡江_skill(BaseSkill):
     def __init__(self, hero, skillName):
@@ -98,7 +115,38 @@ class 携民渡江_skill(BaseSkill):
         持有者and响应者.get_持有Soul列表().append(soul)
         持有者and响应者.get_响应Soul列表().append(soul)
 
-    # 示例：获取战法系数（随阶数变化）
-    def 效果系数(self):
-        # 参数1：基础系数，参数2：每阶成长
-        return self.get_rank_bonus(基础系数, 每阶成长)
+    def 携民渡江_统帅提升系数(self):
+        def 拟合过程数据统计():
+            # 初始值为 18
+            # 每一级升阶提升基础初始值为 0.5
+
+            # 智力 342.83
+            # 统帅提升 33.37
+            # 提升值为 33.37 - 18 = 15.37
+
+            # 智力 258.62
+            # 统帅提升 27.33
+            # 提升值为 27.33 - 18 = 9.33
+
+            # 智力 270.12
+            # 统帅提升 28.17
+            # 提升值为 28.17 - 18 = 10.17
+
+            # 智力 294.69
+            # 统帅提升 29.95
+            # 提升值为 29.95 - 18 = 11.95
+
+            # 智力 306.72
+            # 统帅提升 30.82
+            # 提升值为 30.82 - 18 = 12.82
+
+            # x 为智力, y 为提升值 
+            # y = 0.07175227071078484*x+-9.209931942314372
+            pass
+
+        from Generals.JDI_Hero import Hero
+        original_value = self.get_rank_bonus(18, 0.5)
+        owner: Hero = self.get_持有者()
+        x = owner.get_智力()
+        y = 0.07175227071078484 * x - 9.209931942314372 + original_value
+        return y

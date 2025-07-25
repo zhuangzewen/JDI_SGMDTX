@@ -77,7 +77,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
             Log().battle_L2('[{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-            if self.effect_value > 0 and self.sourceType != SoulSourceType.负面状态效果:
+            if self.effect_value > 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -93,7 +93,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.初始武力.value, cur_value)
             Log().battle_L2('[{}]的【武力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
-            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -102,7 +102,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.智力.value, cur_value)
             Log().battle_L2('[{}]的【智力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
-            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -111,7 +111,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.统帅.value, cur_value)
             Log().battle_L2('[{}]的【统帅】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
-            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -120,7 +120,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.先攻.value, cur_value)
             Log().battle_L2('[{}]的【先攻】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
-            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:    
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:    
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -154,7 +154,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.会心伤害.value, cur_value)
             Log().battle_L2('[{}]的【会心伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -169,7 +169,7 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.奇谋伤害.value, cur_value)
             Log().battle_L2('[{}]的【奇谋伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-            if self.effect_value < 0 and self.sourceType != SoulSourceType.负面状态效果:
+            if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
@@ -313,7 +313,7 @@ class Soul():
                 Log().battle_L2('[{}]的[洪水]效果已刷新'.format(heroName))
             else:
                 统帅soul = Soul(target=self.target, 
-                                        sourceType=SoulSourceType.负面状态效果, 
+                                        sourceType=SoulSourceType.异常状态效果_额外效果, 
                                         skill=self.skill,
                                         effect_type=SoulEffectType.统帅, 
                                         effect_value=-20,
@@ -335,7 +335,7 @@ class Soul():
                 Log().battle_L2('[{}]的[火攻]效果已刷新'.format(heroName))
             else:
                 智力soul = Soul(target=self.target, 
-                                        sourceType=SoulSourceType.负面状态效果, 
+                                        sourceType=SoulSourceType.异常状态效果_额外效果, 
                                         skill=self.skill,
                                         effect_type=SoulEffectType.智力, 
                                         effect_value=-15,
@@ -358,7 +358,7 @@ class Soul():
                 Log().battle_L2('[{}]的[风暴]效果已刷新'.format(heroName))
             else:
                 先攻soul = Soul(target=self.target, 
-                                        sourceType=SoulSourceType.负面状态效果, 
+                                        sourceType=SoulSourceType.异常状态效果_额外效果, 
                                         skill=self.skill,
                                         effect_type=SoulEffectType.先攻, 
                                         effect_value=-30,
@@ -381,7 +381,7 @@ class Soul():
                 Log().battle_L2('[{}]的[畏惧]效果已刷新'.format(heroName))
             else:
                 受到伤害soul = Soul(target=self.target, 
-                                        sourceType=SoulSourceType.负面状态效果, 
+                                        sourceType=SoulSourceType.异常状态效果_额外效果, 
                                         skill=self.skill,
                                         effect_type=SoulEffectType.受到伤害, 
                                         effect_value=0.1,
@@ -404,14 +404,14 @@ class Soul():
                 Log().battle_L2('[{}]的[妖术]效果已刷新'.format(heroName))
             else:
                 会心伤害soul = Soul(target=self.target, 
-                            sourceType=SoulSourceType.负面状态效果, 
+                            sourceType=SoulSourceType.异常状态效果_额外效果, 
                             skill=self.skill,
                             effect_type=SoulEffectType.会心伤害, 
                             effect_value=-0.15,
                             source_soul=self)
                 会心伤害soul.deploy_initial()
                 奇谋伤害soul = Soul(target=self.target, 
-                            sourceType=SoulSourceType.负面状态效果, 
+                            sourceType=SoulSourceType.异常状态效果_额外效果, 
                             skill=self.skill,
                             effect_type=SoulEffectType.奇谋伤害,
                             effect_value=-0.15,
@@ -473,14 +473,14 @@ class Soul():
             if 恢复兵力 <= 当前伤兵:
                 剩余伤兵 = 当前伤兵 - 恢复兵力
                 实际兵力 = 当前兵力 + 恢复兵力
-                setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
-                setattr(self, HeroInfoKey.兵力.value, 实际兵力)
+                setattr(self.target, HeroInfoKey.伤兵.value, 剩余伤兵)
+                setattr(self.target, HeroInfoKey.兵力.value, 实际兵力)
             else:
                 恢复兵力 = 当前伤兵
                 剩余伤兵 = 0
                 实际兵力 = 当前兵力 + 恢复兵力
-                setattr(self, HeroInfoKey.伤兵.value, 剩余伤兵)
-                setattr(self, HeroInfoKey.兵力.value, 实际兵力)
+                setattr(self.target, HeroInfoKey.伤兵.value, 剩余伤兵)
+                setattr(self.target, HeroInfoKey.兵力.value, 实际兵力)
 
             Log().battle_L2('[{}]恢复了兵力{}({})'.format(self.target.get_武将名称().value, 恢复兵力, self.target.get_兵力()))
 
@@ -625,7 +625,7 @@ class Soul():
             msg_移除响应(self)
             Log().battle_L2('[{}]的[洪水]效果已消失'.format(heroName))
             统帅soul = Soul(target=self.target, 
-                                    sourceType=SoulSourceType.负面状态效果, 
+                                    sourceType=SoulSourceType.异常状态效果_额外效果, 
                                     skill=self.skill,
                                     effect_type=SoulEffectType.统帅, 
                                     effect_value=20,
@@ -637,7 +637,7 @@ class Soul():
             Log().battle_L2('[{}]的[火攻]效果已消失'.format(heroName))
 
             智力soul = Soul(target=self.target, 
-                                    sourceType=SoulSourceType.负面状态效果, 
+                                    sourceType=SoulSourceType.异常状态效果_额外效果, 
                                     skill=self.skill,
                                     effect_type=SoulEffectType.智力, 
                                     effect_value=15,
@@ -649,7 +649,7 @@ class Soul():
             Log().battle_L2('[{}]的[风暴]效果已消失'.format(heroName))
 
             先攻soul = Soul(target=self.target, 
-                                    sourceType=SoulSourceType.负面状态效果, 
+                                    sourceType=SoulSourceType.异常状态效果_额外效果, 
                                     skill=self.skill,
                                     effect_type=SoulEffectType.先攻, 
                                     effect_value=30,
@@ -661,7 +661,7 @@ class Soul():
             Log().battle_L2('[{}]的[畏惧]效果已消失'.format(heroName))
 
             受到伤害soul = Soul(target=self.target, 
-                                    sourceType=SoulSourceType.负面状态效果, 
+                                    sourceType=SoulSourceType.异常状态效果_额外效果, 
                                     skill=self.skill,
                                     effect_type=SoulEffectType.受到伤害, 
                                     effect_value=-0.1,
@@ -673,14 +673,14 @@ class Soul():
             Log().battle_L2('[{}]的[妖术]效果已消失'.format(heroName))
 
             会心伤害soul = Soul(target=self.target,
-                        sourceType=SoulSourceType.负面状态效果,
+                        sourceType=SoulSourceType.异常状态效果_额外效果,
                         skill=self.skill,
                         effect_type=SoulEffectType.会心伤害, 
                         effect_value=0.15,
                         source_soul=self)
             会心伤害soul.deploy_initial()
             奇谋伤害soul = Soul(target=self.target, 
-                        sourceType=SoulSourceType.负面状态效果, 
+                        sourceType=SoulSourceType.异常状态效果_额外效果, 
                         skill=self.skill,
                         effect_type=SoulEffectType.奇谋伤害,
                         effect_value=0.15,

@@ -51,10 +51,10 @@ class 普攻_soul(BaseSkillSoul):
                 Log().battle_L1('[{}]无法普攻'.format(self.target.get_武将名称().value))
                 return
         
-            from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击武将, 计算伤害
+            from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击单位, 计算伤害
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
-            attacked: Hero = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            if attacked == []:
+            attacked: Hero = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            if attacked == None:
                 Log().battle_L1('[{}]没有可攻击对象'.format(self.target.get_武将名称().value))
                 return
             

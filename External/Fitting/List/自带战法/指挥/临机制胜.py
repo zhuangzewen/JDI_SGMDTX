@@ -75,7 +75,7 @@ class 临机制胜_soul(BaseSkillSoul):
             if len(attacked_heroes) == 0:
                 break
 
-            attacked = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            attacked = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             damage_soul = self.skill.create_damage_soul(
                 battleField, self.target, attacked,
                 SoulDamageType.谋略, SkillType.指挥,
@@ -95,7 +95,7 @@ class 临机制胜_soul(BaseSkillSoul):
             if len(treatment_heroes) == 0:
                 break
 
-            treatment = 从队列确定受击武将(treatment_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            treatment = 从队列确定受击单位(treatment_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             treatmentValue = 治疗计算(battleField, self.target, treatment, self.skill.临机制胜_治疗系数())
 
             treatment_soul = self.skill.create_soul(

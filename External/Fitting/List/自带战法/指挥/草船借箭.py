@@ -55,7 +55,6 @@ class 草船借箭_soul(BaseSkillSoul):
                 self._try_trigger_借箭效果(battleField)
 
     def _deploy_攻心效果(self):
-        """部署攻心提升效果的便捷方法"""
         Log().battle_L1('[{}]发动战法【{}】'.format(
             self.target.get_武将名称().value, 
             self.skill.get_战法名称().value
@@ -81,7 +80,7 @@ class 草船借箭_soul(BaseSkillSoul):
         # 对敌方随机单体造成谋略伤害
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
         if len(attacked_heroes) > 0:
-            attacked = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            attacked = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             
             damage_soul = self.skill.create_damage_soul(
                 battleField, self.target, attacked,

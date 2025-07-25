@@ -17,10 +17,10 @@ def 获取对比行动优先级(hero1_xg, hero2_xg):
     else:
         return False if hero2_xg >= hero1_xg else True
     
-def int_随机一到两个敌方():
+def int_随机一个单位():
     return random.randint(1, 2)
 
-def 根据受击率列表随机一个敌方(hit_rate_list):
+def 根据受击率列表随机一个单位(hit_rate_list):
     total_hit_rate = sum(hit_rate_list)
     # Log total_hit_rate
     if total_hit_rate == 0:

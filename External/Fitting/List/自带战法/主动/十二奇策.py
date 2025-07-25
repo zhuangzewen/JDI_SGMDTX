@@ -57,7 +57,7 @@ class 十二奇策_soul(BaseSkillSoul):
                 if len(attacked_heroes) == 0:
                     break
 
-                attacked: Hero = 从队列确定受击武将(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+                attacked: Hero = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
 
                 damageModel = 计算伤害(battleField, self.target, attacked, SoulDamageType.谋略, SkillType.指挥, 伤害值= 2.2)
                 damage_soul = Soul(target=attacked,

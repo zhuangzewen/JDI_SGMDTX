@@ -210,7 +210,7 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
                 Log().battle_L1('[{}]没有可攻击的敌方武将'.format(attaHero_name.value))
                 break
 
-            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+            attacked: Hero = 从队列确定受击单位(attacked_heroes)
             damageModel = 计算伤害(battleField, atta_hero, attacked, SoulDamageType.择优, SkillType.指挥, 伤害值= 1.6)
             damageModel.skillEffectName = "星罗棋布-双前排阵型"
 
@@ -252,7 +252,7 @@ class 星罗棋布_额外效果_三前排阵型(BaseSkillSoul):
                 Log().battle_L1('[{}]没有可攻击的敌方武将'.format(attaHero_name.value))
                 break
 
-            attacked: Hero = 从队列确定受击武将(attacked_heroes)
+            attacked: Hero = 从队列确定受击单位(attacked_heroes)
 
             ourTeam = 获取武将所在的队伍(atta_hero, battleField)
             ourTeam_治疗总量 = ourTeam.全队累计治疗量

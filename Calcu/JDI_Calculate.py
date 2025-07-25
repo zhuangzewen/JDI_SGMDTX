@@ -53,6 +53,41 @@ def msg_实际减伤系数(hero, value):
     cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
     return (1 + cur_value) * value
 
+def msg_控制状态列表(hero):
+    from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+    控制状态列表 = []
+    for soul in hero.get_响应Soul列表():
+        if soul.sourceType == SoulSourceType.控制状态效果:
+            控制状态列表.append(soul)
+    return 控制状态列表
+
+def msg_异常状态列表(hero):
+    控制状态列表 = msg_控制状态列表(hero)
+    异常状态列表 = []
+
+    for soul in 控制状态列表:
+        异常状态列表.append(soul)
+
+    from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+    for soul in hero.get_响应Soul列表():
+        if soul.sourceType == SoulSourceType.异常状态效果:
+            异常状态列表.append(soul)
+
+    return 异常状态列表
+
+def msg_负面状态列表(hero):
+    异常状态列表 = msg_异常状态列表(hero)
+    负面状态列表 = []
+    for soul in 异常状态列表:
+        负面状态列表.append(soul)
+
+    from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+    for soul in hero.get_响应Soul列表():
+        if soul.sourceType == SoulSourceType.负面状态效果:
+            负面状态列表.append(soul)
+
+    return 负面状态列表
+
 def msg_过滤掉被击溃的武将(heroes):
     from Generals.JDI_Hero import Hero
     from Generals.Enum.Generals_Enum import HeroInfoKey
@@ -225,7 +260,7 @@ def 实际受击率(hero):
 
     return 0
 
-def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=None, needRemove=True):
+def 从队列确定受击单位(heroList, skill=None, hero=None, battleField=None, needRemove=True):
 
     def normal_受击(heroList):
         from Generals.JDI_Hero import Hero
@@ -238,7 +273,7 @@ def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=Non
             hit_rate = 实际受击率(hero)
             hit_rate_list.append(hit_rate)
 
-        randomInt = 根据受击率列表随机一个敌方(hit_rate_list)
+        randomInt = 根据受击率列表随机一个单位(hit_rate_list)
         if randomInt == None:
             return None
 
@@ -289,25 +324,6 @@ def 从队列确定受击武将(heroList, skill=None, hero=None, battleField=Non
         
         return normal_受击(heroList)
 
-def msg_对敌方所有目标生效_number(hero, battleField, number=1):
-    from BattleField.JDI_BattleField import BattleField
-    from BattleField.Team.JDI_Team import Team
-
-    battleField: BattleField
-
-    team1: Team = battleField.getTeam1()
-    team2: Team = battleField.getTeam2()
-
-    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
-        heroes_num = len(msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero]))
-    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
-        heroes_num = len(msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero]))
-
-    if heroes_num < number:
-        return heroes_num
-    else:
-        return number
-
 def 对敌方所有目标生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
@@ -322,24 +338,15 @@ def 对敌方所有目标生效(hero, battleField):
     elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
         return msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero])
 
-def msg_对己方所有目标生效_number(hero, battleField, number=1):
-    from BattleField.JDI_BattleField import BattleField
-    from BattleField.Team.JDI_Team import Team
-
-    battleField: BattleField
-
-    team1: Team = battleField.getTeam1()
-    team2: Team = battleField.getTeam2()
-
-    if hero in [team1.firstHero, team1.secondHero, team1.thirdHero]:
-        heroes_num = len(msg_过滤掉被击溃的武将([team1.firstHero, team1.secondHero, team1.thirdHero]))
-    elif hero in [team2.firstHero, team2.secondHero, team2.thirdHero]:
-        heroes_num = len(msg_过滤掉被击溃的武将([team2.firstHero, team2.secondHero, team2.thirdHero]))
-
-    if heroes_num < number:
-        return heroes_num
-    else:
-        return number
+def msg_对己方兵力最低目标生效(hero, battleField):
+    heros = 对己方所有目标生效(hero, battleField)
+    low_hero = None
+    low_hero_num = 10000 + 1
+    for h in heros:
+        if h.get_兵力() < low_hero_num:
+            low_hero = h
+            low_hero_num = h.get_兵力()
+    return low_hero
 
 def 对己方所有目标生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField

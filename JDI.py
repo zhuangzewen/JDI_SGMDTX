@@ -42,11 +42,11 @@ def battle():
     Log().system_L0('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
     # 测试三分天下缘分技能 - 曹操刘备孙权组合测试
-    team1_hero1 = get_hero_info(Generals_Name_Enum.刘备)
+    team1_hero1 = get_hero_info(Generals_Name_Enum.测试武将_A1)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero1.set_skills(None, 0, None, 0)  # 曹操通过缘分列表自动激活三分天下
     
-    team1_hero2 = get_hero_info(Generals_Name_Enum.甘夫人)
+    team1_hero2 = get_hero_info(Generals_Name_Enum.测试武将_A2)
     team1_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=10, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero2.set_skills(None, 0, None, 0)
     
@@ -65,8 +65,8 @@ def battle():
     team2_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero3.set_skills(None, 0, None, 0)
 
-    team1 = TeamInfo(Formation.鱼鳞阵, team1_hero1, team1_hero2, team1_hero3, '测试队伍A_普攻测试队')
-    team2 = TeamInfo(Formation.偃月阵, team2_hero1, team2_hero2, team2_hero3, '测试队伍B_普攻测试队')
+    team1 = TeamInfo(Formation.一字阵, team1_hero1, team1_hero2, team1_hero3, '测试队伍A_普攻测试队')
+    team2 = TeamInfo(Formation.萁型阵, team2_hero1, team2_hero2, team2_hero3, '测试队伍B_普攻测试队')
 
     Log().system_L0('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))
 

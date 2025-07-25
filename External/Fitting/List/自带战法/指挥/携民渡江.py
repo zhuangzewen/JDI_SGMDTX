@@ -14,8 +14,8 @@
 
 from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
-    SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
-    Fitting_List_Enum, Log, random, Hero, Soul, Skill
+    SoulResponseTime, SoulEffectType,
+    Fitting_List_Enum, Log, random, Hero, Soul
 )
 from Calcu.JDI_Calculate import *
 

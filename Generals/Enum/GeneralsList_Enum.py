@@ -16,4 +16,5 @@ class Generals_Name_Enum(Enum):
     
 
     # 未初始化 受缘分影响提前引入
+    甘夫人 = "甘夫人"
     

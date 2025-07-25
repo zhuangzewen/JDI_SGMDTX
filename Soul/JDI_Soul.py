@@ -88,6 +88,13 @@ class Soul():
             setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, cur_value)
             Log().battle_L2('[{}]的【受到谋略伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  cur_value * 100))
 
+        elif self.effect_type == SoulEffectType.受到兵刃伤害:
+            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害降低.value)
+            real_value = (1 + cur_value) * self.effect_value
+            cur_value += real_value
+            setattr(self.target, HeroInfoKey.受到兵刃伤害降低.value, cur_value)
+            Log().battle_L2('[{}]的【受到兵刃伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  cur_value * 100))
+
         elif self.effect_type == SoulEffectType.武力:
             cur_value = getattr(self.target, HeroInfoKey.武力.value)
             cur_value += self.effect_value
@@ -523,6 +530,13 @@ class Soul():
             real_value = cur_value - ori_value
             setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, ori_value)
             Log().battle_L2('[{}]的【受到谋略伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  ori_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到兵刃伤害:
+            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害降低.value)
+            ori_value = (cur_value - self.effect_value) / (self.effect_value + 1)
+            real_value = cur_value - ori_value
+            setattr(self.target, HeroInfoKey.受到兵器伤害降低.value, ori_value)
+            Log().battle_L2('[{}]的【受到兵刃伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100,  ori_value * 100))
 
         elif self.effect_type == SoulEffectType.武力:
             cur_value = getattr(self.target, HeroInfoKey.武力.value)

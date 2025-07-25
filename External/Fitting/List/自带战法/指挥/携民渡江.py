@@ -9,8 +9,8 @@
 # 每回合结束时，恢复我军全体兵力(治疗率100%),然后驱散我军兵力最低单体1种负面状态并对其额外进行1次恢复(治疗率90%)
 
 # 满阶携民渡江:
-# 战斗开始时，提升我军全体18点统率(受智力影响), 
-# 每回合结束时，恢复我军全体兵力(治疗率100%),然后驱散我军兵力最低单体1种负面状态并对其额外进行1次恢复(治疗率90%)
+# 战斗开始时，提升我军全体20.5点统率(受智力影响), 
+# 每回合结束时，恢复我军全体兵力(治疗率116%),然后驱散我军兵力最低单体1种负面状态并对其额外进行1次恢复(治疗率104%)
 
 from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
@@ -80,7 +80,7 @@ class 携民渡江_soul(BaseSkillSoul):
             全体治疗soul = self.skill.create_soul(
                 target=目标武将,
                 effect_type=SoulEffectType.恢复兵力,
-                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = 1.0)
+                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.携民渡江_群体治疗系数())
             )
             全体治疗soul.deploy_initial()   
 
@@ -94,7 +94,7 @@ class 携民渡江_soul(BaseSkillSoul):
         单点治疗soul = self.skill.create_soul(
             target=low_hero,
             effect_type=SoulEffectType.恢复兵力,
-            effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = 0.9)
+            effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.携民渡江_单体治疗系数())
         )
         单点治疗soul.deploy_initial()   
 
@@ -150,3 +150,9 @@ class 携民渡江_skill(BaseSkill):
         x = owner.get_智力()
         y = 0.07175227071078484 * x - 9.209931942314372 + original_value
         return y
+
+    def 携民渡江_群体治疗系数(self):
+        return self.get_rank_bonus(1, 0.032)
+
+    def 携民渡江_单体治疗系数(self):
+        return self.get_rank_bonus(0.9, 0.028)

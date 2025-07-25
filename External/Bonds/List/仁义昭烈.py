@@ -36,16 +36,12 @@ class 仁义昭烈_soul(Soul):
                         # 创建额外的提升soul
                         蜀加成提升soul = Soul(target=hero,
                                             initiator=self.target,
-                                            sourceType=SoulSourceType.不溯源,
                                             skill=self.skill,
-                                            response_time=SoulResponseTime.无响应阶段,
-                                            duration=-1,
-                                            effect_type=soul.effect_type,  # 使用相同的效果类型
+                                            effect_type=soul.effect_type,
                                             effect_value=提升值,
                                             source_soul=self,
                                             battleField=battleField)
                         蜀加成提升soul.deploy_initial()
-                        hero.get_响应Soul列表().append(蜀加成提升soul)
         
         # 使用统一的缘分响应处理
         BondUtils.standard_bond_response(

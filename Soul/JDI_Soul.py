@@ -4,7 +4,7 @@ from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Generals.Enum.Generals_Enum import HeroInfoKey
 from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from External.Fitting.JDI_Skill import Skill
+from External.JDI_Skill import Skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
 from Soul.Class.Damage_Class import Damage

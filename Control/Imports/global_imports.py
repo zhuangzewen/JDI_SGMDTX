@@ -28,7 +28,7 @@ from BattleField.Team.JDI_Team import TeamInfo, Team, Formation
 # ================================
 # 技能系统
 # ================================
-from External.Fitting.JDI_Skill import Skill, get_skill
+from External.JDI_Skill import Skill, get_skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from External.Fitting.Enum.FittingInfoKey_Enum import SkillInfoKey

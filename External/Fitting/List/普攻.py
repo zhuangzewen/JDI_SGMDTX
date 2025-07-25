@@ -19,7 +19,7 @@ class 普攻_info(BaseSkillInfo):
     def __init__(self):
         # 普攻不使用模板，需要特殊处理
         # 先调用SkillInfo的构造函数
-        from External.Fitting.JDI_Skill import SkillInfo
+        from External.JDI_Skill import SkillInfo
         SkillInfo.__init__(self, Fitting_List_Enum.普攻)
         self.战法名称 = Fitting_List_Enum.普攻
         self.战法类型 = SkillType.普攻

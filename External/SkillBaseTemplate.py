@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
 from Generals.JDI_Hero import Hero
 from Generals.Enum.Generals_Enum import WeaponType
-from External.Fitting.JDI_Skill import SkillInfo, Skill
+from External.JDI_Skill import SkillInfo, Skill
 from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum

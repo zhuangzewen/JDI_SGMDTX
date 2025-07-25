@@ -1,6 +1,7 @@
 
 from External.Fitting.Enum.FittingInfoKey_Enum import SkillInfoKey
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
+from External.Bonds.Enum.BondsList_Enum import BondsName_Enum  # 导入BondsName_Enum
 
 class SkillInfo():
 
@@ -38,7 +39,7 @@ class Skill():
 
     def __init__(self, hero, skillName):
 
-        if isinstance(skillName, Fitting_List_Enum):
+        if isinstance(skillName, (Fitting_List_Enum, BondsName_Enum)):  # 支持BondsName_Enum
             skillInfo = get_skill_info(skillName)
             setattr(self, SkillInfoKey.战法信息.value, skillInfo)
             setattr(self, SkillInfoKey.加载状态.value, True)
@@ -72,7 +73,7 @@ def _get_skill_module(skillName):
     通用的技能模块查找函数
     返回找到的模块，如果未找到则返回None
     """
-    if not isinstance(skillName, Fitting_List_Enum):
+    if not (isinstance(skillName, Fitting_List_Enum) or isinstance(skillName, BondsName_Enum)):  # 支持BondsName_Enum
         return None
     
     skill_name = skillName.value
@@ -102,12 +103,13 @@ def _get_skill_module(skillName):
     
     return None
 
+
 def get_skill_info(skillName):
     """
     动态获取技能信息，避免穷举
     使用约定优于配置的方式自动查找技能模块
     """
-    if not isinstance(skillName, Fitting_List_Enum):
+    if not (isinstance(skillName, Fitting_List_Enum) or isinstance(skillName, BondsName_Enum)):  # 支持BondsName_Enum
         return SkillInfo(skillName)
     
     skill_name = skillName.value
@@ -123,12 +125,13 @@ def get_skill_info(skillName):
     # 如果模块未找到或没有对应的info类，返回默认的SkillInfo
     return SkillInfo(skillName)
 
+
 def get_skill(skillName, hero):
     """
     动态获取技能实例，避免穷举
     使用约定优于配置的方式自动查找技能模块
     """
-    if not isinstance(skillName, Fitting_List_Enum):
+    if not (isinstance(skillName, Fitting_List_Enum) or isinstance(skillName, BondsName_Enum)):  # 支持BondsName_Enum
         return Skill(hero, skillName)
     
     skill_name = skillName.value

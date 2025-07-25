@@ -4,7 +4,7 @@
 
 from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
 from Generals.Enum.Generals_Enum import Faction, WeaponType, HeroInfoKey
-from External.Fitting.JDI_Skill import get_skill
+from External.JDI_Skill import get_skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType

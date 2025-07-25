@@ -24,7 +24,7 @@ from External.SkillBaseTemplate import (
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, WeaponType, SkillFeature, Hero, Soul
 )
-from External.Fitting.JDI_Skill import Skill
+from External.JDI_Skill import Skill
 from Calcu.JDI_Calculate import *
 
 class 星罗棋布_info(BaseSkillInfo):

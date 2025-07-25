@@ -12,7 +12,7 @@ from Soul.Class.Damage_Class import Damage
 from Calcu.JDI_Calculate import msg_移除响应
 
 # 为了避免循环导入，这些类将在运行时导入
-# from External.Fitting.JDI_Skill import Skill
+# from External.JDI_Skill import Skill
 # from Generals.JDI_Hero import Hero
 
 __all__ = [

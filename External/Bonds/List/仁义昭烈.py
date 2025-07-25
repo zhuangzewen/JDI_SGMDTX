@@ -1,4 +1,3 @@
-
 # 战法名称: 仁义昭烈
 # 战法类型: 缘分
 
@@ -8,23 +7,18 @@
 # 问鼎赛季时,我军全体激活的阵营加成 -【蜀】效果提升50%
 
 from External.Bonds.BondUtils import (
-    BondUtils, Hero, SkillInfo, Skill, SkillType, Fitting_List_Enum,
-    SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Log, Generals_Name_Enum
+    BondUtils, Hero, SkillInfo, Skill, SkillType,
+    SoulResponseTime, SoulSourceType, Soul, Generals_Name_Enum, BondsName_Enum
 )
 
 class 仁义昭烈_info(SkillInfo):
     def __init__(self):
-        self.战法名称 = Fitting_List_Enum.仁义昭烈
+        self.战法名称 = BondsName_Enum.仁义昭烈
         self.战法类型 = SkillType.缘分
         self.缘分武将 = [Generals_Name_Enum.刘备]
         self.缘分武将生效数量 = 1
         
 class 仁义昭烈_soul(Soul):
-    def __init__(self, 
-                 target: Hero, 
-                 initiator: Hero, 
-                 skill: Skill):
-        super().__init__(target, initiator, skill=skill)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
         def 仁义昭烈_effect(team, effect_hero_list):
@@ -52,13 +46,6 @@ class 仁义昭烈_soul(Soul):
                                             battleField=battleField)
                         蜀加成提升soul.deploy_initial()
                         hero.get_响应Soul列表().append(蜀加成提升soul)
-                        
-                        Log().battle_L2('[{}]的【{}】提升{:.2f}({:.2f})'.format(
-                            hero.get_武将名称().value, 
-                            soul.effect_type.value if hasattr(soul.effect_type, 'value') else str(soul.effect_type),
-                            提升值,
-                            原始效果值 + 提升值
-                        ))
         
         # 使用统一的缘分响应处理
         BondUtils.standard_bond_response(

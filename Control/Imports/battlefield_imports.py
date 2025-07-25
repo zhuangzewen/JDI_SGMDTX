@@ -20,7 +20,7 @@ from Generals.JDI_Hero import Hero
 from BattleField.Team.JDI_Team import TeamInfo, Team, Formation
 
 # 技能系统
-from External.Fitting.JDI_Skill import Skill
+from External.JDI_Skill import Skill
 from External.Fitting.Enum.FittingType_Enum import SkillType
 
 # 计算系统 - 明确导入需要的函数

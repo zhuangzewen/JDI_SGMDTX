@@ -101,7 +101,7 @@ def msg_过滤掉被击溃的武将(heroes):
     return result
 
 def msg_判断己方前排武将数量(hero, battleField):
-    from External.Fitting.JDI_Skill import Skill
+    from External.JDI_Skill import Skill
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
@@ -140,7 +140,7 @@ def msg_对我方的单前排生效(hero, battleField):
     return None
 
 def msg_对我方统帅最低的武将(hero, battleField):
-    from External.Fitting.JDI_Skill import Skill
+    from External.JDI_Skill import Skill
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
 
@@ -287,7 +287,7 @@ def 从队列确定受击单位(heroList, skill=None, hero=None, battleField=Non
     if skill == None or hero == None or battleField == None:
         return normal_受击(heroList)
     else:
-        from External.Fitting.JDI_Skill import Skill
+        from External.JDI_Skill import Skill
         from Generals.JDI_Hero import Hero
         from BattleField.JDI_BattleField import BattleField
         from Soul.Enum.SoulEffectType_Enum import SoulEffectType

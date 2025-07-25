@@ -31,7 +31,7 @@ class 缘系皇思_soul(Soul):
                         initiator=self.target,
                         skill=self.skill,
                         effect_type=SoulEffectType.受到兵刃伤害,
-                        effect_value=-0.06,  # 降低6%
+                        effect_value=msg_实际兵刃减伤系数(effect_hero, -0.06),
                         source_soul=self,
                         battleField=battleField
                     )

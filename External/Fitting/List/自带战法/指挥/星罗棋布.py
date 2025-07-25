@@ -105,7 +105,7 @@ class 星罗棋布_谋略减伤_soul(BaseSkillSoul):
                             sourceType=SoulSourceType.武将战法, 
                             skill=self.skill, 
                             effect_type=SoulEffectType.受到谋略伤害, 
-                            effect_value= - reduce_value)
+                            effect_value= msg_实际谋略减伤系数(目标武将, - reduce_value))
             谋略减伤soul.deploy_initial()
             self.soul持有列表.append(谋略减伤soul)
 

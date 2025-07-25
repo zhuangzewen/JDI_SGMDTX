@@ -48,9 +48,24 @@ def msg_普攻发起判断(hero):
         return False
     return True
 
+def msg_实际规避几率系数(hero, value):
+    from Generals.Enum.Generals_Enum import HeroInfoKey
+    cur_value = getattr(hero, HeroInfoKey.闪避几率.value)
+    return (1 - cur_value) * value
+
 def msg_实际减伤系数(hero, value):
     from Generals.Enum.Generals_Enum import HeroInfoKey
     cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
+    return (1 + cur_value) * value
+
+def msg_实际谋略减伤系数(hero, value):
+    from Generals.Enum.Generals_Enum import HeroInfoKey
+    cur_value = getattr(hero, HeroInfoKey.受到谋略伤害降低.value)
+    return (1 + cur_value) * value
+
+def msg_实际兵刃减伤系数(hero, value):
+    from Generals.Enum.Generals_Enum import HeroInfoKey
+    cur_value = getattr(hero, HeroInfoKey.受到兵刃伤害降低.value)
     return (1 + cur_value) * value
 
 def msg_控制状态列表(hero):

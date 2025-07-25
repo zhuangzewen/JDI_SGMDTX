@@ -25,7 +25,7 @@ class 缘系皇思_soul(Soul):
             # 为缘分武将添加兵刃伤害降低效果
             for effect_hero in effect_hero_list:
                 if effect_hero.get_武将名称() in self.skill.get_战法信息().缘分武将:
-                    # 创建兵刃伤害降低soul
+                    from Calcu.JDI_Calculate import msg_实际兵刃减伤系数
                     兵刃伤害降低soul = Soul(
                         target=effect_hero,
                         initiator=self.target,

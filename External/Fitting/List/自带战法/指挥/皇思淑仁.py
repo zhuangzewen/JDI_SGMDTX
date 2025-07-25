@@ -34,8 +34,8 @@ class 皇思淑仁_soul(BaseSkillSoul):
         if status == SoulResponseTime.回合开始时:
             self._deploy_规避率效果(battleField)
 
-        elif status == SoulResponseTime.回合结束:
-            self._deploy_治疗效果(battleField)
+        elif status == SoulResponseTime.回合结束时:
+            # self._deploy_治疗效果(battleField)
             pass
 
     def _deploy_规避率效果(self, battleField):

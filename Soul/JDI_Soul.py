@@ -60,6 +60,12 @@ class Soul():
             show_upEffect_name = '降低'
 
         from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+
+        # 增减伤系数整合
+
+
+
+
         if self.effect_type == SoulEffectType.造成伤害:
             cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
             cur_value += self.effect_value
@@ -201,7 +207,129 @@ class Soul():
             setattr(self.target, HeroInfoKey.受治疗效果.value, cur_value)
             Log().battle_L2('[{}]的【受治疗效果】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.震慑:
+        elif self.effect_type == SoulEffectType.震慑 \
+                or self.effect_type == SoulEffectType.缴械 \
+                or self.effect_type == SoulEffectType.技穷 \
+                or self.effect_type == SoulEffectType.混乱 \
+                or self.effect_type == SoulEffectType.嘲讽 \
+                or self.effect_type == SoulEffectType.虚弱 \
+                or self.effect_type == SoulEffectType.断粮 \
+                or self.effect_type == SoulEffectType.洪水 \
+                or self.effect_type == SoulEffectType.火攻 \
+                or self.effect_type == SoulEffectType.风暴 \
+                or self.effect_type == SoulEffectType.畏惧 \
+                or self.effect_type == SoulEffectType.妖术:
+                self.deploy_异常状态_inital()
+
+        elif self.effect_type == SoulEffectType.损失兵力:
+
+            伤害来源武将: Hero = self.initiator
+            伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
+            伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
+            伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
+            伤害数值 = int(self.effect_value)
+
+            if (self.target.get_兵力() < 伤害数值):
+                伤害数值 = int(self.target.get_兵力())
+            剩余兵力 = int(self.target.get_兵力() - 伤害数值)
+
+            伤兵数值 = int(伤害数值 * 0.8)
+            亖兵数值 = int(伤害数值 - 伤兵数值)
+
+            setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
+            setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
+            setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
+            if (self.skill and self.skill.get_战法名称() == Fitting_List_Enum.普攻):
+                Log().battle_L2('[{}]损失了兵力{}({})'.format(heroName, abs(伤害数值), 剩余兵力))
+            else:
+                if 伤害来源Soul效果 == '':
+                    Log().battle_L2(f'[{heroName}]由于[{伤害来源武将名称}]的【{伤害来源技能名称}】的伤害,损失了兵力{abs(伤害数值)}({剩余兵力})')
+                else :
+                    Log().battle_L2(f'[{heroName}]由于[{伤害来源武将名称}]【{伤害来源技能名称}】的[{伤害来源Soul效果}]效果,损失了兵力{abs(伤害数值)}({剩余兵力})')
+
+            if 剩余兵力 <= 0:
+                Log().battle_L2('[{}]兵力为0 无法再战'.format(heroName))
+                self.battleField.respond(status=SoulResponseTime.武将溃败, 时机响应武将=self.target)
+
+            from BattleField.JDI_BattleField import BattleField
+            self.battleField : BattleField
+            self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self)
+
+        elif self.effect_type == SoulEffectType.恢复兵力:
+
+            恢复兵力 = int(self.effect_value)
+            
+            for soul in self.target.get_响应Soul列表():
+                from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+                if soul.effect_type == SoulEffectType.断粮:
+                    Log().battle_L2('[{}]由于[{}]【{}】的[断粮]效果治疗效率降为30%'.format(self.target.get_武将名称().value, soul.initiator.get_武将名称().value, soul.skill.get_战法名称().value))
+                    恢复兵力 = int(恢复兵力 * 0.7)
+                    break
+
+            当前兵力 = self.target.get_兵力()
+            当前伤兵 = self.target.get_伤兵()
+
+            if 恢复兵力 <= 当前伤兵:
+                剩余伤兵 = 当前伤兵 - 恢复兵力
+                实际兵力 = 当前兵力 + 恢复兵力
+                setattr(self.target, HeroInfoKey.伤兵.value, 剩余伤兵)
+                setattr(self.target, HeroInfoKey.兵力.value, 实际兵力)
+            else:
+                恢复兵力 = 当前伤兵
+                剩余伤兵 = 0
+                实际兵力 = 当前兵力 + 恢复兵力
+                setattr(self.target, HeroInfoKey.伤兵.value, 剩余伤兵)
+                setattr(self.target, HeroInfoKey.兵力.value, 实际兵力)
+
+            Log().battle_L2('[{}]恢复了兵力{}({})'.format(self.target.get_武将名称().value, 恢复兵力, self.target.get_兵力()))
+
+
+    def deploy_增减伤系数_inital(self):
+        造成伤害提升 = '造成伤害提升'
+        造成伤害降低 = '造成伤害降低'
+        受到伤害提升 = '受到伤害提升'   
+        受到伤害降低 = '受到伤害降低'
+
+        受到异性伤害提升 = '受到异性伤害提升'
+        受到异性伤害降低 = '受到异性伤害降低'
+
+        对前排造成伤害提升 = '对前排造成伤害提升'
+        对前排造成伤害降低 = '对前排造成伤害降低'
+
+        造成谋略伤害提升 = '造成谋略伤害提升'
+        造成谋略伤害降低 = '造成谋略伤害降低'
+        受到谋略伤害提升 = '受到谋略伤害提升'
+        受到谋略伤害降低 = '受到谋略伤害降低'
+
+        造成兵刃伤害提升 = '造成兵刃伤害提升'
+        造成兵刃伤害降低 = '造成兵刃伤害降低'
+        受到兵刃伤害提升 = '受到兵刃伤害提升'
+        受到兵刃伤害降低 = '受到兵刃伤害降低'
+
+        普通攻击造成伤害提升 = '普通攻击造成伤害提升'
+        普通攻击造成伤害降低 = '普通攻击造成伤害降低'
+        受到普通攻击伤害提升 = '受到普通攻击造成伤害提升'
+        受到普通攻击伤害降低 = '受到普通攻击造成伤害降低'
+
+        主动战法造成伤害提升 = '主动战法造成伤害提升'
+        主动战法造成伤害降低 = '主动战法造成伤害降低'
+        受到主动战法伤害提升 = '受到主动战法造成伤害提升'
+        受到主动战法伤害降低 = '受到主动战法造成伤害降低'
+
+        追击战法造成伤害提升 = '追击战法造成伤害提升'
+        追击战法造成伤害降低 = '追击战法造成伤害降低'
+        受到追击战法伤害提升 = '受到追击战法造成伤害提升'
+        受到追击战法伤害降低 = '受到追击战法造成伤害降低'
+        pass
+
+    def deploy_异常状态_inital(self):
+
+        self.target: Hero
+        heroName = self.target.get_武将名称().value
+
+        from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+        if self.effect_type == SoulEffectType.震慑:
             is存在同类状态 = False
             if len(self.target.get_响应Soul列表()) > 0:
                 for soul in self.target.get_响应Soul列表():
@@ -426,68 +554,6 @@ class Soul():
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
-        elif self.effect_type == SoulEffectType.损失兵力:
-
-            伤害来源武将: Hero = self.initiator
-            伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
-            伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
-            伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
-            伤害数值 = int(self.effect_value)
-
-            if (self.target.get_兵力() < 伤害数值):
-                伤害数值 = int(self.target.get_兵力())
-            剩余兵力 = int(self.target.get_兵力() - 伤害数值)
-
-            伤兵数值 = int(伤害数值 * 0.8)
-            亖兵数值 = int(伤害数值 - 伤兵数值)
-
-            setattr(self.target, HeroInfoKey.伤兵.value, self.target.get_伤兵() + 伤兵数值)
-            setattr(self.target, HeroInfoKey.亖兵.value, self.target.get_亖兵() + 亖兵数值)
-            setattr(self.target, HeroInfoKey.兵力.value, 剩余兵力)
-            if (self.skill and self.skill.get_战法名称() == Fitting_List_Enum.普攻):
-                Log().battle_L2('[{}]损失了兵力{}({})'.format(heroName, abs(伤害数值), 剩余兵力))
-            else:
-                if 伤害来源Soul效果 == '':
-                    Log().battle_L2(f'[{heroName}]由于[{伤害来源武将名称}]的【{伤害来源技能名称}】的伤害,损失了兵力{abs(伤害数值)}({剩余兵力})')
-                else :
-                    Log().battle_L2(f'[{heroName}]由于[{伤害来源武将名称}]【{伤害来源技能名称}】的[{伤害来源Soul效果}]效果,损失了兵力{abs(伤害数值)}({剩余兵力})')
-
-            if 剩余兵力 <= 0:
-                Log().battle_L2('[{}]兵力为0 无法再战'.format(heroName))
-                self.battleField.respond(status=SoulResponseTime.武将溃败, 时机响应武将=self.target)
-
-            from BattleField.JDI_BattleField import BattleField
-            self.battleField : BattleField
-            self.battleField.respond(status=SoulResponseTime.造成伤害时, 时机响应武将=self.initiator, 溯源SOUL=self)
-            self.battleField.respond(status=SoulResponseTime.受到伤害时, 时机响应武将=self.target, 溯源SOUL=self)
-
-        elif self.effect_type == SoulEffectType.恢复兵力:
-
-            恢复兵力 = int(self.effect_value)
-            
-            for soul in self.target.get_响应Soul列表():
-                from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-                if soul.effect_type == SoulEffectType.断粮:
-                    Log().battle_L2('[{}]由于[{}]【{}】的[断粮]效果治疗效率降为30%'.format(self.target.get_武将名称().value, soul.initiator.get_武将名称().value, soul.skill.get_战法名称().value))
-                    恢复兵力 = int(恢复兵力 * 0.7)
-                    break
-
-            当前兵力 = self.target.get_兵力()
-            当前伤兵 = self.target.get_伤兵()
-
-            if 恢复兵力 <= 当前伤兵:
-                剩余伤兵 = 当前伤兵 - 恢复兵力
-                实际兵力 = 当前兵力 + 恢复兵力
-                setattr(self.target, HeroInfoKey.伤兵.value, 剩余伤兵)
-                setattr(self.target, HeroInfoKey.兵力.value, 实际兵力)
-            else:
-                恢复兵力 = 当前伤兵
-                剩余伤兵 = 0
-                实际兵力 = 当前兵力 + 恢复兵力
-                setattr(self.target, HeroInfoKey.伤兵.value, 剩余伤兵)
-                setattr(self.target, HeroInfoKey.兵力.value, 实际兵力)
-
-            Log().battle_L2('[{}]恢复了兵力{}({})'.format(self.target.get_武将名称().value, 恢复兵力, self.target.get_兵力()))
 
     def restore_initial(self):
 

@@ -165,7 +165,7 @@ class BattleField():
 
                     for hero in firstHero, secondHero, thirdHero:
                         hero: Hero
-                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害, effect_value=msg_实际减伤系数(hero, -0.08))
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.受到伤害降低, effect_value=-0.08)
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
 

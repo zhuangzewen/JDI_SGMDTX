@@ -111,21 +111,73 @@ class Hero():
         return getattr(self, HeroInfoKey.奇谋几率.value)
     def get_奇谋伤害(self):
         return getattr(self, HeroInfoKey.奇谋伤害.value)
+
     def get_造成伤害提升(self):
         return getattr(self, HeroInfoKey.造成伤害提升.value)
-    def get_对前排造成伤害提升(self):
-        return getattr(self, HeroInfoKey.对前排造成伤害提升.value)
-    def get_对后排造成伤害提升(self):
-        return getattr(self, HeroInfoKey.对后排造成伤害提升.value)
+    def get_造成伤害降低(self):
+        return getattr(self, HeroInfoKey.造成伤害降低.value)
+    def get_受到伤害提升(self):
+        return getattr(self, HeroInfoKey.受到伤害提升.value)
     def get_受到伤害降低(self):
         return getattr(self, HeroInfoKey.受到伤害降低.value)
+
+    def get_受到异性伤害提升(self):
+        return getattr(self, HeroInfoKey.受到异性伤害提升.value)
+    def get_受到异性伤害降低(self):
+        return getattr(self, HeroInfoKey.受到异性伤害降低.value)
+
+    def get_造成谋略伤害提升(self):
+        return getattr(self, HeroInfoKey.造成谋略伤害提升.value)
+    def get_造成谋略伤害降低(self):
+        return getattr(self, HeroInfoKey.造成谋略伤害降低.value)
+    def get_受到谋略伤害提升(self):
+        return getattr(self, HeroInfoKey.受到谋略伤害提升.value)
     def get_受到谋略伤害降低(self):
         return getattr(self, HeroInfoKey.受到谋略伤害降低.value)
+
+    def get_造成兵刃伤害提升(self):
+        return getattr(self, HeroInfoKey.造成兵刃伤害提升.value)
+    def get_造成兵刃伤害降低(self):
+        return getattr(self, HeroInfoKey.造成兵刃伤害降低.value)
+    def get_受到兵刃伤害提升(self):
+        return getattr(self, HeroInfoKey.受到兵刃伤害提升.value)
     def get_受到兵刃伤害降低(self):
         return getattr(self, HeroInfoKey.受到兵刃伤害降低.value)
 
+    def get_对前排造成伤害提升(self):
+        return getattr(self, HeroInfoKey.对前排造成伤害提升.value)
+    def get_对前排造成伤害降低(self):
+        return getattr(self, HeroInfoKey.对前排造成伤害降低.value)
+
+    def get_普通攻击造成伤害提升(self):
+        return getattr(self, HeroInfoKey.普通攻击造成伤害提升.value)
+    def get_普通攻击造成伤害降低(self):
+        return getattr(self, HeroInfoKey.普通攻击造成伤害降低.value)
+    def get_受到普通攻击伤害提升(self):
+        return getattr(self, HeroInfoKey.受到普通攻击伤害提升.value)
+    def get_受到普通攻击伤害降低(self):
+        return getattr(self, HeroInfoKey.受到普通攻击伤害降低.value)
+
+    def get_主动战法造成伤害提升(self):
+        return getattr(self, HeroInfoKey.主动战法造成伤害提升.value)
+    def get_主动战法造成伤害降低(self):
+        return getattr(self, HeroInfoKey.主动战法造成伤害降低.value)
+    def get_受到主动战法伤害提升(self):
+        return getattr(self, HeroInfoKey.受到主动战法伤害提升.value)
+    def get_受到主动战法伤害降低(self):
+        return getattr(self, HeroInfoKey.受到主动战法伤害降低.value)
+
+    def get_追击战法造成伤害提升(self):
+        return getattr(self, HeroInfoKey.追击战法造成伤害提升.value)
+    def get_追击战法造成伤害降低(self):
+        return getattr(self, HeroInfoKey.追击战法造成伤害降低.value)
+    def get_受到追击战法伤害提升(self):
+        return getattr(self, HeroInfoKey.受到追击战法伤害提升.value)
+    def get_受到追击战法伤害降低(self):
+        return getattr(self, HeroInfoKey.受到追击战法伤害降低.value)
+
     def get_主动战法发动率降低(self):
-        return getattr(self, HeroInfoKey.主动战法发动率降低.value)
+        return getattr(self, HeroInfoKey.主动战法基础发动率.value)
 
     def get_被击溃状态(self):
         return getattr(self, HeroInfoKey.被击溃状态.value)
@@ -225,7 +277,6 @@ class Hero():
     # 初始化基础数值
     def init_base_values(self):
 
-
         level = self.get_等级()
 
         real_wl = self.get_初始武力() + self.get_武力成长() * (level - 5) + self.get_武力加点()
@@ -251,14 +302,45 @@ class Hero():
         setattr(self, HeroInfoKey.会心伤害.value, 1.5)
         setattr(self, HeroInfoKey.奇谋几率.value, 0)
         setattr(self, HeroInfoKey.奇谋伤害.value, 1.5)
+
         setattr(self, HeroInfoKey.造成伤害提升.value, 1)
-        setattr(self, HeroInfoKey.对前排造成伤害提升.value, 1)
-        setattr(self, HeroInfoKey.对后排造成伤害提升.value, 1)
+        setattr(self, HeroInfoKey.造成伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.受到异性伤害提升.value, 1)
+        setattr(self, HeroInfoKey.受到异性伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.造成谋略伤害提升.value, 1)
+        setattr(self, HeroInfoKey.造成谋略伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到谋略伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到谋略伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.造成兵刃伤害提升.value, 1)
+        setattr(self, HeroInfoKey.造成兵刃伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到兵刃伤害提升.value, 1)
         setattr(self, HeroInfoKey.受到兵刃伤害降低.value, 0)
 
-        setattr(self, HeroInfoKey.主动战法发动率降低.value, 0)
+        setattr(self, HeroInfoKey.对前排造成伤害提升.value, 1)
+        setattr(self, HeroInfoKey.对前排造成伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.普通攻击造成伤害提升.value, 1)
+        setattr(self, HeroInfoKey.普通攻击造成伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到普通攻击伤害提升.value, 1)
+        setattr(self, HeroInfoKey.受到普通攻击伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.主动战法造成伤害提升.value, 1)
+        setattr(self, HeroInfoKey.主动战法造成伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到主动战法伤害提升.value, 1)
+        setattr(self, HeroInfoKey.受到主动战法伤害降低.value, 0)
+
+        setattr(self, HeroInfoKey.追击战法造成伤害提升.value, 1)
+        setattr(self, HeroInfoKey.追击战法造成伤害降低.value, 0)
+        setattr(self, HeroInfoKey.受到追击战法伤害提升.value, 1)
+        setattr(self, HeroInfoKey.受到追击战法伤害降低.value, 0)
+
+
+        setattr(self, HeroInfoKey.主动战法基础发动率.value, 0)
 
         setattr(self, HeroInfoKey.伤兵.value, 0)
         setattr(self, HeroInfoKey.亖兵.value, 0)

@@ -54,6 +54,12 @@ class Soul():
         if self.target is not None and self.target.get_被击溃状态():
             return
 
+        if (self.deploy_增减伤系数_inital() != False):
+            return
+        
+        if (self.deploy_异常状态_inital() != False):
+            return
+
         if self.effect_value > 0:
             show_upEffect_name = '提升'
         else:
@@ -61,45 +67,8 @@ class Soul():
 
         from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 
-        # 增减伤系数整合
 
-
-
-
-        if self.effect_type == SoulEffectType.造成伤害:
-            cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
-            cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.造成伤害提升.value, cur_value)
-            Log().battle_L2('[{}]的【造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-
-        elif self.effect_type == SoulEffectType.对前排造成伤害:
-            cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害提升.value)
-            cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.对前排造成伤害提升.value, cur_value)
-            Log().battle_L2('[{}]的【对前排造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-
-        elif self.effect_type == SoulEffectType.受到伤害:
-            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
-            cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
-            Log().battle_L2('[{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-            if self.effect_value > 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
-                self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
-                self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
-
-        elif self.effect_type == SoulEffectType.受到谋略伤害:
-            cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害降低.value)
-            cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, cur_value)
-            Log().battle_L2('[{}]的【受到谋略伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100,  cur_value * 100))
-
-        elif self.effect_type == SoulEffectType.受到兵刃伤害:
-            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害降低.value)
-            cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.受到兵刃伤害降低.value, cur_value)
-            Log().battle_L2('[{}]的【受到兵刃伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100,  cur_value * 100))
-
-        elif self.effect_type == SoulEffectType.武力:
+        if self.effect_type == SoulEffectType.武力:
             cur_value = getattr(self.target, HeroInfoKey.武力.value)
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.初始武力.value, cur_value)
@@ -149,10 +118,10 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.闪避几率:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
-            real_value = (1 - cur_value) * self.effect_value
-            cur_value += real_value
+            self.effect_value *= (1 - cur_value)
+            cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.闪避几率.value, cur_value)
-            Log().battle_L2('[{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100, cur_value * 100))
+            Log().battle_L2('[{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.会心几率:
             cur_value = getattr(self.target, HeroInfoKey.会心几率.value)
@@ -206,20 +175,6 @@ class Soul():
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.受治疗效果.value, cur_value)
             Log().battle_L2('[{}]的【受治疗效果】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-
-        elif self.effect_type == SoulEffectType.震慑 \
-                or self.effect_type == SoulEffectType.缴械 \
-                or self.effect_type == SoulEffectType.技穷 \
-                or self.effect_type == SoulEffectType.混乱 \
-                or self.effect_type == SoulEffectType.嘲讽 \
-                or self.effect_type == SoulEffectType.虚弱 \
-                or self.effect_type == SoulEffectType.断粮 \
-                or self.effect_type == SoulEffectType.洪水 \
-                or self.effect_type == SoulEffectType.火攻 \
-                or self.effect_type == SoulEffectType.风暴 \
-                or self.effect_type == SoulEffectType.畏惧 \
-                or self.effect_type == SoulEffectType.妖术:
-                self.deploy_异常状态_inital()
 
         elif self.effect_type == SoulEffectType.损失兵力:
 
@@ -284,44 +239,262 @@ class Soul():
 
             Log().battle_L2('[{}]恢复了兵力{}({})'.format(self.target.get_武将名称().value, 恢复兵力, self.target.get_兵力()))
 
-
     def deploy_增减伤系数_inital(self):
-        造成伤害提升 = '造成伤害提升'
-        造成伤害降低 = '造成伤害降低'
-        受到伤害提升 = '受到伤害提升'   
-        受到伤害降低 = '受到伤害降低'
 
-        受到异性伤害提升 = '受到异性伤害提升'
-        受到异性伤害降低 = '受到异性伤害降低'
+        self.target: Hero
+        heroName = self.target.get_武将名称().value
+        show_upEffect_name = ''
+        show_effectValue_name = ''
+        show_curEffect_name = ''
+        is_负面效果 = False
 
-        对前排造成伤害提升 = '对前排造成伤害提升'
-        对前排造成伤害降低 = '对前排造成伤害降低'
+        from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 
-        造成谋略伤害提升 = '造成谋略伤害提升'
-        造成谋略伤害降低 = '造成谋略伤害降低'
-        受到谋略伤害提升 = '受到谋略伤害提升'
-        受到谋略伤害降低 = '受到谋略伤害降低'
+        if self.effect_type == SoulEffectType.造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成伤害提升.value, cur_value)
+            show_upEffect_name = '【造成伤害】提升'
 
-        造成兵刃伤害提升 = '造成兵刃伤害提升'
-        造成兵刃伤害降低 = '造成兵刃伤害降低'
-        受到兵刃伤害提升 = '受到兵刃伤害提升'
-        受到兵刃伤害降低 = '受到兵刃伤害降低'
+        elif self.effect_type == SoulEffectType.造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成伤害降低.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成伤害降低.value, cur_value)
+            show_upEffect_name = '【造成伤害】降低'
+            is_负面效果 = True
 
-        普通攻击造成伤害提升 = '普通攻击造成伤害提升'
-        普通攻击造成伤害降低 = '普通攻击造成伤害降低'
-        受到普通攻击伤害提升 = '受到普通攻击造成伤害提升'
-        受到普通攻击伤害降低 = '受到普通攻击造成伤害降低'
+        elif self.effect_type == SoulEffectType.受到伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到伤害提升.value, cur_value)
+            show_upEffect_name = '【受到伤害】提升'
+            is_负面效果 = False
 
-        主动战法造成伤害提升 = '主动战法造成伤害提升'
-        主动战法造成伤害降低 = '主动战法造成伤害降低'
-        受到主动战法伤害提升 = '受到主动战法造成伤害提升'
-        受到主动战法伤害降低 = '受到主动战法造成伤害降低'
+        elif self.effect_type == SoulEffectType.受到伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
+            show_upEffect_name = '【受到伤害】降低'
 
-        追击战法造成伤害提升 = '追击战法造成伤害提升'
-        追击战法造成伤害降低 = '追击战法造成伤害降低'
-        受到追击战法伤害提升 = '受到追击战法造成伤害提升'
-        受到追击战法伤害降低 = '受到追击战法造成伤害降低'
-        pass
+        elif self.effect_type == SoulEffectType.受到异性伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到异性伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到异性伤害提升.value, cur_value)
+            show_upEffect_name = '【受到异性伤害】提升'
+            is_负面效果 = False
+
+        elif self.effect_type == SoulEffectType.受到异性伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到异性伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到异性伤害降低.value, cur_value)
+            show_upEffect_name = '【受到异性伤害】降低'
+
+        elif self.effect_type == SoulEffectType.对前排造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.对前排造成伤害提升.value, cur_value)
+            show_upEffect_name = '【对前排造成伤害】提升'
+
+        elif self.effect_type == SoulEffectType.对前排造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.对前排造成伤害降低.value, cur_value)
+            show_upEffect_name = '【对前排造成伤害】降低'
+            is_负面效果 = True
+
+        elif self.effect_type == SoulEffectType.造成谋略伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.造成谋略伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成谋略伤害提升.value, cur_value)
+            show_upEffect_name = '【造成谋略伤害】提升'
+
+        elif self.effect_type == SoulEffectType.造成谋略伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成谋略伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成谋略伤害降低.value, cur_value)
+            show_upEffect_name = '【造成谋略伤害】降低'
+            is_负面效果 = True
+
+        elif self.effect_type == SoulEffectType.受到谋略伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到谋略伤害提升.value, cur_value)
+            show_upEffect_name = '【受到谋略伤害】提升'
+            is_负面效果 = False
+
+        elif self.effect_type == SoulEffectType.受到谋略伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, cur_value)
+            show_upEffect_name = '【受到谋略伤害】降低'
+
+        elif self.effect_type == SoulEffectType.造成兵刃伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.造成兵刃伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成兵刃伤害提升.value, cur_value)
+            show_upEffect_name = '【造成兵刃伤害】提升'
+
+        elif self.effect_type == SoulEffectType.造成兵刃伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成兵刃伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成兵刃伤害降低.value, cur_value)
+            show_upEffect_name = '【造成兵刃伤害】降低'
+            is_负面效果 = True
+
+        elif self.effect_type == SoulEffectType.受到兵刃伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到兵刃伤害提升.value, cur_value)
+            show_upEffect_name = '【受到兵刃伤害】提升'
+            is_负面效果 = False
+
+        elif self.effect_type == SoulEffectType.受到兵刃伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到兵刃伤害降低.value, cur_value)
+            show_upEffect_name = '【受到兵刃伤害】降低'
+
+        elif self.effect_type == SoulEffectType.普通攻击造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.造成普通攻击伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成普通攻击伤害提升.value, cur_value)
+            show_upEffect_name = '【造成普通攻击伤害】提升'
+            
+        elif self.effect_type == SoulEffectType.普通攻击造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成普通攻击伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.造成普通攻击伤害降低.value, cur_value)
+            show_upEffect_name = '【造成普通攻击伤害】降低'
+            is_负面效果 = True
+            
+        elif self.effect_type == SoulEffectType.受到普通攻击伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到普通攻击伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到普通攻击伤害提升.value, cur_value)
+            show_upEffect_name = '【受到普通攻击伤害】提升'
+            is_负面效果 = False
+
+        elif self.effect_type == SoulEffectType.受到普通攻击伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到普通攻击伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到普通攻击伤害降低.value, cur_value)
+            show_upEffect_name = '【受到普通攻击伤害】降低'
+
+        elif self.effect_type == SoulEffectType.主动战法造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.主动战法造成伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.主动战法造成伤害提升.value, cur_value)
+            show_upEffect_name = '【主动战法造成伤害】提升'
+            
+        elif self.effect_type == SoulEffectType.主动战法造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.主动战法造成伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.主动战法造成伤害降低.value, cur_value)
+            show_upEffect_name = '【主动战法造成伤害】降低'
+            is_负面效果 = True
+            
+        elif self.effect_type == SoulEffectType.受到主动战法伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到主动战法伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到主动战法伤害提升.value, cur_value)
+            show_upEffect_name = '【受到主动战法伤害】提升'
+            is_负面效果 = False
+            
+        elif self.effect_type == SoulEffectType.受到主动战法伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到主动战法伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到主动战法伤害降低.value, cur_value)
+            show_upEffect_name = '【受到主动战法伤害】降低'
+            
+        elif self.effect_type == SoulEffectType.追击战法造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.追击战法造成伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.追击战法造成伤害提升.value, cur_value)
+            show_upEffect_name = '【追击战法造成伤害】提升'
+            
+        elif self.effect_type == SoulEffectType.追击战法造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.追击战法造成伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.追击战法造成伤害降低.value, cur_value)
+            show_upEffect_name = '【追击战法造成伤害】降低'
+            is_负面效果 = True
+
+        elif self.effect_type == SoulEffectType.受到追击战法伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到追击战法伤害提升.value)
+            self.effect_value *= (2 - cur_value)
+            if cur_value + self.effect_value > 2:
+                self.effect_value = 2 - cur_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到追击战法伤害提升.value, cur_value)
+            show_upEffect_name = '【受到追击战法伤害】提升'
+            is_负面效果 = False
+
+        elif self.effect_type == SoulEffectType.受到追击战法伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到追击战法伤害降低.value)
+            self.effect_value = (1 + cur_value) * self.effect_value
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.受到追击战法伤害降低.value, cur_value)
+            show_upEffect_name = '【受到追击战法伤害】降低'
+            
+        else:
+            return False
+
+        show_effectValue_name = '{:.2f}%'.format(abs(self.effect_value) * 100)
+        show_curEffect_name = '{:.2f}%'.format(cur_value * 100)
+        Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
+        if is_负面效果 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
+            self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
+            self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
+
+        return True
 
     def deploy_异常状态_inital(self):
 
@@ -554,6 +727,9 @@ class Soul():
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
 
+        else:
+            return False
+
 
     def restore_initial(self):
 
@@ -569,36 +745,202 @@ class Soul():
         else:
             show_upEffect_name = '提升'
 
-        if self.effect_type == SoulEffectType.造成伤害:
+        if self.effect_type == SoulEffectType.造成伤害提升:
             cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.造成伤害提升.value, cur_value)
-            Log().battle_L2('[{}]的【造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            show_upEffect_name = '【造成伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.对前排造成伤害:
+        elif self.effect_type == SoulEffectType.造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.造成伤害降低.value, cur_value)
+            show_upEffect_name = '【造成伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到伤害提升.value, cur_value)
+            show_upEffect_name = '【受到伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到伤害降低.value, cur_value)
+            show_upEffect_name = '【受到伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到异性伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到异性伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到异性伤害提升.value, cur_value)
+            show_upEffect_name = '【受到异性伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到异性伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到异性伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到异性伤害降低.value, cur_value)
+            show_upEffect_name = '【受到异性伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.对前排造成伤害提升:
             cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害提升.value)
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.对前排造成伤害提升.value, cur_value)
-            Log().battle_L2('[{}]的【对前排造成伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            show_upEffect_name = '【对前排造成伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.受到伤害:
-            cur_value = getattr(self.target, HeroInfoKey.受到伤害降低.value)
-            real_value = cur_value - self.effect_value
-            setattr(self.target, HeroInfoKey.受到伤害降低.value, real_value)
-            Log().battle_L2('[{}]的【受到伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100,  real_value * 100))
+        elif self.effect_type == SoulEffectType.对前排造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.对前排造成伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.对前排造成伤害降低.value, cur_value)
+            show_upEffect_name = '【对前排造成伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.受到谋略伤害:
+        elif self.effect_type == SoulEffectType.造成谋略伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.造成谋略伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.造成谋略伤害提升.value, cur_value)
+            show_upEffect_name = '【造成谋略伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.造成谋略伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成谋略伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.造成谋略伤害降低.value, cur_value)
+            show_upEffect_name = '【造成谋略伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到谋略伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到谋略伤害提升.value, cur_value)
+            show_upEffect_name = '【受到谋略伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到谋略伤害降低:
             cur_value = getattr(self.target, HeroInfoKey.受到谋略伤害降低.value)
-            real_value = cur_value - self.effect_value
-            setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, real_value)
-            Log().battle_L2('[{}]的【受到谋略伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100,  real_value * 100))
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到谋略伤害降低.value, cur_value)
+            show_upEffect_name = '【受到谋略伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.受到兵器伤害:
-            cur_value = getattr(self.target, HeroInfoKey.受到兵器伤害降低.value)
-            real_value = cur_value - self.effect_value
-            setattr(self.target, HeroInfoKey.受到兵器伤害降低.value, real_value)
-            Log().battle_L2('[{}]的【受到兵器伤害】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100,  real_value * 100))
+        elif self.effect_type == SoulEffectType.造成兵刃伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.造成兵刃伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.造成兵刃伤害提升.value, cur_value)
+            show_upEffect_name = '【造成兵刃伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
+        elif self.effect_type == SoulEffectType.造成兵刃伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.造成兵刃伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.造成兵刃伤害降低.value, cur_value)
+            show_upEffect_name = '【造成兵刃伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到兵刃伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到兵刃伤害提升.value, cur_value)
+            show_upEffect_name = '【受到兵刃伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到兵刃伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到兵刃伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到兵刃伤害降低.value, cur_value)
+            show_upEffect_name = '【受到兵刃伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.普通攻击造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.普通攻击造成伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.普通攻击造成伤害提升.value, cur_value)
+            show_upEffect_name = '【造成普通攻击伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.普通攻击造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.普通攻击造成伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.普通攻击造成伤害降低.value, cur_value)
+            show_upEffect_name = '【造成普通攻击伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
+        elif self.effect_type == SoulEffectType.受到普通攻击伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到普通攻击伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到普通攻击伤害提升.value, cur_value)
+            show_upEffect_name = '【受到普通攻击伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到普通攻击伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到普通攻击伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到普通攻击伤害降低.value, cur_value)
+            show_upEffect_name = '【受到普通攻击伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.主动战法造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.主动战法造成伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.主动战法造成伤害提升.value, cur_value)
+            show_upEffect_name = '【主动战法造成伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
+        elif self.effect_type == SoulEffectType.主动战法造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.主动战法造成伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.主动战法造成伤害降低.value, cur_value)
+            show_upEffect_name = '【主动战法造成伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
+        elif self.effect_type == SoulEffectType.受到主动战法伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到主动战法伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到主动战法伤害提升.value, cur_value)
+            show_upEffect_name = '【受到主动战法伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
+        elif self.effect_type == SoulEffectType.受到主动战法伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到主动战法伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到主动战法伤害降低.value, cur_value)
+            show_upEffect_name = '【受到主动战法伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
+        elif self.effect_type == SoulEffectType.追击战法造成伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.追击战法造成伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.追击战法造成伤害提升.value, cur_value)
+            show_upEffect_name = '【追击战法造成伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
+        elif self.effect_type == SoulEffectType.追击战法造成伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.追击战法造成伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.追击战法造成伤害降低.value, cur_value)
+            show_upEffect_name = '【追击战法造成伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到追击战法伤害提升:
+            cur_value = getattr(self.target, HeroInfoKey.受到追击战法伤害提升.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到追击战法伤害提升.value, cur_value)
+            show_upEffect_name = '【受到追击战法伤害】降低'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
+        elif self.effect_type == SoulEffectType.受到追击战法伤害降低:
+            cur_value = getattr(self.target, HeroInfoKey.受到追击战法伤害降低.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.受到追击战法伤害降低.value, cur_value)
+            show_upEffect_name = '【受到追击战法伤害】提升'
+            Log().battle_L2('[{}]的{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            
         elif self.effect_type == SoulEffectType.武力:
             cur_value = getattr(self.target, HeroInfoKey.武力.value)
             cur_value -= self.effect_value
@@ -637,10 +979,9 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.闪避几率:
             cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
-            ori_value = (cur_value - self.effect_value) / (1 - self.effect_value)
-            real_value = cur_value - ori_value
-            setattr(self.target, HeroInfoKey.闪避几率.value, ori_value)
-            Log().battle_L2('[{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(real_value) * 100, ori_value * 100))
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.闪避几率.value, cur_value)
+            Log().battle_L2('[{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.会心几率:
             cur_value = getattr(self.target, HeroInfoKey.会心几率.value)

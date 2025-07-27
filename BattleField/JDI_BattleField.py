@@ -13,6 +13,7 @@ class BattleField():
         setattr(self, BattleFieldInfoKey.TEAM2.value, None)
         setattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value, [])
         setattr(self, BattleFieldInfoKey.ORDER_LIST.value, [])
+        self.current_round = 0
 
     def getTeam1(self):
         return getattr(self, BattleFieldInfoKey.TEAM1.value)
@@ -499,6 +500,7 @@ class BattleField():
             # 八个回合
             for i in range(8):
                 
+                self.current_round = i + 1
                 Log().battle_L0('\n[第 {} 回合]'.format(i + 1))
 
                 self.respond(status = SoulResponseTime.回合重置阶段)

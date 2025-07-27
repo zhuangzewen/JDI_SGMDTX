@@ -253,7 +253,7 @@ class BattleField():
                     
                     setattr(firstHero, HeroInfoKey.前排.value, True)
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.6)
-                    firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.闪避几率, effect_value=0.12)
+                    firstHero_soul = Soul(target=firstHero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.规避, effect_value=0.12)
                     firstHero_soul.deploy_initial()
                     firstHero.get_响应Soul列表().append(firstHero_soul)
 

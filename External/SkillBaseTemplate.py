@@ -49,7 +49,7 @@ class BaseSkillInfo(SkillInfo):
         self.发动率 = template.trigger_rate
 
 class BaseSkillSoul(Soul):
-    """基础战法Soul类，提供通用功能"""
+    """基础战法Soul类,提供通用功能"""
     
     def __init__(self, 
                  target: Hero, 
@@ -103,8 +103,13 @@ class BaseSkill(Skill):
     def __init__(self, hero: Hero, skillName: Fitting_List_Enum):
         super().__init__(hero, skillName)
 
-    def create_soul(self, target: Hero, effect_type: SoulEffectType, 
-                   effect_value: float, response_time: SoulResponseTime = SoulResponseTime.内置待响应) -> Soul:
+    def create_soul(self, 
+                    target: Hero, 
+                    effect_type: SoulEffectType, 
+                    effect_value: float, 
+                    response_time: SoulResponseTime = SoulResponseTime.内置待响应,
+                    duration: int = -1,
+                    damage: Damage = None) -> Soul:
         """创建标准Soul的便捷方法"""
         return Soul(
             target=target,
@@ -112,8 +117,10 @@ class BaseSkill(Skill):
             sourceType=SoulSourceType.武将战法,
             skill=self,
             response_time=response_time,
+            duration=duration,
             effect_type=effect_type,
-            effect_value=effect_value
+            effect_value=effect_value,
+            damage=damage
         )
 
     def deploy_soul(self, soul: Soul, add_to_list: bool = True):

@@ -116,12 +116,12 @@ class Soul():
             setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
             Log().battle_L2('[{}]的【连击几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
-        elif self.effect_type == SoulEffectType.闪避几率:
-            cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
+        elif self.effect_type == SoulEffectType.规避:
+            cur_value = getattr(self.target, HeroInfoKey.规避.value)
             self.effect_value *= (1 - cur_value)
             cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.闪避几率.value, cur_value)
-            Log().battle_L2('[{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+            setattr(self.target, HeroInfoKey.规避.value, cur_value)
+            Log().battle_L2('[{}]的【规避】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.会心几率:
             cur_value = getattr(self.target, HeroInfoKey.会心几率.value)
@@ -745,6 +745,9 @@ class Soul():
         else:
             show_upEffect_name = '提升'
 
+        if self.damage and self.damage.skillEffectName:
+            Log().battle_L2('[{}]的[{}]效果已消失'.format(heroName, self.damage.skillEffectName))
+
         if self.effect_type == SoulEffectType.造成伤害提升:
             cur_value = getattr(self.target, HeroInfoKey.造成伤害提升.value)
             cur_value -= self.effect_value
@@ -971,17 +974,17 @@ class Soul():
             setattr(self.target, HeroInfoKey.攻心.value, cur_value)
             Log().battle_L2('[{}]的【攻心】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
+        elif self.effect_type == SoulEffectType.规避:
+            cur_value = getattr(self.target, HeroInfoKey.规避.value)
+            cur_value -= self.effect_value
+            setattr(self.target, HeroInfoKey.规避.value, cur_value)
+            Log().battle_L2('[{}]的【规避】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
+
         elif self.effect_type == SoulEffectType.连击几率:
             cur_value = getattr(self.target, HeroInfoKey.连击几率.value)
             cur_value -= self.effect_value
             setattr(self.target, HeroInfoKey.连击几率.value, cur_value)
             Log().battle_L2('[{}]的【连击几率】{}{:.2f}%({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
-
-        elif self.effect_type == SoulEffectType.闪避几率:
-            cur_value = getattr(self.target, HeroInfoKey.闪避几率.value)
-            cur_value -= self.effect_value
-            setattr(self.target, HeroInfoKey.闪避几率.value, cur_value)
-            Log().battle_L2('[{}]的【闪避几率】{}{:.2f}%({:.2f}%)'.format(heroName, show_upEffect_name, abs(self.effect_value) * 100, cur_value * 100))
 
         elif self.effect_type == SoulEffectType.会心几率:
             cur_value = getattr(self.target, HeroInfoKey.会心几率.value)

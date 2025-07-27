@@ -44,7 +44,7 @@ class 皇思淑仁_soul(BaseSkillSoul):
             Log().debug_L2(f'[{self.target.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的[皇思淑仁]效果, 但因几率未触发')
             return
 
-        Log().battle_L1('[{}]发动战法【{}】'.format(
+        Log().battle_L1('[{}]执行来自【{}】的[皇思淑仁]效果'.format(
             self.initiator.get_武将名称().value, 
             self.skill.get_战法名称().value
         ))
@@ -56,17 +56,26 @@ class 皇思淑仁_soul(BaseSkillSoul):
             if len(value_heroes) == 0:
                 break
 
-            目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            msg_skill: BaseSkill = self.skill
-            规避soul = msg_skill.create_soul(
-                target=目标武将,
-                initiator=self.initiator,
-                skill=self.skill,
-                during=2,
-                effect_type=SoulEffectType.闪避几率,
-                effect_value=self.skill.皇思淑仁_规避率提升系数()
-            )
-            规避soul.deploy_initial()   
+            目标武将: Hero = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+
+            for 已存在soul in 目标武将.get_响应Soul列表():
+                已存在soul: Soul
+                if 已存在soul.skill == self.skill and 已存在soul.effect_type == SoulEffectType.规避:
+                    已存在soul.duration = 2
+                    Log().battle_L2('[{}]的[皇思淑仁]效果已刷新'.format(目标武将.get_武将名称().value))
+                    break
+            else:
+                msg_skill: BaseSkill = self.skill
+                规避soul = msg_skill.create_soul(
+                    target=目标武将,
+                    effect_type=SoulEffectType.规避,
+                    effect_value=self.skill.皇思淑仁_规避率提升系数(),
+                    duration=2,
+                    damage=Damage(skillEffectName='皇思淑仁')
+                )
+                规避soul.deploy_initial()
+                self.soul持有列表.append(规避soul)
+                目标武将.get_响应Soul列表().append(规避soul)
 
 
     def _deploy_治疗效果(self, battleField):
@@ -94,8 +103,6 @@ class 皇思淑仁_soul(BaseSkillSoul):
                 Log().battle_L1(f'[{initiator.get_武将名称()}]发动【皇思淑仁】，为[{target_hero.get_武将名称()}]恢复{治疗量:.0f}兵力')
 
 class 皇思淑仁_skill(BaseSkill):
-    def __init__(self, hero, skillName):
-        super().__init__(hero, skillName)
 
     def fill_init_soul(self):
         持有者and响应者 = self.get_持有者()

@@ -505,6 +505,7 @@ class BattleField():
 
                 setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
+                Log().battle_L0('[第{}回合]回合开始时'.format(i + 1))
                 self.respond(status = SoulResponseTime.回合开始时)
 
                 for hero in self.getOrderList():  
@@ -539,7 +540,8 @@ class BattleField():
                         elif self.isOver() == 2:
                             Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
-                
+
+                Log().battle_L0('[第{}回合]回合结束时'.format(i + 1))
                 self.respond(status = SoulResponseTime.回合结束时)
 
         return self.isOverWithoutDefeated()

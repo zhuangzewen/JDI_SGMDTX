@@ -57,8 +57,12 @@ class 皇思淑仁_soul(BaseSkillSoul):
                 break
 
             目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            规避soul = self.skill.create_soul(
+            msg_skill: BaseSkill = self.skill
+            规避soul = msg_skill.create_soul(
                 target=目标武将,
+                initiator=self.initiator,
+                skill=self.skill,
+                during=2,
                 effect_type=SoulEffectType.闪避几率,
                 effect_value=self.skill.皇思淑仁_规避率提升系数()
             )

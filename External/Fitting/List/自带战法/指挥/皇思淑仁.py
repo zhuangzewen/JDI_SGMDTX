@@ -35,7 +35,7 @@ class 皇思淑仁_soul(BaseSkillSoul):
             self._deploy_规避率效果(battleField)
 
         elif status == SoulResponseTime.回合结束时:
-            # self._deploy_治疗效果(battleField)
+            self._deploy_治疗效果(battleField)
             pass
 
     def _deploy_规避率效果(self, battleField):
@@ -77,30 +77,28 @@ class 皇思淑仁_soul(BaseSkillSoul):
                 self.soul持有列表.append(规避soul)
                 目标武将.get_响应Soul列表().append(规避soul)
 
-
     def _deploy_治疗效果(self, battleField):
         initiator = self.initiator
 
-        Log().battle_L1('[{}]发动战法【{}】'.format(
+        Log().battle_L1('[{}]执行来自【{}】的[皇思淑仁]效果'.format(
             initiator.get_武将名称().value, 
             self.skill.get_战法名称().value
         ))
 
-        team = battleField.get_team_by_hero(initiator)
-        alive_heroes = team.get_alive_heroes()
-        if len(alive_heroes) >= 2:
-            治疗目标 = random.sample(alive_heroes, min(2, len(alive_heroes)))
+        value_heroes = 对己方所有目标生效(self.target, battleField)
+        value_times = min(2, len(value_heroes))
+        
+        for _ in range(value_times):
+            if len(value_heroes) == 0:
+                break
 
-            for target_hero in 治疗目标:
-                治疗率 = self.skill.皇思淑仁_治疗率计算()
-                治疗量 = 治疗计算(battleField, 施救者=initiator, 受助者=target_hero, 治疗率=治疗率)
-                治疗soul = self.skill.create_soul(
-                    target=target_hero,
-                    effect_type=SoulEffectType.恢复兵力,
-                    effect_value=治疗量
-                )
-                治疗soul.deploy_initial()
-                Log().battle_L1(f'[{initiator.get_武将名称()}]发动【皇思淑仁】，为[{target_hero.get_武将名称()}]恢复{治疗量:.0f}兵力')
+            目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            治疗soul = self.skill.create_soul(
+                target=目标武将,
+                effect_type=SoulEffectType.恢复兵力,
+                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.皇思淑仁_治疗率计算())
+            )
+            治疗soul.deploy_initial()   
 
 class 皇思淑仁_skill(BaseSkill):
 
@@ -157,9 +155,5 @@ class 皇思淑仁_skill(BaseSkill):
         return 最终提升
 
     def 皇思淑仁_治疗率计算(self):
-        基础治疗率 = 0.6
-        owner = self.get_持有者()
-        x = owner.get_智力()
-        智力加成 = x * 0.002
-        最终治疗率 = min(基础治疗率 + 智力加成, 1.2)
-        return 最终治疗率
+        original_value = self.get_rank_bonus(1.2, 0.036)
+        return original_value

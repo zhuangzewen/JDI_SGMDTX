@@ -41,7 +41,7 @@ def battle():
 
     Log().system_L0('------------ 当前选择的模式是:{}'.format('1_VS_1'))
     
-    team1_hero1 = get_hero_info(Generals_Name_Enum.测试武将_A1)
+    team1_hero1 = get_hero_info(Generals_Name_Enum.诸葛亮SP)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero1.set_skills(None, 0, None, 0)  # 曹操通过缘分列表自动激活三分天下
     team1_hero2 = get_hero_info(Generals_Name_Enum.测试武将_A2)
@@ -54,7 +54,7 @@ def battle():
     team2_hero1 = get_hero_info(Generals_Name_Enum.测试武将_B1)
     team2_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero1.set_skills(None, 0, None, 0)
-    team2_hero2 = get_hero_info(Generals_Name_Enum.甘夫人)
+    team2_hero2 = get_hero_info(Generals_Name_Enum.测试武将_B2)
     team2_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero2.set_skills(None, 0, None, 0)
     team2_hero3 = get_hero_info(Generals_Name_Enum.测试武将_B3)

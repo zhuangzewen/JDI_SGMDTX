@@ -395,13 +395,16 @@ def get_hero_info(heroName):
     动态获取武将信息，避免穷举
     使用约定优于配置的方式自动查找武将模块
     """
-    if not isinstance(heroName, Generals_Name_Enum):
-        return HeroInfo(heroName)
-    
-    hero_name = heroName.value
+
+    hero_name = heroName
     
     try:
         # 动态导入武将模块
+
+        # heroName 为 Generals_Name_Enum.诸葛亮SP
+        # 获取枚举的key作为字符串（使用name属性）
+        hero_name = heroName.name
+
         import importlib
         module_path = f"Generals.List.{hero_name}"
         module = importlib.import_module(module_path)
@@ -415,4 +418,5 @@ def get_hero_info(heroName):
             return HeroInfo(heroName)
             
     except ImportError:
+        Log().battle_L0(f"[get_hero_info] 武将名称错误: {heroName}")
         return HeroInfo(heroName)

@@ -56,7 +56,8 @@ class 携民渡江_soul(BaseSkillSoul):
             统帅soul = self.skill.create_soul(
                 target=目标武将,
                 effect_type=SoulEffectType.统帅,
-                effect_value=self.skill.携民渡江_统帅提升系数()
+                effect_value=self.skill.携民渡江_统帅提升系数(),
+                damage=Damage(skillEffectName='携民渡江')
             )
 
             统帅soul.deploy_initial()
@@ -64,7 +65,7 @@ class 携民渡江_soul(BaseSkillSoul):
 
     def _deploy_治疗效果(self, battleField):
 
-        Log().battle_L1('[{}]发动战法【{}】'.format(
+        Log().battle_L1('[{}]执行来自【{}】的[携民渡江]效果'.format(
             self.target.get_武将名称().value, 
             self.skill.get_战法名称().value
         ))

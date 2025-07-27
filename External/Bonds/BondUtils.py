@@ -84,7 +84,7 @@ class BondUtils:
         if is_success:
             Log().battle_L1('[{}]获得【{}】强化效果'.format(team.teamInfo.teamName, bond_name))
         else:
-            Log().battle_L1('[{}]发动失败'.format(target_hero.get_武将名称().value))
+            Log().battle_L1('[{}]发动失败'.format(bond_name))
     
     @staticmethod
     def get_alive_team_heroes(team: Team) -> List[Hero]:

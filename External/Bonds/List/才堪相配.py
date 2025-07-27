@@ -10,12 +10,12 @@
 
 from External.Bonds.BondUtils import (
     BondUtils, Hero, SkillInfo, Skill, SkillType, Fitting_List_Enum,
-    SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Log, Generals_Name_Enum
+    SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Log, Generals_Name_Enum, BondsName_Enum
 )
 
 class 才堪相配_info(SkillInfo):
     def __init__(self):
-        self.战法名称 = Fitting_List_Enum.才堪相配
+        self.战法名称 = BondsName_Enum.才堪相配
         self.战法类型 = SkillType.缘分
         self.缘分武将 = [Generals_Name_Enum.诸葛亮, Generals_Name_Enum.诸葛亮SP, Generals_Name_Enum.黄月英]
         self.缘分武将生效数量 = 2

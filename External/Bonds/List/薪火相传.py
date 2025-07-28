@@ -72,17 +72,6 @@ class 薪火相传_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 
-    def check_缘分(self, team = None):
-        存在缘分武将 = []
-        for hero in team.firstHero, team.secondHero, team.thirdHero:
-            if hero.get_武将名称() in self.get_战法信息().缘分武将:
-                存在缘分武将.append(hero)
-
-        if len(存在缘分武将) < 2:
-            return False
-
-        return True
-
     def fill_init_soul(self):
         持有者:Hero = self.get_持有者()
         薪火相传soul = 薪火相传_soul(

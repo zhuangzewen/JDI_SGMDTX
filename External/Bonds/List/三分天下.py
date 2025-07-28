@@ -52,17 +52,6 @@ class 三分天下_skill(Skill):
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 
-    def check_缘分(self, team = None):
-        存在缘分武将 = []
-        for hero in team.firstHero, team.secondHero, team.thirdHero:
-            if hero.get_武将名称() in self.get_战法信息().缘分武将:
-                存在缘分武将.append(hero)
-
-        if len(存在缘分武将) < 3:
-            return False
-
-        return True
-
     def fill_init_soul(self):
         持有者and响应者:Hero = self.get_持有者()
         三分天下soul = 三分天下_soul(

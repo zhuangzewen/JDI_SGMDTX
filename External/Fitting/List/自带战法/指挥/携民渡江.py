@@ -36,7 +36,6 @@ class 携民渡江_soul(BaseSkillSoul):
 
         elif status == SoulResponseTime.回合结束时:
             self._deploy_治疗效果(battleField)
-            pass
 
     def _deploy_统帅效果(self, battleField):
 
@@ -106,7 +105,6 @@ class 携民渡江_skill(BaseSkill):
     def fill_init_soul(self):
         持有者and响应者 = self.get_持有者()
         
-        # 使用基类的便捷方法创建Soul
         soul = 携民渡江_soul(
             target=持有者and响应者, 
             initiator=持有者and响应者, 

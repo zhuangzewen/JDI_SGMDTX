@@ -46,13 +46,10 @@ class 草船借箭_soul(BaseSkillSoul):
         elif status in [SoulResponseTime.造成伤害时, SoulResponseTime.受到伤害时]:
             if hero != self.target:
                 return
-            
-            # 草船借箭不能触发自己的草船借箭
-            if status == SoulResponseTime.造成伤害时:
-                return
 
             if self.草船借箭发动次数 < 5:
                 self._try_trigger_借箭效果(battleField)
+                pass
 
     def _deploy_攻心效果(self):
         Log().battle_L1('[{}]发动战法【{}】'.format(
@@ -81,12 +78,15 @@ class 草船借箭_soul(BaseSkillSoul):
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
         if len(attacked_heroes) > 0:
             attacked = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            
             damage_soul = self.skill.create_damage_soul(
-                battleField, self.target, attacked,
-                SoulDamageType.谋略, SkillType.指挥,
-                self.skill.草船借箭_借箭伤害系数(), self,
-                effect_name="草船借箭"
+                battleField = battleField, 
+                initiator = self.target,
+                target = attacked, 
+                damage_type = SoulDamageType.谋略, 
+                skill_type = SkillType.指挥, 
+                damage_multiplier = self.skill.草船借箭_借箭伤害系数(), 
+                source_soul = self,
+                effect_name = '草船借箭'
             )
             damage_soul.deploy_initial()
 

@@ -9,6 +9,7 @@ from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
 from Soul.Class.Damage_Class import Damage
 from Calcu.JDI_Calculate import msg_移除响应
+import random
 
 class Soul():
     # 目标 发起者 来源类型 技能 响应时机 持续回合 效果类型 效果值
@@ -178,10 +179,22 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.损失兵力:
 
+            self.battleField.respond(status=SoulResponseTime.受到伤害前, 时机响应武将=self.target, 溯源SOUL=self)
+            # 进一个 闪避的 判断
+
+            if self.target.get_规避() > 0:
+                if random.random() < self.target.get_规避():
+                    # [赵云]成功规避[姜维]的伤害
+                    Log().battle_L2(f'[{heroName}]成功规避[{self.initiator.get_武将名称().value}]的伤害')
+                    self.battleField.respond(status=SoulResponseTime.规避伤害时, 时机响应武将=self.target, 溯源SOUL=self)
+                    return
+
             伤害来源武将: Hero = self.initiator
             伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
             伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
             伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
+            # 伤害来源Soul效果
+            Log().battle_L2('伤害来源Soul效果{}'.format(伤害来源Soul效果))
             伤害数值 = int(self.effect_value)
 
             if (self.target.get_兵力() < 伤害数值):
@@ -729,7 +742,6 @@ class Soul():
 
         else:
             return False
-
 
     def restore_initial(self):
 

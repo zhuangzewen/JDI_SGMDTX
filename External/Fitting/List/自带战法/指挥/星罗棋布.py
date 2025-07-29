@@ -203,7 +203,7 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
         attacked_heroes = 对敌方所有目标生效(atta_hero, battleField)
 
         # 发起攻击次数
-        attack_times = int_随机一到两个敌方()
+        attack_times = int_随机一到两个单位()
         for _ in range(attack_times):
 
             if len(attacked_heroes) == 0:
@@ -211,19 +211,16 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
                 break
 
             attacked: Hero = 从队列确定受击单位(attacked_heroes)
-            damageModel = 计算伤害(battleField, atta_hero, attacked, SoulDamageType.择优, SkillType.指挥, 伤害值= 1.6)
-            damageModel.skillEffectName = "星罗棋布-双前排阵型"
-
-            # 创建一个伤害 SOUL
-            damage_soul = Soul(target=attacked,
-                                initiator=atta_hero,
-                                sourceType=SoulSourceType.武将战法,
-                                skill= self.skill,
-                                effect_type=SoulEffectType.损失兵力,
-                                effect_value= damageModel.damage_value,
-                                source_soul=self,
-                                battleField= battleField,
-                                damage=damageModel)
+            damage_soul = self.skill.create_damage_soul(
+                battleField = battleField, 
+                initiator = atta_hero,
+                target = attacked, 
+                damage_type = SoulDamageType.择优, 
+                skill_type = SkillType.指挥, 
+                damage_multiplier = 1.6, 
+                source_soul = self,
+                effect_name = "星罗棋布-双前排阵型"
+            )
             damage_soul.deploy_initial()
 
 class 星罗棋布_额外效果_三前排阵型(BaseSkillSoul):

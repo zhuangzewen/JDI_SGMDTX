@@ -63,19 +63,25 @@ class 桃园结义_驱散异常soul(BaseSkillSoul):
 
         # 遍历并移除负面状态
         要移除的soul = []
-        for soul in hero.get_持有Soul列表() + hero.get_响应Soul列表():
+        for soul in hero.get_响应Soul列表():
             soul: Soul
-            if soul.sourceType == SoulSourceType.负面状态效果 \
-                or soul.sourceType == SoulSourceType.异常状态效果 \
-                or soul.sourceType == SoulSourceType.异常状态效果_额外效果 \
-                or soul.sourceType == SoulSourceType.控制状态效果:
+            if soul.sourceType == SoulSourceType.控制状态效果:
+                要移除的soul.append(soul)
+
+        for soul in hero.get_响应Soul列表():
+            soul: Soul
+            if soul.sourceType == SoulSourceType.异常状态效果:
+                要移除的soul.append(soul)
+
+        for soul in hero.get_响应Soul列表():
+            soul: Soul
+            if soul.sourceType == SoulSourceType.负面状态效果:
                 要移除的soul.append(soul)
 
         for soul in 要移除的soul:
-            if soul in hero.get_持有Soul列表():
-                hero.get_持有Soul列表().remove(soul)
-            if soul in hero.get_响应Soul列表():
-                hero.get_响应Soul列表().remove(soul)
+            soul: Soul
+            soul.restore_initial()
+            hero.get_响应Soul列表().remove(soul)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
         # 检查是否在第3回合

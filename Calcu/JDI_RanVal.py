@@ -17,7 +17,7 @@ def 获取对比行动优先级(hero1_xg, hero2_xg):
     else:
         return False if hero2_xg >= hero1_xg else True
     
-def int_随机一个单位():
+def int_随机一到两个单位():
     return random.randint(1, 2)
 
 def 根据受击率列表随机一个单位(hit_rate_list):

@@ -137,17 +137,19 @@ class BaseSkill(Skill):
     def create_damage_soul(self, battleField, initiator: Hero, target: Hero, 
                           damage_type: SoulDamageType, skill_type: SkillType, 
                           damage_multiplier: float, source_soul: Soul = None,
-                          effect_name: str = None) -> Soul:
+                          effect_name: str = None,
+                          isShowLog: bool = True) -> Soul:
         """创建伤害Soul的便捷方法"""
         damage_model = 计算伤害(battleField, initiator, target, damage_type, skill_type, damage_multiplier)
         
         if effect_name:
             damage_model.skillEffectName = effect_name
-            Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
-                target.get_武将名称().value, 
-                self.get_战法名称().value, 
-                effect_name
-            ))
+            if isShowLog == True:
+                Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
+                    target.get_武将名称().value, 
+                    self.get_战法名称().value, 
+                    effect_name
+                ))
         
         damage_soul = Soul(
             target=target,

@@ -95,6 +95,8 @@ class Hero():
     def get_固定受击率(self):
         return getattr(self, HeroInfoKey.固定受击率.value)
     
+    def get_抵御(self):
+        return getattr(self, HeroInfoKey.抵御.value)
     def get_攻心(self):
         return getattr(self, HeroInfoKey.攻心.value)
     def get_受治疗效果(self):
@@ -294,6 +296,7 @@ class Hero():
         setattr(self, HeroInfoKey.已行动状态.value, False)
         setattr(self, HeroInfoKey.受击率.value, 0)
         setattr(self, HeroInfoKey.固定受击率.value, 0)
+        setattr(self, HeroInfoKey.抵御.value, 0)
         setattr(self, HeroInfoKey.攻心.value, 0)
         setattr(self, HeroInfoKey.受治疗效果.value, 1)
         setattr(self, HeroInfoKey.连击几率.value, 0)

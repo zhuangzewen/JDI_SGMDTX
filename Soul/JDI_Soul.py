@@ -105,6 +105,13 @@ class Soul():
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
+        elif self.effect_type == SoulEffectType.抵御:
+            cur_value = getattr(self.target, HeroInfoKey.抵御.value)
+            cur_value += self.effect_value
+            setattr(self.target, HeroInfoKey.抵御.value, cur_value)
+            Log().battle_L2('[{}]的【抵御次数】{}{}({})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            Log().battle_L2('[{}]的「抵御」效果已施加'.format(heroName))
+
         elif self.effect_type == SoulEffectType.攻心:
             cur_value = getattr(self.target, HeroInfoKey.攻心.value)
             cur_value += self.effect_value
@@ -194,6 +201,15 @@ class Soul():
             伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
             伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
             伤害数值 = int(self.effect_value)
+
+            剩余抵御次数 = self.target.get_抵御()
+            if 剩余抵御次数 > 0:
+                # 0.7 - 0.9 两位数
+                抵御减伤 = random.randint(70, 90) / 100
+                Log().battle_L2('[{}]消耗一次抵御机会,此次伤害减少{:.2f}%'.format(heroName, 抵御减伤 * 100))
+                Log().battle_L2('[{}]的【抵御次数】降低1({})'.format(heroName, 剩余抵御次数 - 1))
+                setattr(self.target, HeroInfoKey.抵御.value, 剩余抵御次数 - 1)
+                伤害数值 = int(伤害数值 * (1 - 抵御减伤))
 
             if (self.target.get_兵力() < 伤害数值):
                 伤害数值 = int(self.target.get_兵力())

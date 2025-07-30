@@ -107,6 +107,9 @@ class Soul():
 
         elif self.effect_type == SoulEffectType.抵御:
             cur_value = getattr(self.target, HeroInfoKey.抵御.value)
+            if cur_value == 2:
+                Log().battle_L2('[{}]的「抵御」效果已刷新'.format(heroName))
+                return
             cur_value += self.effect_value
             setattr(self.target, HeroInfoKey.抵御.value, cur_value)
             Log().battle_L2('[{}]的【抵御次数】{}{}({})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))

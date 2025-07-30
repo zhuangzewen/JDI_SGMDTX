@@ -178,6 +178,7 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
     default_rates = {
         '被动_兵刃': 1.0,
         '主动_谋略': 1.0,
+        '指挥_治疗': 1.0,
         '指挥_谋略': 1.0,
         '指挥_辅助': 1.0,
         '追击_兵刃': 1.0
@@ -198,6 +199,13 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
             skill_name=skill_name,
             skill_type=SkillType.主动,
             skill_feature=SkillFeature.谋略,
+            weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
+            trigger_rate=final_trigger_rate
+        ),
+        '主动_治疗': SkillTemplate(
+            skill_name=skill_name,
+            skill_type=SkillType.主动,
+            skill_feature=SkillFeature.治疗,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
             trigger_rate=final_trigger_rate
         ),

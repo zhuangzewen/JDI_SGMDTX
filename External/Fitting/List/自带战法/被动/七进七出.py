@@ -31,7 +31,7 @@ class 七进七出_soul(BaseSkillSoul):
             self._部署规避效果()
         elif status == SoulResponseTime.回合重置阶段:
             self.龙胆触发次数 = 0
-            self.当前伤害系数 = 0.9
+            self.当前伤害系数 = 0
         elif status == SoulResponseTime.规避伤害时:
             if hero != self.target or self.龙胆触发次数 >=7:
                 return

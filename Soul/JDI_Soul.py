@@ -193,8 +193,6 @@ class Soul():
             伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
             伤害来源技能名称 = self.skill.get_战法名称().value if self.skill else '未知技能'
             伤害来源Soul效果 = self.damage.skillEffectName if self.damage else '未知效果来源'
-            # 伤害来源Soul效果
-            Log().battle_L2('伤害来源Soul效果{}'.format(伤害来源Soul效果))
             伤害数值 = int(self.effect_value)
 
             if (self.target.get_兵力() < 伤害数值):

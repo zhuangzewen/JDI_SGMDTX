@@ -11,8 +11,8 @@ class 姜维_info(HeroInfo):
         self.武力成长 = 2.39
         self.初始智力 = 111
         self.智力成长 = 2.52
-        self.初始统帅 = 91
-        self.统帅成长 = 2.01
+        self.初始统率 = 91
+        self.统率成长 = 2.01
         self.初始先攻 = 76
         self.先攻成长 = 1.99
         self.自带战法 = Fitting_List_Enum.九伐中原

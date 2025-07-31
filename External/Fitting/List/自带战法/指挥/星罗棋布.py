@@ -16,7 +16,7 @@
 # 棋局增益:
 # 不同类型获得的棋局增益:
 # 单前排阵型: 我军前排受到伤害降低12%(受智力影响),受击率固定为85%
-# 双前排阵型: 我军统帅最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
+# 双前排阵型: 我军统率最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
 from External.SkillBaseTemplate import (
@@ -147,7 +147,7 @@ class 星罗棋布_额外效果_soul(BaseSkillSoul):
 
         elif msg_判断己方前排武将数量(self.target, battleField) == 2:
             Log().battle_L2('[{}]执行来自【{}】的[星罗棋布-双前排阵型]效果'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
-            lowest_ts_hero = msg_对我方统帅最低的武将(self.target, battleField)
+            lowest_ts_hero = msg_对我方统率最低的武将(self.target, battleField)
 
             对前排增伤soul = Soul(target=lowest_ts_hero, 
                             initiator=self.skill.get_持有者(), 
@@ -211,6 +211,11 @@ class 星罗棋布_额外效果_双前排阵型(BaseSkillSoul):
                 break
 
             attacked: Hero = 从队列确定受击单位(attacked_heroes)
+            Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
+                atta_hero.get_武将名称().value, 
+                self.get_战法名称().value, 
+                "星罗棋布-双前排阵型"
+            ))
             damage_soul = self.skill.create_damage_soul(
                 battleField = battleField, 
                 initiator = atta_hero,

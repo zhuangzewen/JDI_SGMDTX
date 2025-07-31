@@ -193,7 +193,7 @@ class BattleField():
                     Log().battle_L1('[{}]获得【阵型-雁型阵】强化效果'.format(team.teamInfo.teamName))
                     # 队伍阵型为雁型阵
                     # 一号位后排 受击率 20% 造成的伤害提升 15%
-                    # 二三号位前排 受击率 40% 统帅提升 20点
+                    # 二三号位前排 受击率 40% 统率提升 20点
                     
                     setattr(firstHero, HeroInfoKey.前排.value, False)
                     setattr(firstHero, HeroInfoKey.受击率.value, 0.2)
@@ -204,7 +204,7 @@ class BattleField():
                     for hero in secondHero, thirdHero:
                         setattr(hero, HeroInfoKey.前排.value, True)
                         setattr(hero, HeroInfoKey.受击率.value, 0.4)
-                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.统帅, effect_value=20)
+                        soul = Soul(target=hero, sourceType=SoulSourceType.阵型加成, effect_type=SoulEffectType.统率, effect_value=20)
                         soul.deploy_initial()
                         hero.get_响应Soul列表().append(soul)
 
@@ -332,7 +332,7 @@ class BattleField():
 
                     for hero in firstHero, secondHero, thirdHero:
                         hero: Hero
-                        for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统帅, SoulEffectType.先攻]:
+                        for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统率, SoulEffectType.先攻]:
                             # 取出当前的值 * 0.05 后相加
                             current_value = getattr(hero, effectType.value)
                             real_value = current_value * bonus
@@ -357,7 +357,7 @@ class BattleField():
                     bonus = 0.05
                     Log().battle_L1(f'[{team.teamInfo.teamName}]获得【{same_country}】强化效果,属性提升 {bonus*100}%')
                     for hero in firstHero, secondHero, thirdHero:
-                        for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统帅, SoulEffectType.先攻]:
+                        for effectType in [SoulEffectType.武力, SoulEffectType.智力, SoulEffectType.统率, SoulEffectType.先攻]:
                             # 取出当前的值 * 0.05 后相加
                             current_value = getattr(hero, effectType.value)
                             real_value = current_value * bonus

@@ -11,8 +11,8 @@ class 诸葛亮_info(HeroInfo):
         self.武力成长 = 0.52
         self.初始智力 = 125
         self.智力成长 = 3.0
-        self.初始统帅 = 111
-        self.统帅成长 = 2.3
+        self.初始统率 = 111
+        self.统率成长 = 2.3
         self.初始先攻 = 57
         self.先攻成长 = 1.65
         self.自带战法 = Fitting_List_Enum.草船借箭

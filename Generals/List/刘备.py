@@ -12,8 +12,8 @@ class 刘备_info(HeroInfo):
         self.武力成长 = 1.43
         self.初始智力 = 94
         self.智力成长 = 2.31
-        self.初始统帅 = 109
-        self.统帅成长 = 2.12
+        self.初始统率 = 109
+        self.统率成长 = 2.12
         self.初始先攻 = 53
         self.先攻成长 = 1.72
         self.自带战法 = Fitting_List_Enum.携民渡江

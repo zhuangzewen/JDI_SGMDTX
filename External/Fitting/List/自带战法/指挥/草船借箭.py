@@ -78,6 +78,11 @@ class 草船借箭_soul(BaseSkillSoul):
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
         if len(attacked_heroes) > 0:
             attacked = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
+                self.target.get_武将名称().value, 
+                self.skill.get_战法名称().value, 
+                '草船借箭'
+            ))
             damage_soul = self.skill.create_damage_soul(
                 battleField = battleField, 
                 initiator = self.target,

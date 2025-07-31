@@ -29,7 +29,7 @@ class HeroInfo():
         setattr(self, HeroInfoKey.武将升品.value, premium_info)
         setattr(self, HeroInfoKey.武力加点.value, wl_extra)
         setattr(self, HeroInfoKey.智力加点.value, zl_extra)
-        setattr(self, HeroInfoKey.统帅加点.value, ts_extra)
+        setattr(self, HeroInfoKey.统率加点.value, ts_extra)
         setattr(self, HeroInfoKey.先攻加点.value, xg_extra)
 
     @staticmethod
@@ -53,8 +53,8 @@ class HeroInfo():
             HeroInfoKey.武力成长: round(random.uniform(0.3, 3.0), 2),
             HeroInfoKey.初始智力: random.randint(38, 111),
             HeroInfoKey.智力成长: round(random.uniform(0.7, 2.6), 2),
-            HeroInfoKey.初始统帅: random.randint(91, 109),
-            HeroInfoKey.统帅成长: round(random.uniform(1.6, 2.2), 2),
+            HeroInfoKey.初始统率: random.randint(91, 109),
+            HeroInfoKey.统率成长: round(random.uniform(1.6, 2.2), 2),
             HeroInfoKey.初始先攻: random.randint(53, 90),
             HeroInfoKey.先攻成长: round(random.uniform(1.7, 2.6), 2),
             HeroInfoKey.自带战法: None
@@ -212,8 +212,8 @@ class Hero():
         return getattr(self.get_武将信息(), HeroInfoKey.初始武力.value)
     def get_初始智力(self):
         return getattr(self.get_武将信息(), HeroInfoKey.初始智力.value)
-    def get_初始统帅(self):
-        return getattr(self.get_武将信息(), HeroInfoKey.初始统帅.value)
+    def get_初始统率(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.初始统率.value)
     def get_初始先攻(self):
         return getattr(self.get_武将信息(), HeroInfoKey.初始先攻.value)
     
@@ -221,8 +221,8 @@ class Hero():
         return getattr(self.get_武将信息(), HeroInfoKey.武力成长.value)
     def get_智力成长(self):
         return getattr(self.get_武将信息(), HeroInfoKey.智力成长.value)
-    def get_统帅成长(self):
-        return getattr(self.get_武将信息(), HeroInfoKey.统帅成长.value)
+    def get_统率成长(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.统率成长.value)
     def get_先攻成长(self):
         return getattr(self.get_武将信息(), HeroInfoKey.先攻成长.value)
     
@@ -230,8 +230,8 @@ class Hero():
         return getattr(self.get_武将信息(), HeroInfoKey.武力加点.value)
     def get_智力加点(self):
         return getattr(self.get_武将信息(), HeroInfoKey.智力加点.value)
-    def get_统帅加点(self):
-        return getattr(self.get_武将信息(), HeroInfoKey.统帅加点.value)
+    def get_统率加点(self):
+        return getattr(self.get_武将信息(), HeroInfoKey.统率加点.value)
     def get_先攻加点(self):
         return getattr(self.get_武将信息(), HeroInfoKey.先攻加点.value)
     
@@ -239,8 +239,8 @@ class Hero():
         return getattr(self, HeroInfoKey.武力.value)
     def get_智力(self):
         return getattr(self, HeroInfoKey.智力.value)
-    def get_统帅(self):
-        return getattr(self, HeroInfoKey.统帅.value)
+    def get_统率(self):
+        return getattr(self, HeroInfoKey.统率.value)
     def get_先攻(self):
         return getattr(self, HeroInfoKey.先攻.value)
 
@@ -285,8 +285,8 @@ class Hero():
         setattr(self, HeroInfoKey.武力.value, real_wl)
         real_zl = self.get_初始智力() + self.get_智力成长() * (level - 5) + self.get_智力加点()
         setattr(self, HeroInfoKey.智力.value, real_zl)
-        real_ts = self.get_初始统帅() + self.get_统帅成长() * (level - 5) + self.get_统帅加点()
-        setattr(self, HeroInfoKey.统帅.value, real_ts)
+        real_ts = self.get_初始统率() + self.get_统率成长() * (level - 5) + self.get_统率加点()
+        setattr(self, HeroInfoKey.统率.value, real_ts)
         real_xg = self.get_初始先攻() + self.get_先攻成长() * (level - 5) + self.get_先攻加点()
         setattr(self, HeroInfoKey.先攻.value, real_xg)
 
@@ -370,10 +370,8 @@ class Hero():
             self.get_持有Soul列表().clear()
 
         elif status == SoulResponseTime.造成伤害时:
-            if hero != self:
-                return
-            # SoulDamageType
-            if self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
+
+            if hero == self and self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
                 Log().battle_L2('[{}]触发攻心'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
                 恢复兵力 = int(伤害SOUL.effect_value * self.get_攻心())

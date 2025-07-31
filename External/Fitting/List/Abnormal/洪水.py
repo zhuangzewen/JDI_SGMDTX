@@ -2,7 +2,7 @@
 # 负面状态:
 # 异常状态:
 # 非控制状态:
-# 洪水: 统帅降低20点
+# 洪水: 统率降低20点
 
 from Soul.JDI_Soul import Soul
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime

@@ -38,13 +38,13 @@ class 裸衣血战_soul(BaseSkillSoul):
                 (SoulEffectType.先攻, self.skill.裸衣血战_先攻_提升系数()),
                 (SoulEffectType.武力, self.skill.裸衣血战_武力_提升系数()),
                 (SoulEffectType.连击几率, self.skill.裸衣血战_连击率_提升系数()),
-                (SoulEffectType.统帅, -self.skill.裸衣血战_统帅_降低系数()),
+                (SoulEffectType.统率, -self.skill.裸衣血战_统率_降低系数()),
                 (SoulEffectType.造成伤害, self.skill.裸衣血战_造成伤害_提升系数())
             ]
             
             for effect_type, value in effects:
                 soul = self.skill.create_soul(self.target, effect_type, value)
-                if effect_type == SoulEffectType.统帅:
+                if effect_type == SoulEffectType.统率:
                     soul.battleField = battleField
                 soul.deploy_initial()
                 self.soul持有列表.append(soul)
@@ -76,7 +76,7 @@ class 裸衣血战_skill(BaseSkill):
     def 裸衣血战_连击率_提升系数(self):
         return 1
     
-    def 裸衣血战_统帅_降低系数(self):
+    def 裸衣血战_统率_降低系数(self):
         return 15
     
     def 裸衣血战_造成伤害_提升系数(self):

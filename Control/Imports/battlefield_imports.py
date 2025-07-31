@@ -27,7 +27,7 @@ from External.Fitting.Enum.FittingType_Enum import SkillType
 from Calcu.JDI_Calculate import (
     武将行动队列, msg_过滤掉被击溃的武将, 
     msg_判断己方前排武将数量, msg_对我方的单前排生效, 
-    msg_对我方统帅最低的武将, msg_对我方智力最高的武将,
+    msg_对我方统率最低的武将, msg_对我方智力最高的武将,
     对己方所有目标生效, 对己方阵型强化SOUL生效, 实际受击率,
     从队列确定受击单位, 对敌方所有目标生效, 生效未施加的异常状态
 )
@@ -36,7 +36,7 @@ __all__ = [
     'random', 'Enum', 'Log', 'SoulEffectType', 'SoulSourceType', 'SoulResponseTime', 'Soul',
     'WeaponType', 'HeroInfoKey', 'Hero', 'TeamInfo', 'Team', 'Formation', 'Skill', 'SkillType',
     '武将行动队列', 'msg_过滤掉被击溃的武将', 'msg_判断己方前排武将数量',
-    'msg_对我方的单前排生效', 'msg_对我方统帅最低的武将', 'msg_对我方智力最高的武将',
+    'msg_对我方的单前排生效', 'msg_对我方统率最低的武将', 'msg_对我方智力最高的武将',
     '对己方所有目标生效', '对己方阵型强化SOUL生效', '实际受击率', '从队列确定受击单位',
     '对敌方所有目标生效', '生效未施加的异常状态'
 ]

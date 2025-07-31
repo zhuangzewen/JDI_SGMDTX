@@ -137,19 +137,12 @@ class BaseSkill(Skill):
     def create_damage_soul(self, battleField, initiator: Hero, target: Hero, 
                           damage_type: SoulDamageType, skill_type: SkillType, 
                           damage_multiplier: float, source_soul: Soul = None,
-                          effect_name: str = None,
-                          isShowLog: bool = True) -> Soul:
+                          effect_name: str = None) -> Soul:
         """创建伤害Soul的便捷方法"""
         damage_model = 计算伤害(battleField, initiator, target, damage_type, skill_type, damage_multiplier)
         
         if effect_name:
             damage_model.skillEffectName = effect_name
-            if isShowLog == True:
-                Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
-                    target.get_武将名称().value, 
-                    self.get_战法名称().value, 
-                    effect_name
-                ))
         
         damage_soul = Soul(
             target=target,
@@ -180,6 +173,7 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
         '主动_谋略': 1.0,
         '指挥_治疗': 1.0,
         '指挥_谋略': 1.0,
+        '指挥_文武': 1.0,
         '指挥_辅助': 1.0,
         '追击_兵刃': 1.0
     }
@@ -213,6 +207,13 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
             skill_name=skill_name,
             skill_type=SkillType.指挥,
             skill_feature=SkillFeature.谋略,
+            weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
+            trigger_rate=final_trigger_rate
+        ),
+        '指挥_文武': SkillTemplate(
+            skill_name=skill_name,
+            skill_type=SkillType.指挥,
+            skill_feature=SkillFeature.文武,
             weapon_types=[WeaponType.盾, WeaponType.弓, WeaponType.枪, WeaponType.骑],
             trigger_rate=final_trigger_rate
         ),

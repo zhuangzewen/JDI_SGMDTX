@@ -12,8 +12,8 @@ class 诸葛亮SP_info(HeroInfo):
         self.武力成长 = 0.56
         self.初始智力 = 125
         self.智力成长 = 3.00
-        self.初始统帅 = 104
-        self.统帅成长 = 2.24
+        self.初始统率 = 104
+        self.统率成长 = 2.24
         self.初始先攻 = 61
         self.先攻成长 = 1.71
         self.自带战法 = Fitting_List_Enum.星罗棋布

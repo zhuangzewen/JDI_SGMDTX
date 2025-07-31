@@ -32,12 +32,12 @@ class 携民渡江_soul(BaseSkillSoul):
             return
 
         if status == SoulResponseTime.战法布阵开始时:
-            self._deploy_统帅效果(battleField)
+            self._deploy_统率效果(battleField)
 
         elif status == SoulResponseTime.回合结束时:
             self._deploy_治疗效果(battleField)
 
-    def _deploy_统帅效果(self, battleField):
+    def _deploy_统率效果(self, battleField):
 
         Log().battle_L1('[{}]发动战法【{}】'.format(
             self.target.get_武将名称().value, 
@@ -52,15 +52,15 @@ class 携民渡江_soul(BaseSkillSoul):
                 break
 
             目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            统帅soul = self.skill.create_soul(
+            统率soul = self.skill.create_soul(
                 target=目标武将,
-                effect_type=SoulEffectType.统帅,
-                effect_value=self.skill.携民渡江_统帅提升系数(),
+                effect_type=SoulEffectType.统率,
+                effect_value=self.skill.携民渡江_统率提升系数(),
                 damage=Damage(skillEffectName='携民渡江')
             )
 
-            统帅soul.deploy_initial()
-            self.soul持有列表.append(统帅soul)
+            统率soul.deploy_initial()
+            self.soul持有列表.append(统率soul)
 
     def _deploy_治疗效果(self, battleField):
 
@@ -114,29 +114,29 @@ class 携民渡江_skill(BaseSkill):
         持有者and响应者.get_持有Soul列表().append(soul)
         持有者and响应者.get_响应Soul列表().append(soul)
 
-    def 携民渡江_统帅提升系数(self):
+    def 携民渡江_统率提升系数(self):
         def 拟合过程数据统计():
             # 初始值为 18
             # 每一级升阶提升基础初始值为 0.5
 
             # 智力 342.83
-            # 统帅提升 33.37
+            # 统率提升 33.37
             # 提升值为 33.37 - 18 = 15.37
 
             # 智力 258.62
-            # 统帅提升 27.33
+            # 统率提升 27.33
             # 提升值为 27.33 - 18 = 9.33
 
             # 智力 270.12
-            # 统帅提升 28.17
+            # 统率提升 28.17
             # 提升值为 28.17 - 18 = 10.17
 
             # 智力 294.69
-            # 统帅提升 29.95
+            # 统率提升 29.95
             # 提升值为 29.95 - 18 = 11.95
 
             # 智力 306.72
-            # 统帅提升 30.82
+            # 统率提升 30.82
             # 提升值为 30.82 - 18 = 12.82
 
             # x 为智力, y 为提升值 

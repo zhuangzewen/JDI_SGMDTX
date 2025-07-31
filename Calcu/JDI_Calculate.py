@@ -134,7 +134,7 @@ def msg_对我方的单前排生效(hero, battleField):
 
     return None
 
-def msg_对我方统帅最低的武将(hero, battleField):
+def msg_对我方统率最低的武将(hero, battleField):
     from External.JDI_Skill import Skill
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
@@ -153,7 +153,7 @@ def msg_对我方统帅最低的武将(hero, battleField):
         if not hero.get_被击溃状态() and lowest_ts_hero == None:
             lowest_ts_hero = hero
 
-        elif not hero.get_被击溃状态() and hero.get_统帅() < lowest_ts_hero.get_统帅():
+        elif not hero.get_被击溃状态() and hero.get_统率() < lowest_ts_hero.get_统率():
             lowest_ts_hero = hero
 
     return lowest_ts_hero
@@ -319,6 +319,16 @@ def 从队列确定受击单位(heroList, skill=None, hero=None, battleField=Non
         
         return normal_受击(heroList)
 
+def msg_对敌方兵力最低目标生效(hero, battleField):
+    heros = 对敌方所有目标生效(hero, battleField)
+    low_hero = None
+    low_hero_num = 10000 + 1
+    for h in heros:
+        if h.get_兵力() < low_hero_num:
+            low_hero = h
+            low_hero_num = h.get_兵力()
+    return low_hero
+
 def 对敌方所有目标生效(hero, battleField):
     from BattleField.JDI_BattleField import BattleField
     from BattleField.Team.JDI_Team import Team
@@ -421,6 +431,13 @@ def 武将行动队列(battleField):
     msg_重置武将行动状态()
     return order_list
 
+def msg_判断在一个队伍中(hero1, hero2, battleField):
+    get_team1 = 获取武将所在的队伍(hero1, battleField)
+    if hero2 in [get_team1.firstHero, get_team1.secondHero, get_team1.thirdHero]:
+        return True
+    else:
+        return False
+
 def 获取武将所在的队伍(hero, battleField):
     from BattleField.Team.JDI_Team import Team
     from Generals.JDI_Hero import Hero
@@ -506,10 +523,10 @@ def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: SoulDamageType, �
 
     if 伤害类型 == SoulDamageType.谋略:
         攻方数值 = 攻击者.get_智力()
-        防方数值 = (防御者.get_统帅() + 防御者.get_智力()) * 0.5
+        防方数值 = (防御者.get_统率() + 防御者.get_智力()) * 0.5
     elif 伤害类型 == SoulDamageType.兵刃:
         攻方数值 = 攻击者.get_武力()
-        防方数值 = 防御者.get_统帅()
+        防方数值 = 防御者.get_统率()
     elif 伤害类型 == SoulDamageType.逃兵:
         攻方数值 = 1
         防方数值 = 1
@@ -518,10 +535,10 @@ def MSG_武将伤害公式(攻击者, 防御者, 伤害类型: SoulDamageType, �
         zhiLi = 攻击者.get_智力()
         if wuli > zhiLi:
             攻方数值 = wuli
-            防方数值 = 防御者.get_统帅()
+            防方数值 = 防御者.get_统率()
         else:
             攻方数值 = zhiLi
-            防方数值 = (防御者.get_统帅() + 防御者.get_智力()) * 0.5
+            防方数值 = (防御者.get_统率() + 防御者.get_智力()) * 0.5
 
     p0=2.5279e+02
     p1=1.4024e+00
@@ -702,6 +719,13 @@ def 计算伤害(battleField, 攻击者, 防御者, 伤害类型: SoulDamageType
     防御者: Hero
 
     确定伤害类型 = MSG_确定伤害类型(攻击者, 伤害类型)
+
+    if 确定伤害类型 == SoulDamageType.文武逃兵:
+        # 取自姜维 y = 2.63515 * x - 701.515
+        文武属性 = 攻击者.get_智力() + 攻击者.get_武力()
+        文武逃兵数值 = 2.63515 * 文武属性 - 701.515
+        Damage_class = Damage(攻击者, 防御者, 确定伤害类型, 文武逃兵数值)
+        return Damage_class
 
     武将伤害公式 = MSG_武将伤害公式(攻击者, 防御者, 确定伤害类型, 伤害值)
 

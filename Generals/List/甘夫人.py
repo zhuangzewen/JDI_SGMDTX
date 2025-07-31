@@ -11,8 +11,8 @@ class 甘夫人_info(HeroInfo):
         self.武力成长 = 0.29
         self.初始智力 = 102
         self.智力成长 = 1.95
-        self.初始统帅 = 106
-        self.统帅成长 = 1.62
+        self.初始统率 = 106
+        self.统率成长 = 1.62
         self.初始先攻 = 90
         self.先攻成长 = 1.68
         self.自带战法 = Fitting_List_Enum.皇思淑仁

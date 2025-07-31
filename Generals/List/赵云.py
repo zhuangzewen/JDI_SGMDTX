@@ -11,8 +11,8 @@ class 赵云_info(HeroInfo):
         self.武力成长 = 2.65
         self.初始智力 = 77
         self.智力成长 = 1.52
-        self.初始统帅 = 107
-        self.统帅成长 = 2.15
+        self.初始统率 = 107
+        self.统率成长 = 2.15
         self.初始先攻 = 66
         self.先攻成长 = 2.29
         self.自带战法 = Fitting_List_Enum.七进七出

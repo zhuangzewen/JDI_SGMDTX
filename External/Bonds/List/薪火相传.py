@@ -23,36 +23,35 @@ class 薪火相传_info(SkillInfo):
         self.缘分武将生效数量 = 2
         
 class 薪火相传_soul(Soul):
-    def __init__(self, target, initiator, skill):
-        super().__init__(target, initiator, skill)
 
-    def response(self, status = SoulResponseTime.无响应阶段, battlefield=None, hero = None, sourceSoul=None):
+   def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
         def 薪火相传_effect(team, effect_hero_list):
             # 为缘分武将添加智力和统率提升效果
             for effect_hero in effect_hero_list:
                 # 智力提升6%
+                # 确认数值后
+                智力提升 = effect_hero.get_智力() * 0.06
+                统率提升 = effect_hero.get_统率() * 0.06
+
                 智力提升soul = Soul(
-                    target=effect_hero,
-                    initiator=self.target,
-                    skill=self.skill,
-                    effect_type=SoulEffectType.智力,
-                    effect_value= 0.06,  # 提升6%
-                    source_soul=self,
-                    battlefield=battlefield,
-                    duration=99  # 持续战斗结束
+                    target = effect_hero,
+                    initiator = self.target, 
+                    skill = self.skill, 
+                    effect_type = SoulEffectType.智力, 
+                    effect_value = 智力提升,
+                    source_soul = self,
+                    battleField = battleField
                 )
                 智力提升soul.deploy_initial()
-                
-                # 统率提升6%
+
                 统率提升soul = Soul(
-                    target=effect_hero,
-                    initiator=self.target,
-                    skill=self.skill,
-                    effect_type=SoulEffectType.统率,
-                    effect_value= 0.06,  # 提升6%
-                    source_soul=self,
-                    battlefield=battlefield,
-                    duration=99  # 持续战斗结束
+                    target = effect_hero,
+                    initiator = self.target, 
+                    skill = self.skill, 
+                    effect_type = SoulEffectType.统率, 
+                    effect_value = 统率提升,
+                    source_soul = self,
+                    battleField = battleField
                 )
                 统率提升soul.deploy_initial()
                 
@@ -60,7 +59,7 @@ class 薪火相传_soul(Soul):
         BondUtils.standard_bond_response(
             soul=self,
             status=status,
-            battlefield=battlefield,
+            battlefield=battleField,
             hero=hero,
             sourceSoul=sourceSoul,
             bond_name="薪火相传",

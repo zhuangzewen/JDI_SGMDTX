@@ -87,11 +87,11 @@ class Soul():
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
 
-        elif self.effect_type == SoulEffectType.统帅:
-            cur_value = getattr(self.target, HeroInfoKey.统帅.value)
+        elif self.effect_type == SoulEffectType.统率:
+            cur_value = getattr(self.target, HeroInfoKey.统率.value)
             cur_value += self.effect_value
-            setattr(self.target, HeroInfoKey.统帅.value, cur_value)
-            Log().battle_L2('[{}]的【统帅】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            setattr(self.target, HeroInfoKey.统率.value, cur_value)
+            Log().battle_L2('[{}]的【统率】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
             if self.effect_value < 0 and self.sourceType != SoulSourceType.异常状态效果_额外效果:
                 self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                 self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
@@ -648,13 +648,13 @@ class Soul():
             if is存在同类状态:
                 Log().battle_L2('[{}]的[洪水]效果已刷新'.format(heroName))
             else:
-                统帅soul = Soul(target=self.target, 
+                统率soul = Soul(target=self.target, 
                                         sourceType=SoulSourceType.异常状态效果_额外效果, 
                                         skill=self.skill,
-                                        effect_type=SoulEffectType.统帅, 
+                                        effect_type=SoulEffectType.统率, 
                                         effect_value=-20,
                                         source_soul=self)
-                统帅soul.deploy_initial()
+                统率soul.deploy_initial()
                 Log().battle_L2('[{}]的[洪水]效果已施加'.format(heroName))
             self.battleField.respond(status=SoulResponseTime.施加异常时, 时机响应武将=self.initiator, 溯源SOUL=self)
             self.battleField.respond(status=SoulResponseTime.被施加异常时, 时机响应武将=self.target, 溯源SOUL=self)
@@ -985,11 +985,11 @@ class Soul():
             setattr(self.target, HeroInfoKey.智力.value, cur_value)
             Log().battle_L2('[{}]的【智力】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
 
-        elif self.effect_type == SoulEffectType.统帅:
-            cur_value = getattr(self.target, HeroInfoKey.统帅.value)
+        elif self.effect_type == SoulEffectType.统率:
+            cur_value = getattr(self.target, HeroInfoKey.统率.value)
             cur_value -= self.effect_value
-            setattr(self.target, HeroInfoKey.统帅.value, cur_value)
-            Log().battle_L2('[{}]的【统帅】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
+            setattr(self.target, HeroInfoKey.统率.value, cur_value)
+            Log().battle_L2('[{}]的【统率】{}{:.2f}({:.2f})'.format(heroName, show_upEffect_name, abs(self.effect_value), cur_value))
 
         elif self.effect_type == SoulEffectType.先攻:
             cur_value = getattr(self.target, HeroInfoKey.先攻.value)
@@ -1072,13 +1072,13 @@ class Soul():
         elif self.effect_type == SoulEffectType.洪水:
             msg_移除响应(self)
             Log().battle_L2('[{}]的[洪水]效果已消失'.format(heroName))
-            统帅soul = Soul(target=self.target, 
+            统率soul = Soul(target=self.target, 
                                     sourceType=SoulSourceType.异常状态效果_额外效果, 
                                     skill=self.skill,
-                                    effect_type=SoulEffectType.统帅, 
+                                    effect_type=SoulEffectType.统率, 
                                     effect_value=20,
                                     source_soul=self)
-            统帅soul.deploy_initial()
+            统率soul.deploy_initial()
 
         elif self.effect_type == SoulEffectType.火攻:
             msg_移除响应(self)

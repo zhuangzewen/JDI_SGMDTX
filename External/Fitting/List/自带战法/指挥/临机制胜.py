@@ -68,8 +68,8 @@ class 临机制胜_soul(BaseSkillSoul):
         self.临机制胜发动总次数 += 1
 
         # 对敌军随机两人造成伤害
-        attacked_times = msg_对敌方所有目标生效_number(self.target, battleField, 2)
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+        attacked_times = min(2, len(attacked_heroes))
         
         for _ in range(attacked_times):
             if len(attacked_heroes) == 0:

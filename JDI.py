@@ -44,10 +44,10 @@ def battle():
     team1_hero1 = get_hero_info(Generals_Name_Enum.荀攸)
     team1_hero1.set_extra(wl_extra=50, zl_extra=0, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero1.set_skills(None, 0, None, 0)
-    team1_hero2 = get_hero_info(Generals_Name_Enum.荀彧)
+    team1_hero2 = get_hero_info(Generals_Name_Enum.周瑜)
     team1_hero2.set_extra(wl_extra=0, zl_extra=50, ts_extra=10, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero2.set_skills(None, 0, None, 0)
-    team1_hero3 = get_hero_info(Generals_Name_Enum.郭嘉)
+    team1_hero3 = get_hero_info(Generals_Name_Enum.测试武将_A3)
     team1_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=10, xg_extra=0, rank_info=1, premium_info=1)
     team1_hero3.set_skills(None, 0, None, 0)
 

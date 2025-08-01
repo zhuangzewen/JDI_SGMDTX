@@ -50,8 +50,8 @@ class 十二奇策_soul(BaseSkillSoul):
                 return
             Log().battle_L2('[{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
-            attacked_times = msg_对敌方所有目标生效_number(self.target, battleField, 2)
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+            attacked_times = min(2, len(attacked_heroes))
             for _ in range(attacked_times):
 
                 if len(attacked_heroes) == 0:

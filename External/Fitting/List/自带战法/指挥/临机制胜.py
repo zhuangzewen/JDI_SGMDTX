@@ -56,9 +56,9 @@ class 临机制胜_soul(BaseSkillSoul):
                 
                 self._execute_制胜效果(battleField, hero)
 
-        elif status == SoulResponseTime.被施加异常时 and self.临机制胜发动总次数 >= 4:
-            self._execute_治疗效果(battleField)
-
+                if self.临机制胜发动总次数 % 4 == 0:
+                    self._execute_治疗效果(battleField)
+            
     def _execute_制胜效果(self, battleField, hero):
         """执行制胜效果的便捷方法"""
         Log().battle_L2('[{}]执行来自【{}】的[临机制胜-制胜]效果'.format(
@@ -88,8 +88,8 @@ class 临机制胜_soul(BaseSkillSoul):
         Log().battle_L2('[{}]执行来自【{}】的[临机制胜-治疗]效果'.format(
             self.target.get_武将名称().value, self.skill.get_战法名称().value))
 
-        treatment_times = msg_对己方所有目标生效_number(self.target, battleField)
         treatment_heroes = 对己方所有目标生效(self.target, battleField)
+        treatment_times = min(3, len(treatment_heroes))
         
         for _ in range(treatment_times):
             if len(treatment_heroes) == 0:

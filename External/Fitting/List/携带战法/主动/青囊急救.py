@@ -1,0 +1,99 @@
+# 战法名称: 青囊急救
+# 战法类型: 主动
+# 战法特性: 治疗
+# 适应兵种: 盾,弓,枪,骑
+# 发动率: 0.55
+
+# 青囊急救:
+# 驱散我军兵力最低单体3种负面状态，并恢复其兵力(治疗率260%)
+
+# 满阶青囊急救:
+# 驱散我军兵力最低单体3种负面状态，并恢复其兵力(治疗率280%)
+
+from External.SkillBaseTemplate import (
+    BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
+    SoulResponseTime, SoulEffectType,
+    Fitting_List_Enum, Log, random, Hero, Soul
+)
+from Calcu.JDI_Calculate import *
+
+class 青囊急救_info(BaseSkillInfo):
+    def __init__(self):
+        template = get_skill_template('主动_治疗', Fitting_List_Enum.青囊急救, 0.55)
+        super().__init__(template)
+
+class 青囊急救_soul(BaseSkillSoul):
+
+    def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero=None, sourceSoul=None):
+        if status == SoulResponseTime.武将溃败:
+            self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
+            return
+
+        if status == SoulResponseTime.回合行动时:
+            # 55%发动率
+            if not self._check_发动率():
+                return
+
+            Log().battle_L1('[{}]发动战法【{}】'.format(
+                self.target.get_武将名称().value, 
+                self.skill.get_战法名称().value
+            ))
+
+            self._deploy_治疗效果(battleField)
+
+    def _check_发动率(self):
+        # 检查发动率
+        rate = self.skill.get_发动率()
+        return random.random() <= rate
+
+    def _deploy_治疗效果(self, battleField):
+
+        Log().battle_L1('[{}]执行来自【{}】的[青囊急救]效果'.format(
+            self.target.get_武将名称().value, 
+            self.skill.get_战法名称().value
+        ))
+
+        # 找到我军兵力最低的单体
+        low_hero:Hero = msg_对己方兵力最低目标生效(self.target, battleField)
+
+        # 驱散3种负面状态
+        负面soul列表 = msg_负面状态列表(low_hero)
+        驱散数量 = min(3, len(负面soul列表))
+        if 驱散数量 > 0:
+            # 随机选择3个负面状态进行驱散
+            要驱散的负面soul = random.sample(负面soul列表, 驱散数量)
+            for soul in 要驱散的负面soul:
+                soul.restore_initial()
+                Log().battle_L2('驱散了[{}]的负面状态[{}]'.format(
+                    low_hero.get_武将名称().value, soul.get_skill_effect_name()
+                ))
+
+        # 恢复兵力
+        治疗soul = self.skill.create_soul(
+            target=low_hero,
+            effect_type=SoulEffectType.恢复兵力,
+            effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.青囊急救_治疗系数())
+        )
+        治疗soul.deploy_initial()
+        Log().battle_L2('为[{}]恢复了{}点兵力'.format(
+            low_hero.get_武将名称().value, 治疗soul.get_effect_value()
+        ))
+
+class 青囊急救_skill(BaseSkill):
+    def __init__(self, hero, skillName):
+        super().__init__(hero, skillName)
+
+    def fill_init_soul(self):
+        持有者and响应者 = self.get_持有者()
+        
+        soul = 青囊急救_soul(
+            target=持有者and响应者, 
+            initiator=持有者and响应者, 
+            skill=self
+        )
+        
+        持有者and响应者.get_持有Soul列表().append(soul)
+        持有者and响应者.get_响应Soul列表().append(soul)
+
+    def 青囊急救_治疗系数(self):
+        return self.get_rank_bonus(2.6, 0.1)

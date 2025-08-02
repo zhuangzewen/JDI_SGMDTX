@@ -38,7 +38,7 @@ from External.Fitting.Enum.FittingInfoKey_Enum import SkillInfoKey
 # ================================
 from Soul.JDI_Soul import Soul
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.Class.Damage_Class import Damage
@@ -72,7 +72,7 @@ __all__ = [
     'Skill', 'get_skill', 'Fitting_List_Enum', 'SkillType', 'SkillInfoKey',
     
     # 魂灵系统
-    'Soul', 'SoulEffectType', 'SoulSourceType', 'SoulResponseTime', 
+    'Soul', 'SoulEffectType', 'SoulSourceType', 'SoulSourceDetail', 'SoulResponseTime', 
     'SoulDamageType', 'Damage',
     
     # 羁绊系统

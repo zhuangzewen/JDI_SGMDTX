@@ -7,7 +7,7 @@ from External.JDI_Skill import SkillInfo, Skill
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.JDI_Soul import Soul
 from BattleField.Team.JDI_Team import Team
@@ -18,7 +18,7 @@ from External.Bonds.Enum.BondsList_Enum import BondsName_Enum
 # 导出缘分常用的类和枚举，供缘分文件直接使用
 __all__ = [
     'BondUtils', 'Hero', 'SkillInfo', 'Skill', 'SkillType', 'Fitting_List_Enum',
-    'SoulResponseTime', 'SoulSourceType', 'SoulEffectType', 'Soul', 'Log', 'Generals_Name_Enum',
+    'SoulResponseTime', 'SoulSourceType', 'SoulSourceDetail', 'SoulEffectType', 'Soul', 'Log', 'Generals_Name_Enum',
     'BondsName_Enum'
 ]
 

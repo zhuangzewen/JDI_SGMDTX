@@ -6,7 +6,7 @@
 # 诸葛亮 SP诸葛亮 黄月英
 # 缘分关系2人在同一队伍时激活效果
 # 部队中缘分武将收到的治疗效果提升8%
-
+"""  """
 
 from External.Bonds.BondUtils import (
     BondUtils, Hero, SkillInfo, Skill, SkillType, Fitting_List_Enum,

@@ -25,9 +25,6 @@ class 十二奇策_info(BaseSkillInfo):
         super().__init__(template)
 
 class 十二奇策_soul(BaseSkillSoul):
-    def __init__(self, target, initiator, skill):
-        super().__init__(target, initiator, skill=skill)
-        self.soul持有列表 = []
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
@@ -78,6 +75,7 @@ class 十二奇策_soul(BaseSkillSoul):
                         target=attacked,
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
+                        sourceDetail=[],
                         skill=self.skill,
                         response_time=SoulResponseTime.内置待响应,
                         duration=2,

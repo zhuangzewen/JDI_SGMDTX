@@ -22,7 +22,7 @@ from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 
 # 魂灵系统 - 核心
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 
 # ================================
@@ -31,5 +31,5 @@ from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 __all__ = [
     'Enum', 'Log', 'get_hero_info', 'Generals_Name_Enum', 
     'Faction', 'WeaponType', 'BattleField', 'TeamInfo', 'Formation',
-    'Fitting_List_Enum', 'SoulEffectType', 'SoulSourceType', 'SoulResponseTime'
+    'Fitting_List_Enum', 'SoulEffectType', 'SoulSourceType', 'SoulSourceDetail', 'SoulResponseTime'
 ]

@@ -2,7 +2,7 @@
 from Control.Log.JDI_Log import Log
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Generals.Enum.Generals_Enum import HeroInfoKey
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from External.JDI_Skill import Skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
@@ -18,6 +18,7 @@ class Soul():
                  target: Hero, 
                  initiator: Hero = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
+                 sourceDetail: [SoulSourceDetail] = [],
                  skill: Skill = None, 
                  response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
@@ -29,6 +30,7 @@ class Soul():
         self.target = target                # 目标
         self.initiator = initiator          # 发起者
         self.sourceType = sourceType        # 来源类型
+        self.sourceDetail = sourceDetail    # 来源详情
         self.skill = skill                  # 技能
         self.response_time = response_time  # 响应时机
         self.duration = duration            # 持续回合

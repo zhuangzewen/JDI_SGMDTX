@@ -8,7 +8,7 @@ from Control.Log.JDI_Log import Log
 
 # 魂灵系统
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType  
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Soul.JDI_Soul import Soul
 
@@ -33,7 +33,7 @@ from Calcu.JDI_Calculate import (
 )
 
 __all__ = [
-    'random', 'Enum', 'Log', 'SoulEffectType', 'SoulSourceType', 'SoulResponseTime', 'Soul',
+    'random', 'Enum', 'Log', 'SoulEffectType', 'SoulSourceType', 'SoulSourceDetail', 'SoulResponseTime', 'Soul',
     'WeaponType', 'HeroInfoKey', 'Hero', 'TeamInfo', 'Team', 'Formation', 'Skill', 'SkillType',
     '武将行动队列', 'msg_过滤掉被击溃的武将', 'msg_判断己方前排武将数量',
     'msg_对我方的单前排生效', 'msg_对我方统率最低的武将', 'msg_对我方智力最高的武将',

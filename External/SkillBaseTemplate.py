@@ -10,7 +10,7 @@ from External.Fitting.Enum.FittingFeature_Enum import SkillFeature
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
-from Soul.Enum.SoulSourceType_Enum import SoulSourceType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
@@ -21,7 +21,7 @@ import random
 # 导出常用的枚举和类，供战法文件直接使用
 __all__ = [
     'BaseSkillInfo', 'BaseSkillSoul', 'BaseSkill', 'get_skill_template',
-    'SoulResponseTime', 'SoulSourceType', 'SoulEffectType', 'SoulDamageType',
+    'SoulResponseTime', 'SoulSourceType', 'SoulSourceDetail', 'SoulEffectType', 'SoulDamageType',
     'SkillType', 'Fitting_List_Enum', 'Log', 'random'
 ]
 

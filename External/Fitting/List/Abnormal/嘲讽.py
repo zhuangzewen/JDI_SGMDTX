@@ -5,6 +5,8 @@
 # 嘲讽: 强制普通攻击嘲讽施加者
 
 from Soul.JDI_Soul import Soul
+from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceDetail
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Generals.JDI_Hero import Hero
 
@@ -13,10 +15,11 @@ class 嘲讽_soul(Soul):
                  target, 
                  initiator=None, 
                  sourceType=None, 
+                 sourceDetail=[SoulSourceDetail.负面状态效果, SoulSourceDetail.异常状态效果, SoulSourceDetail.控制状态效果],
                  skill=None, 
                  response_time=None, 
                  duration=-1, 
-                 effect_type=None, 
+                 effect_type=SoulEffectType.嘲讽, 
                  effect_value=0,
                  source_soul=None,
                  battleField=None):

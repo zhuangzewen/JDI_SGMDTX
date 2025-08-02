@@ -55,6 +55,7 @@ class BaseSkillSoul(Soul):
                  target: Hero, 
                  initiator: Hero = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
+                 sourceDetail: [SoulSourceDetail] = [],
                  skill: Skill = None, 
                  response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
@@ -63,7 +64,7 @@ class BaseSkillSoul(Soul):
                  source_soul = None,
                  battleField = None,
                  damage: Damage = None):
-        super().__init__(target, initiator, sourceType, skill, response_time, 
+        super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, 
                         duration, effect_type, effect_value, source_soul, battleField, damage)
         self.soul持有列表 = []
 

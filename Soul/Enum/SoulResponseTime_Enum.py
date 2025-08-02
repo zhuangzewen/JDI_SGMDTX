@@ -4,6 +4,8 @@ from enum import Enum
 class SoulResponseTime(Enum):
     无响应阶段 = '无响应阶段'
     内置待响应 = '内置待响应'
+    战斗开始时 = '战斗开始时'
+    战斗中 = '战斗中'
 
     阵型强化结束时 = '阵型强化结束时'
     战法布阵开始时 = '战法布阵开始时'

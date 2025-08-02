@@ -5,6 +5,8 @@
 # 混乱: 普通攻击、追击战法和主动战法无差别选择目标
 
 from Soul.JDI_Soul import Soul
+from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceDetail
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from Generals.JDI_Hero import Hero
 
@@ -13,10 +15,11 @@ class 混乱_soul(Soul):
                  target, 
                  initiator=None, 
                  sourceType=None, 
+                 sourceDetail=[SoulSourceDetail.负面状态效果, SoulSourceDetail.异常状态效果, SoulSourceDetail.控制状态效果],
                  skill=None, 
                  response_time=None, 
                  duration=-1, 
-                 effect_type=None, 
+                 effect_type=SoulEffectType.混乱, 
                  effect_value=0,
                  source_soul=None,
                  battleField=None):

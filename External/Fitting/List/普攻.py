@@ -47,11 +47,6 @@ class 普攻_soul(BaseSkillSoul):
 
         if (status == SoulResponseTime.普攻行动时 or status == SoulResponseTime.连击行动时) and hero == self.target:
 
-            from Calcu.JDI_Calculate import msg_普攻发起判断
-            if not msg_普攻发起判断(self.target):
-                Log().battle_L1('[{}]无法普攻'.format(self.target.get_武将名称().value))
-                return
-        
             from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击单位, 计算伤害
             attacked_heroes = 对敌方所有目标生效(self.target, battleField)
             attacked: Hero = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)

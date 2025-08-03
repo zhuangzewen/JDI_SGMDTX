@@ -29,14 +29,15 @@ class 青囊急救_soul(BaseSkillSoul):
             self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
             return
 
-        if status == SoulResponseTime.回合行动时:
+        if status == SoulResponseTime.主动战法行动时 and self.target == hero:
             # 55%发动率
-            if not self._check_发动率():
+            if random.random() > self.skill.get_发动率():
+                Log().debug_L2(f'[{self.target.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的[青囊急救]效果, 但因几率未触发')
                 return
 
             Log().battle_L1('[{}]发动战法【{}】'.format(
                 self.target.get_武将名称().value, 
-                self.skill.get_战法名称().value
+                self.skill.get_战法名称().value     
             ))
 
             self._deploy_治疗效果(battleField)
@@ -49,7 +50,8 @@ class 青囊急救_soul(BaseSkillSoul):
     def _deploy_治疗效果(self, battleField):
 
          # 找到我军兵力最低的单体
-        low_hero:Hero = msg_对己方兵力最低目标生效(self.target, battleField)
+        low_hero_list: [Hero] = [msg_对己方兵力最低目标生效(self.target, battleField)]
+        low_hero = 从队列确定受击单位(heroList=low_hero_list, skill=self.skill, hero=self.target, battleField=battleField, needRemove=True)
 
         Log().battle_L1('[{}]执行来自【{}】的[青囊急救]效果'.format(
             low_hero.get_武将名称().value, 
@@ -59,14 +61,12 @@ class 青囊急救_soul(BaseSkillSoul):
         # 驱散3种负面状态
         负面soul列表 = msg_负面状态列表(low_hero)
         驱散数量 = min(3, len(负面soul列表))
-        if 驱散数量 > 0:
-            # 随机选择3个负面状态进行驱散
-            要驱散的负面soul = random.sample(负面soul列表, 驱散数量)
-            for soul in 要驱散的负面soul:
-                soul.restore_initial()
-                Log().battle_L2('驱散了[{}]的负面状态[{}]'.format(
-                    low_hero.get_武将名称().value, soul.get_skill_effect_name()
-                ))
+        while 驱散数量 > 0 and 负面soul列表:
+            # 随机选择一个负面状态进行驱散
+            要驱散的负面soul = random.choice(负面soul列表)
+            要驱散的负面soul.restore_initial()
+            负面soul列表.remove(要驱散的负面soul)
+            驱散数量 -= 1
 
         # 恢复兵力
         治疗soul = self.skill.create_soul(
@@ -75,9 +75,6 @@ class 青囊急救_soul(BaseSkillSoul):
             effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.青囊急救_治疗系数())
         )
         治疗soul.deploy_initial()
-        Log().battle_L2('为[{}]恢复了{}点兵力'.format(
-            low_hero.get_武将名称().value, 治疗soul.get_effect_value()
-        ))
 
 class 青囊急救_skill(BaseSkill):
     def __init__(self, hero, skillName):
@@ -94,6 +91,9 @@ class 青囊急救_skill(BaseSkill):
         
         持有者and响应者.get_持有Soul列表().append(soul)
         持有者and响应者.get_响应Soul列表().append(soul)
+
+    def get_发动率(self):
+        return self.get_rank_bonus(0.55, 0.05)
 
     def 青囊急救_治疗系数(self):
         return self.get_rank_bonus(2.6, 0.1)

@@ -57,28 +57,17 @@ def msg_控制状态列表(hero):
     return 控制状态列表
 
 def msg_异常状态列表(hero):
-    控制状态列表 = msg_控制状态列表(hero)
     异常状态列表 = []
-
-    for soul in 控制状态列表:
-        异常状态列表.append(soul)
-
     for soul in hero.get_响应Soul列表():
         if SoulSourceDetail.异常状态效果 in soul.sourceDetail:
             异常状态列表.append(soul)
-
     return 异常状态列表
 
 def msg_负面状态列表(hero):
-    异常状态列表 = msg_异常状态列表(hero)
     负面状态列表 = []
-    for soul in 异常状态列表:
-        负面状态列表.append(soul)
-
     for soul in hero.get_响应Soul列表():
         if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
             负面状态列表.append(soul)
-
     return 负面状态列表
 
 def msg_过滤掉被击溃的武将(heroes):

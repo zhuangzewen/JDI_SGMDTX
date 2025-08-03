@@ -393,6 +393,22 @@ class Hero():
                                 battleField=battleField)
                 恢复soul.deploy_initial()
 
+        if (status == SoulResponseTime.普攻行动时 or status == SoulResponseTime.连击行动时 or status == SoulResponseTime.主动战法行动时) and hero != self:
+            # 不是自己不响应
+            return
+            
+        if status == SoulResponseTime.普攻行动时 or status == SoulResponseTime.连击行动时:
+            from Calcu.JDI_Calculate import msg_普攻发起判断
+            if not msg_普攻发起判断(self):
+                Log().battle_L1('[{}]无法普攻'.format(self.get_武将名称().value))
+                return
+        
+        if status == SoulResponseTime.主动战法行动时:
+            from Calcu.JDI_Calculate import msg_主动战法发起判断
+            if not msg_主动战法发起判断(self):
+                Log().battle_L1('[{}]无法主动战法'.format(self.get_武将名称().value))
+                return
+
         for soul in self.get_响应Soul列表():
             from Soul.JDI_Soul import Soul
             soul: Soul

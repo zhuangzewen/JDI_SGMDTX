@@ -1,6 +1,7 @@
 
 from Calcu.JDI_RanVal import *
 from Generals.Enum.Generals_Enum import WeaponType
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType, SoulSourceDetail
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from External.Fitting.Enum.FittingType_Enum import SkillType
 from Soul.Class.Damage_Class import Damage
@@ -49,10 +50,9 @@ def msg_普攻发起判断(hero):
     return True
 
 def msg_控制状态列表(hero):
-    from Soul.Enum.SoulSourceType_Enum import SoulSourceType
     控制状态列表 = []
     for soul in hero.get_响应Soul列表():
-        if soul.sourceType == SoulSourceType.控制状态效果:
+        if SoulSourceDetail.控制状态效果 in soul.sourceDetail:
             控制状态列表.append(soul)
     return 控制状态列表
 
@@ -63,9 +63,8 @@ def msg_异常状态列表(hero):
     for soul in 控制状态列表:
         异常状态列表.append(soul)
 
-    from Soul.Enum.SoulSourceType_Enum import SoulSourceType
     for soul in hero.get_响应Soul列表():
-        if soul.sourceType == SoulSourceType.异常状态效果:
+        if SoulSourceDetail.异常状态效果 in soul.sourceDetail:
             异常状态列表.append(soul)
 
     return 异常状态列表
@@ -76,9 +75,8 @@ def msg_负面状态列表(hero):
     for soul in 异常状态列表:
         负面状态列表.append(soul)
 
-    from Soul.Enum.SoulSourceType_Enum import SoulSourceType
     for soul in hero.get_响应Soul列表():
-        if soul.sourceType == SoulSourceType.负面状态效果:
+        if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
             负面状态列表.append(soul)
 
     return 负面状态列表

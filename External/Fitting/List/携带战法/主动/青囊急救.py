@@ -48,13 +48,13 @@ class 青囊急救_soul(BaseSkillSoul):
 
     def _deploy_治疗效果(self, battleField):
 
+         # 找到我军兵力最低的单体
+        low_hero:Hero = msg_对己方兵力最低目标生效(self.target, battleField)
+
         Log().battle_L1('[{}]执行来自【{}】的[青囊急救]效果'.format(
-            self.target.get_武将名称().value, 
+            low_hero.get_武将名称().value, 
             self.skill.get_战法名称().value
         ))
-
-        # 找到我军兵力最低的单体
-        low_hero:Hero = msg_对己方兵力最低目标生效(self.target, battleField)
 
         # 驱散3种负面状态
         负面soul列表 = msg_负面状态列表(low_hero)

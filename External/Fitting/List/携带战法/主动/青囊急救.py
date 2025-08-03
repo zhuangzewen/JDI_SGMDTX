@@ -7,9 +7,6 @@
 # 青囊急救:
 # 驱散我军兵力最低单体3种负面状态，并恢复其兵力(治疗率260%)
 
-# 满阶青囊急救:
-# 驱散我军兵力最低单体3种负面状态，并恢复其兵力(治疗率280%)
-
 from External.SkillBaseTemplate import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
@@ -41,11 +38,6 @@ class 青囊急救_soul(BaseSkillSoul):
             ))
 
             self._deploy_治疗效果(battleField)
-
-    def _check_发动率(self):
-        # 检查发动率
-        rate = self.skill.get_发动率()
-        return random.random() <= rate
 
     def _deploy_治疗效果(self, battleField):
 
@@ -93,7 +85,7 @@ class 青囊急救_skill(BaseSkill):
         持有者and响应者.get_响应Soul列表().append(soul)
 
     def get_发动率(self):
-        return self.get_rank_bonus(0.55, 0.05)
+        return 0.55
 
     def 青囊急救_治疗系数(self):
-        return self.get_rank_bonus(2.6, 0.1)
+        return self.get_rank_bonus(2.6, 0.078)

@@ -11,6 +11,7 @@ class 清醒_soul(Soul):
                  target, 
                  initiator=None, 
                  sourceType=None, 
+                 sourceDetail=[],
                  skill=None, 
                  response_time=None, 
                  duration=-1, 

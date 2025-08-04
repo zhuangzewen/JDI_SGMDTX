@@ -34,6 +34,10 @@ class 皇思淑仁_soul(BaseSkillSoul):
         if status == SoulResponseTime.回合开始时:
             self._deploy_规避率效果(battleField)
 
+        elif status == SoulResponseTime.武将回合重置阶段:
+            
+            pass
+
         elif status == SoulResponseTime.回合结束时:
             self._deploy_治疗效果(battleField)
             pass
@@ -60,7 +64,7 @@ class 皇思淑仁_soul(BaseSkillSoul):
 
             for 已存在soul in 目标武将.get_响应Soul列表():
                 已存在soul: Soul
-                if 已存在soul.skill == self.skill and 已存在soul.effect_type == SoulEffectType.规避:
+                if 已存在soul.source_soul == self:
                     已存在soul.duration = 2
                     Log().battle_L2('[{}]的[皇思淑仁]效果已刷新'.format(目标武将.get_武将名称().value))
                     break
@@ -71,6 +75,7 @@ class 皇思淑仁_soul(BaseSkillSoul):
                     effect_type=SoulEffectType.规避,
                     effect_value=self.skill.皇思淑仁_规避率提升系数(),
                     duration=2,
+                    source_soul=self,
                     damage=Damage(skillEffectName='皇思淑仁')
                 )
                 规避soul.deploy_initial()

@@ -376,7 +376,7 @@ class Hero():
 
             self.get_持有Soul列表().clear()
 
-        elif status == SoulResponseTime.造成伤害时:
+        if status == SoulResponseTime.造成伤害时:
 
             if hero == self and self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
                 Log().battle_L2('[{}]触发攻心'.format(self.get_武将名称().value))

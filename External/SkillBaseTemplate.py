@@ -110,6 +110,7 @@ class BaseSkill(Skill):
                     effect_value: float, 
                     response_time: SoulResponseTime = SoulResponseTime.内置待响应,
                     duration: int = -1,
+                    source_soul = None,
                     damage: Damage = None) -> Soul:
         """创建标准Soul的便捷方法"""
         return Soul(
@@ -121,6 +122,7 @@ class BaseSkill(Skill):
             duration=duration,
             effect_type=effect_type,
             effect_value=effect_value,
+            source_soul=source_soul,
             damage=damage
         )
 

@@ -55,7 +55,7 @@ class BaseSkillSoul(Soul):
                  target: Hero, 
                  initiator: Hero = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 sourceDetail: [SoulSourceDetail] = [],
+                 sourceDetail: List[SoulSourceDetail] = [],  # 修改类型注解
                  skill: Skill = None, 
                  response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
@@ -174,6 +174,7 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
     default_rates = {
         '被动_兵刃': 1.0,
         '主动_谋略': 1.0,
+        '主动_治疗': 1.0,  # 添加主动_治疗类型
         '指挥_治疗': 1.0,
         '指挥_谋略': 1.0,
         '指挥_文武': 1.0,
@@ -242,4 +243,9 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
             trigger_rate=final_trigger_rate
         ),
     }
+    
+    # 检查模板类型是否存在，如果不存在则抛出异常
+    if template_type not in templates:
+        raise ValueError(f"Unknown template type: {template_type}")
+        
     return templates.get(template_type)

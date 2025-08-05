@@ -24,6 +24,30 @@ class 皇思淑仁_info(BaseSkillInfo):
         template = get_skill_template('指挥_辅助', Fitting_List_Enum.皇思淑仁, 1.0)
         super().__init__(template)
 
+class 皇思淑仁_规避soul(Soul):
+    def __init__(self, 
+                 target, 
+                 initiator=None, 
+                 sourceType=None, 
+                 sourceDetail=[],
+                 skill=None, 
+                 response_time=None, 
+                 duration=2, 
+                 effect_type=SoulEffectType.规避, 
+                 effect_value=0,
+                 source_soul=None,
+                 battleField=None):
+         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+
+    def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
+        if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:
+            hero: Hero = self.target
+            self.duration -= 1
+            if self.duration < 0:
+                Log().battle_L2('[{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
+                self.restore_initial()
+                return
+
 class 皇思淑仁_soul(BaseSkillSoul):
 
     def response(self, status=SoulResponseTime.无响应阶段, battleField=None, hero=None, sourceSoul=None):
@@ -69,14 +93,15 @@ class 皇思淑仁_soul(BaseSkillSoul):
                     Log().battle_L2('[{}]的[皇思淑仁]效果已刷新'.format(目标武将.get_武将名称().value))
                     break
             else:
-                msg_skill: BaseSkill = self.skill
-                规避soul = msg_skill.create_soul(
+                规避soul = 皇思淑仁_规避soul(
                     target=目标武将,
-                    effect_type=SoulEffectType.规避,
+                    initiator=self.initiator,
+                    sourceType=SoulSourceType.武将战法,
+                    skill=self.skill,
                     effect_value=self.skill.皇思淑仁_规避率提升系数(),
                     duration=2,
                     source_soul=self,
-                    damage=Damage(skillEffectName='皇思淑仁')
+                    battleField=battleField
                 )
                 规避soul.deploy_initial()
                 self.soul持有列表.append(规避soul)

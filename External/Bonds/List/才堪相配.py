@@ -29,11 +29,8 @@ class 才堪相配_soul(Soul):
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
         def 才堪相配_effect(team, effect_hero_list):
-            # 才堪相配效果：缘分武将受治疗效果提升8%
-            Log().battle_L1('[{}]获得【才堪相配】强化效果'.format(team.teamInfo.teamName))
             
             for effect_hero in effect_hero_list:
-                
                 治疗效果soul = Soul(
                     target=effect_hero,
                     initiator=self.target,

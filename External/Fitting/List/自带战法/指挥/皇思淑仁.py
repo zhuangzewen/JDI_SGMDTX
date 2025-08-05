@@ -36,15 +36,15 @@ class 皇思淑仁_规避soul(Soul):
                  effect_type=SoulEffectType.规避, 
                  effect_value=0,
                  source_soul=None,
-                 battleField=None):
-         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+                 battleField=None,
+                 damage=Damage(skillEffectName="皇思淑仁")):
+         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:
             hero: Hero = self.target
             self.duration -= 1
             if self.duration < 0:
-                Log().battle_L2('[{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 self.restore_initial()
                 return
 

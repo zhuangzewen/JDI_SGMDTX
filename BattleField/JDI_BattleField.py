@@ -543,8 +543,12 @@ class BattleField():
                             Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
                             return False
 
+                    self.respond(status=SoulResponseTime.回合行动结束时, 时机响应武将=hero)
+                    self.respond(status=SoulResponseTime.武将回合结束重置阶段, 时机响应武将=hero)
+
                 Log().battle_L0('[第{}回合]回合结束时'.format(i + 1))
                 self.respond(status = SoulResponseTime.回合结束时)
+                self.respond(status = SoulResponseTime.回合结束重置阶段)
 
         return self.isOverWithoutDefeated()
 

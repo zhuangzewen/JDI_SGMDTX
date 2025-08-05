@@ -10,6 +10,7 @@ from External.Bonds.BondUtils import (
     BondUtils, Hero, SkillInfo, Skill, SkillType,
     SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Generals_Name_Enum, BondsName_Enum, Log
 )
+from Soul.Class.Damage_Class import Damage
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 
 class 国之栋梁_info(SkillInfo):
@@ -24,6 +25,38 @@ class 国之栋梁_info(SkillInfo):
         ]
         self.缘分武将生效数量 = 3
         
+class 国之栋梁_谋略伤害soul(Soul):
+    def __init__(self, 
+                 target: Hero, 
+                 initiator: Hero = None, 
+                 skill: Skill = None, 
+                 effect_type: SoulEffectType = SoulEffectType.无影响, 
+                 effect_value: float = 0,
+                 source_soul = None):
+        super().__init__(target, initiator, skill=skill, effect_type=effect_type, effect_value=effect_value, source_soul=source_soul)
+        self.attack_damage = 0
+
+    def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
+        if status == SoulResponseTime.造成伤害时:
+            damage:Damage = sourceSoul.damage
+            if damage.type == SoulDamageType.谋略:
+                self.attack_damage += 1
+                if self.attack_damage >= 3:
+                    self.attack_damage = 0
+                    self.restore_initial()
+
+    def _restore_and_remove_initiator_souls(self):
+        """恢复并移除发起者的souls"""
+        souls_to_process = [soul for soul in self.soul持有列表 if soul.initiator == self.target]
+        
+        for soul in souls_to_process:
+            soul.restore_initial()
+            # 移除所有匹配的soul（防止重复）
+            while soul in self.soul持有列表:
+                self.soul持有列表.remove(soul)
+
+
+
 class 国之栋梁_soul(Soul):
     def __init__(self, target, initiator, skill):
         super().__init__(target, initiator, skill=skill)
@@ -31,6 +64,18 @@ class 国之栋梁_soul(Soul):
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
         def 国之栋梁_effect(team, effect_hero_list):
+            for effect_hero in effect_hero_list:
+                谋略伤害soul = 国之栋梁_谋略伤害soul(
+                    target=effect_hero,
+                    initiator=self.target,
+                    skill=self.skill,
+                    effect_type=SoulEffectType.造成谋略伤害提升,
+                    effect_value=0.5,
+                    source_soul=self,
+                )
+                谋略伤害soul.deploy_initial()
+                effect_hero.get_响应Soul列表().append(谋略伤害soul)
+
             pass
                     
         # 使用统一的缘分响应处理

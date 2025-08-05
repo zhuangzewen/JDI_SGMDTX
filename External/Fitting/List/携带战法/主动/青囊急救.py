@@ -41,8 +41,7 @@ class 青囊急救_soul(BaseSkillSoul):
 
     def _deploy_治疗效果(self, battleField):
 
-         # 找到我军兵力最低的单体
-        low_hero_list: [Hero] = [msg_对己方兵力最低目标生效(self.target, battleField)]
+        low_hero_list: List[Hero] = [msg_对己方兵力最低目标生效(self.target, battleField)]
         low_hero = 从队列确定受击单位(heroList=low_hero_list, skill=self.skill, hero=self.target, battleField=battleField, needRemove=True)
 
         Log().battle_L1('[{}]执行来自【{}】的[青囊急救]效果'.format(

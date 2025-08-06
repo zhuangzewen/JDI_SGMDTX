@@ -66,5 +66,5 @@ class Team():
             if 缘分武将数量 >= 缘分info.缘分武将生效数量:
                 from External.JDI_Skill import get_skill
                 缘分skill = get_skill(f, None)
-                才堪相配soul = 缘分skill.fill_init_soul()
-                self.缘分soul列表.append(才堪相配soul)
+                创建soul = 缘分skill.fill_init_soul()
+                self.缘分soul列表.append(创建soul)

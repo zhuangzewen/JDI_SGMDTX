@@ -41,9 +41,9 @@ class 国之栋梁_谋略伤害soul(Soul):
             damage:Damage = sourceSoul.damage
             if damage.type == SoulDamageType.谋略:
                 self.attack_damage += 1
-                if self.attack_damage >= 3:
+                if self.attack_damage == 3:
                     self.attack_damage = 0
-                    self.restore_initial()
+                    # self.restore_initial()
 
     def _restore_and_remove_initiator_souls(self):
         """恢复并移除发起者的souls"""

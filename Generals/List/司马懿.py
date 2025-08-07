@@ -15,5 +15,5 @@ class 司马懿_info(HeroInfo):
         self.统率成长 = 2.11
         self.初始先攻 = 47
         self.先攻成长 = 1.54
-        self.自带战法 = Fitting_List_Enum.临机制胜
-        self.缘分列表 = [BondsName_Enum.国之栋梁, BondsName_Enum.枭鸾同谋]  # 国之栋梁和泉商同谋未在BondsName_Enum中找到
+        self.自带战法 = Fitting_List_Enum.鹰视狼顾
+        self.缘分列表 = [BondsName_Enum.国之栋梁, BondsName_Enum.枭鸾同谋]

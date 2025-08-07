@@ -9,6 +9,7 @@ from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Generals.JDI_Hero import Hero
 from Soul.Class.Damage_Class import Damage
 from Calcu.JDI_Calculate import msg_移除响应
+from BattleField.Team.JDI_Team import Team
 import random
 
 class Soul():
@@ -17,8 +18,9 @@ class Soul():
     def __init__(self, 
                  target: Hero, 
                  initiator: Hero = None, 
+                 initiaTeam: Team = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
-                 sourceDetail: [SoulSourceDetail] = [],
+                 sourceDetail: [SoulSourceDetail] = [], # pyright: ignore[reportInvalidTypeForm]
                  skill: Skill = None, 
                  response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
@@ -29,6 +31,7 @@ class Soul():
                  damage: Damage = None):
         self.target = target                # 目标
         self.initiator = initiator          # 发起者
+        self.initiaTeam = initiaTeam        # 发起队伍
         self.sourceType = sourceType        # 来源类型
         self.sourceDetail = sourceDetail    # 来源详情
         self.skill = skill                  # 技能

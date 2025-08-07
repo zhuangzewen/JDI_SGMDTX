@@ -31,6 +31,7 @@ class 普攻_soul(BaseSkillSoul):
     def __init__(self, 
                 target, 
                 initiator=None, 
+                initiaTeam = None,
                 sourceType=SoulSourceType.不溯源, 
                 sourceDetail=[],
                 skill=None, 
@@ -40,7 +41,7 @@ class 普攻_soul(BaseSkillSoul):
                 effect_value=0, 
                 source_soul=None, 
                 battleField=None):
-         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, 
+         super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, 
                     duration, effect_type, effect_value, source_soul, battleField)
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):

@@ -16,6 +16,7 @@ from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from Soul.JDI_Soul import Soul
 from Control.Log.JDI_Log import Log
 from Calcu.JDI_Calculate import *
+from BattleField.Team.JDI_Team import Team
 import random
 
 # 导出常用的枚举和类，供战法文件直接使用
@@ -54,6 +55,7 @@ class BaseSkillSoul(Soul):
     def __init__(self, 
                  target: Hero, 
                  initiator: Hero = None, 
+                 initiaTeam: Team = None, 
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
                  sourceDetail: List[SoulSourceDetail] = [],  # 修改类型注解
                  skill: Skill = None, 
@@ -64,7 +66,7 @@ class BaseSkillSoul(Soul):
                  source_soul = None,
                  battleField = None,
                  damage: Damage = None):
-        super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, 
+        super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, 
                         duration, effect_type, effect_value, source_soul, battleField, damage)
         self.soul持有列表 = []
 

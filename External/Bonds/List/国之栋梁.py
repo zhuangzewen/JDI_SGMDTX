@@ -12,6 +12,8 @@ from External.Bonds.BondUtils import (
 )
 from Soul.Class.Damage_Class import Damage
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
+from BattleField.Team.JDI_Team import Team
+from Calcu.JDI_Calculate import 获取武将所在的队伍
 
 class 国之栋梁_info(SkillInfo):
     def __init__(self):
@@ -29,38 +31,41 @@ class 国之栋梁_谋略伤害soul(Soul):
     def __init__(self, 
                  target: Hero, 
                  initiator: Hero = None, 
+                 initiaTeam: Team = None, 
                  skill: Skill = None, 
                  effect_type: SoulEffectType = SoulEffectType.无影响, 
                  effect_value: float = 0,
                  source_soul = None):
-        super().__init__(target, initiator, skill=skill, effect_type=effect_type, effect_value=effect_value, source_soul=source_soul)
+        super().__init__(target, initiator, initiaTeam=initiaTeam, skill=skill, effect_type=effect_type, effect_value=effect_value, source_soul=source_soul)
         self.attack_damage = 0
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
-        if status == SoulResponseTime.造成伤害时:
+
+        # 队伍中的缘分武将 各持有一个独立的 国之栋梁_谋略伤害soul
+        # 当 attack_damage 总和等于 3 时 全部 restore_initial
+        if status == SoulResponseTime.造成伤害时 and hero == self.target:
+            
             damage:Damage = sourceSoul.damage
             if damage.type == SoulDamageType.谋略:
-                self.attack_damage += 1
-                if self.attack_damage == 3:
-                    self.attack_damage = 0
-                    # self.restore_initial()
+                self.source_soul.commond_attack_damage += 1
 
-    def _restore_and_remove_initiator_souls(self):
-        """恢复并移除发起者的souls"""
-        souls_to_process = [soul for soul in self.soul持有列表 if soul.initiator == self.target]
-        
-        for soul in souls_to_process:
-            soul.restore_initial()
-            # 移除所有匹配的soul（防止重复）
-            while soul in self.soul持有列表:
-                self.soul持有列表.remove(soul)
-
-
+            from Calcu.JDI_Calculate import 获取武将所在的队伍
+            if self.source_soul.commond_attack_damage >= 3:
+                
+                所在队伍 = 获取武将所在的队伍(self.target, battleField)
+                for 队伍Hero in [所在队伍.firstHero, 所在队伍.secondHero, 所在队伍.thirdHero]:
+                    soulList = 队伍Hero.get_响应Soul列表()
+                    for soulDetail in soulList:
+                        if soulDetail.source_soul == self.source_soul:
+                            Log().battle_L1('[{}]的[国之栋梁]效果已消失'.format(self.target.get_武将名称().value))
+                            soulDetail.restore_initial()
+                            队伍Hero.get_响应Soul列表().remove(soulDetail)
 
 class 国之栋梁_soul(Soul):
+
     def __init__(self, target, initiator, skill):
         super().__init__(target, initiator, skill=skill)
-
+        self.commond_attack_damage = 0
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
         def 国之栋梁_effect(team, effect_hero_list):
@@ -75,8 +80,6 @@ class 国之栋梁_soul(Soul):
                 )
                 谋略伤害soul.deploy_initial()
                 effect_hero.get_响应Soul列表().append(谋略伤害soul)
-
-            pass
                     
         # 使用统一的缘分响应处理
         BondUtils.standard_bond_response(

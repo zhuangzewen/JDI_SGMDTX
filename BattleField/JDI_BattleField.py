@@ -490,10 +490,10 @@ class BattleField():
             self.重置队伍状态()
 
             self.重置武将状态()
-            
-            self.填充战法()
 
             self.列队布阵()
+
+            self.填充战法()
 
             self.respond(status = SoulResponseTime.战法布阵开始时)
 

@@ -225,15 +225,9 @@ class 十二奇策_skill(BaseSkill):
     def 十二奇策_发动率(self):
         # 初始值为 0.6
         # 每一级升阶提升基础初始值为 0.01
-
-        rankUp = self.get_战法升阶()
-        value = 0.6 + rankUp * 0.01
-        return value
+        return self.get_rank_bonus(0.6, 0.01)
 
     def 十二奇策_伤害系数(self):
         # 初始值为 220%
         # 每一级升阶提升基础初始值为 2.4%
-
-        rankUp = self.get_战法升阶()
-        value = 2.2 + rankUp * 0.024
-        return value
+        return self.get_rank_bonus(2.2, 0.024)

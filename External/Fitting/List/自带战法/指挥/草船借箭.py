@@ -10,7 +10,7 @@
 # 满阶草船借箭:
 # 自身攻心提升27.5%,自身受到或造成伤害时,有50%概率对敌方随机单体造成92%谋略伤害,每回合可触发5次
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, Hero, Soul, Skill

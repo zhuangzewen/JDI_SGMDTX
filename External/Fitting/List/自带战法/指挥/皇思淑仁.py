@@ -12,7 +12,7 @@
 # 每个回合开始有69%概率(受智力影响)提升我军随机2-3人20.6%规避率(受智力影响),持续2回合。
 # 每个回合结束时恢复我军随机两人兵力(治疗率138%)
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
     Fitting_List_Enum, Log, random, Hero, Soul

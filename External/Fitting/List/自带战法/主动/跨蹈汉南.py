@@ -11,7 +11,7 @@
 # 满阶跨蹈汉南:
 # 对敌军随机单体造成67.7%谋略伤害
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log
 )

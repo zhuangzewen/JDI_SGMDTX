@@ -21,7 +21,7 @@
 #（已持有清醒和抵御时视为持有布局一和二）
 
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, WeaponType, SkillFeature, Hero, Soul

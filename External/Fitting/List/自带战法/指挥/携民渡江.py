@@ -12,7 +12,7 @@
 # 战斗开始时，提升我军全体20.5点统率(受智力影响), 
 # 每回合结束时，恢复我军全体兵力(治疗率116%),然后驱散我军兵力最低单体1种负面状态并对其额外进行1次恢复(治疗率104%)
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
     Fitting_List_Enum, Log, random, Hero, Soul

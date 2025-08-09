@@ -10,7 +10,7 @@ from External.Bonds.BondUtils import (
     BondUtils, Hero, SkillInfo, Skill, SkillType,
     SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Generals_Name_Enum, BondsName_Enum
 )
-from External.SkillBaseTemplate import BaseSkillSoul
+from Soul.JDI_Soul import BaseSkillSoul
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
 from BattleField.Team.JDI_Team import Team
 from Control.Log.JDI_Log import Log

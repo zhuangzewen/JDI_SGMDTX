@@ -8,7 +8,7 @@
 # 奇数回合开始时提升我军全体25%造成伤害(受智力影响)，持续至回合结束。
 # 偶数回合开始时恢复我军全体兵力(治疗率220%)
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
     Fitting_List_Enum, Log, Hero, Soul

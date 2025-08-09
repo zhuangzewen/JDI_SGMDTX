@@ -8,7 +8,7 @@
 # 见机行事:
 # 提升我军智力最高单体智力10→20，我军武力最高单体武力10→20，持续2回合
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log
 )

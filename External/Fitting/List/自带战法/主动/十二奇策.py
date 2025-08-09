@@ -11,7 +11,7 @@
 # 异常状态:特殊负面状态
 # 包括:震慑、缴械、技穷、混乱、嘲讽、虚弱、断粮、洪水、火攻、风暴、畏惧、妖术,共计12种
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, WeaponType, SkillFeature, Hero, Soul

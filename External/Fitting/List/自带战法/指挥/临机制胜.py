@@ -12,7 +12,7 @@
 # 战斗中,敌我全体被施加异常状态时,有70%概率触发制胜:立刻对敌军随机两人造成69%谋略伤害。
 # 每回合制胜最多触发4次。累积触发4次制胜后,恢复我军全体兵力(治疗率46%,受智力影响)
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, Hero, Skill

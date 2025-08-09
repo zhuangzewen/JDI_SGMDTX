@@ -7,7 +7,7 @@
 # 悲愤诗:
 # 恢复我军全体兵力(治疗率120%,受智力影响),并施加1层抵御。若目标为前排,则额外恢复兵力(治疗率50%,受智力影响)
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType, Damage
 )

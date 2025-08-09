@@ -7,7 +7,7 @@
 # 青囊急救:
 # 驱散我军兵力最低单体3种负面状态，并恢复其兵力(治疗率260%)
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
     Fitting_List_Enum, Log, random, Hero, Soul

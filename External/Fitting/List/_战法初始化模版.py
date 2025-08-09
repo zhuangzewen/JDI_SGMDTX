@@ -10,7 +10,7 @@
 
 # 满阶效果描述（不填写，后续实现时补充）
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
     Fitting_List_Enum, Log, random, Hero, Soul, Skill

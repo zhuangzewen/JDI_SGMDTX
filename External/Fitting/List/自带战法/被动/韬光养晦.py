@@ -7,7 +7,7 @@
 # 韬光养晦:
 # 自带主动战法发动率提升3%→6%(受智力影响),每个回合开始时使自身造成谋略伤害提升4%→8%,可叠加,持续到战斗结束
 
-from External.SkillBaseTemplate import (
+from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
     Fitting_List_Enum, Log, Hero

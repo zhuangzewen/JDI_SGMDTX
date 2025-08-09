@@ -8,7 +8,7 @@
 # 提升自身35%规避率，成功规避后触发龙胆
 # 龙胆:立刻对敌军随机两人造成90%兵刃伤害,当前回合下一次龙胆的伤害系数降低10%。龙胆每个回合可触发7次
 
-from External.SkillBaseTemplate import (BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template, SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType, Fitting_List_Enum, Log, random, Hero, Soul, Skill)
+from Soul.JDI_Soul import (BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template, SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType, Fitting_List_Enum, Log, random, Hero, Soul, Skill)
 from Calcu.JDI_Calculate import *
 
 class 七进七出_info(BaseSkillInfo):

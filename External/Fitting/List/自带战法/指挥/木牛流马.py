@@ -24,6 +24,7 @@ class 木牛流马_增伤soul(Soul):
     def __init__(self, 
                  target, 
                  initiator=None, 
+                 initialTeam=None,
                  sourceType=None, 
                  sourceDetail=[],
                  skill=None, 
@@ -34,7 +35,7 @@ class 木牛流马_增伤soul(Soul):
                  source_soul=None,
                  battleField=None,
                  damage=Damage(skillEffectName="木牛流马-决机")):
-         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
+         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.回合结束重置阶段:

@@ -10,6 +10,7 @@ class 清醒_soul(Soul):
     def __init__(self, 
                  target, 
                  initiator=None, 
+                 initiaTeam=None,
                  sourceType=None, 
                  sourceDetail=[],
                  skill=None, 
@@ -19,7 +20,7 @@ class 清醒_soul(Soul):
                  effect_value=0,
                  source_soul=None,
                  battleField=None):
-         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+         super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:

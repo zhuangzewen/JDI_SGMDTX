@@ -28,6 +28,7 @@ class 皇思淑仁_规避soul(Soul):
     def __init__(self, 
                  target, 
                  initiator=None, 
+                 initialTeam=None,
                  sourceType=None, 
                  sourceDetail=[],
                  skill=None, 
@@ -38,7 +39,7 @@ class 皇思淑仁_规避soul(Soul):
                  source_soul=None,
                  battleField=None,
                  damage=Damage(skillEffectName="皇思淑仁")):
-         super().__init__(target, initiator, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
+         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:

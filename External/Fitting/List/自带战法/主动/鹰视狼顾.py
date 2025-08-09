@@ -51,13 +51,13 @@ class 鹰视狼顾_soul(BaseSkillSoul):
         self.谋略伤害提升次数 = 0
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
-
+       
         if status == SoulResponseTime.武将溃败:
             self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
             return
         
         if status == SoulResponseTime.主动战法行动时 and hero == self.target:
-
+            
             if not msg_主动战法发起判断(self.target):
                 Log().battle_L0('[{}]战法【{}】无法释放'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 return
@@ -90,12 +90,15 @@ class 鹰视狼顾_soul(BaseSkillSoul):
         return buffs.get(layout, "无")
     
 class 鹰视狼顾_skill(BaseSkill):
+
     def __init__(self, hero, skillName):
         super().__init__(hero, skillName)
 
-    def fill_init_soul(self, battleField=None, hero=None):
-
-        鹰视狼顾soul = 鹰视狼顾_soul(target=hero, initiator=hero, skill=self)
+    def fill_init_soul(self):
+        鹰视狼顾soul = 鹰视狼顾_soul(
+            target=self.get_持有者(),
+            initiator=self.get_持有者(),
+            skill=self)
         self.get_Soul_list().append(鹰视狼顾soul)
         self.get_持有者().get_持有Soul列表().append(鹰视狼顾soul)
         self.get_持有者().get_响应Soul列表().append(鹰视狼顾soul)

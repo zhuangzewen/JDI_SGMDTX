@@ -488,23 +488,17 @@ class BattleField():
             self.command_handle_respon = []
 
             self.重置队伍状态()
-
             self.重置武将状态()
-
             self.列队布阵()
-
             self.填充战法()
-
             self.respond(status = SoulResponseTime.战法布阵开始时)
 
             # 八个回合
             for i in range(8):
-                
                 self.current_round = i + 1
                 Log().battle_L0('\n[第 {} 回合]'.format(i + 1))
 
                 self.respond(status = SoulResponseTime.回合重置阶段)
-
                 setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
                 Log().battle_L0('[第{}回合]回合开始时'.format(i + 1))
@@ -517,31 +511,20 @@ class BattleField():
                     self.respond(status=SoulResponseTime.武将回合重置阶段, 时机响应武将=hero)
                     
                     self.respond(status=SoulResponseTime.回合行动时, 时机响应武将=hero)
-                    if self.isOver() != 0:
-                        if self.isOver() == 1:
-                            Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
-                            return True
-                        elif self.isOver() == 2:
-                            Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
-                            return False
+                    # 使用辅助方法检查战斗是否结束
+                    result = self._check_battle_over()
+                    if result is not None:
+                        return result
 
                     self.respond(status=SoulResponseTime.主动战法行动时, 时机响应武将=hero)
-                    if self.isOver() != 0:
-                        if self.isOver() == 1:
-                            Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
-                            return True
-                        elif self.isOver() == 2:
-                            Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
-                            return False
+                    result = self._check_battle_over()
+                    if result is not None:
+                        return result
 
                     self.respond(status=SoulResponseTime.普攻行动时, 时机响应武将=hero)
-                    if self.isOver() != 0:
-                        if self.isOver() == 1:
-                            Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
-                            return True
-                        elif self.isOver() == 2:
-                            Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
-                            return False
+                    result = self._check_battle_over()
+                    if result is not None:
+                        return result
 
                     self.respond(status=SoulResponseTime.回合行动结束时, 时机响应武将=hero)
                     self.respond(status=SoulResponseTime.武将回合结束重置阶段, 时机响应武将=hero)
@@ -551,5 +534,17 @@ class BattleField():
                 self.respond(status = SoulResponseTime.回合结束重置阶段)
 
         return self.isOverWithoutDefeated()
+
+    # 添加辅助方法来减少重复代码
+    def _check_battle_over(self):
+        over_status = self.isOver()
+        if over_status != 0:
+            if over_status == 1:
+                Log().battle_L0('[{}]战斗结束'.format(self.team1.teamInfo.teamName))
+                return True
+            elif over_status == 2:
+                Log().battle_L0('[{}]战斗结束'.format(self.team2.teamInfo.teamName))
+                return False
+        return None
 
     

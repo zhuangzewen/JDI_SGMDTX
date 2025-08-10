@@ -53,16 +53,34 @@ class Soul():
         self.target: Hero
         heroName = self.target.get_武将名称().value
 
+        print(f'[DEBUG] deploy_initial called, effect_type={self.effect_type}, effect_type.name={self.effect_type.name}, effect_value={self.effect_value}')
         # 补充判断 当发起者或目标为 溃败状态时 不响应
         if self.initiator is not None and self.initiator.get_被击溃状态():
+            print('[DEBUG] initiator is 崩溃状态, return')
             return
         if self.target is not None and self.target.get_被击溃状态():
+            print('[DEBUG] target is 崩溃状态, return')
             return
 
-        if (self.deploy_增减伤系数_inital() != False):
+        # 将 self.effect_type 转化为 方法名
+        method_name = f"deploy_{self.effect_type.name}_initial"
+        print(f'[DEBUG] 拼接分支方法名: {method_name}')
+        # 若是存在 则引用
+        if hasattr(self, method_name):
+            print(f'[DEBUG] {method_name} exists in Soul, 调用 self.{method_name}')
+            method = getattr(self, method_name)
+            if method(self) != False:
+                print(f'[DEBUG] {method_name} returned True, return')
+                return
+        else:
+            print(f'[DEBUG] {method_name} not found in Soul')
+
+        if (self.deploy_增减伤系数_initial() != False):
+            print('[DEBUG] deploy_增减伤系数_initial returned True, return')
             return
-        
-        if (self.deploy_异常状态_inital() != False):
+
+        if (self.deploy_异常状态_initial() != False):
+            print('[DEBUG] deploy_异常状态_initial returned True, return')
             return
 
         if self.effect_value > 0:
@@ -285,7 +303,7 @@ class Soul():
 
             Log().battle_L2('[{}]恢复了兵力{}({})'.format(self.target.get_武将名称().value, 恢复兵力, self.target.get_兵力()))
 
-    def deploy_增减伤系数_inital(self):
+    def deploy_增减伤系数_initial(self):
 
         self.target: Hero
         heroName = self.target.get_武将名称().value
@@ -541,7 +559,7 @@ class Soul():
 
         return True
 
-    def deploy_异常状态_inital(self):
+    def deploy_异常状态_initial(self):
 
         self.target: Hero
         heroName = self.target.get_武将名称().value
@@ -1080,6 +1098,8 @@ class Soul():
             msg_移除响应(self)
             Log().battle_L2('[{}]的[技穷]效果已消失'.format(heroName))
 
+       
+
         elif self.effect_type == SoulEffectType.混乱:
             msg_移除响应(self)
             Log().battle_L2('[{}]的[混乱]效果已消失'.format(heroName))
@@ -1393,3 +1413,11 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
     if template_type not in templates:
         raise ValueError(f"Unknown template type: {template_type}")
     return templates.get(template_type)
+
+
+# 文件末尾自动注册所有 deploy_*_initial 方法到 Soul 类
+from Soul.List.受到伤害 import *
+import types
+for name, obj in list(globals().items()):
+    if name.startswith('deploy_') and name.endswith('_initial') and isinstance(obj, types.FunctionType):
+        setattr(Soul, name, staticmethod(obj))

@@ -1415,9 +1415,10 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
     return templates.get(template_type)
 
 
-# 文件末尾自动注册所有 deploy_*_initial 方法到 Soul 类
-from Soul.List.受到伤害 import *
+# 文件末尾自动注册所有 deploy_*_initial && restore_*_initial 方法到 Soul 类
 import types
 for name, obj in list(globals().items()):
     if name.startswith('deploy_') and name.endswith('_initial') and isinstance(obj, types.FunctionType):
+        setattr(Soul, name, staticmethod(obj))
+    if name.startswith('restore_') and name.endswith('_initial') and isinstance(obj, types.FunctionType):
         setattr(Soul, name, staticmethod(obj))

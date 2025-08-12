@@ -24,9 +24,6 @@ def deploy_受到伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
     return True
 def restore_受到伤害提升_initial(soul: Any):
     hero = soul.target
@@ -53,9 +50,6 @@ def deploy_受到伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
     return True
 def restore_受到伤害降低_initial(soul: Any):
     hero = soul.target
@@ -77,12 +71,10 @@ def deploy_受到伤害提升固定值_initial(soul: Any):
     cur_value += effect_value
     setattr(hero, HeroInfoKey.受到伤害提升.value, cur_value)
     show_upEffect_name = '【受到伤害】提升(固定值)'
-    show_effectValue_name = '{:.2f}'.format(abs(effect_value) * 100)
-    show_curEffect_name = '{:.2f}'.format(get_受到伤害(hero) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到伤害提升固定值_initial(soul: Any):
     hero = soul.target
@@ -91,8 +83,8 @@ def restore_受到伤害提升固定值_initial(soul: Any):
     cur_value -= soul.effect_value
     setattr(hero, HeroInfoKey.受到伤害提升.value, cur_value)
     show_upEffect_name = '【受到伤害】降低(固定值)'
-    show_effectValue_name = '{:.2f}'.format(abs(soul.effect_value) * 100)
-    show_curEffect_name = '{:.2f}'.format(get_受到伤害(hero) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
 
@@ -104,12 +96,10 @@ def deploy_受到伤害降低固定值_initial(soul: Any):
     cur_value += effect_value
     setattr(hero, HeroInfoKey.受到伤害降低.value, cur_value)
     show_upEffect_name = '【受到伤害】降低(固定值)'
-    show_effectValue_name = '{:.2f}'.format(abs(effect_value) * 100)
-    show_curEffect_name = '{:.2f}'.format(get_受到伤害(hero) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到伤害降低固定值_initial(soul: Any):
     hero = soul.target
@@ -118,8 +108,8 @@ def restore_受到伤害降低固定值_initial(soul: Any):
     cur_value -= soul.effect_value
     setattr(hero, HeroInfoKey.受到伤害降低.value, cur_value)
     show_upEffect_name = '【受到伤害】提升(固定值)'
-    show_effectValue_name = '{:.2f}'.format(abs(soul.effect_value) * 100)
-    show_curEffect_name = '{:.2f}'.format(get_受到伤害(hero) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
 
@@ -142,9 +132,7 @@ def deploy_受到异性伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到异性伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到异性伤害提升_initial(soul: Any):
     hero = soul.target
@@ -170,9 +158,7 @@ def deploy_受到异性伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到异性伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到异性伤害降低_initial(soul: Any):
     hero = soul.target
@@ -205,9 +191,7 @@ def deploy_受到谋略伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到谋略伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到谋略伤害提升_initial(soul: Any):
     hero = soul.target
@@ -233,9 +217,7 @@ def deploy_受到谋略伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到谋略伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到谋略伤害降低_initial(soul: Any):
     hero = soul.target
@@ -268,9 +250,7 @@ def deploy_受到兵刃伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到兵刃伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 
 
@@ -298,9 +278,7 @@ def deploy_受到兵刃伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到兵刃伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到兵刃伤害降低_initial(soul: Any):
     hero = soul.target
@@ -333,9 +311,7 @@ def deploy_受到普通攻击伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到普通攻击伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到普通攻击伤害提升_initial(soul: Any):
     hero = soul.target
@@ -361,9 +337,7 @@ def deploy_受到普通攻击伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到普通攻击伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到普通攻击伤害降低_initial(soul: Any):
     hero = soul.target
@@ -396,9 +370,7 @@ def deploy_受到主动战法伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到主动战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到主动战法伤害提升_initial(soul: Any):
     hero = soul.target
@@ -424,9 +396,7 @@ def deploy_受到主动战法伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到主动战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到主动战法伤害降低_initial(soul: Any):
     hero = soul.target
@@ -459,9 +429,7 @@ def deploy_受到追击战法伤害提升_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到追击战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到追击战法伤害提升_initial(soul: Any):
     hero = soul.target
@@ -487,9 +455,7 @@ def deploy_受到追击战法伤害降低_initial(soul: Any):
     show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到追击战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
-    if SoulSourceDetail.负面状态效果 in soul.sourceDetail:
-        soul.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=soul.initiator, 溯源SOUL=soul)
-        soul.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=soul.target, 溯源SOUL=soul)
+    # respond逻辑已移除，主流程统一控制
     return True
 def restore_受到追击战法伤害降低_initial(soul: Any):
     hero = soul.target

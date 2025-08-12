@@ -313,7 +313,6 @@ class Hero():
         setattr(self, HeroInfoKey.已行动状态.value, False)
         setattr(self, HeroInfoKey.受击率.value, 0)
         setattr(self, HeroInfoKey.固定受击率.value, 0)
-
         setattr(self, HeroInfoKey.受治疗效果.value, 1)
         
         setattr(self, HeroInfoKey.会心几率.value, 0)

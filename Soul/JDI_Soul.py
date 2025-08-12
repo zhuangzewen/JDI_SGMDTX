@@ -51,21 +51,17 @@ class Soul():
     def deploy_initial(self):
 
         self.target: Hero
-        heroName = self.target.get_武将名称().value
-
-        # 补充判断 当发起者或目标为 溃败状态时 不响应
+        # 溃败状态不响应
         if self.initiator is not None and self.initiator.get_被击溃状态():
             return
         if self.target is not None and self.target.get_被击溃状态():
             return
-
-        # 将 self.effect_type 转化为 方法名
+        # 自动分发到分文件方法
         method_name = f"deploy_{self.effect_type.name}_initial"
-        # 若是存在 则引用
         if hasattr(self, method_name):
             method = getattr(self, method_name)
             if method(self) != False:
-
+                # 状态响应分发
                 if SoulSourceDetail.控制状态效果 in self.sourceDetail:
                     self.battleField.respond(status=SoulResponseTime.施加控制时, 时机响应武将=self.initiator, 溯源SOUL=self)
                     self.battleField.respond(status=SoulResponseTime.被施加控制时, 时机响应武将=self.target, 溯源SOUL=self)
@@ -75,7 +71,6 @@ class Soul():
                 if SoulSourceDetail.负面状态效果 in self.sourceDetail:
                     self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                     self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
-
                 return
         else:
             Log().show_debug_info(f'[DEBUG] {method_name} not found in Soul')
@@ -83,17 +78,13 @@ class Soul():
     def restore_initial(self):
 
         self.target: Hero
-        heroName = self.target.get_武将名称().value
-
-        # 补充判断 当发起者或目标为 溃败状态时 不响应
+        # 溃败状态不响应
         if self.initiator is not None and self.initiator.get_被击溃状态():
             return
         if self.target is not None and self.target.get_被击溃状态():
             return
-
-        # 将 self.effect_type 转化为 方法名
+        # 自动分发到分文件方法
         method_name = f"restore_{self.effect_type.name}_initial"
-        # 若是存在 则引用
         if hasattr(self, method_name):
             method = getattr(self, method_name)
             if method(self) != False:
@@ -337,6 +328,7 @@ from Soul.List.基础属性 import *
 from Soul.List.常规增益 import *
 from Soul.List.特殊增益 import *
 from Soul.List.特殊负面 import *
+from Soul.List.附加属性 import *
 from Soul.List.增减兵力 import *
 
 for name, obj in list(globals().items()):

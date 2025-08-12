@@ -583,7 +583,6 @@ class Soul():
             msg_移除响应(self)
             Log().battle_L2('[{}]的[技穷]效果已消失'.format(heroName))
 
-       
 
         elif self.effect_type == SoulEffectType.混乱:
             msg_移除响应(self)
@@ -902,9 +901,13 @@ def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigge
 
 # 文件末尾自动注册所有 deploy_*_initial && restore_*_initial 方法到 Soul 类
 import types
-from Soul.List.受到伤害 import *
+# 引入 Soul.List 下的所有文件 的所有方法
+
 from Soul.List.造成伤害 import *
+from Soul.List.受到伤害 import *
 from Soul.List.基础属性 import *
+from Soul.List.常规增益 import *
+
 for name, obj in list(globals().items()):
     if name.startswith('deploy_') and name.endswith('_initial') and isinstance(obj, types.FunctionType):
         setattr(Soul, name, staticmethod(obj))

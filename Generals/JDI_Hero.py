@@ -95,20 +95,9 @@ class Hero():
     def get_固定受击率(self):
         return getattr(self, HeroInfoKey.固定受击率.value)
     
-    def get_看破(self):
-        return getattr(self, HeroInfoKey.看破.value)
-    def get_破甲(self):
-        return getattr(self, HeroInfoKey.破甲.value)
-    def get_抵御(self):
-        return getattr(self, HeroInfoKey.抵御.value)
-    def get_攻心(self):
-        return getattr(self, HeroInfoKey.攻心.value)
     def get_受治疗效果(self):
         return getattr(self, HeroInfoKey.受治疗效果.value)
-    def get_连击几率(self):
-        return getattr(self, HeroInfoKey.连击几率.value)
-    def get_规避(self):
-        return getattr(self, HeroInfoKey.规避.value)
+    
     def get_会心几率(self):
         return getattr(self, HeroInfoKey.会心几率.value)
     def get_会心伤害(self):
@@ -117,6 +106,30 @@ class Hero():
         return getattr(self, HeroInfoKey.奇谋几率.value)
     def get_奇谋伤害(self):
         return getattr(self, HeroInfoKey.奇谋伤害.value)
+    def get_破甲(self):
+        return getattr(self, HeroInfoKey.破甲.value)
+    def get_看破(self):
+        return getattr(self, HeroInfoKey.看破.value)
+    def get_倒戈(self):
+        return getattr(self, HeroInfoKey.倒戈.value)
+    def get_攻心(self):
+        return getattr(self, HeroInfoKey.攻心.value)
+    def get_连击几率(self):
+        return getattr(self, HeroInfoKey.连击几率.value)
+    def get_反击几率(self):
+        return getattr(self, HeroInfoKey.反击几率.value)
+    def get_规避(self):
+        return getattr(self, HeroInfoKey.规避.value)
+    
+    def get_清醒(self):
+        return getattr(self, HeroInfoKey.清醒.value)
+    def get_抵御(self):
+        return getattr(self, HeroInfoKey.抵御.value)
+    def get_必中(self):
+        return getattr(self, HeroInfoKey.必中.value)
+    def get_破御(self):
+        return getattr(self, HeroInfoKey.破御.value)
+    
 
     def get_造成伤害提升(self):
         return getattr(self, HeroInfoKey.造成伤害提升.value)
@@ -301,17 +314,24 @@ class Hero():
         setattr(self, HeroInfoKey.受击率.value, 0)
         setattr(self, HeroInfoKey.固定受击率.value, 0)
 
-        setattr(self, HeroInfoKey.看破.value, 0)
-        setattr(self, HeroInfoKey.破甲.value, 0)
-        setattr(self, HeroInfoKey.抵御.value, 0)
-        setattr(self, HeroInfoKey.攻心.value, 0)
         setattr(self, HeroInfoKey.受治疗效果.value, 1)
-        setattr(self, HeroInfoKey.连击几率.value, 0)
-        setattr(self, HeroInfoKey.规避.value, 0)
+        
         setattr(self, HeroInfoKey.会心几率.value, 0)
         setattr(self, HeroInfoKey.会心伤害.value, 1.5)
         setattr(self, HeroInfoKey.奇谋几率.value, 0)
         setattr(self, HeroInfoKey.奇谋伤害.value, 1.5)
+        setattr(self, HeroInfoKey.破甲.value, 0)
+        setattr(self, HeroInfoKey.看破.value, 0)
+        setattr(self, HeroInfoKey.倒戈.value, 0)
+        setattr(self, HeroInfoKey.攻心.value, 0)
+        setattr(self, HeroInfoKey.连击几率.value, 0)
+        setattr(self, HeroInfoKey.反击几率.value, 0)
+        setattr(self, HeroInfoKey.规避.value, 0)
+
+        setattr(self, HeroInfoKey.清醒.value, 0)
+        setattr(self, HeroInfoKey.抵御.value, 0)
+        setattr(self, HeroInfoKey.必中.value, 0)
+        setattr(self, HeroInfoKey.破御.value, 0)
 
         setattr(self, HeroInfoKey.造成伤害提升.value, 1)
         setattr(self, HeroInfoKey.造成伤害降低.value, 0)
@@ -377,6 +397,20 @@ class Hero():
             self.get_持有Soul列表().clear()
 
         if status == SoulResponseTime.造成伤害时:
+
+            if hero == self and self.get_倒戈() > 0 and sourceSoul.damage.type == SoulDamageType.兵刃:
+                Log().battle_L2('[{}]触发倒戈'.format(self.get_武将名称().value))
+                伤害SOUL: Soul = sourceSoul
+                恢复兵力 = abs(int(伤害SOUL.effect_value * self.get_倒戈()))
+
+                from Soul.JDI_Soul import Soul
+                from Soul.Enum.SoulEffectType_Enum import SoulEffectType
+                恢复soul = Soul(target=self,
+                                initiator=self,
+                                skill=None,
+                                effect_type=SoulEffectType.恢复兵力,
+                                effect_value=恢复兵力,
+                                battleField=battleField)
 
             if hero == self and self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
                 Log().battle_L2('[{}]触发攻心'.format(self.get_武将名称().value))

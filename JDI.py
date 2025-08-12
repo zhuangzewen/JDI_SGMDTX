@@ -61,8 +61,8 @@ def battle():
     team2_hero3.set_extra(wl_extra=0, zl_extra=50, ts_extra=0, xg_extra=0, rank_info=1, premium_info=1)
     team2_hero3.set_skills(None, 0, None, 0)
 
-    team1 = TeamInfo(Formation.萁型阵, team1_hero1, team1_hero2, team1_hero3, '测试队伍A_普攻测试队')
-    team2 = TeamInfo(Formation.锥型阵, team2_hero1, team2_hero2, team2_hero3, '测试队伍B_普攻测试队')
+    team1 = TeamInfo(Formation.鱼鳞阵, team1_hero1, team1_hero2, team1_hero3, '测试队伍A_普攻测试队')
+    team2 = TeamInfo(Formation.钩型阵, team2_hero1, team2_hero2, team2_hero3, '测试队伍B_普攻测试队')
 
     Log().system_L0('------------ 由 [{}] 对战 [{}]'.format(team1.teamName, team2.teamName))
 

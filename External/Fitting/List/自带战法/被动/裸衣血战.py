@@ -10,6 +10,45 @@
 # 满阶裸衣血战:
 # 战斗开始时,自身先攻和武力提升22点,连击率提升100%,统率降低15点。自身造成伤害额外提升5%
 
+# 裸衣血战_soul
+# 创建部署时机: 被动战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 裸衣血战_soul - soul持有列表
+# 1. 裸衣血战_先攻soul
+# 2. 裸衣血战_武力soul
+# 3. 裸衣血战_连击率soul
+# 4. 裸衣血战_统率soul
+# 5. 裸衣血战_造成伤害提升soul
+# 创建部署时机: 裸衣血战_soul部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 无
+# 响应soul对象: 无
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 持续时间响应: 无
+
+# 各类驱散响应: 无
+
+# 额外溃败影响: 无
+
+# 裸衣血战 溃败响应
+# 移除响应soul对象:             裸衣血战_soul
+# soul持有列表筛除target:       1~5
+# soul持有列表重置initiator:    无存在
+# soul持有列表筛除initiator:    无存在
+# 移除持有soul对象:             裸衣血战_soul
+
+
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log
@@ -39,7 +78,7 @@ class 裸衣血战_soul(BaseSkillSoul):
                 (SoulEffectType.武力, self.skill.裸衣血战_武力_提升系数()),
                 (SoulEffectType.连击几率, self.skill.裸衣血战_连击率_提升系数()),
                 (SoulEffectType.统率, -self.skill.裸衣血战_统率_降低系数()),
-                (SoulEffectType.造成伤害, self.skill.裸衣血战_造成伤害_提升系数())
+                (SoulEffectType.造成伤害提升, self.skill.裸衣血战_造成伤害_提升系数())
             ]
             
             for effect_type, value in effects:

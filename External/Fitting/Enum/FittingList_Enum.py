@@ -19,3 +19,4 @@ class Fitting_List_Enum(Enum):
     # 携带
     青囊急救 = "青囊急救"
     
+    裸衣血战 = "裸衣血战"

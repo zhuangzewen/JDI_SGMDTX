@@ -3,7 +3,6 @@ from Control.Imports.battlefield_imports import *
 class BattleFieldInfoKey(Enum):
     TEAM1 = "team1"
     TEAM2 = "team2"
-    COMMAND_HANDLE_RESPON = "command_handle_respon"
     ORDER_LIST = "order_list"
 
 class BattleField():
@@ -11,7 +10,6 @@ class BattleField():
     def __init__(self):
         setattr(self, BattleFieldInfoKey.TEAM1.value, None)
         setattr(self, BattleFieldInfoKey.TEAM2.value, None)
-        setattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value, [])
         setattr(self, BattleFieldInfoKey.ORDER_LIST.value, [])
         self.current_round = 0
 
@@ -20,9 +18,6 @@ class BattleField():
     
     def getTeam2(self):
         return getattr(self, BattleFieldInfoKey.TEAM2.value)
-
-    def getCommandHandleRespon(self):
-        return getattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value)
     
     def getOrderList(self):
         return getattr(self, BattleFieldInfoKey.ORDER_LIST.value)
@@ -88,7 +83,6 @@ class BattleField():
  
     def 填充战法(self):
 
-        setattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value, [])
         setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
         for hero in self.getOrderList():
@@ -109,25 +103,21 @@ class BattleField():
                 # 被动
                 if skill.加载状态 == True :
                     if skill.get_战法类型() == SkillType.被动:
-                        self.getCommandHandleRespon().append(skill)
                         skill.fill_init_soul()
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 指挥
                 if skill.加载状态 == True :
                     if skill.get_战法类型() == SkillType.指挥:
-                        self.getCommandHandleRespon().append(skill)
                         skill.fill_init_soul()
 
             for skill in [D_SkillClass, F_SkillClass, S_SkillClass]:
                 # 主动 && 追击
                 if skill.加载状态 == True :
                     if skill.get_战法类型() == SkillType.主动 or skill.get_战法类型() == SkillType.追击:
-                        self.getCommandHandleRespon().append(skill)
                         skill.fill_init_soul()
 
             # 普攻
-            self.getCommandHandleRespon().append(P_SkillClass)
             P_SkillClass.fill_init_soul()
             
     def 列队布阵(self):

@@ -51,3 +51,8 @@ def 触发连击(攻击者) -> bool:
     from Generals.JDI_Hero import Hero
     攻击者: Hero = 攻击者
     return random.random() < 攻击者.get_连击几率()
+
+def 触发反击(防御者) -> bool:
+    from Generals.JDI_Hero import Hero
+    防御者: Hero = 防御者
+    return random.random() < 防御者.get_反击几率()

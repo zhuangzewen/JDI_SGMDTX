@@ -71,7 +71,12 @@ class Soul():
                 if SoulSourceDetail.负面状态效果 in self.sourceDetail:
                     self.battleField.respond(status=SoulResponseTime.施加负面时, 时机响应武将=self.initiator, 溯源SOUL=self)
                     self.battleField.respond(status=SoulResponseTime.被施加负面时, 时机响应武将=self.target, 溯源SOUL=self)
-                return
+
+                # 造成伤害后 && 收到伤害后
+                # 即使被闪避，也会触发
+                if self.effect_type == SoulEffectType.损失兵力:
+                    self.battleField.respond(status=SoulResponseTime.造成伤害后, 时机响应武将=self.initiator, 溯源SOUL=self)
+                    self.battleField.respond(status=SoulResponseTime.受到伤害后, 时机响应武将=self.target, 溯源SOUL=self)
         else:
             Log().show_debug_info(f'[DEBUG] {method_name} not found in Soul')
 

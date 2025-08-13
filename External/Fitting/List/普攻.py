@@ -41,31 +41,36 @@ class 普攻_soul(BaseSkillSoul):
                 effect_value=0, 
                 source_soul=None, 
                 battleField=None):
-         super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, 
+        super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, 
                     duration, effect_type, effect_value, source_soul, battleField)
+        # 每回合 连击上线次数 1
+        # 每回合 反击上线次数 5
+        self.连击次数 = 0
+        self.反击次数 = 0
+
+        
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
 
-        if (status == SoulResponseTime.普攻行动时 or status == SoulResponseTime.连击行动时) and hero == self.target:
-
-            from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击单位, 计算伤害
-            attacked_heroes = 对敌方所有目标生效(self.target, battleField)
-            attacked: Hero = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+        def 对某单位普攻一次(目标单位: Hero = None, 可连击: bool = False, 可追击: bool = False, 可反击: bool = False, battleField=None):
+            attacked: Hero = 目标单位
             if attacked == None:
                 Log().battle_L1('[{}]没有可攻击对象'.format(self.target.get_武将名称().value))
                 return
-            
-            attacked_name = attacked.get_武将名称().value
-            Log().battle_L1('[{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
+            from Calcu.JDI_Calculate import 计算伤害
             damage_class: Damage = 计算伤害(battleField, 
                                             self.target, 
                                             attacked, 
                                             SoulDamageType.兵刃, 
                                             SkillType.普攻, 
                                             伤害值= 1)
+            damage_detail = []
+            if 可反击:
+                damage_detail.append(SoulSourceDetail.可反击)
             damage_soul = Soul(target=attacked,
                                 initiator=self.target,
                                 sourceType=SoulSourceType.武将战法,
+                                sourceDetail=damage_detail,
                                 skill=self.skill,
                                 effect_type=SoulEffectType.损失兵力,
                                 effect_value=damage_class.damage_value,
@@ -74,14 +79,50 @@ class 普攻_soul(BaseSkillSoul):
                                 damage=damage_class)
             damage_soul.deploy_initial()
 
-            from BattleField.JDI_BattleField import BattleField
-            battleField: BattleField
-            battleField.respond(status=SoulResponseTime.追击行动时, 时机响应武将=self.target, 溯源SOUL=damage_soul)
+            if 可追击:
+                from BattleField.JDI_BattleField import BattleField
+                battleField: BattleField
+                battleField.respond(status=SoulResponseTime.追击行动时, 时机响应武将=self.target, 溯源SOUL=damage_soul)
 
             from Calcu.JDI_RanVal import 触发连击
-            if status == SoulResponseTime.普攻行动时 and 触发连击(self.target):
+            if self.连击次数 < 1 and 可连击 and 触发连击(self.target):
+                self.连击次数 += 1
                 Log().battle_L1('[{}]进行连击'.format(self.target.get_武将名称().value))
                 battleField.respond(status=SoulResponseTime.连击行动时, 时机响应武将=self.target)
+
+        if status == SoulResponseTime.回合重置阶段:
+            self.连击次数 = 0
+            self.反击次数 = 0
+
+        if (status == SoulResponseTime.普攻行动时 or status == SoulResponseTime.连击行动时) and hero == self.target:
+
+            from Calcu.JDI_Calculate import 对敌方所有目标生效, 从队列确定受击单位
+            attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+            attacked: Hero = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
+            可连击 = True if status == SoulResponseTime.普攻行动时 else False
+            可追击 = True
+            可反击 = True
+            attacked_name = attacked.get_武将名称().value
+            Log().battle_L1('[{}]对[{}]发动普通攻击'.format(self.target.get_武将名称().value, attacked_name))
+            对某单位普攻一次(attacked, 可连击, 可追击, 可反击, battleField)
+
+        elif status == SoulResponseTime.受到伤害后 and hero == self.target:
+            if SoulSourceDetail.可反击 not in sourceSoul.sourceDetail:
+                return
+            from Calcu.JDI_Calculate import msg_普攻发起判断
+            if not msg_普攻发起判断(self.target):
+                Log().battle_L1('[{}]无法普攻(反击)'.format(self.target.get_武将名称().value))
+                return
+            
+            from Calcu.JDI_RanVal import 触发反击
+            if  self.反击次数 < 5 and 触发反击(self.target):
+                self.反击次数 += 1
+                attacked: Hero = sourceSoul.initiator
+                可连击 = True
+                可追击 = False
+                可反击 = True
+                Log().battle_L1('[{}]进行反击'.format(self.target.get_武将名称().value))
+                对某单位普攻一次(attacked, 可连击, 可追击, 可反击, battleField)
 
 class 普攻_skill(BaseSkill):
     def __init__(self, hero, skillName):

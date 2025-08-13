@@ -83,9 +83,12 @@ class BattleField():
             hero: Hero
             hero.init_base_values()
             hero.init_battle_values()
+            hero.get_持有Soul列表().clear()
+            hero.get_响应Soul列表().clear()
  
     def 填充战法(self):
-        
+
+        setattr(self, BattleFieldInfoKey.COMMAND_HANDLE_RESPON.value, [])
         setattr(self, BattleFieldInfoKey.ORDER_LIST.value, 武将行动队列(self))
 
         for hero in self.getOrderList():
@@ -485,7 +488,6 @@ class BattleField():
 
         for _ in range(8):
             Log().battle_L0('\n[第 {} 局]'.format(_ + 1))
-            self.command_handle_respon = []
 
             self.重置队伍状态()
             self.重置武将状态()

@@ -69,4 +69,7 @@ class Generals_Name_Enum(Enum):
     # 群 盾
     左慈 = "左慈"
     
+    # 群 弓
+    田丰 = "田丰"
+    
     

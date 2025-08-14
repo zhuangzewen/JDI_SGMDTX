@@ -118,7 +118,7 @@ class 普攻_soul(BaseSkillSoul):
             if  self.反击次数 < 5 and 触发反击(self.target):
                 self.反击次数 += 1
                 attacked: Hero = sourceSoul.initiator
-                可连击 = True
+                可连击 = False
                 可追击 = False
                 可反击 = True
                 Log().battle_L1('[{}]进行反击'.format(self.target.get_武将名称().value))

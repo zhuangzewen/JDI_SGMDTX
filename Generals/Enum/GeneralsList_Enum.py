@@ -21,6 +21,7 @@ class Generals_Name_Enum(Enum):
 
     # 蜀 骑
     赵云 = "赵云"
+    关羽 = "关羽"
 
     # 魏 弓     
     荀攸 = "荀攸"
@@ -29,7 +30,6 @@ class Generals_Name_Enum(Enum):
 
 
     # 未初始化 受缘分影响提前引入
-    关羽 = "关羽"
     张飞 = "张飞"
     吕布 = "吕布"
     马超 = "马超"

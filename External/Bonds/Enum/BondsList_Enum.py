@@ -4,6 +4,7 @@ from enum import Enum
 class BondsName_Enum(Enum):
     仁义昭烈 = "仁义昭烈"
     缘系皇思 = "缘系皇思"
+    义薄云天 = "义薄云天"
     三分天下 = "三分天下"
     珠联璧合 = "珠联璧合"
     桃园结义 = "桃园结义"

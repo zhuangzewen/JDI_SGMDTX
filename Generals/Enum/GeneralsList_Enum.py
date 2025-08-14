@@ -54,5 +54,6 @@ class Generals_Name_Enum(Enum):
     郭嘉 = "郭嘉"
     典韦 = "典韦"
     徐晃 = "徐晃"
+    凌统 = "凌统"
     
     

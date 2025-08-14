@@ -20,3 +20,4 @@ class Fitting_List_Enum(Enum):
     青囊急救 = "青囊急救"
     
     裸衣血战 = "裸衣血战"
+    旋略勇进 = "旋略勇进"

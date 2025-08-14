@@ -22,6 +22,7 @@ class Generals_Name_Enum(Enum):
     # 蜀 骑
     赵云 = "赵云"
     关羽 = "关羽"
+    关银屏 = "关银屏"
 
     # 魏 弓     
     荀攸 = "荀攸"

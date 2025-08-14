@@ -59,4 +59,7 @@ class Generals_Name_Enum(Enum):
     # 吴 弓
     张昭 = "张昭"
     
+    # 群 盾
+    左慈 = "左慈"
+    
     

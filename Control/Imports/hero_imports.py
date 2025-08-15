@@ -3,7 +3,7 @@
 # 使用方式: from Control.Imports.hero_imports import *
 
 from Generals.Enum.GeneralsList_Enum import Generals_Name_Enum
-from Generals.Enum.Generals_Enum import Faction, WeaponType, HeroInfoKey
+from Generals.Enum.Generals_Enum import Faction, WeaponType, HeroInfoKey, GeneralsType
 from External.JDI_Skill import get_skill
 from External.Fitting.Enum.FittingList_Enum import Fitting_List_Enum
 from Soul.Enum.SoulResponseTime_Enum import SoulResponseTime
@@ -15,5 +15,5 @@ from External.Bonds.Enum.BondsList_Enum import BondsName_Enum
 __all__ = [
     'Generals_Name_Enum', 'Faction', 'WeaponType', 'HeroInfoKey', 
     'get_skill', 'Fitting_List_Enum', 'SoulResponseTime', 'SoulDamageType', 'Log',
-    'BondsName_Enum'
+    'BondsName_Enum', 'GeneralsType'
 ]

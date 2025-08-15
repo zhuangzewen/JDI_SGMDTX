@@ -1,5 +1,5 @@
 from Generals.JDI_Hero import HeroInfo
-from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum, BondsName_Enum
+from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum, BondsName_Enum, GeneralsType
 
 class 许褚_info(HeroInfo):
     def __init__(self):
@@ -17,3 +17,4 @@ class 许褚_info(HeroInfo):
         self.先攻成长 = 2.6
         self.自带战法 = Fitting_List_Enum.裸衣血战
         self.缘分列表 = [BondsName_Enum.虎卫御侮, BondsName_Enum.夺射锦袍]
+        self.武将分类 = [GeneralsType.兵刃, GeneralsType.后排]

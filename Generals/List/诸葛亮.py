@@ -1,5 +1,5 @@
 from Generals.JDI_Hero import HeroInfo
-from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum, BondsName_Enum
+from Control.Imports.hero_imports import Generals_Name_Enum, Faction, WeaponType, Fitting_List_Enum, BondsName_Enum, GeneralsType
 
 class 诸葛亮_info(HeroInfo):
     def __init__(self):
@@ -17,3 +17,4 @@ class 诸葛亮_info(HeroInfo):
         self.先攻成长 = 1.65
         self.自带战法 = Fitting_List_Enum.草船借箭
         self.缘分列表 = [BondsName_Enum.西蜀之智, BondsName_Enum.国之栋梁, BondsName_Enum.才堪相配, BondsName_Enum.薪火相传]
+        self.武将分类 = [GeneralsType.谋略, GeneralsType.均衡]

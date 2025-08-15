@@ -1,6 +1,15 @@
 
 from enum import Enum
 
+# 武将分类
+class GeneralsType(Enum):
+    谋略 = '谋略'
+    兵刃 = '兵刃'
+
+    均衡 = '均衡'
+    后排 = '后排'
+
+
 class Faction(Enum):
     魏 = '魏'
     蜀 = '蜀'

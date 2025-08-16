@@ -103,6 +103,9 @@ class 草船借箭_soul(BaseSkillSoul):
         if random.random() > 0.5:
             Log().debug_L2(f'[{self.target.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的[草船借箭]效果, 但因几率未触发')
             return
+        
+        # [诸葛亮]执行来自【草船借箭】的「草船借箭」效果
+        # [田丰]由于[诸葛亮]【草船借箭】的「草船借箭」效果,损失了兵力274(8784)
 
         # 对敌方随机单体造成谋略伤害
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)

@@ -103,17 +103,13 @@ class 草船借箭_soul(BaseSkillSoul):
         if random.random() > 0.5:
             Log().debug_L2(f'[{self.target.get_武将名称().value}]发动来自【{self.skill.get_战法名称().value}】的[草船借箭]效果, 但因几率未触发')
             return
-        
-        Log().battle_L2('[{}]执行来自【{}】的[草船借箭]效果'.format(
-            self.target.get_武将名称().value, self.skill.get_战法名称().value))
-
-        self.草船借箭发动次数 += 1
 
         # 对敌方随机单体造成谋略伤害
         attacked_heroes = 对敌方所有目标生效(self.target, battleField)
         if len(attacked_heroes) > 0:
+            self.草船借箭发动次数 += 1
             attacked = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            Log().battle_L1('[{}]执行来自【{}】的[{}]效果'.format(
+            Log().battle_L2('[{}]执行来自【{}】的[{}]效果'.format(
                 self.target.get_武将名称().value, 
                 self.skill.get_战法名称().value, 
                 '草船借箭'

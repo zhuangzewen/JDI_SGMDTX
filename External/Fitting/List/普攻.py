@@ -79,10 +79,18 @@ class 普攻_soul(BaseSkillSoul):
                                 damage=damage_class)
             damage_soul.deploy_initial()
 
+            attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+            if len(attacked_heroes) == 0:
+                return
+
             if 可追击:
                 from BattleField.JDI_BattleField import BattleField
                 battleField: BattleField
                 battleField.respond(status=SoulResponseTime.追击行动时, 时机响应武将=self.target, 溯源SOUL=damage_soul)
+
+            attacked_heroes = 对敌方所有目标生效(self.target, battleField)
+            if len(attacked_heroes) == 0:
+                return
 
             from Calcu.JDI_RanVal import 触发连击
             if self.连击次数 < 1 and 可连击 and 触发连击(self.target):

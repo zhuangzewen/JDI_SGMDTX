@@ -10,6 +10,41 @@
 # 满阶草船借箭:
 # 自身攻心提升27.5%,自身受到或造成伤害时,有50%概率对敌方随机单体造成92%谋略伤害,每回合可触发5次
 
+
+# 草船借箭_soul
+# 创建部署时机: 指挥战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 草船借箭_soul - soul持有列表
+# 1. 草船借箭_攻心soul
+# 创建部署时机: 战法布阵开始时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 无
+# 响应soul对象: 无
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 持续时间响应: 无
+
+# 各类驱散响应: 无
+
+# 额外溃败影响: 无
+
+# 草船借箭_溃败响应
+# 移除响应soul对象:             草船借箭_soul
+# soul持有列表筛除target:       1
+# soul持有列表重置initiator:    无存在
+# soul持有列表筛除initiator:    无存在
+# 移除持有soul对象:             草船借箭_soul
+
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,

@@ -5,6 +5,7 @@ from enum import Enum
 class GeneralsType(Enum):
     谋略 = '谋略'
     兵刃 = '兵刃'
+    辅助 = '辅助'
 
     均衡 = '均衡'
     后排 = '后排'

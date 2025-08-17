@@ -40,8 +40,13 @@ class 七进七出_soul(BaseSkillSoul):
 
     def _部署规避效果(self):
         Log().battle_L1('[{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
-        规避soul: Soul = self.skill.create_soul(
-            self.target, SoulEffectType.规避, self.skill.七进七出_规避率提升系数()
+        规避soul: Soul = Soul(
+            target=self.target,
+            initiator=self.target,
+            sourceType=SoulSourceType.武将战法,
+            skill=self.skill,
+            effect_type=SoulEffectType.规避,
+            effect_value=self.skill.七进七出_规避率提升系数()
         )
         规避soul.deploy_initial()
 

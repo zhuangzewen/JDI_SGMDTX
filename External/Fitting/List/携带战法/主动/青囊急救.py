@@ -10,9 +10,11 @@
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulEffectType,
-    Fitting_List_Enum, Log, random, Hero, Soul
+    Fitting_List_Enum, Log, random, Hero,
+    Soul, SoulSourceType, SkillType, SoulDamageType
 )
 from Calcu.JDI_Calculate import *
+from typing import List
 
 class 青囊急救_info(BaseSkillInfo):
     def __init__(self):
@@ -60,8 +62,11 @@ class 青囊急救_soul(BaseSkillSoul):
             驱散数量 -= 1
 
         # 恢复兵力
-        治疗soul = self.skill.create_soul(
+        治疗soul = Soul(
             target=low_hero,
+            initiator=self.target,
+            sourceType=SoulSourceType.武将战法,
+            skill=self.skill,
             effect_type=SoulEffectType.恢复兵力,
             effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.青囊急救_治疗系数())
         )

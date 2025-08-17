@@ -193,27 +193,6 @@ class BaseSkill(Skill):
     def __init__(self, hero: Hero, skillName: Fitting_List_Enum):
         super().__init__(hero, skillName)
 
-    def create_soul(self, 
-                    target: Hero, 
-                    effect_type: SoulEffectType, 
-                    effect_value: float, 
-                    response_time: SoulResponseTime = SoulResponseTime.内置待响应,
-                    duration: int = -1,
-                    source_soul = None,
-                    damage: 'Damage' = None) -> Soul:
-        """创建标准Soul的便捷方法"""
-        return Soul(
-            target=target,
-            initiator=self.get_持有者(),
-            sourceType=SoulSourceType.武将战法,
-            skill=self,
-            response_time=response_time,
-            duration=duration,
-            effect_type=effect_type,
-            effect_value=effect_value,
-            source_soul=source_soul,
-            damage=damage
-        )
 
     def deploy_soul(self, soul: Soul, add_to_list: bool = True):
         """部署Soul的便捷方法"""

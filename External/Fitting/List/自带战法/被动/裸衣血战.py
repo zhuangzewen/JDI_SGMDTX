@@ -51,7 +51,8 @@
 
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
-    SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log
+    SoulResponseTime, SoulSourceType, SoulEffectType, Fitting_List_Enum, Log,
+    Soul, SkillType, SoulDamageType
 )
 
 class 裸衣血战_info(BaseSkillInfo):
@@ -82,7 +83,14 @@ class 裸衣血战_soul(BaseSkillSoul):
             ]
             
             for effect_type, value in effects:
-                soul = self.skill.create_soul(self.target, effect_type, value)
+                soul = Soul(
+                    target=self.target,
+                    initiator=self.target,
+                    sourceType=SoulSourceType.武将战法,
+                    skill=self.skill,
+                    effect_type=effect_type,
+                    effect_value=value
+                )
                 if effect_type == SoulEffectType.统率:
                     soul.battleField = battleField
                 soul.deploy_initial()

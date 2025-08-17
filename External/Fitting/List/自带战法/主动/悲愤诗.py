@@ -9,7 +9,8 @@
 
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
-    SoulResponseTime, SoulEffectType, Damage
+    SoulResponseTime, SoulEffectType, Damage,
+    Soul, SoulSourceType, SkillType, SoulDamageType
 )
 from Calcu.JDI_Calculate import *
 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
@@ -56,16 +57,22 @@ class 悲愤诗_soul(BaseSkillSoul):
                 break
 
             目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            全体治疗soul = self.skill.create_soul(
+            全体治疗soul = Soul(
                 target=目标武将,
+                initiator=self.target,
+                sourceType=SoulSourceType.武将战法,
+                skill=self.skill,
                 effect_type=SoulEffectType.恢复兵力,
                 effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.悲愤诗_基础治疗率())
             )
             全体治疗soul.deploy_initial()
 
             if 目标武将.get_前排状态() == True:
-                额外治疗soul = self.skill.create_soul(
+                额外治疗soul = Soul(
                     target=目标武将,
+                    initiator=self.target,
+                    sourceType=SoulSourceType.武将战法,
+                    skill=self.skill,
                     effect_type=SoulEffectType.恢复兵力,
                     effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.悲愤诗_前排额外治疗率())
                 )
@@ -73,8 +80,11 @@ class 悲愤诗_soul(BaseSkillSoul):
 
             Log().battle_L2('[{}]执行来自【悲愤诗】的「悲愤诗」效果'.format(目标武将.get_武将名称().value))
 
-            抵御soul = self.skill.create_soul(
+            抵御soul = Soul(
                 target=目标武将,
+                initiator=self.target,
+                sourceType=SoulSourceType.武将战法,
+                skill=self.skill,
                 effect_type=SoulEffectType.抵御,
                 effect_value=1,
                 damage=Damage(skillEffectName='悲愤诗')

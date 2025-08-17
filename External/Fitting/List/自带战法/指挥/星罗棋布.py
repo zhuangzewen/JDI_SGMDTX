@@ -119,7 +119,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
             # 判断已经存在 星罗棋布_阵型强化效果的soul continue
             存在未强化的阵型SOUL = False
             for exist_soul in self.soul持有列表:
-                if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == 己方阵型强化soul.effect_type and exist_soul.skill == self.skill:
+                if exist_soul.source_soul == self and exist_soul.target == targetHero and exist_soul.effect_type == 己方阵型强化soul.effect_type and exist_soul.skill == self.skill:
                     存在未强化的阵型SOUL = True
                     break
             if 存在未强化的阵型SOUL:
@@ -129,7 +129,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
             strengRatio = self.skill.星罗棋布_阵型强化系数() * 己方阵型强化soul.effect_value
             阵型强化soul = Soul(target=己方阵型强化soul.target, 
                             initiator=self.skill.get_持有者(), 
-                            sourceType=SoulSourceType.星罗棋布_阵型强化, 
+                            sourceType=SoulSourceType.武将战法, 
                             skill=self.skill, 
                             effect_type=己方阵型强化soul.effect_type, 
                             effect_value=strengRatio,

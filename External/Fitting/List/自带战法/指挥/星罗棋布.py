@@ -19,6 +19,60 @@
 # 双前排阵型: 我军统率最低单体对前排造成伤害提升20%,每回合行动时对敌军随机1-2人造成160%伤害(伤害类型由武力或智力高的一项决定)
 # 三前排阵型: 每个回合结束后我军智力最高单体对敌军全体造成60%谋略伤害(额外受全队累积治疗量影响)
 
+# 星罗棋布_阵型强化soul
+# 创建部署时机: 指挥战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 星罗棋布_谋略减伤soul
+# 创建部署时机: 指挥战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 星罗棋布_额外效果soul
+# 创建部署时机: 指挥战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 星罗棋布_阵型强化soul - soul持有列表
+# 1. 星罗棋布_阵型属性强化soul
+# 创建部署时机: 战法布阵开始时
+# target: 己方全体
+# initiator: 自身
+# 持有soul对象: 无
+# 响应soul对象: 无
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 持续时间响应: 无
+
+# 各类驱散响应: 无
+
+# 额外溃败影响: 无
+
+# 星罗棋布_溃败响应
+# 移除响应soul对象:             星罗棋布_阵型强化soul
+# soul持有列表筛除target:       星罗棋布_阵型属性强化soul(自身)
+# soul持有列表重置initiator:    星罗棋布_阵型属性强化soul(剩余)
+# soul持有列表筛除initiator:    星罗棋布_阵型属性强化soul(剩余)
+# 移除持有soul对象:             星罗棋布_soul
+
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
     SoulResponseTime, SoulSourceType, SoulEffectType, SoulDamageType, SkillType,
@@ -44,12 +98,13 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
         if status != SoulResponseTime.阵型强化结束时:
             return
 
+        # 两个队伍都会发起响应 所以需确认目标队伍
         for 己方阵型强化soul in 对己方阵型强化SOUL生效(self.target, battleField):
             己方阵型强化soul: Soul
             targetHero = 己方阵型强化soul.target
             存在未强化的阵型SOUL = True
             for exist_soul in self.soul持有列表:
-                if exist_soul.sourceType == SoulSourceType.星罗棋布_阵型强化 and exist_soul.target == targetHero and exist_soul.effect_type == 己方阵型强化soul.effect_type and exist_soul.skill == self.skill:
+                if exist_soul.source_soul == self and exist_soul.target == targetHero and exist_soul.effect_type == 己方阵型强化soul.effect_type and exist_soul.skill == self.skill:
                     存在未强化的阵型SOUL = False
                     break
             if 存在未强化的阵型SOUL:
@@ -77,7 +132,8 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
                             sourceType=SoulSourceType.星罗棋布_阵型强化, 
                             skill=self.skill, 
                             effect_type=己方阵型强化soul.effect_type, 
-                            effect_value=strengRatio)
+                            effect_value=strengRatio,
+                            sourceSoul=self)
             阵型强化soul.deploy_initial()
             self.soul持有列表.append(阵型强化soul)
 

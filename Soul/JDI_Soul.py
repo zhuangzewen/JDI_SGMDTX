@@ -81,11 +81,9 @@ class Soul():
             Log().show_debug_info(f'[DEBUG] {method_name} not found in Soul')
 
     def restore_initial(self):
-
         self.target: Hero
+        Log().show_debug_info(f'[DEBUG] restore_initial called: type={type(self).__name__}, effect_type={self.effect_type}, target={getattr(self.target, "get_武将名称", lambda: None)() if self.target else None}, initiator={getattr(self.initiator, "get_武将名称", lambda: None)() if self.initiator else None}')
         # 溃败状态不响应
-        if self.initiator is not None and self.initiator.get_被击溃状态():
-            return
         if self.target is not None and self.target.get_被击溃状态():
             return
         # 自动分发到分文件方法

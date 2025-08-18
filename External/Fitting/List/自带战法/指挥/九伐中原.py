@@ -10,6 +10,7 @@
 # 累积讨伐3次后使敌军兵力最低单体产生逃兵(受智力和武力影响)
 
 # y = 2.63515 * x - 701.515
+from Soul.JDI_Soul import Soul, SoulSourceType, SoulEffectType
 
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,
@@ -97,27 +98,33 @@ class 九伐中原_soul(BaseSkillSoul):
         for i in range(attack_times):
 
             attacked: Hero = 从队列确定受击单位(attacked_heroes)
-            兵刃damage_soul = self.skill.create_damage_soul(
-                battleField = battleField, 
-                initiator = self.target,
-                target = attacked, 
-                damage_type = SoulDamageType.兵刃, 
-                skill_type = SkillType.指挥, 
-                damage_multiplier = (self.skill.九伐中原_讨伐伤害系数() + self.讨伐伤害系数提升次数 * self.skill.九伐中原_叠加系数()), 
-                source_soul = self,
-                effect_name = "九伐中原-讨伐",
+            damage_model = 计算伤害(battleField, self.target, attacked, SoulDamageType.兵刃, SkillType.指挥, (self.skill.九伐中原_讨伐伤害系数() + self.讨伐伤害系数提升次数 * self.skill.九伐中原_叠加系数()))
+            damage_model.skillEffectName = "九伐中原-讨伐"
+            兵刃damage_soul = Soul(
+                target=attacked,
+                initiator=self.target,
+                sourceType=SoulSourceType.武将战法,
+                skill=self.skill,
+                effect_type=SoulEffectType.损失兵力,
+                effect_value=damage_model.damage_value,
+                source_soul=self,
+                battleField=battleField,
+                damage=damage_model
             )
             兵刃damage_soul.deploy_initial()
 
-            谋略damage_soul = self.skill.create_damage_soul(
-                battleField = battleField, 
-                initiator = self.target,
-                target = attacked, 
-                damage_type = SoulDamageType.谋略, 
-                skill_type = SkillType.指挥, 
-                damage_multiplier = (self.skill.九伐中原_讨伐伤害系数() + self.讨伐伤害系数提升次数 * self.skill.九伐中原_叠加系数()), 
-                source_soul = self,
-                effect_name = "九伐中原-讨伐",
+            damage_model = 计算伤害(battleField, self.target, attacked, SoulDamageType.谋略, SkillType.指挥, (self.skill.九伐中原_讨伐伤害系数() + self.讨伐伤害系数提升次数 * self.skill.九伐中原_叠加系数()))
+            damage_model.skillEffectName = "九伐中原-讨伐"
+            谋略damage_soul = Soul(
+                target=attacked,
+                initiator=self.target,
+                sourceType=SoulSourceType.武将战法,
+                skill=self.skill,
+                effect_type=SoulEffectType.损失兵力,
+                effect_value=damage_model.damage_value,
+                source_soul=self,
+                battleField=battleField,
+                damage=damage_model
             )
             谋略damage_soul.deploy_initial()
 
@@ -140,15 +147,18 @@ class 九伐中原_soul(BaseSkillSoul):
         if low_hero == None:
             return
         Log().battle_L1(f'[{self.target.get_武将名称().value}]执行来自【九伐中原】的[九伐中原-逃兵]效果')
-        damage_soul = self.skill.create_damage_soul(
-            battleField = battleField, 
-            initiator = self.target,
-            target = low_hero, 
-            damage_type = SoulDamageType.文武逃兵, 
-            skill_type = SkillType.指挥, 
-            damage_multiplier = 0,
-            source_soul = self,
-            effect_name = '九伐中原-逃兵'
+        damage_model = 计算伤害(battleField, self.target, low_hero, SoulDamageType.文武逃兵, SkillType.指挥, 0)
+        damage_model.skillEffectName = '九伐中原-逃兵'
+        damage_soul = Soul(
+            target=low_hero,
+            initiator=self.target,
+            sourceType=SoulSourceType.武将战法,
+            skill=self.skill,
+            effect_type=SoulEffectType.损失兵力,
+            effect_value=damage_model.damage_value,
+            source_soul=self,
+            battleField=battleField,
+            damage=damage_model
         )
         damage_soul.deploy_initial()
 

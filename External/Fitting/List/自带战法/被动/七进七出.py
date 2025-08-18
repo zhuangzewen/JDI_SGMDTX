@@ -61,16 +61,18 @@ class 七进七出_soul(BaseSkillSoul):
         attacked_times = min(len(attacked_heroes), 2)
         for i in range(attacked_times):
             attacked = 从队列确定受击单位(attacked_heroes, skill=self.skill, hero=self.target, battleField=battleField)
-            damage_soul = self.skill.create_damage_soul(
-                battleField = battleField,
-                target = attacked,
-                initiator = self.target,
-                damage_type = SoulDamageType.兵刃,
-                skill_type = SkillType.被动,
-                damage_multiplier = self.当前伤害系数,
-                source_soul = self,
-                effect_name="七进七出-龙胆",
-                isShowLog=False
+            damage_model = 计算伤害(battleField, self.hero, attacked, SoulDamageType.兵刃, SkillType.被动, self.当前伤害系数)
+            damage_model.skillEffectName = "七进七出-龙胆"
+            damage_soul = Soul(
+                target=attacked,
+                initiator=self.target,
+                sourceType=SoulSourceType.武将战法,
+                skill=self.skill,
+                effect_type=SoulEffectType.损失兵力,
+                effect_value=damage_model.damage_value,
+                source_soul=self,
+                battleField=battleField,
+                damage=damage_model
             )
             damage_soul.deploy_initial()
 

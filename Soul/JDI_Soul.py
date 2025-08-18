@@ -205,26 +205,6 @@ class BaseSkill(Skill):
         rank = self.get_战法升阶()
         return base_value + rank * rank_multiplier
 
-    def create_damage_soul(self, battleField, initiator: Hero, target: Hero, 
-                          damage_type: SoulDamageType, skill_type: SkillType, 
-                          damage_multiplier: float, source_soul: Soul = None,
-                          effect_name: str = None) -> Soul:
-        """创建伤害Soul的便捷方法"""
-        damage_model = 计算伤害(battleField, initiator, target, damage_type, skill_type, damage_multiplier)
-        if effect_name:
-            damage_model.skillEffectName = effect_name
-        damage_soul = Soul(
-            target=target,
-            initiator=initiator,
-            sourceType=SoulSourceType.武将战法,
-            skill=self,
-            effect_type=SoulEffectType.损失兵力,
-            effect_value=damage_model.damage_value,
-            source_soul=source_soul,
-            battleField=battleField,
-            damage=damage_model
-        )
-        return damage_soul
 
 def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigger_rate: float = None):
     """获取战法模板的工厂方法"""

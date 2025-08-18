@@ -82,7 +82,7 @@ class Soul():
 
     def restore_initial(self):
         self.target: Hero
-        Log().show_debug_info(f'[DEBUG] restore_initial called: type={type(self).__name__}, effect_type={self.effect_type}, target={getattr(self.target, "get_武将名称", lambda: None)() if self.target else None}, initiator={getattr(self.initiator, "get_武将名称", lambda: None)() if self.initiator else None}')
+        # Log().show_debug_info(f'[DEBUG] restore_initial called: type={type(self).__name__}, effect_type={self.effect_type}, target={getattr(self.target, "get_武将名称", lambda: None)() if self.target else None}, initiator={getattr(self.initiator, "get_武将名称", lambda: None)() if self.initiator else None}')
         # 溃败状态不响应
         if self.target is not None and self.target.get_被击溃状态():
             return
@@ -167,9 +167,6 @@ class BaseSkillSoul(Soul):
         if hero != self.initiator:
             return
         self._remove_souls_for_target(hero)
-        if self.damage and self.damage.skillEffectName:
-            skillEffectName = self.damage.skillEffectName
-            Log().battle_L2('[{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, skillEffectName))
         self._restore_and_remove_initiator_souls()
         msg_移除响应(self)
 
@@ -182,6 +179,9 @@ class BaseSkillSoul(Soul):
     def _restore_and_remove_initiator_souls(self):
         """恢复并移除发起者的souls"""
         souls_to_process = [soul for soul in self.soul持有列表 if soul.initiator == self.target]
+        if self.damage and self.damage.skillEffectName and len(souls_to_process) > 0:
+            skillEffectName = self.damage.skillEffectName
+            Log().battle_L2('[{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, skillEffectName))
         for soul in souls_to_process:
             soul.restore_initial()
             while soul in self.soul持有列表:

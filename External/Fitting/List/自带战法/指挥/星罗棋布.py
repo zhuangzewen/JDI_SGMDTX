@@ -29,26 +29,6 @@
 # 响应各类驱散: 无
 # 额外溃败影响: 无
 
-# 星罗棋布_谋略减伤soul
-# 创建部署时机: 指挥战法部署时
-# target: 自身
-# initiator: 自身
-# 持有soul对象: 自身
-# 响应soul对象: 自身
-# 响应持续时间: 永久
-# 响应各类驱散: 无
-# 额外溃败影响: 无
-
-# 星罗棋布_额外效果soul
-# 创建部署时机: 指挥战法部署时
-# target: 自身
-# initiator: 自身
-# 持有soul对象: 自身
-# 响应soul对象: 自身
-# 响应持续时间: 永久
-# 响应各类驱散: 无
-# 额外溃败影响: 无
-
 # 星罗棋布_阵型强化soul - soul持有列表
 # 1. 星罗棋布_阵型属性强化soul
 # 创建部署时机: 战法布阵开始时
@@ -72,6 +52,26 @@
 # soul持有列表重置initiator:    星罗棋布_阵型属性强化soul(剩余)
 # soul持有列表筛除initiator:    星罗棋布_阵型属性强化soul(剩余)
 # 移除持有soul对象:             星罗棋布_soul
+
+# 星罗棋布_谋略减伤soul
+# 创建部署时机: 指挥战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
+
+# 星罗棋布_额外效果soul
+# 创建部署时机: 指挥战法部署时
+# target: 自身
+# initiator: 自身
+# 持有soul对象: 自身
+# 响应soul对象: 自身
+# 响应持续时间: 永久
+# 响应各类驱散: 无
+# 额外溃败影响: 无
 
 from Soul.JDI_Soul import (
     BaseSkillInfo, BaseSkillSoul, BaseSkill, get_skill_template,

@@ -144,6 +144,7 @@ class BaseSkillInfo(SkillInfo):
         self.发动率 = template.trigger_rate
 
 class BaseSkillSoul(Soul):
+    
     """基础战法Soul类,提供通用功能"""
     def __init__(self, 
                  target: Hero, 
@@ -194,11 +195,6 @@ class BaseSkill(Skill):
         super().__init__(hero, skillName)
 
 
-    def deploy_soul(self, soul: Soul, add_to_list: bool = True):
-        """部署Soul的便捷方法"""
-        soul.deploy_initial()
-        if add_to_list and hasattr(self, 'soul持有列表'):
-            self.soul持有列表.append(soul)
 
     def get_rank_bonus(self, base_value: float, rank_multiplier: float) -> float:
         """根据战法升阶计算加成的便捷方法"""

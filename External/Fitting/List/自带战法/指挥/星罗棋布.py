@@ -98,7 +98,6 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
         if status != SoulResponseTime.阵型强化结束时:
             return
 
-        # 两个队伍都会发起响应 所以需确认目标队伍
         for 己方阵型强化soul in 对己方阵型强化SOUL生效(self.target, battleField):
             己方阵型强化soul: Soul
             targetHero = 己方阵型强化soul.target
@@ -110,7 +109,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
             if 存在未强化的阵型SOUL:
                 Log().battle_L1('[{}]发动战法【{}】'.format(self.target.get_武将名称().value, self.skill.get_战法名称().value))
                 break
-        
+
         for 己方阵型强化soul in 对己方阵型强化SOUL生效(self.target, battleField):
             己方阵型强化soul: Soul
             targetHero = 己方阵型强化soul.target
@@ -133,7 +132,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
                             skill=self.skill, 
                             effect_type=己方阵型强化soul.effect_type, 
                             effect_value=strengRatio,
-                            sourceSoul=self)
+                            source_soul=self)
             阵型强化soul.deploy_initial()
             self.soul持有列表.append(阵型强化soul)
 

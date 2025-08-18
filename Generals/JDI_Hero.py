@@ -445,6 +445,7 @@ class Hero():
         for soul in self.get_响应Soul列表():
             from Soul.JDI_Soul import Soul
             soul: Soul
+            # Log().battle_L1(f'[DEBUG] 遍历响应Soul: type={type(soul).__name__}, repr={repr(soul)}, id={id(soul)}, status={status}, target={self.get_武将名称().value}')
             soul.response(status=status, battleField=battleField, hero=hero, sourceSoul=sourceSoul)
 
 def get_hero_info(heroName):

@@ -33,9 +33,9 @@ class 夺射锦袍_soul(Soul):
                     target=effect_hero,
                     initiator=self.target,
                     skill=self.skill,
-                    effect_type=SoulEffectType.破甲,
-                    effect_value=0.05,
-                    source_soul=self,
+                    effectType=SoulEffectType.破甲,
+                    effectValue=0.05,
+                    sourceSoul=self,
                 )
                 破甲提升soul.deploy_initial()
         

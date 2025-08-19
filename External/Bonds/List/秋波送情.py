@@ -29,9 +29,9 @@ class 秋波送情_soul(Soul):
                         target=effect_hero,
                         initiator=self.target,
                         skill=self.skill,
-                        effect_type=SoulEffectType.受到普通攻击伤害降低,
-                        effect_value= -0.12,
-                        source_soul=self,
+                        effectType=SoulEffectType.受到普通攻击伤害降低,
+                        effectValue= -0.12,
+                        sourceSoul=self,
                         battleField=battleField
                     )
                     普通攻击减伤soul.deploy_initial()

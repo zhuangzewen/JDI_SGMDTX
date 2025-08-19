@@ -82,16 +82,16 @@ class 裸衣血战_soul(BaseSkillSoul):
                 (SoulEffectType.造成伤害提升, self.skill.裸衣血战_造成伤害_提升系数())
             ]
             
-            for effect_type, value in effects:
+            for effectType, value in effects:
                 soul = Soul(
                     target=self.target,
                     initiator=self.target,
                     sourceType=SoulSourceType.武将战法,
                     skill=self.skill,
-                    effect_type=effect_type,
-                    effect_value=value
+                    effectType=effectType,
+                    effectValue=value
                 )
-                if effect_type == SoulEffectType.统率:
+                if effectType == SoulEffectType.统率:
                     soul.battleField = battleField
                 soul.deploy_initial()
                 self.soul持有列表.append(soul)

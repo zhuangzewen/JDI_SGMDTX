@@ -37,9 +37,9 @@ class 薪火相传_soul(Soul):
                     target = effect_hero,
                     initiator = self.target, 
                     skill = self.skill, 
-                    effect_type = SoulEffectType.智力, 
-                    effect_value = 智力提升,
-                    source_soul = self,
+                    effectType = SoulEffectType.智力, 
+                    effectValue = 智力提升,
+                    sourceSoul = self,
                     battleField = battleField
                 )
                 智力提升soul.deploy_initial()
@@ -48,9 +48,9 @@ class 薪火相传_soul(Soul):
                     target = effect_hero,
                     initiator = self.target, 
                     skill = self.skill, 
-                    effect_type = SoulEffectType.统率, 
-                    effect_value = 统率提升,
-                    source_soul = self,
+                    effectType = SoulEffectType.统率, 
+                    effectValue = 统率提升,
+                    sourceSoul = self,
                     battleField = battleField
                 )
                 统率提升soul.deploy_initial()

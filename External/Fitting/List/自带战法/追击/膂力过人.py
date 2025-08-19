@@ -68,8 +68,8 @@ class 膂力过人_skill(BaseSkill):
             initiator=持有者and响应者, 
             sourceType=SoulSourceType.武将战法, 
             skill=self, 
-            response_time=SoulResponseTime.内置待响应, 
-            effect_type=SoulEffectType.无影响
+            responseTime=SoulResponseTime.内置待响应, 
+            effectType=SoulEffectType.无影响
         )
         
         持有者and响应者.get_持有Soul列表().append(soul)

@@ -21,11 +21,11 @@ class Soul():
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
                  sourceDetail: [SoulSourceDetail] = [], # pyright: ignore[reportInvalidTypeForm]
                  skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
+                 responseTime: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
+                 effectType: SoulEffectType = SoulEffectType.无影响, 
+                 effectValue: float = 0,
+                 sourceSoul = None,
                  battleField = None,
                  damage: Damage = None):
         self.target = target                # 目标
@@ -34,11 +34,11 @@ class Soul():
         self.sourceType = sourceType        # 来源类型
         self.sourceDetail = sourceDetail    # 来源详情
         self.skill = skill                  # 技能
-        self.response_time = response_time  # 响应时机
+        self.responseTime = responseTime  # 响应时机
         self.duration = duration            # 持续回合
-        self.effect_type = effect_type      # 效果类型
-        self.effect_value = effect_value    # 效果值
-        self.source_soul = source_soul      # 来源魂灵
+        self.effectType = effectType      # 效果类型
+        self.effectValue = effectValue    # 效果值
+        self.sourceSoul = sourceSoul      # 来源魂灵
         self.damage = damage                # 伤害类
 
         if battleField is not None:
@@ -57,7 +57,7 @@ class Soul():
         if self.target is not None and self.target.get_被击溃状态():
             return
         # 自动分发到分文件方法
-        method_name = f"deploy_{self.effect_type.name}_initial"
+        method_name = f"deploy_{self.effectType.name}_initial"
         if hasattr(self, method_name):
             method = getattr(self, method_name)
             if method(self) != False:
@@ -74,7 +74,7 @@ class Soul():
 
                 # 造成伤害后 && 收到伤害后
                 # 即使被闪避，也会触发
-                if self.effect_type == SoulEffectType.损失兵力:
+                if self.effectType == SoulEffectType.损失兵力:
                     self.battleField.respond(status=SoulResponseTime.造成伤害后, 时机响应武将=self.initiator, 溯源SOUL=self)
                     self.battleField.respond(status=SoulResponseTime.受到伤害后, 时机响应武将=self.target, 溯源SOUL=self)
         else:
@@ -82,12 +82,12 @@ class Soul():
 
     def restore_initial(self):
         self.target: Hero
-        # Log().show_debug_info(f'[DEBUG] restore_initial called: type={type(self).__name__}, effect_type={self.effect_type}, target={getattr(self.target, "get_武将名称", lambda: None)() if self.target else None}, initiator={getattr(self.initiator, "get_武将名称", lambda: None)() if self.initiator else None}')
+        # Log().show_debug_info(f'[DEBUG] restore_initial called: type={type(self).__name__}, effectType={self.effectType}, target={getattr(self.target, "get_武将名称", lambda: None)() if self.target else None}, initiator={getattr(self.initiator, "get_武将名称", lambda: None)() if self.initiator else None}')
         # 溃败状态不响应
         if self.target is not None and self.target.get_被击溃状态():
             return
         # 自动分发到分文件方法
-        method_name = f"restore_{self.effect_type.name}_initial"
+        method_name = f"restore_{self.effectType.name}_initial"
         if hasattr(self, method_name):
             method = getattr(self, method_name)
             if method(self) != False:
@@ -151,15 +151,15 @@ class BaseSkillSoul(Soul):
                  sourceType: SoulSourceType = SoulSourceType.不溯源, 
                  sourceDetail: List[SoulSourceDetail] = [],
                  skill: Skill = None, 
-                 response_time: SoulResponseTime = SoulResponseTime.无响应阶段, 
+                 responseTime: SoulResponseTime = SoulResponseTime.无响应阶段, 
                  duration: int = -1, 
-                 effect_type: SoulEffectType = SoulEffectType.无影响, 
-                 effect_value: float = 0,
-                 source_soul = None,
+                 effectType: SoulEffectType = SoulEffectType.无影响, 
+                 effectValue: float = 0,
+                 sourceSoul = None,
                  battleField = None,
                  damage: 'Damage' = None):
-        super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, 
-                        duration, effect_type, effect_value, source_soul, battleField, damage)
+        super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, responseTime, 
+                        duration, effectType, effectValue, sourceSoul, battleField, damage)
         self.soul持有列表 = []
 
     def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
@@ -192,13 +192,10 @@ class BaseSkill(Skill):
     def __init__(self, hero: Hero, skillName: Fitting_List_Enum):
         super().__init__(hero, skillName)
 
-
-
     def get_rank_bonus(self, base_value: float, rank_multiplier: float) -> float:
         """根据战法升阶计算加成的便捷方法"""
         rank = self.get_战法升阶()
         return base_value + rank * rank_multiplier
-
 
 def get_skill_template(template_type: str, skill_name: Fitting_List_Enum, trigger_rate: float = None):
     """获取战法模板的工厂方法"""

@@ -37,9 +37,9 @@ class 乱世红颜_soul(Soul):
                         target=effect_hero,
                         initiator=self.target,
                         skill=self.skill,
-                        effect_type=SoulEffectType.抵御,
-                        effect_value= 2,  # 2层抵御
-                        source_soul=self,
+                        effectType=SoulEffectType.抵御,
+                        effectValue= 2,  # 2层抵御
+                        sourceSoul=self,
                         battleField=battleField
                     )
                     抵御soul.deploy_initial()

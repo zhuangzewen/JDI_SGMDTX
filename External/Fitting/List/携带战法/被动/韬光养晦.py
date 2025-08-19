@@ -25,7 +25,7 @@ class 韬光养晦_info(BaseSkillInfo):
 class 韬光养晦_soul(BaseSkillSoul):
     def __init__(self, target: Hero, initiator: Hero, skill):
         super().__init__(target, initiator, skill=skill)
-        self.response_time = SoulResponseTime.回合开始
+        self.responseTime = SoulResponseTime.回合开始
         self.damage_boost_stacks = 0
 
     def response(self, status=SoulResponseTime.回合开始, battleField=None, hero=None, sourceSoul=None):
@@ -39,8 +39,8 @@ class 韬光养晦_soul(BaseSkillSoul):
         发动率提升值 = self.skill.韬光养晦_发动率提升系数()
         发动率soul = self.skill.create_soul(
             target=self.target,
-            effect_type=SoulEffectType.主动战法发动率提升,
-            effect_value=发动率提升值,
+            effectType=SoulEffectType.主动战法发动率提升,
+            effectValue=发动率提升值,
             duration=-1  # 永久效果
         )
         发动率soul.deploy_initial()
@@ -53,14 +53,14 @@ class 韬光养晦_soul(BaseSkillSoul):
         叠加伤害提升 = 伤害提升值 * self.damage_boost_stacks
 
         # 更新或创建伤害提升soul
-        existing_soul = next((s for s in self.target.get_响应Soul列表() if s.effect_type == SoulEffectType.谋略伤害提升 and s.skill == self.skill), None)
+        existing_soul = next((s for s in self.target.get_响应Soul列表() if s.effectType == SoulEffectType.谋略伤害提升 and s.skill == self.skill), None)
         if existing_soul:
-            existing_soul.effect_value = 叠加伤害提升
+            existing_soul.effectValue = 叠加伤害提升
         else:
             伤害提升soul = self.skill.create_soul(
                 target=self.target,
-                effect_type=SoulEffectType.谋略伤害提升,
-                effect_value=叠加伤害提升,
+                effectType=SoulEffectType.谋略伤害提升,
+                effectValue=叠加伤害提升,
                 duration=-1  # 永久效果
             )
             伤害提升soul.deploy_initial()

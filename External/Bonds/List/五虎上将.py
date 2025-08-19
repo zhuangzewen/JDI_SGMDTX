@@ -29,9 +29,9 @@ class 五虎上将_soul(Soul):
                         target=effect_hero,
                         initiator=self.target,
                         skill=self.skill,
-                        effect_type=SoulEffectType.会心几率,
-                        effect_value= 0.10,
-                        source_soul=self,
+                        effectType=SoulEffectType.会心几率,
+                        effectValue= 0.10,
+                        sourceSoul=self,
                         battleField=battleField
                     )
                     会心几率提升soul.deploy_initial()

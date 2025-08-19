@@ -40,7 +40,7 @@ class 桃园结义_soul(Soul):
                     target=effect_hero,
                     initiator=effect_hero,
                     skill=self.skill,
-                    source_soul=self,
+                    sourceSoul=self,
                     battleField=battleField
                 )
                 effect_hero.get_响应Soul列表().append(驱散异常响应soul)

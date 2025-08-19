@@ -28,14 +28,14 @@ class 木牛流马_增伤soul(Soul):
                  sourceType=None, 
                  sourceDetail=[],
                  skill=None, 
-                 response_time=None, 
+                 responseTime=None, 
                  duration=1, 
-                 effect_type=SoulEffectType.造成伤害提升, 
-                 effect_value=0,
-                 source_soul=None,
+                 effectType=SoulEffectType.造成伤害提升, 
+                 effectValue=0,
+                 sourceSoul=None,
                  battleField=None,
                  damage=Damage(skillEffectName="木牛流马-决机")):
-         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
+         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, responseTime, duration, effectType, effectValue, sourceSoul, battleField, damage)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.回合结束重置阶段:
@@ -67,7 +67,7 @@ class 木牛流马_soul(BaseSkillSoul):
             # 检查是否已有增伤效果，有则刷新，无则添加
             for 已存在soul in 目标武将.get_响应Soul列表():
                 已存在soul: Soul
-                if 已存在soul.source_soul == self and 已存在soul.effect_type == SoulEffectType.造成伤害提升:
+                if 已存在soul.sourceSoul == self and 已存在soul.effectType == SoulEffectType.造成伤害提升:
                     已存在soul.duration = 1
                     Log().battle_L2('[{}]的[木牛流马]增伤效果已刷新'.format(目标武将.get_武将名称().value))
                     break
@@ -77,9 +77,9 @@ class 木牛流马_soul(BaseSkillSoul):
                     initiator=self.initiator,
                     sourceType=SoulSourceType.武将战法,
                     skill=self.skill,
-                    effect_value=self.skill.木牛流马_增伤系数计算(),
+                    effectValue=self.skill.木牛流马_增伤系数计算(),
                     duration=-1,
-                    source_soul=self,
+                    sourceSoul=self,
                     battleField=battleField
                 )
                 增伤soul.deploy_initial()
@@ -99,8 +99,8 @@ class 木牛流马_soul(BaseSkillSoul):
         for 目标武将 in value_heroes:
             治疗soul = self.skill.create_soul(
                 target=目标武将,
-                effect_type=SoulEffectType.恢复兵力,
-                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.木牛流马_治疗率计算())
+                effectType=SoulEffectType.恢复兵力,
+                effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.木牛流马_治疗率计算())
             )
             治疗soul.deploy_initial()   
 

@@ -35,14 +35,14 @@ class 普攻_soul(BaseSkillSoul):
                 sourceType=SoulSourceType.不溯源, 
                 sourceDetail=[],
                 skill=None, 
-                response_time=SoulResponseTime.无响应阶段, 
+                responseTime=SoulResponseTime.无响应阶段, 
                 duration=-1,
-                effect_type=SoulEffectType.无影响, 
-                effect_value=0, 
-                source_soul=None, 
+                effectType=SoulEffectType.无影响, 
+                effectValue=0, 
+                sourceSoul=None, 
                 battleField=None):
-        super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, response_time, 
-                    duration, effect_type, effect_value, source_soul, battleField)
+        super().__init__(target, initiator, initiaTeam, sourceType, sourceDetail, skill, responseTime, 
+                    duration, effectType, effectValue, sourceSoul, battleField)
         # 每回合 连击上线次数 1
         # 每回合 反击上线次数 5
         self.连击次数 = 0
@@ -72,9 +72,9 @@ class 普攻_soul(BaseSkillSoul):
                                 sourceType=SoulSourceType.武将战法,
                                 sourceDetail=damage_detail,
                                 skill=self.skill,
-                                effect_type=SoulEffectType.损失兵力,
-                                effect_value=damage_class.damage_value,
-                                source_soul=self,
+                                effectType=SoulEffectType.损失兵力,
+                                effectValue=damage_class.damage_value,
+                                sourceSoul=self,
                                 battleField=battleField,
                                 damage=damage_class)
             damage_soul.deploy_initial()

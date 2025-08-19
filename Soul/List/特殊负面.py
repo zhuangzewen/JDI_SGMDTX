@@ -7,7 +7,7 @@ def deploy_震慑_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.震慑 and soul != self:
+        if soul.effectType == SoulEffectType.震慑 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -27,7 +27,7 @@ def deploy_缴械_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.缴械 and soul != self:
+        if soul.effectType == SoulEffectType.缴械 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -47,7 +47,7 @@ def deploy_技穷_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.技穷 and soul != self:
+        if soul.effectType == SoulEffectType.技穷 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -67,7 +67,7 @@ def deploy_混乱_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.混乱 and soul != self:
+        if soul.effectType == SoulEffectType.混乱 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -87,7 +87,7 @@ def deploy_嘲讽_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.嘲讽 and soul != self:
+        if soul.effectType == SoulEffectType.嘲讽 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -107,7 +107,7 @@ def deploy_虚弱_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.虚弱 and soul != self:
+        if soul.effectType == SoulEffectType.虚弱 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -127,7 +127,7 @@ def deploy_断粮_initial(self):
     heroName = self.target.get_武将名称().value
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.断粮 and soul != self:
+        if soul.effectType == SoulEffectType.断粮 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -148,7 +148,7 @@ def deploy_洪水_initial(self):
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
         # 修复 SoulEffectType 局部作用域问题，直接引用全局导入的 SoulEffectType
-        if soul.effect_type == SoulEffectType.洪水 and soul != self:
+        if soul.effectType == SoulEffectType.洪水 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -160,9 +160,9 @@ def deploy_洪水_initial(self):
     统率soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.统率,
-                  effect_value=-20,
-                  source_soul=self)
+                  effectType=SoulEffectType.统率,
+                  effectValue=-20,
+                  sourceSoul=self)
     统率soul.deploy_initial()
     return True
 
@@ -175,9 +175,9 @@ def restore_洪水_initial(self):
     统率soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.统率,
-                  effect_value=20,
-                  source_soul=self)
+                  effectType=SoulEffectType.统率,
+                  effectValue=20,
+                  sourceSoul=self)
     统率soul.deploy_initial()
     return True
 
@@ -186,7 +186,7 @@ def deploy_火攻_initial(self):
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
         # 修复 SoulEffectType 局部作用域问题，直接引用全局导入的 SoulEffectType
-        if soul.effect_type == SoulEffectType.火攻 and soul != self:
+        if soul.effectType == SoulEffectType.火攻 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -198,9 +198,9 @@ def deploy_火攻_initial(self):
     智力soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.智力,
-                  effect_value=-15,
-                  source_soul=self)
+                  effectType=SoulEffectType.智力,
+                  effectValue=-15,
+                  sourceSoul=self)
     智力soul.deploy_initial()
     return True
 
@@ -213,9 +213,9 @@ def restore_火攻_initial(self):
     智力soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.智力,
-                  effect_value=15,
-                  source_soul=self)
+                  effectType=SoulEffectType.智力,
+                  effectValue=15,
+                  sourceSoul=self)
     智力soul.deploy_initial()
     return True
 
@@ -224,7 +224,7 @@ def deploy_风暴_initial(self):
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
         # 修复 SoulEffectType 局部作用域问题，直接引用全局导入的 SoulEffectType
-        if soul.effect_type == SoulEffectType.风暴 and soul != self:
+        if soul.effectType == SoulEffectType.风暴 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -236,9 +236,9 @@ def deploy_风暴_initial(self):
     先攻soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.先攻,
-                  effect_value=-30,
-                  source_soul=self)
+                  effectType=SoulEffectType.先攻,
+                  effectValue=-30,
+                  sourceSoul=self)
     先攻soul.deploy_initial()
     return True
 
@@ -251,9 +251,9 @@ def restore_风暴_initial(self):
     先攻soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.先攻,
-                  effect_value=30,
-                  source_soul=self)
+                  effectType=SoulEffectType.先攻,
+                  effectValue=30,
+                  sourceSoul=self)
     先攻soul.deploy_initial()
     return True
 
@@ -262,7 +262,7 @@ def deploy_畏惧_initial(self):
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
         # 修复 SoulEffectType 局部作用域问题，直接引用全局导入的 SoulEffectType
-        if soul.effect_type == SoulEffectType.畏惧 and soul != self:
+        if soul.effectType == SoulEffectType.畏惧 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -274,9 +274,9 @@ def deploy_畏惧_initial(self):
     受到伤害soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.受到伤害降低固定值,
-                  effect_value=0.1,
-                  source_soul=self)
+                  effectType=SoulEffectType.受到伤害降低固定值,
+                  effectValue=0.1,
+                  sourceSoul=self)
     受到伤害soul.deploy_initial()
     return True
 
@@ -289,9 +289,9 @@ def restore_畏惧_initial(self):
     受到伤害soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.受到伤害降低固定值,
-                  effect_value=-0.1,
-                  source_soul=self)
+                  effectType=SoulEffectType.受到伤害降低固定值,
+                  effectValue=-0.1,
+                  sourceSoul=self)
     受到伤害soul.deploy_initial()
     return True
 
@@ -300,7 +300,7 @@ def deploy_妖术_initial(self):
     is存在同类状态 = False
     for soul in self.target.get_响应Soul列表():
         # 修复 SoulEffectType 局部作用域问题，直接引用全局导入的 SoulEffectType
-        if soul.effect_type == SoulEffectType.妖术 and soul != self:
+        if soul.effectType == SoulEffectType.妖术 and soul != self:
             is存在同类状态 = True
             msg_移除响应(soul)
     if is存在同类状态:
@@ -312,16 +312,16 @@ def deploy_妖术_initial(self):
     会心伤害soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.会心伤害,
-                  effect_value=-0.15,
-                  source_soul=self)
+                  effectType=SoulEffectType.会心伤害,
+                  effectValue=-0.15,
+                  sourceSoul=self)
     会心伤害soul.deploy_initial()
     奇谋伤害soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.奇谋伤害,
-                  effect_value=-0.15,
-                  source_soul=self)
+                  effectType=SoulEffectType.奇谋伤害,
+                  effectValue=-0.15,
+                  sourceSoul=self)
     奇谋伤害soul.deploy_initial()
     return True
 
@@ -334,15 +334,15 @@ def restore_妖术_initial(self):
     会心伤害soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.会心伤害,
-                  effect_value=0.15,
-                  source_soul=self)
+                  effectType=SoulEffectType.会心伤害,
+                  effectValue=0.15,
+                  sourceSoul=self)
     会心伤害soul.deploy_initial()
     奇谋伤害soul = Soul(target=self.target,
                   sourceDetail=[SoulSourceDetail.异常状态效果_额外效果],
                   skill=self.skill,
-                  effect_type=SoulEffectType.奇谋伤害,
-                  effect_value=0.15,
-                  source_soul=self)
+                  effectType=SoulEffectType.奇谋伤害,
+                  effectValue=0.15,
+                  sourceSoul=self)
     奇谋伤害soul.deploy_initial()
     return True

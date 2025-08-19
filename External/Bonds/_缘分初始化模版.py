@@ -38,9 +38,9 @@ class 缘分名称_soul(Soul):
                     target=effect_hero,
                     initiator=self.target,
                     skill=self.skill,
-                    effect_type=SoulEffectType.受治疗效果,  # 根据实际效果类型修改
-                    effect_value=0.08,  # 根据实际效果值修改
-                    source_soul=self,
+                    effectType=SoulEffectType.受治疗效果,  # 根据实际效果类型修改
+                    effectValue=0.08,  # 根据实际效果值修改
+                    sourceSoul=self,
                 )
                 效果soul.deploy_initial()
                 effect_hero.get_响应Soul列表().append(效果soul)
@@ -73,5 +73,5 @@ class 缘分名称_skill(Skill):
 # 1. 将文件重命名为实际缘分名称.py
 # 2. 替换所有"缘分名称"为实际缘分名称
 # 3. 修改缘分武将列表、生效数量和效果描述
-# 4. 根据实际效果修改SoulEffectType和effect_value
+# 4. 根据实际效果修改SoulEffectType和effectValue
 # 5. 确保在FittingList_Enum.py中添加了对应的枚举值

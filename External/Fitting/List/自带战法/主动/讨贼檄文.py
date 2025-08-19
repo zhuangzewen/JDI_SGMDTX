@@ -28,11 +28,11 @@ class 讨贼檄文_soul(BaseSkillSoul):
                 initiator=self.target,
                 sourceType=SoulSourceType.武将战法,
                 skill=self.skill,
-                response_time=SoulResponseTime.内置待响应,
+                responseTime=SoulResponseTime.内置待响应,
                 duration=1,
-                effect_type=SoulEffectType.清醒,
-                effect_value=0,
-                source_soul=self,
+                effectType=SoulEffectType.清醒,
+                effectValue=0,
+                sourceSoul=self,
                 battleField=battleField)
             
             if 清醒soul.initiator.get_被击溃状态() != True and 清醒soul.target.get_被击溃状态() != True:

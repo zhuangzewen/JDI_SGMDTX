@@ -45,8 +45,8 @@ class 七进七出_soul(BaseSkillSoul):
             initiator=self.target,
             sourceType=SoulSourceType.武将战法,
             skill=self.skill,
-            effect_type=SoulEffectType.规避,
-            effect_value=self.skill.七进七出_规避率提升系数()
+            effectType=SoulEffectType.规避,
+            effectValue=self.skill.七进七出_规避率提升系数()
         )
         规避soul.deploy_initial()
 
@@ -68,9 +68,9 @@ class 七进七出_soul(BaseSkillSoul):
                 initiator=self.target,
                 sourceType=SoulSourceType.武将战法,
                 skill=self.skill,
-                effect_type=SoulEffectType.损失兵力,
-                effect_value=damage_model.damage_value,
-                source_soul=self,
+                effectType=SoulEffectType.损失兵力,
+                effectValue=damage_model.damage_value,
+                sourceSoul=self,
                 battleField=battleField,
                 damage=damage_model
             )

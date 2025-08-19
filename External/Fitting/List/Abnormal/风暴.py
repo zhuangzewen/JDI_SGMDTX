@@ -18,13 +18,13 @@ class 风暴_soul(Soul):
                  sourceType=None, 
                  sourceDetail=[SoulSourceDetail.负面状态效果, SoulSourceDetail.异常状态效果],
                  skill=None, 
-                 response_time=None, 
+                 responseTime=None, 
                  duration=-1, 
-                 effect_type=SoulEffectType.风暴, 
-                 effect_value=0,
-                 source_soul=None,
+                 effectType=SoulEffectType.风暴, 
+                 effectValue=0,
+                 sourceSoul=None,
                  battleField=None):
-         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField)
+         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, responseTime, duration, effectType, effectValue, sourceSoul, battleField)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:

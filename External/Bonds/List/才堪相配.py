@@ -34,9 +34,9 @@ class 才堪相配_soul(Soul):
                     target=effect_hero,
                     initiator=self.target,
                     skill=self.skill,
-                    effect_type=SoulEffectType.受治疗效果,
-                    effect_value=0.08,
-                    source_soul=self,
+                    effectType=SoulEffectType.受治疗效果,
+                    effectValue=0.08,
+                    sourceSoul=self,
                 )
                 治疗效果soul.deploy_initial()
         

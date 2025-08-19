@@ -83,9 +83,9 @@ class 临机制胜_soul(BaseSkillSoul):
                 initiator=self.target,
                 sourceType=SoulSourceType.武将战法,
                 skill=self.skill,
-                effect_type=SoulEffectType.损失兵力,
-                effect_value=damage_model.damage_value,
-                source_soul=self.soul,
+                effectType=SoulEffectType.损失兵力,
+                effectValue=damage_model.damage_value,
+                sourceSoul=self.soul,
                 battleField=battleField,
                 damage=damage_model
             )
@@ -109,7 +109,7 @@ class 临机制胜_soul(BaseSkillSoul):
             treatment_soul = self.skill.create_soul(
                 treatment, SoulEffectType.恢复兵力, treatmentValue
             )
-            treatment_soul.source_soul = self
+            treatment_soul.sourceSoul = self
             treatment_soul.battleField = battleField
             treatment_soul.deploy_initial()
 

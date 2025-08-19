@@ -38,10 +38,10 @@ class 曲辞谄媚_soul(BaseSkillSoul):
                     initiator=self.target,
                     sourceType=SoulSourceType.武将战法,
                     skill=self.skill,
-                    effect_type=SoulEffectType.造成伤害提升,
-                    effect_value=伤害提升,
+                    effectType=SoulEffectType.造成伤害提升,
+                    effectValue=伤害提升,
                     duration=1,
-                    source_soul=self,
+                    sourceSoul=self,
                     battleField=battleField
                 )
                 伤害提升soul.deploy_initial()
@@ -54,11 +54,11 @@ class 曲辞谄媚_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.内置待响应,
+                        responseTime=SoulResponseTime.内置待响应,
                         duration=1,
-                        effect_type=SoulEffectType.混乱,
-                        effect_value=0,
-                        source_soul=self,
+                        effectType=SoulEffectType.混乱,
+                        effectValue=0,
+                        sourceSoul=self,
                         battleField=battleField
                     )
                     混乱soul.deploy_initial()
@@ -95,9 +95,9 @@ class 曲辞谄媚_soul(BaseSkillSoul):
                         initiator=智力最高队友,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        effect_type=SoulEffectType.损失兵力,
-                        effect_value=damageModel.damage_value,
-                        source_soul=self,
+                        effectType=SoulEffectType.损失兵力,
+                        effectValue=damageModel.damage_value,
+                        sourceSoul=self,
                         battleField=battleField,
                         damage=damageModel
                     )

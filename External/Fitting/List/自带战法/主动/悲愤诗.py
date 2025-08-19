@@ -62,8 +62,8 @@ class 悲愤诗_soul(BaseSkillSoul):
                 initiator=self.target,
                 sourceType=SoulSourceType.武将战法,
                 skill=self.skill,
-                effect_type=SoulEffectType.恢复兵力,
-                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.悲愤诗_基础治疗率())
+                effectType=SoulEffectType.恢复兵力,
+                effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.悲愤诗_基础治疗率())
             )
             全体治疗soul.deploy_initial()
 
@@ -73,8 +73,8 @@ class 悲愤诗_soul(BaseSkillSoul):
                     initiator=self.target,
                     sourceType=SoulSourceType.武将战法,
                     skill=self.skill,
-                    effect_type=SoulEffectType.恢复兵力,
-                    effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.悲愤诗_前排额外治疗率())
+                    effectType=SoulEffectType.恢复兵力,
+                    effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.悲愤诗_前排额外治疗率())
                 )
                 额外治疗soul.deploy_initial()
 
@@ -85,8 +85,8 @@ class 悲愤诗_soul(BaseSkillSoul):
                 initiator=self.target,
                 sourceType=SoulSourceType.武将战法,
                 skill=self.skill,
-                effect_type=SoulEffectType.抵御,
-                effect_value=1,
+                effectType=SoulEffectType.抵御,
+                effectValue=1,
                 damage=Damage(skillEffectName='悲愤诗')
             )
             抵御soul.deploy_initial()

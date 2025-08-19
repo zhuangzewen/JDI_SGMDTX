@@ -54,8 +54,8 @@ class 携民渡江_soul(BaseSkillSoul):
             目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             统率soul = self.skill.create_soul(
                 target=目标武将,
-                effect_type=SoulEffectType.统率,
-                effect_value=self.skill.携民渡江_统率提升系数(),
+                effectType=SoulEffectType.统率,
+                effectValue=self.skill.携民渡江_统率提升系数(),
                 damage=Damage(skillEffectName='携民渡江')
             )
 
@@ -79,8 +79,8 @@ class 携民渡江_soul(BaseSkillSoul):
             目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             全体治疗soul = self.skill.create_soul(
                 target=目标武将,
-                effect_type=SoulEffectType.恢复兵力,
-                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.携民渡江_群体治疗系数())
+                effectType=SoulEffectType.恢复兵力,
+                effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.携民渡江_群体治疗系数())
             )
             全体治疗soul.deploy_initial()   
 
@@ -93,8 +93,8 @@ class 携民渡江_soul(BaseSkillSoul):
 
         单点治疗soul = self.skill.create_soul(
             target=low_hero,
-            effect_type=SoulEffectType.恢复兵力,
-            effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.携民渡江_单体治疗系数())
+            effectType=SoulEffectType.恢复兵力,
+            effectValue=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.携民渡江_单体治疗系数())
         )
         单点治疗soul.deploy_initial()   
 

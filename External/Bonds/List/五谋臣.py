@@ -37,9 +37,9 @@ class 五谋臣_soul(Soul):
                     target = effect_hero,
                     initiator = self.target, 
                     skill = self.skill, 
-                    effect_type = SoulEffectType.破甲,
-                    effect_value = 破甲提升,
-                    source_soul = self,
+                    effectType = SoulEffectType.破甲,
+                    effectValue = 破甲提升,
+                    sourceSoul = self,
                     battleField = battleField
                 )
                 破甲提升soul.deploy_initial()
@@ -48,9 +48,9 @@ class 五谋臣_soul(Soul):
                     target = effect_hero,
                     initiator = self.target, 
                     skill = self.skill, 
-                    effect_type = SoulEffectType.受到伤害降低,
-                    effect_value = 伤害降低,
-                    source_soul = self,
+                    effectType = SoulEffectType.受到伤害降低,
+                    effectValue = 伤害降低,
+                    sourceSoul = self,
                     battleField = battleField
                 )
                 伤害降低soul.deploy_initial()

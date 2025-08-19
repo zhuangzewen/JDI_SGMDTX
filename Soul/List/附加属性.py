@@ -6,7 +6,7 @@ from Control.Log.JDI_Log import Log
 def deploy_固定受击率_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
-    value = soul.effect_value
+    value = soul.effectValue
     setattr(hero, HeroInfoKey.固定受击率.value, True)
     Log().battle_L2(f'[{heroName}]的【固定受击率】提升为{value * 100:.2f}%')
     return True
@@ -22,7 +22,7 @@ def restore_固定受击率_initial(soul: Any):
 def deploy_受治疗效果_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
-    value = soul.effect_value
+    value = soul.effectValue
     cur_value = getattr(hero, HeroInfoKey.受治疗效果.value)
     cur_value += value
     setattr(hero, HeroInfoKey.受治疗效果.value, cur_value)
@@ -33,7 +33,7 @@ def deploy_受治疗效果_initial(soul: Any):
 def restore_受治疗效果_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
-    value = soul.effect_value
+    value = soul.effectValue
     cur_value = getattr(hero, HeroInfoKey.受治疗效果.value)
     cur_value -= value
     setattr(hero, HeroInfoKey.受治疗效果.value, cur_value)

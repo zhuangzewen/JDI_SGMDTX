@@ -400,29 +400,29 @@ class Hero():
             if hero == self and self.get_倒戈() > 0 and sourceSoul.damage.type == SoulDamageType.兵刃:
                 Log().battle_L2('[{}]触发倒戈'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
-                恢复兵力 = abs(int(伤害SOUL.effect_value * self.get_倒戈()))
+                恢复兵力 = abs(int(伤害SOUL.effectValue * self.get_倒戈()))
 
                 from Soul.JDI_Soul import Soul
                 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
                 恢复soul = Soul(target=self,
                                 initiator=self,
                                 skill=None,
-                                effect_type=SoulEffectType.恢复兵力,
-                                effect_value=恢复兵力,
+                                effectType=SoulEffectType.恢复兵力,
+                                effectValue=恢复兵力,
                                 battleField=battleField)
 
             if hero == self and self.get_攻心() > 0 and sourceSoul.damage.type == SoulDamageType.谋略:
                 Log().battle_L2('[{}]触发攻心'.format(self.get_武将名称().value))
                 伤害SOUL: Soul = sourceSoul
-                恢复兵力 = abs(int(伤害SOUL.effect_value * self.get_攻心()))
+                恢复兵力 = abs(int(伤害SOUL.effectValue * self.get_攻心()))
 
                 from Soul.JDI_Soul import Soul
                 from Soul.Enum.SoulEffectType_Enum import SoulEffectType
                 恢复soul = Soul(target=self,
                                 initiator=self,
                                 skill=None,
-                                effect_type=SoulEffectType.恢复兵力,
-                                effect_value=恢复兵力,
+                                effectType=SoulEffectType.恢复兵力,
+                                effectValue=恢复兵力,
                                 battleField=battleField)
                 恢复soul.deploy_initial()
 

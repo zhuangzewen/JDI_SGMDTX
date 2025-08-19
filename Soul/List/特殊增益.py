@@ -24,9 +24,9 @@ def deploy_抵御_initial(soul: Any):
     if cur_value == 2:
         Log().battle_L2('[{}]的「抵御」效果已刷新'.format(heroName))
         return
-    cur_value += soul.effect_value
+    cur_value += soul.effectValue
     setattr(hero, HeroInfoKey.抵御.value, cur_value)
-    Log().battle_L2('[{}]的【抵御次数】{}{}({})'.format(heroName, '提升' if soul.effect_value > 0 else '降低', abs(soul.effect_value), cur_value))
+    Log().battle_L2('[{}]的【抵御次数】{}{}({})'.format(heroName, '提升' if soul.effectValue > 0 else '降低', abs(soul.effectValue), cur_value))
     Log().battle_L2('[{}]的「抵御」效果已施加'.format(heroName))
     return True
 
@@ -34,9 +34,9 @@ def restore_抵御_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.抵御.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.抵御.value, cur_value)
-    Log().battle_L2('[{}]的【抵御次数】{}{}({})'.format(heroName, '降低' if soul.effect_value > 0 else '提升', abs(soul.effect_value), cur_value))
+    Log().battle_L2('[{}]的【抵御次数】{}{}({})'.format(heroName, '降低' if soul.effectValue > 0 else '提升', abs(soul.effectValue), cur_value))
     Log().battle_L2('[{}]的「抵御」效果已消失'.format(heroName))
     return True
 

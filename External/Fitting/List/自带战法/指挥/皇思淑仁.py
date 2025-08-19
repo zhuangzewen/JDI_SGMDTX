@@ -32,14 +32,14 @@ class 皇思淑仁_规避soul(Soul):
                  sourceType=None, 
                  sourceDetail=[],
                  skill=None, 
-                 response_time=None, 
+                 responseTime=None, 
                  duration=2, 
-                 effect_type=SoulEffectType.规避, 
-                 effect_value=0,
-                 source_soul=None,
+                 effectType=SoulEffectType.规避, 
+                 effectValue=0,
+                 sourceSoul=None,
                  battleField=None,
                  damage=Damage(skillEffectName="皇思淑仁")):
-         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, response_time, duration, effect_type, effect_value, source_soul, battleField, damage)
+         super().__init__(target, initiator, initialTeam, sourceType, sourceDetail, skill, responseTime, duration, effectType, effectValue, sourceSoul, battleField, damage)
 
     def response(self, status=None, battleField=None, hero=None, sourceSoul=None):
         if status == SoulResponseTime.武将回合重置阶段 and hero == self.target:
@@ -89,7 +89,7 @@ class 皇思淑仁_soul(BaseSkillSoul):
 
             for 已存在soul in 目标武将.get_响应Soul列表():
                 已存在soul: Soul
-                if 已存在soul.source_soul == self:
+                if 已存在soul.sourceSoul == self:
                     已存在soul.duration = 2
                     Log().battle_L2('[{}]的[皇思淑仁]效果已刷新'.format(目标武将.get_武将名称().value))
                     break
@@ -99,9 +99,9 @@ class 皇思淑仁_soul(BaseSkillSoul):
                     initiator=self.initiator,
                     sourceType=SoulSourceType.武将战法,
                     skill=self.skill,
-                    effect_value=self.skill.皇思淑仁_规避率提升系数(),
+                    effectValue=self.skill.皇思淑仁_规避率提升系数(),
                     duration=2,
-                    source_soul=self,
+                    sourceSoul=self,
                     battleField=battleField
                 )
                 规避soul.deploy_initial()
@@ -126,8 +126,8 @@ class 皇思淑仁_soul(BaseSkillSoul):
             目标武将 = 从队列确定受击单位(value_heroes, skill=self.skill, hero=self.target, battleField=battleField)
             治疗soul = self.skill.create_soul(
                 target=目标武将,
-                effect_type=SoulEffectType.恢复兵力,
-                effect_value=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.皇思淑仁_治疗率计算())
+                effectType=SoulEffectType.恢复兵力,
+                effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.皇思淑仁_治疗率计算())
             )
             治疗soul.deploy_initial()   
 

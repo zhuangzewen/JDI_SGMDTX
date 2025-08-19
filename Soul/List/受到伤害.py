@@ -14,14 +14,14 @@ def deploy_受到伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到伤害提升.value, cur_value)
     show_upEffect_name = '【受到伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -29,10 +29,10 @@ def restore_受到伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到伤害提升.value, cur_value)
     show_upEffect_name = '【受到伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -42,12 +42,12 @@ def deploy_受到伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到伤害降低.value, cur_value)
     show_upEffect_name = '【受到伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -55,10 +55,10 @@ def restore_受到伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到伤害降低.value, cur_value)
     show_upEffect_name = '【受到伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -67,11 +67,11 @@ def deploy_受到伤害提升固定值_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害提升.value)
-    effect_value = soul.effect_value  # 固定值直接加
-    cur_value += effect_value
+    effectValue = soul.effectValue  # 固定值直接加
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到伤害提升.value, cur_value)
     show_upEffect_name = '【受到伤害】提升(固定值)'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -80,10 +80,10 @@ def restore_受到伤害提升固定值_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到伤害提升.value, cur_value)
     show_upEffect_name = '【受到伤害】降低(固定值)'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -92,11 +92,11 @@ def deploy_受到伤害降低固定值_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
-    effect_value = soul.effect_value  # 固定值直接加
-    cur_value += effect_value
+    effectValue = soul.effectValue  # 固定值直接加
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到伤害降低.value, cur_value)
     show_upEffect_name = '【受到伤害】降低(固定值)'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -105,10 +105,10 @@ def restore_受到伤害降低固定值_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到伤害降低.value, cur_value)
     show_upEffect_name = '【受到伤害】提升(固定值)'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -122,14 +122,14 @@ def deploy_受到异性伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到异性伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到异性伤害提升.value, cur_value)
     show_upEffect_name = '【受到异性伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到异性伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -138,10 +138,10 @@ def restore_受到异性伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到异性伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到异性伤害提升.value, cur_value)
     show_upEffect_name = '【受到异性伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到异性伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -150,12 +150,12 @@ def deploy_受到异性伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到异性伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到异性伤害降低.value, cur_value)
     show_upEffect_name = '【受到异性伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到异性伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -164,10 +164,10 @@ def restore_受到异性伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到异性伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到异性伤害降低.value, cur_value)
     show_upEffect_name = '【受到异性伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到异性伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -181,14 +181,14 @@ def deploy_受到谋略伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到谋略伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到谋略伤害提升.value, cur_value)
     show_upEffect_name = '【受到谋略伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到谋略伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -197,10 +197,10 @@ def restore_受到谋略伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到谋略伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到谋略伤害提升.value, cur_value)
     show_upEffect_name = '【受到谋略伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到谋略伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -209,12 +209,12 @@ def deploy_受到谋略伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到谋略伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到谋略伤害降低.value, cur_value)
     show_upEffect_name = '【受到谋略伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到谋略伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -223,10 +223,10 @@ def restore_受到谋略伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到谋略伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到谋略伤害降低.value, cur_value)
     show_upEffect_name = '【受到谋略伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到谋略伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -240,14 +240,14 @@ def deploy_受到兵刃伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到兵刃伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到兵刃伤害提升.value, cur_value)
     show_upEffect_name = '【受到兵刃伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到兵刃伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -258,10 +258,10 @@ def restore_受到兵刃伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到兵刃伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到兵刃伤害提升.value, cur_value)
     show_upEffect_name = '【受到兵刃伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到兵刃伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -270,12 +270,12 @@ def deploy_受到兵刃伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到兵刃伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到兵刃伤害降低.value, cur_value)
     show_upEffect_name = '【受到兵刃伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到兵刃伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -284,10 +284,10 @@ def restore_受到兵刃伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到兵刃伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到兵刃伤害降低.value, cur_value)
     show_upEffect_name = '【受到兵刃伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到兵刃伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -301,14 +301,14 @@ def deploy_受到普通攻击伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到普通攻击伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到普通攻击伤害提升.value, cur_value)
     show_upEffect_name = '【受到普通攻击伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到普通攻击伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -317,10 +317,10 @@ def restore_受到普通攻击伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到普通攻击伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到普通攻击伤害提升.value, cur_value)
     show_upEffect_name = '【受到普通攻击伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到普通攻击伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -329,12 +329,12 @@ def deploy_受到普通攻击伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到普通攻击伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到普通攻击伤害降低.value, cur_value)
     show_upEffect_name = '【受到普通攻击伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到普通攻击伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -343,10 +343,10 @@ def restore_受到普通攻击伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到普通攻击伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到普通攻击伤害降低.value, cur_value)
     show_upEffect_name = '【受到普通攻击伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到普通攻击伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -360,14 +360,14 @@ def deploy_受到主动战法伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到主动战法伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到主动战法伤害提升.value, cur_value)
     show_upEffect_name = '【受到主动战法伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到主动战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -376,10 +376,10 @@ def restore_受到主动战法伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到主动战法伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到主动战法伤害提升.value, cur_value)
     show_upEffect_name = '【受到主动战法伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到主动战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -388,12 +388,12 @@ def deploy_受到主动战法伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到主动战法伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到主动战法伤害降低.value, cur_value)
     show_upEffect_name = '【受到主动战法伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到主动战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -402,10 +402,10 @@ def restore_受到主动战法伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到主动战法伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到主动战法伤害降低.value, cur_value)
     show_upEffect_name = '【受到主动战法伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到主动战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -419,14 +419,14 @@ def deploy_受到追击战法伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到追击战法伤害提升.value)
-    effect_value = soul.effect_value * (2 - cur_value)
-    if cur_value + effect_value > 2:
-        effect_value = 2 - cur_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = soul.effectValue * (2 - cur_value)
+    if cur_value + effectValue > 2:
+        effectValue = 2 - cur_value
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到追击战法伤害提升.value, cur_value)
     show_upEffect_name = '【受到追击战法伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到追击战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -435,10 +435,10 @@ def restore_受到追击战法伤害提升_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到追击战法伤害提升.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到追击战法伤害提升.value, cur_value)
     show_upEffect_name = '【受到追击战法伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到追击战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True
@@ -447,12 +447,12 @@ def deploy_受到追击战法伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到追击战法伤害降低.value)
-    effect_value = (1 + cur_value) * soul.effect_value
-    soul.effect_value = effect_value  # Store the calculated effect value for later use
-    cur_value += effect_value
+    effectValue = (1 + cur_value) * soul.effectValue
+    soul.effectValue = effectValue  # Store the calculated effect value for later use
+    cur_value += effectValue
     setattr(hero, HeroInfoKey.受到追击战法伤害降低.value, cur_value)
     show_upEffect_name = '【受到追击战法伤害】降低'
-    show_effectValue_name = '{:.2f}%'.format(abs(effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到追击战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     # respond逻辑已移除，主流程统一控制
@@ -461,10 +461,10 @@ def restore_受到追击战法伤害降低_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
     cur_value = getattr(hero, HeroInfoKey.受到追击战法伤害降低.value)
-    cur_value -= soul.effect_value
+    cur_value -= soul.effectValue
     setattr(hero, HeroInfoKey.受到追击战法伤害降低.value, cur_value)
     show_upEffect_name = '【受到追击战法伤害】提升'
-    show_effectValue_name = '{:.2f}%'.format(abs(soul.effect_value) * 100)
+    show_effectValue_name = '{:.2f}%'.format(abs(soul.effectValue) * 100)
     show_curEffect_name = '{:.2f}%'.format(get_受到追击战法伤害(hero) * 100)
     Log().battle_L2('[{}]的{}{}({})'.format(heroName, show_upEffect_name, show_effectValue_name, show_curEffect_name))
     return True

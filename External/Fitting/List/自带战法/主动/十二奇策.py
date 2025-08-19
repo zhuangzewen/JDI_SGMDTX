@@ -61,9 +61,9 @@ class 十二奇策_soul(BaseSkillSoul):
                                     initiator=self.target,
                                     sourceType=SoulSourceType.武将战法,
                                     skill= self.skill,
-                                    effect_type=SoulEffectType.损失兵力,
-                                    effect_value=damageModel.damage_value,
-                                    source_soul=self,
+                                    effectType=SoulEffectType.损失兵力,
+                                    effectValue=damageModel.damage_value,
+                                    sourceSoul=self,
                                     battleField=battleField,
                                     damage=damageModel)
                 damage_soul.deploy_initial()
@@ -76,9 +76,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.缴械:
                     from External.Fitting.List.Abnormal.缴械 import 缴械_soul
@@ -87,9 +87,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.技穷:
                     from External.Fitting.List.Abnormal.技穷 import 技穷_soul
@@ -98,9 +98,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.混乱:
                     from External.Fitting.List.Abnormal.混乱 import 混乱_soul
@@ -109,9 +109,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.嘲讽:
                     from External.Fitting.List.Abnormal.嘲讽 import 嘲讽_soul
@@ -120,9 +120,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.虚弱:
                     from External.Fitting.List.Abnormal.虚弱 import 虚弱_soul
@@ -131,9 +131,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.断粮:
                     from External.Fitting.List.Abnormal.断粮 import 断粮_soul
@@ -142,9 +142,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.洪水:
                     from External.Fitting.List.Abnormal.洪水 import 洪水_soul
@@ -153,9 +153,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.火攻:
                     from External.Fitting.List.Abnormal.火攻 import 火攻_soul
@@ -164,9 +164,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.风暴:
                     from External.Fitting.List.Abnormal.风暴 import 风暴_soul
@@ -175,9 +175,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.畏惧:
                     from External.Fitting.List.Abnormal.畏惧 import 畏惧_soul
@@ -186,9 +186,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 elif real_abnormal == SoulEffectType.妖术:
                     from External.Fitting.List.Abnormal.妖术 import 妖术_soul
@@ -197,9 +197,9 @@ class 十二奇策_soul(BaseSkillSoul):
                         initiator=self.target,
                         sourceType=SoulSourceType.武将战法,
                         skill=self.skill,
-                        response_time=SoulResponseTime.战斗中,
+                        responseTime=SoulResponseTime.战斗中,
                         duration=2,
-                        source_soul=self,
+                        sourceSoul=self,
                         battleField=battleField)
                 
                 if 异常soul.initiator.get_被击溃状态() != True and 异常soul.target.get_被击溃状态() != True:

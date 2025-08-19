@@ -67,8 +67,8 @@ class 青囊急救_soul(BaseSkillSoul):
             initiator=self.target,
             sourceType=SoulSourceType.武将战法,
             skill=self.skill,
-            effect_type=SoulEffectType.恢复兵力,
-            effect_value=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.青囊急救_治疗系数())
+            effectType=SoulEffectType.恢复兵力,
+            effectValue=治疗计算(battleField, 施救者=self.target, 受助者=low_hero, 治疗率 = self.skill.青囊急救_治疗系数())
         )
         治疗soul.deploy_initial()
 

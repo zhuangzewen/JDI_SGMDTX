@@ -33,9 +33,9 @@ class 虎卫御侮_soul(Soul):
                     target=effect_hero,
                     initiator=self.target,
                     skill=self.skill,
-                    effect_type=SoulEffectType.普通攻击造成伤害提升,
-                    effect_value=0.12,
-                    source_soul=self,
+                    effectType=SoulEffectType.普通攻击造成伤害提升,
+                    effectValue=0.12,
+                    sourceSoul=self,
                 )
                 普攻伤害提升soul.deploy_initial()
         

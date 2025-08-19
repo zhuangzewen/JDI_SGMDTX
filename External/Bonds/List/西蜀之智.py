@@ -35,9 +35,9 @@ class 西蜀之智_soul(Soul):
                         target=effect_hero,
                         initiator=self.target,
                         skill=self.skill,
-                        effect_type=SoulEffectType.受到谋略伤害降低,
-                        effect_value= -0.08,  # 降低8%
-                        source_soul=self,
+                        effectType=SoulEffectType.受到谋略伤害降低,
+                        effectValue= -0.08,  # 降低8%
+                        sourceSoul=self,
                         battleField=battleField
                     )
                     受到谋略伤害降低soul.deploy_initial()

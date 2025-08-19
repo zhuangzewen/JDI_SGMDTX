@@ -14,7 +14,7 @@ def deploy_损失兵力_initial(soul: Any):
     伤害来源武将名称 = 伤害来源武将.get_武将名称().value if 伤害来源武将 else '未知来源'
     伤害来源技能名称 = soul.skill.get_战法名称().value if soul.skill else '未知技能'
     伤害来源Soul效果 = soul.damage.skillEffectName if soul.damage else '未知效果来源'
-    伤害数值 = int(soul.effect_value)
+    伤害数值 = int(soul.effectValue)
 
     # battlefield 响应
     if hasattr(soul, 'battleField') and soul.battleField:
@@ -72,7 +72,7 @@ def restore_损失兵力_initial(soul: Any):
 def deploy_恢复兵力_initial(soul: Any):
     hero = soul.target
     heroName = hero.get_武将名称().value
-    value = int(soul.effect_value)
+    value = int(soul.effectValue)
     # battlefield 响应
     if hasattr(soul, 'battleField') and soul.battleField:
         soul.battleField.respond(status=SoulResponseTime.受到伤害前, 时机响应武将=hero, 溯源SOUL=soul)
@@ -81,7 +81,7 @@ def deploy_恢复兵力_initial(soul: Any):
     if hasattr(hero, 'get_响应Soul列表'):
         for s in hero.get_响应Soul列表():
             from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-            if hasattr(s, 'effect_type') and s.effect_type == SoulEffectType.断粮:
+            if hasattr(s, 'effectType') and s.effectType == SoulEffectType.断粮:
                 Log().battle_L2('[{}]由于[{}]【{}】的[断粮]效果治疗效率降为30%'.format(heroName, s.initiator.get_武将名称().value, s.skill.get_战法名称().value))
                 恢复兵力 = int(恢复兵力 * 0.3)
                 break

@@ -30,16 +30,16 @@ class 仁义昭烈_soul(Soul):
                     # 检查是否是蜀阵营加成soul
                     if hasattr(soul, 'sourceType') and soul.sourceType == SoulSourceType.蜀阵营加成:
                         # 对现有的蜀阵营加成效果提升50%
-                        原始效果值 = soul.effect_value
+                        原始效果值 = soul.effectValue
                         提升值 = 原始效果值 * 0.5  # 提升50%
                         
                         # 创建额外的提升soul
                         蜀加成提升soul = Soul(target=hero,
                                             initiator=self.target,
                                             skill=self.skill,
-                                            effect_type=soul.effect_type,
-                                            effect_value=提升值,
-                                            source_soul=self,
+                                            effectType=soul.effectType,
+                                            effectValue=提升值,
+                                            sourceSoul=self,
                                             battleField=battleField)
                         蜀加成提升soul.deploy_initial()
         

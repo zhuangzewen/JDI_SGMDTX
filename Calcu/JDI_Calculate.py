@@ -22,11 +22,11 @@ def msg_主动战法发起判断(hero):
     have_清醒 = False
     from Soul.Enum.SoulEffectType_Enum import SoulEffectType
     for soul in hero.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.技穷:
+        if soul.effectType == SoulEffectType.技穷:
             have_技穷 = True
-        elif soul.effect_type == SoulEffectType.震慑:
+        elif soul.effectType == SoulEffectType.震慑:
             have_震慑 = True
-        elif soul.effect_type == SoulEffectType.清醒:
+        elif soul.effectType == SoulEffectType.清醒:
             have_清醒 = True
     if (have_技穷 or have_震慑) and not have_清醒:
         return False
@@ -39,11 +39,11 @@ def msg_普攻发起判断(hero):
     have_清醒 = False
     from Soul.Enum.SoulEffectType_Enum import SoulEffectType
     for soul in hero.get_响应Soul列表():
-        if soul.effect_type == SoulEffectType.缴械:
+        if soul.effectType == SoulEffectType.缴械:
             have_缴械 = True
-        elif soul.effect_type == SoulEffectType.震慑:
+        elif soul.effectType == SoulEffectType.震慑:
             have_震慑 = True
-        elif soul.effect_type == SoulEffectType.清醒:
+        elif soul.effectType == SoulEffectType.清醒:
             have_清醒 = True
     if (have_缴械 or have_震慑) and not have_清醒:
         return False
@@ -181,8 +181,8 @@ def 生效未施加的异常状态(hero, battleField):
                      SoulEffectType.断粮, SoulEffectType.洪水, SoulEffectType.火攻,
                      SoulEffectType.风暴, SoulEffectType.畏惧, SoulEffectType.妖术]
     for soul in soul_list:
-        if soul.effect_type in abnormal_list:
-            abnormal_list.remove(soul.effect_type)
+        if soul.effectType in abnormal_list:
+            abnormal_list.remove(soul.effectType)
     if len(abnormal_list) > 0:
         # 随机一个 return
         random_soul_effect = random.choice(abnormal_list)
@@ -282,11 +282,11 @@ def 从队列确定受击单位(heroList, skill=None, hero=None, battleField=Non
         混乱soul = None
         嘲讽soul = None
         for soul in hero.get_响应Soul列表():
-            if soul.effect_type == SoulEffectType.清醒:
+            if soul.effectType == SoulEffectType.清醒:
                 清醒soul = soul
-            elif soul.effect_type == SoulEffectType.混乱:
+            elif soul.effectType == SoulEffectType.混乱:
                 混乱soul = soul
-            elif soul.effect_type == SoulEffectType.嘲讽:
+            elif soul.effectType == SoulEffectType.嘲讽:
                 嘲讽soul = soul
         if 清醒soul != None:
             return normal_受击(heroList)
@@ -608,9 +608,9 @@ def MSG_武将增减伤公式(攻击者, 防御者, 伤害类型: SoulDamageType
     虚弱系数 = 1
     for soul in 攻击者.get_响应Soul列表():
         from Soul.Enum.SoulEffectType_Enum import SoulEffectType
-        if soul.effect_type == SoulEffectType.虚弱:
+        if soul.effectType == SoulEffectType.虚弱:
             存在虚弱_soul = soul
-        if soul.effect_type == SoulEffectType.清醒:
+        if soul.effectType == SoulEffectType.清醒:
             存在清醒 = True
     if 存在虚弱_soul != None and not 存在清醒:
         from Control.Log.JDI_Log import Log

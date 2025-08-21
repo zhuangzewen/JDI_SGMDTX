@@ -382,6 +382,9 @@ class Hero():
 
         if self.get_被击溃状态():
             return
+
+        
+
         
         if status == SoulResponseTime.武将溃败 and hero == self:
 
@@ -389,11 +392,11 @@ class Hero():
 
             self.get_响应Soul列表().clear()
 
-            for soul in self.get_持有Soul列表():
-                soul: Soul
-                soul.response(status=status, battleField=self, hero=hero, sourceSoul=sourceSoul)
+            # for soul in self.get_持有Soul列表():
+            #     soul: Soul
+            #     soul.response(status=status, battleField=self, hero=hero, sourceSoul=sourceSoul)
 
-            self.get_持有Soul列表().clear()
+            # self.get_持有Soul列表().clear()
 
         if status == SoulResponseTime.造成伤害时:
 

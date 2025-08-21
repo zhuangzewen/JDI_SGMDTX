@@ -135,6 +135,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
                             source_soul=self)
             阵型强化soul.deploy_initial()
             self.soul持有列表.append(阵型强化soul)
+            己方阵型强化soul.target.get_响应Soul列表().append(阵型强化soul)
 
         存在未强化的阵型SOUL = False
 

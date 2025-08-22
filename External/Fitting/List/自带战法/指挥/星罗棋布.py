@@ -126,7 +126,7 @@ class 星罗棋布_阵型强化_soul(BaseSkillSoul):
 
             Log().battle_L2(f'[{target_name}]执行来自【{self.skill.get_战法名称().value}】的[星罗棋布-阵型]效果')
             strengRatio = self.skill.星罗棋布_阵型强化系数() * 己方阵型强化soul.effect_value
-            阵型强化soul = Soul(target=己方阵型强化soul.target, 
+            阵型强化soul = BaseSkillSoul(target=己方阵型强化soul.target, 
                             initiator=self.skill.get_持有者(), 
                             sourceType=SoulSourceType.武将战法, 
                             skill=self.skill, 

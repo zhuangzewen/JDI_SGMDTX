@@ -46,13 +46,22 @@ class Soul():
             self.battleField = battleField
 
     def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul = None):
+        # 部分 baseSkillSoul 并没有初始化 
+        # baseSkillSoul 也不存在 response
+        # 所以需要在此处进行部分简单soul的响应
+        # 暂时只添加 溃败状态的 def handle_defeat(self, battleField=None, hero: Hero = None, sourceSoul: Soul = None):
+        # 首先判断 是否溃败 且 存在这个方法
         if status == SoulResponseTime.武将溃败:
-
-            if self.initiator is not None and self.initiator.get_被击溃状态():
-                Log().show_debug_info(f'[DEBUG] {self.initiator.get_武将名称().value} 已经被击溃, 无法响应')
-                return
-
-            pass
+            # 检查是否存在handle_defeat方法
+            if hasattr(self, 'handle_defeat'):
+                # 调用handle_defeat方法处理溃败状态
+                self.handle_defeat(battleField=battleField, hero=hero, sourceSoul=sourceSoul)
+            else:
+                # 如果没有handle_defeat方法，执行默认的溃败处理
+                # if self.initiator is not None and self.initiator == hero:
+                #     Log().show_debug_info(f'[DEBUG] {self.initiator.get_武将名称().value} 已经被击溃, 无法响应')
+                #     self.restore_initial()
+                pass
 
     def deploy_initial(self):
 
@@ -185,9 +194,13 @@ class BaseSkillSoul(Soul):
     def _restore_and_remove_initiator_souls(self):
         """恢复并移除发起者的souls"""
         souls_to_process = [soul for soul in self.soul持有列表 if soul.initiator == self.target]
-        if self.damage and self.damage.skillEffectName and len(souls_to_process) > 0:
+        if self.damage and self.damage.skillEffectName:
             skillEffectName = self.damage.skillEffectName
             Log().battle_L2('[{}]的[{}]效果已消失'.format(self.target.get_武将名称().value, skillEffectName))
+
+        # 暂时不确定应该先 自身还是 soul持有列表
+        self.restore_initial()
+
         for soul in souls_to_process:
             soul.restore_initial()
             while soul in self.soul持有列表:

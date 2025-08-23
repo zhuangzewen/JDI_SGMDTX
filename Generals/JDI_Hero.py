@@ -383,9 +383,6 @@ class Hero():
         if self.get_被击溃状态():
             return
 
-        
-
-        
         if status == SoulResponseTime.武将溃败 and hero == self:
 
             setattr(self, HeroInfoKey.被击溃状态.value, True)
@@ -445,8 +442,8 @@ class Hero():
                 return
 
         for soul in self.get_响应Soul列表():
-            from Soul.JDI_Soul import Soul
-            soul: Soul
+            # from Soul.JDI_Soul import Soul
+            # soul: Soul
             # Log().battle_L1(f'[DEBUG] 遍历响应Soul: type={type(soul).__name__}, repr={repr(soul)}, id={id(soul)}, status={status}, target={self.get_武将名称().value}')
             soul.response(status=status, battleField=battleField, hero=hero, sourceSoul=sourceSoul)
 

@@ -46,7 +46,13 @@ class Soul():
             self.battleField = battleField
 
     def response(self, status: SoulResponseTime=SoulResponseTime.无响应阶段, battleField=None, hero: Hero = None, sourceSoul = None):
-        pass
+        if status == SoulResponseTime.武将溃败:
+
+            if self.initiator is not None and self.initiator.get_被击溃状态():
+                Log().show_debug_info(f'[DEBUG] {self.initiator.get_武将名称().value} 已经被击溃, 无法响应')
+                return
+
+            pass
 
     def deploy_initial(self):
 

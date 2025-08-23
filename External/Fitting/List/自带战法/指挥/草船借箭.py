@@ -92,8 +92,13 @@ class 草船借箭_soul(BaseSkillSoul):
             self.skill.get_战法名称().value
         ))
         
-        攻心soul = self.skill.create_soul(
-            self.target, SoulEffectType.攻心, self.skill.草船借箭_攻心提升系数()
+        攻心soul = Soul(
+            target=self.target,
+            initiator=self.target,
+            sourceType=SoulSourceType.武将战法,
+            skill=self.skill,
+            effectType=SoulEffectType.攻心,
+            effectValue=self.skill.草船借箭_攻心提升系数()
         )
         攻心soul.deploy_initial()
         self.soul持有列表.append(攻心soul)
@@ -117,7 +122,7 @@ class 草船借箭_soul(BaseSkillSoul):
                 self.skill.get_战法名称().value, 
                 '草船借箭'
             ))
-            damage_model = 计算伤害(battleField, self.hero, attacked, SoulDamageType.谋略, SkillType.指挥, 0.5)
+            damage_model = 计算伤害(battleField, self.target, attacked, SoulDamageType.谋略, SkillType.指挥, 0.5)
             damage_model.skillEffectName = "草船借箭伤害"
             damage_soul = Soul(
                 target=attacked,

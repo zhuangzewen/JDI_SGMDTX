@@ -78,7 +78,7 @@ class 草船借箭_soul(BaseSkillSoul):
         elif status == SoulResponseTime.回合重置阶段:
             self.草船借箭发动次数 = 0
 
-        elif status in [SoulResponseTime.造成伤害时, SoulResponseTime.受到伤害时]:
+        elif status in [SoulResponseTime.造成伤害后, SoulResponseTime.受到伤害后]:
             if hero != self.target:
                 return
 

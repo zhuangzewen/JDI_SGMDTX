@@ -57,7 +57,7 @@ class 国之栋梁_谋略伤害soul(Soul):
                     soulList = 队伍Hero.get_响应Soul列表()
                     for soulDetail in soulList:
                         if soulDetail.sourceSoul == self.sourceSoul:
-                            Log().battle_L1('[{}]的[国之栋梁]效果已消失'.format(self.target.get_武将名称().value))
+                            Log().battle_L2('[{}]的[国之栋梁]效果已消失'.format(soulDetail.target.get_武将名称().value))
                             soulDetail.restore_initial()
                             队伍Hero.get_响应Soul列表().remove(soulDetail)
 

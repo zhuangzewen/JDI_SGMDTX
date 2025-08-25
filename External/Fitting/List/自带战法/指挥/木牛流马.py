@@ -13,6 +13,7 @@ from Soul.JDI_Soul import (
     SoulResponseTime, SoulEffectType,
     Fitting_List_Enum, Log, Hero, Soul
 )
+from Soul.Enum.SoulSourceType_Enum import SoulSourceType
 from Calcu.JDI_Calculate import *
 
 class 木牛流马_info(BaseSkillInfo):
@@ -97,12 +98,17 @@ class 木牛流马_soul(BaseSkillSoul):
         value_heroes = 对己方所有目标生效(self.target, battleField)
 
         for 目标武将 in value_heroes:
-            治疗soul = self.skill.create_soul(
+            治疗soul = Soul(
                 target=目标武将,
+                initiator=self.initiator,
+                sourceType=SoulSourceType.武将战法,
+                skill=self.skill,
                 effectType=SoulEffectType.恢复兵力,
-                effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.木牛流马_治疗率计算())
+                effectValue=治疗计算(battleField, 施救者=self.target, 受助者=目标武将, 治疗率 = self.skill.木牛流马_治疗率计算()),
+                sourceSoul=self,
+                battleField=battleField
             )
-            治疗soul.deploy_initial()   
+            治疗soul.deploy_initial()
 
 class 木牛流马_skill(BaseSkill):
 

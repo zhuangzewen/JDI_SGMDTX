@@ -10,6 +10,7 @@ from External.Bonds.BondUtils import (
     BondUtils, Hero, SkillInfo, Skill, SkillType,
     SoulResponseTime, SoulSourceType, SoulEffectType, Soul, Generals_Name_Enum, BondsName_Enum, Log
 )
+from Soul.JDI_Soul import BaseSkillSoul
 from Soul.Class.Damage_Class import Damage
 from Soul.Enum.SoulDamageType_Enum import SoulDamageType
 from BattleField.Team.JDI_Team import Team
@@ -27,7 +28,7 @@ class 国之栋梁_info(SkillInfo):
         ]
         self.缘分武将生效数量 = 3
         
-class 国之栋梁_谋略伤害soul(Soul):
+class 国之栋梁_谋略伤害soul(BaseSkillSoul):
     def __init__(self, 
                  target: Hero, 
                  initiator: Hero = None, 
@@ -35,8 +36,9 @@ class 国之栋梁_谋略伤害soul(Soul):
                  skill: Skill = None, 
                  effectType: SoulEffectType = SoulEffectType.无影响, 
                  effectValue: float = 0,
-                 sourceSoul = None):
-        super().__init__(target, initiator, initiaTeam=initiaTeam, skill=skill, effectType=effectType, effectValue=effectValue, sourceSoul=sourceSoul)
+                 sourceSoul = None,
+                 damage: Damage = Damage(skillEffectName='国之栋梁')):
+        super().__init__(target, initiator, initiaTeam=initiaTeam, skill=skill, effectType=effectType, effectValue=effectValue, sourceSoul=sourceSoul, damage=damage)
         self.attack_damage = 0
 
     def response(self, status = SoulResponseTime.无响应阶段, battleField=None, hero = None, sourceSoul=None):
@@ -57,9 +59,10 @@ class 国之栋梁_谋略伤害soul(Soul):
                     soulList = 队伍Hero.get_响应Soul列表()
                     for soulDetail in soulList:
                         if soulDetail.sourceSoul == self.sourceSoul:
-                            Log().battle_L2('[{}]的[国之栋梁]效果已消失'.format(soulDetail.target.get_武将名称().value))
-                            soulDetail.restore_initial()
-                            队伍Hero.get_响应Soul列表().remove(soulDetail)
+                            pass
+                            # Log().battle_L2('[{}]的[国之栋梁]效果已消失'.format(soulDetail.target.get_武将名称().value))
+                            # soulDetail.restore_initial()
+                            # 队伍Hero.get_响应Soul列表().remove(soulDetail)
 
 class 国之栋梁_soul(Soul):
 

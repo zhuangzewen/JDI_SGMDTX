@@ -72,20 +72,33 @@ def main():
                 print(f"双方武将全部溃败，平局！")
                 break
             
+            # 检查某一方是否全员溃败
+            if not team1.is_alive():
+                print(f"\n=== 对战结束 ===")
+                print(f"敌方获胜！")
+                break
+            elif not team2.is_alive():
+                print(f"\n=== 对战结束 ===")
+                print(f"我方获胜！")
+                break
+            
             # 进入下一局
             print(f"\n进入第 {battle_count + 1} 局...")
             
             # 将剩余血量作为下局的血量上限（只对存活的武将）
             if battle_count < max_battles:
+                # 清理已溃败的武将
+                team1.heroes = [hero for hero in team1.heroes if hero.alive]
+                team2.heroes = [hero for hero in team2.heroes if hero.alive]
+                
+                # 更新存活武将的血量
                 for hero in team1.heroes:
-                    if hero.alive:
-                        hero.max_hp = hero.hp
-                        hero.hp = hero.max_hp
+                    hero.max_hp = hero.hp
+                    hero.hp = hero.max_hp
                 
                 for hero in team2.heroes:
-                    if hero.alive:
-                        hero.max_hp = hero.hp
-                        hero.hp = hero.max_hp
+                    hero.max_hp = hero.hp
+                    hero.hp = hero.max_hp
         
         if battle_count == max_battles:
             # 八局结束，依据剩余总血量结算

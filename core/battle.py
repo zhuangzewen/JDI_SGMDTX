@@ -1,3 +1,4 @@
+import random
 from .team import Team
 from .algo.algo import merge_sort_two_teams
 
@@ -43,31 +44,19 @@ class Battle:
             self.round += 1
             print(f"\n--- 第 {self.round} 回合 ---")
             
-            # 从第二回合开始，重新计算攻击顺序（两队交叉排序）
-            if self.round > 1:
-                # 获取两队所有武将（包括已溃败的）
-                team1_heroes = self.team1.heroes
-                team2_heroes = self.team2.heroes
-                
-                # 使用两队交叉排序算法
-                merged_order = merge_sort_two_teams(team1_heroes, team2_heroes)
-                
-                # 将合并后的顺序分别设置到两队
-                self._apply_merged_order(team1_heroes, team2_heroes, merged_order)
+            # 每一回合都重新计算攻击顺序（两队交叉排序）
+            # 获取两队所有武将（包括已溃败的）
+            team1_heroes = self.team1.heroes
+            team2_heroes = self.team2.heroes
             
-            # 我方攻击
-            results1 = self.team1.attack(self.team2)
-            for result in results1:
-                print(result)
+            # 使用两队交叉排序算法
+            merged_order = merge_sort_two_teams(team1_heroes, team2_heroes)
             
-            # 检查敌方是否全部溃败
-            if not self.team2.is_alive():
-                break
+            # 将合并后的顺序分别设置到两队
+            self._apply_merged_order(team1_heroes, team2_heroes, merged_order)
             
-            # 敌方攻击
-            results2 = self.team2.attack(self.team1)
-            for result in results2:
-                print(result)
+            # 按照融合后的顺序进行攻击
+            self._attack_by_merged_order(team1_heroes, team2_heroes, merged_order)
     
     def _apply_merged_order(self, team1_heroes, team2_heroes, merged_order):
         """
@@ -85,6 +74,44 @@ class Battle:
         # 更新两队的攻击顺序
         self.team1.attack_order = team1_order
         self.team2.attack_order = team2_order
+    
+    def _attack_by_merged_order(self, team1_heroes, team2_heroes, merged_order):
+        """按照融合后的顺序进行攻击"""
+        # 按照融合后的顺序进行攻击
+        for attacker in merged_order:
+            # 检查攻击者是否存活
+            if not attacker.alive:
+                continue
+            
+            # 确定攻击者属于哪一队
+            if attacker in team1_heroes:
+                attacker_team = self.team1
+                enemy_team = self.team2
+            else:
+                attacker_team = self.team2
+                enemy_team = self.team1
+            
+            # 每次攻击前重新获取敌方存活的武将
+            enemy_heroes = enemy_team.get_alive_heroes()
+            if not enemy_heroes:
+                break
+            
+            # 随机选择一个敌方武将作为目标
+            target = random.choice(enemy_heroes)
+            
+            # 造成随机伤害（100-500）
+            damage = random.randint(100, 500)
+            target.hp -= damage
+            if target.hp <= 0:
+                target.hp = 0
+            
+            # 添加标记
+            attacker_tag = "[我方]" if attacker_team.name == "我方" else "[敌方]"
+            print(f"{attacker_tag} {attacker.name} 对 {target.name} 造成 {damage} 点伤害，剩余兵力：{target.hp}")
+            
+            # 检查敌方是否全部溃败
+            if not enemy_team.is_alive():
+                break
         
         # 战斗结束
         print("\n=== 战斗结束 ===")

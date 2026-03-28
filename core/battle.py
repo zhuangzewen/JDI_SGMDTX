@@ -1,6 +1,7 @@
 import random
 from .team import Team
 from .algo.algo import merge_sort_two_teams
+from .log import BattleLogger
 
 class Battle:
     def __init__(self):
@@ -8,6 +9,7 @@ class Battle:
         self.team2 = None
         self.round = 0
         self.max_rounds = 8
+        self.logger = BattleLogger()
     
     def formation_phase(self):
         """布阵阶段：确定双方武将的攻击顺序"""
@@ -30,6 +32,9 @@ class Battle:
             status = "溃败" if not hero.alive else f"{hero.hp}"
             print(f"  {i}. {team_tag} {hero.name} (先攻：{hero.xiangong}, 兵力：{status})")
         
+        # 记录布阵阶段
+        self.logger.log_formation(merged_order, team1_heroes, team2_heroes)
+        
         print()
     
     def start_battle(self):
@@ -44,6 +49,9 @@ class Battle:
             self.round += 1
             print(f"\n--- 第 {self.round} 回合 ---")
             
+            # 记录回合开始
+            self.logger.log_round_start(self.round)
+            
             # 每一回合都重新计算攻击顺序（两队交叉排序）
             # 获取两队所有武将（包括已溃败的）
             team1_heroes = self.team1.heroes
@@ -54,6 +62,15 @@ class Battle:
             
             # 将合并后的顺序分别设置到两队
             self._apply_merged_order(team1_heroes, team2_heroes, merged_order)
+            
+            # 显示融合后的攻击顺序
+            print("融合攻击顺序：")
+            for i, hero in enumerate(merged_order, 1):
+                team_tag = "[我方]" if hero in team1_heroes else "[敌方]"
+                status = "溃败" if not hero.alive else f"{hero.hp}"
+                print(f"  {i}. {team_tag} {hero.name} (先攻：{hero.xiangong}, 兵力：{status})")
+            
+            print()
             
             # 按照融合后的顺序进行攻击
             self._attack_by_merged_order(team1_heroes, team2_heroes, merged_order)
@@ -101,13 +118,21 @@ class Battle:
             
             # 造成随机伤害（100-500）
             damage = random.randint(100, 500)
+            
+            # 记录随机数
+            self.logger.log_random_result(attacker.name, damage, f"伤害: 100-500")
+            
             target.hp -= damage
             if target.hp <= 0:
                 target.hp = 0
             
             # 添加标记
             attacker_tag = "[我方]" if attacker_team.name == "我方" else "[敌方]"
-            print(f"{attacker_tag} {attacker.name} 对 {target.name} 造成 {damage} 点伤害，剩余兵力：{target.hp}")
+            target_tag = "[我方]" if enemy_team.name == "我方" else "[敌方]"
+            print(f"{attacker_tag} {attacker.name} 对 {target_tag} {target.name} 造成 {damage} 点伤害，剩余兵力：{target.hp}")
+            
+            # 记录攻击
+            self.logger.log_attack(attacker.name, target.name, damage, target.hp, attacker_tag)
             
             # 检查敌方是否全部溃败
             if not enemy_team.is_alive():
@@ -120,14 +145,23 @@ class Battle:
         
         if team1_alive and not team2_alive:
             print(f"{self.team1.name} 获胜！")
+            self.logger.log_battle_end(1, self.team1.name, self.team2.name)
             return 1
         elif team2_alive and not team1_alive:
             print(f"{self.team2.name} 获胜！")
+            self.logger.log_battle_end(2, self.team1.name, self.team2.name)
             return 2
         else:
             # 双方都全灭或平局
             print("平局！")
-            return 0
+            self.logger.log_battle_end(0, self.team1.name, self.team2.name)
+        
+        # 记录回合总结
+        team1_hp = self.get_remaining_hp(self.team1)
+        team2_hp = self.get_remaining_hp(self.team2)
+        self.logger.log_round_summary(self.round, team1_hp, team2_hp)
+        
+        return 0
     
     def get_remaining_hp(self, team):
         """获取队伍剩余总血量"""

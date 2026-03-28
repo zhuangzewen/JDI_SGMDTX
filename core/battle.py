@@ -63,14 +63,17 @@ class Battle:
             # 将合并后的顺序分别设置到两队
             self._apply_merged_order(team1_heroes, team2_heroes, merged_order)
             
-            # 显示融合后的攻击顺序
-            print("融合攻击顺序：")
+            # 显示行动顺序
+            print("\n行动顺序判断完毕：")
             for i, hero in enumerate(merged_order, 1):
                 team_tag = "[我方]" if hero in team1_heroes else "[敌方]"
                 status = "溃败" if not hero.alive else f"{hero.hp}"
                 print(f"  {i}. {team_tag} {hero.name} (先攻：{hero.xiangong}, 兵力：{status})")
             
             print()
+            
+            # 记录回合行动顺序
+            self.logger.log_round_order(merged_order, team1_heroes, team2_heroes)
             
             # 按照融合后的顺序进行攻击
             self._attack_by_merged_order(team1_heroes, team2_heroes, merged_order)

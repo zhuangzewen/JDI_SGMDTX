@@ -20,7 +20,7 @@ class BattleLogger:
     def log_formation(self, merged_order, team1_heroes, team2_heroes):
         """记录布阵阶段"""
         self.log("\n=== 布阵阶段 ===")
-        self.log("融合攻击顺序：")
+        self.log("行动顺序判断完毕：")
         for i, hero in enumerate(merged_order, 1):
             team_tag = "[我方]" if hero in team1_heroes else "[敌方]"
             status = "溃败" if not hero.alive else f"{hero.hp}"
@@ -30,6 +30,15 @@ class BattleLogger:
     def log_round_start(self, round_num):
         """记录回合开始"""
         self.log(f"\n--- 第 {round_num} 回合 ---")
+    
+    def log_round_order(self, merged_order, team1_heroes, team2_heroes):
+        """记录回合行动顺序"""
+        self.log("\n行动顺序判断完毕：")
+        for i, hero in enumerate(merged_order, 1):
+            team_tag = "[我方]" if hero in team1_heroes else "[敌方]"
+            status = "溃败" if not hero.alive else f"{hero.hp}"
+            self.log(f"  {i}. {team_tag} {hero.name} (先攻：{hero.xiangong}, 兵力：{status})")
+        self.log("")
     
     def log_attack(self, attacker_name, target_name, damage, remaining_hp, attacker_team_tag):
         """记录攻击"""

@@ -1,6 +1,7 @@
 from core.team import Team
 from core.battle import Battle
 from core.hero import load_heroes_from_json, Hero
+from core.formation import load_formations_from_json
 from core.log.log import BattleLogger
 import random
 import os
@@ -18,13 +19,14 @@ def main():
     # 从 JSON 文件中加载武将池
     hero_pool = load_heroes_from_json()
     
-    # 第一局：创建队伍并确定阵容
+    # 加载阵型数据
+    formations = load_formations_from_json()
+    
+    # 创建队伍
     team1 = Team("我方")
     team2 = Team("敌方")
     
-    # 从武将池中随机添加三个武将
-    # 两队可以选到相同的武将，但一个队伍内部不能有重复
-    # 为每个队伍创建新的 Hero 对象，避免引用同一个对象
+    # 从武将池中随机选择三个武将（游戏开始时确定）
     selected1 = random.sample(hero_pool, min(3, len(hero_pool)))
     selected2 = random.sample(hero_pool, min(3, len(hero_pool)))
     
@@ -34,23 +36,44 @@ def main():
     
     # 为每个队伍创建新的 Hero 对象
     team1.heroes = [Hero(
-        hero.name, hero.hp, hero.wuli, hero.zhili, hero.tongshuai, hero.xiangong
+        hero.name, hero.hp, hero.wuli, hero.zhili, hero.tongshuai, hero.xiangong, hero.troop_type
     ) for hero in selected1]
     team2.heroes = [Hero(
-        hero.name, hero.hp, hero.wuli, hero.zhili, hero.tongshuai, hero.xiangong
+        hero.name, hero.hp, hero.wuli, hero.zhili, hero.tongshuai, hero.xiangong, hero.troop_type
     ) for hero in selected2]
+    
+    # 为队伍随机选择阵型（游戏开始时确定）
+    formation1 = random.choice(formations)
+    formation2 = random.choice(formations)
+    team1.set_formation(formation1)
+    team2.set_formation(formation2)
+    
+    # 为队伍分配位置（1 号位、2 号位、3 号位）- 游戏开始时确定
+    for i, hero in enumerate(team1.heroes, 1):
+        team1.set_position(i, hero)
+    for i, hero in enumerate(team2.heroes, 1):
+        team2.set_position(i, hero)
     
     # 将队伍设置到战场
     battle.team1 = team1
     battle.team2 = team2
     
+    # 显示初始阵容
     print("=== 初始阵容 ===")
-    print(f"队伍 1: {battle.team1.name}")
-    for hero in battle.team1.heroes:
-        print(f"  - {hero.name} (兵力：{hero.hp})")
-    print(f"队伍 2: {battle.team2.name}")
-    for hero in battle.team2.heroes:
-        print(f"  - {hero.name} (兵力：{hero.hp})")
+    print(f"我方武将：{', '.join([h.name for h in team1.heroes])}")
+    print(f"  阵型：{team1.formation.name} - {team1.formation.effect}")
+    for i in range(1, 4):
+        if i in team1.positions:
+            hero = team1.positions[i]
+            pos_effect = team1.get_position_effect(i)
+            print(f"  {i}号位 ({pos_effect}): {hero.name}")
+    print(f"\n敌方武将：{', '.join([h.name for h in team2.heroes])}")
+    print(f"  阵型：{team2.formation.name} - {team2.formation.effect}")
+    for i in range(1, 4):
+        if i in team2.positions:
+            hero = team2.positions[i]
+            pos_effect = team2.get_position_effect(i)
+            print(f"  {i}号位 ({pos_effect}): {hero.name}")
     print()
     
     while battle_count < max_battles:
@@ -58,6 +81,9 @@ def main():
         print(f"\n{'='*50}")
         print(f"=== 第 {battle_count} 局 ===")
         print(f"{'='*50}")
+        
+        # 准备阶段
+        print()
         
         # 记录战斗开始
         logger.log_battle_start(battle_count)
@@ -100,19 +126,13 @@ def main():
             # 记录进入下一局
             logger.log_next_battle(battle_count)
             
-            # 将剩余血量作为下局的血量上限（只对存活的武将）
-            if battle_count < max_battles:
-                # 清理已溃败的武将
-                team1.heroes = [hero for hero in team1.heroes if hero.alive]
-                team2.heroes = [hero for hero in team2.heroes if hero.alive]
-                
-                # 更新存活武将的血量
-                for hero in team1.heroes:
-                    hero.max_hp = hero.hp
+            # 恢复武将血量到满血状态
+            for hero in team1.heroes:
+                if hero.alive:
                     hero.hp = hero.max_hp
-                
-                for hero in team2.heroes:
-                    hero.max_hp = hero.hp
+            
+            for hero in team2.heroes:
+                if hero.alive:
                     hero.hp = hero.max_hp
         
         if battle_count == max_battles:

@@ -27,6 +27,12 @@ class BattleLogger:
             self.log(f"  {i}. {team_tag} {hero.name} (先攻：{hero.xiangong}, 兵力：{status})")
         self.log("")
     
+    def log_formation_effects(self, team_name, formation_name, effects):
+        """记录阵型效果"""
+        self.log(f"[{team_name}] 队获得【阵型——{formation_name}】强化效果")
+        for hero_name, effect in effects:
+            self.log(f"  {hero_name}: {effect}")
+    
     def log_round_start(self, round_num):
         """记录回合开始"""
         self.log(f"\n--- 第 {round_num} 回合 ---")

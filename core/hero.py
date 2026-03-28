@@ -2,7 +2,7 @@ import json
 import random
 
 class Hero:
-    def __init__(self, name, hp=10000, wuli=0, zhili=0, tongshuai=0, xiangong=0):
+    def __init__(self, name, hp=10000, wuli=0, zhili=0, tongshuai=0, xiangong=0, troop_type=""):
         self.name = name
         self.hp = hp  # 兵力
         self.max_hp = hp
@@ -10,6 +10,7 @@ class Hero:
         self.zhili = zhili  # 智力
         self.tongshuai = tongshuai  # 统帅
         self.xiangong = xiangong  # 先攻
+        self.troop_type = troop_type  # 兵种
     
     @property
     def alive(self):
@@ -29,13 +30,15 @@ def load_heroes_from_json():
         zhili = stats.get('intelligence', 0)
         tongshuai = stats.get('leadership', 0)
         xiangong = stats.get('initiative', 0)
+        troop_type = hero_data.get('troop_type', '')
         
         hero = Hero(
             hero_data['name'],
             wuli=wuli,
             zhili=zhili,
             tongshuai=tongshuai,
-            xiangong=xiangong
+            xiangong=xiangong,
+            troop_type=troop_type
         )
         heroes.append(hero)
     

@@ -25,15 +25,20 @@ class Battle:
         # 将合并后的顺序分别设置到两队
         self._apply_merged_order(team1_heroes, team2_heroes, merged_order)
         
-        # 显示融合后的攻击顺序
-        print("融合攻击顺序：")
+        # 显示行动顺序
+        print("\n行动顺序判断完毕：")
         for i, hero in enumerate(merged_order, 1):
             team_tag = "[我方]" if hero in team1_heroes else "[敌方]"
             status = "溃败" if not hero.alive else f"{hero.hp}"
             print(f"  {i}. {team_tag} {hero.name} (先攻：{hero.xiangong}, 兵力：{status})")
         
+        print()
+        
         # 记录布阵阶段
         self.logger.log_formation(merged_order, team1_heroes, team2_heroes)
+        
+        # 展示阵型效果（在行动顺序之后）
+        self._display_formation_effects()
         
         print()
     
@@ -116,8 +121,8 @@ class Battle:
             if not enemy_heroes:
                 break
             
-            # 随机选择一个敌方武将作为目标
-            target = random.choice(enemy_heroes)
+            # 根据受击率选择目标
+            target = self._select_target_by_hit_rate(enemy_team, enemy_heroes)
             
             # 造成随机伤害（100-500）
             damage = random.randint(100, 500)
@@ -169,3 +174,125 @@ class Battle:
     def get_remaining_hp(self, team):
         """获取队伍剩余总血量"""
         return sum(hero.hp for hero in team.heroes)
+    
+    def _display_formation_effects(self):
+        """展示阵型效果"""
+        print("\n=== 阵型效果 ===")
+        
+        # 兵种图标映射
+        troop_icons = {
+            '盾': '🛡️',  # 盾兵
+            '弓': '🏹',  # 弓兵
+            '骑': '🐎',  # 骑兵
+            '枪': '🔱',  # 枪兵
+        }
+        
+        # 显示我方阵型效果
+        if self.team1.formation:
+            print(f"\n[{self.team1.name}] 队获得【阵型——{self.team1.formation.name}】强化效果")
+            effects_list = []
+            for i in range(1, 4):
+                if i in self.team1.positions:
+                    hero = self.team1.positions[i]
+                    pos_info = self.team1.formation.positions.get(str(i), {})
+                    effect = pos_info.get('effect', '')
+                    if effect:
+                        # 获取兵种图标
+                        icon = troop_icons.get(hero.troop_type, '✓')
+                        print(f"  {icon} {hero.name}: {effect}")
+                        effects_list.append((hero.name, effect))
+            
+            # 记录到日志
+            self.logger.log_formation_effects(self.team1.name, self.team1.formation.name, effects_list)
+        
+        # 显示敌方阵型效果
+        if self.team2.formation:
+            print(f"\n[{self.team2.name}] 队获得【阵型——{self.team2.formation.name}】强化效果")
+            effects_list = []
+            for i in range(1, 4):
+                if i in self.team2.positions:
+                    hero = self.team2.positions[i]
+                    pos_info = self.team2.formation.positions.get(str(i), {})
+                    effect = pos_info.get('effect', '')
+                    if effect:
+                        # 获取兵种图标
+                        icon = troop_icons.get(hero.troop_type, '✓')
+                        print(f"  {icon} {hero.name}: {effect}")
+                        effects_list.append((hero.name, effect))
+            
+            # 记录到日志
+            self.logger.log_formation_effects(self.team2.name, self.team2.formation.name, effects_list)
+    
+    def _select_target_by_hit_rate(self, enemy_team, enemy_heroes):
+        """
+        根据受击率选择目标
+        
+        规则：
+        - 单前排：受击率 60%
+        - 双前排：每个前排受击率 40%
+        - 后排：受击率 20%
+        """
+        import random
+        
+        # 统计前排和后排武将
+        front_row_heroes = []
+        back_row_heroes = []
+        
+        for hero in enemy_heroes:
+            # 获取该武将的位置
+            position_num = None
+            for pos_num, h in enemy_team.positions.items():
+                if h == hero:
+                    position_num = pos_num
+                    break
+            
+            if position_num is not None:
+                role = enemy_team.get_position_role(position_num)
+                if role == "前排":
+                    front_row_heroes.append(hero)
+                elif role == "后排":
+                    back_row_heroes.append(hero)
+            else:
+                # 默认视为后排
+                back_row_heroes.append(hero)
+        
+        # 根据前排数量确定受击率
+        if len(front_row_heroes) == 1:
+            # 单前排：前排 60%，后排 40% 平分
+            front_hit_rate = 0.6
+            back_hit_rate = 0.4 / len(back_row_heroes) if back_row_heroes else 0
+        elif len(front_row_heroes) == 2:
+            # 双前排：每个前排 40%，后排 20%
+            front_hit_rate = 0.4
+            back_hit_rate = 0.2
+        elif len(front_row_heroes) == 3:
+            # 三前排：每个前排平均分配
+            front_hit_rate = 1.0 / len(front_row_heroes)
+            back_hit_rate = 0
+        else:
+            # 无前排：后排平均分配
+            front_hit_rate = 0
+            back_hit_rate = 1.0 / len(back_row_heroes) if back_row_heroes else 0
+        
+        # 构建受击率列表
+        hit_rates = []
+        targets = []
+        
+        for hero in front_row_heroes:
+            hit_rates.append(front_hit_rate)
+            targets.append(hero)
+        
+        for hero in back_row_heroes:
+            hit_rates.append(back_hit_rate)
+            targets.append(hero)
+        
+        # 使用轮盘赌算法选择目标
+        rand = random.random()
+        cumulative_rate = 0
+        for i, rate in enumerate(hit_rates):
+            cumulative_rate += rate
+            if rand <= cumulative_rate:
+                return targets[i]
+        
+        # 如果因为浮点数精度问题没有选中，返回最后一个
+        return targets[-1] if targets else enemy_heroes[0]

@@ -1,7 +1,7 @@
 import random
 from .team import Team
 from .algo.algo import merge_sort_two_teams
-from .log import BattleLogger
+from .log.log import BattleLogger
 
 class Battle:
     def __init__(self):

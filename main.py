@@ -1,7 +1,7 @@
 from core.team import Team
 from core.battle import Battle
 from core.hero import load_heroes_from_json, Hero
-from core.log import BattleLogger
+from core.log.log import BattleLogger
 import random
 import os
 

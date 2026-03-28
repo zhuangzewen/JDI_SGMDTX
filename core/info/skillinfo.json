@@ -1,0 +1,14 @@
+{
+  "skills": [
+    {
+      "name": "草船借箭",
+      "level": 10,
+      "max_level": 10,
+      "skill_type": "指挥",
+      "skill_trait": "谋略",
+      "adapt_troops": ["弓", "骑", "枪", "盾"],
+      "activation_rate": "100%",
+      "description": "自身攻心提升 24%，自身造成或受到伤害时，有 50% 概率对敌军随机单体造成 80% 谋略伤害，每回合可触发 5 次"
+    }
+  ]
+}

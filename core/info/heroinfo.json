@@ -1,0 +1,90 @@
+{
+  "heroes": [
+    {
+      "name": "诸葛亮",
+      "name_color": "gold",
+      "S2": false,
+      "S3": false,
+      "EX": false,
+      "SP": false,
+      "faction": "蜀",
+      "troop_type": "弓",
+      "stats": {
+        "strength": 74,
+        "intelligence": 260,
+        "leadership": 215,
+        "initiative": 131
+      },
+      "self_skill": "草船借箭",
+      "bond_list": ["才堪相配", "西蜀之智", "国之栋梁", "薪火相传", "诸葛望族"]
+    },
+    {
+      "name": "刘表",
+      "name_color": "blue",
+      "S2": false,
+      "S3": false,
+      "EX": false,
+      "SP": false,
+      "faction": "群",
+      "troop_type": "盾",
+      "stats": {
+        "strength": 53,
+        "intelligence": 142,
+        "leadership": 94,
+        "initiative": 107
+      },
+      "self_skill": "跨蹈汉南"
+    },
+    {
+      "name": "陈琳",
+      "name_color": "blue",
+      "S2": false,
+      "S3": false,
+      "EX": false,
+      "SP": false,
+      "faction": "魏",
+      "troop_type": "弓",
+      "stats": {
+        "strength": 38,
+        "intelligence": 156,
+        "leadership": 115,
+        "initiative": 99
+      },
+      "self_skill": "讨贼檄文"
+    },
+    {
+      "name": "糜竺",
+      "name_color": "blue",
+      "S2": false,
+      "S3": false,
+      "EX": false,
+      "SP": false,
+      "faction": "蜀",
+      "troop_type": "枪",
+      "stats": {
+        "strength": 60,
+        "intelligence": 168,
+        "leadership": 132,
+        "initiative": 100
+      },
+      "self_skill": "见机行事"
+    },
+    {
+      "name": "王朗",
+      "name_color": "blue",
+      "S2": false,
+      "S3": false,
+      "EX": false,
+      "SP": false,
+      "faction": "魏",
+      "troop_type": "骑",
+      "stats": {
+        "strength": 50,
+        "intelligence": 151,
+        "leadership": 67,
+        "initiative": 126
+      },
+      "self_skill": "高才博雅"
+    }
+  ]
+}
